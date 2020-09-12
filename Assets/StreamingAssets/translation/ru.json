@@ -1,0 +1,21 @@
+{
+    "lang": "ru",
+    "translations": [
+        {
+            "key": "hand_hit_title",
+            "value": "Удар рукой"
+        },
+        {
+            "key": "hand_hit_description",
+            "value": "Наносить %[dmg_amount] val"
+        },
+        {
+            "key": "heal_title",
+            "value": "Исцеление"
+        },
+        {
+            "key": "heal_description",
+            "value": "Исцеляет на %[heal_amount]"
+        }
+    ]
+}

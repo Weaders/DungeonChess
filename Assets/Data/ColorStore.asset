@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b041a53f01748941a0a5035f289993b, type: 3}
+  m_Name: ColorStore
+  m_EditorClassIdentifier: 
+  GoodEffect: {r: 0, g: 0, b: 0, a: 0}
+  BadEffect: {r: 0, g: 0, b: 0, a: 0}
+  cellPlayerAllow: {r: 1, g: 0.80399513, b: 0, a: 0.69411767}
+  cellPlayerAllowOutline: {r: 1, g: 0.8116399, b: 0, a: 1}
+  cellPlayerNotAllow: {r: 0, g: 0.5, b: 0, a: 0.6}
+  cellPlayerNotAllowOutline: {r: 0, g: 1, b: 0, a: 1}
+  cellEnemy: {r: 0.5, g: 0, b: 0, a: 0.6}
+  cellEnemyOutlineCell: {r: 1, g: 0, b: 0, a: 1}
