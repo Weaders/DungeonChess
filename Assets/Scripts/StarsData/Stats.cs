@@ -9,6 +9,50 @@ namespace Assets.Scripts.StarsData {
         Defender
     }
 
+    public enum Stat { 
+        Hp, MaxHp, Mana, MaxMana, ManaPerAttack,
+        Ad, As, MoveSpeed, IsDie, ClassTypes
+    }
+
+    public static class StatTypeExtension {
+
+        public static ObservableVal GetObservableVal(this Stat stat) {
+
+            switch (stat) {
+                case Stat.Ad:
+                case Stat.Hp:
+                case Stat.MaxHp:
+                case Stat.Mana:
+                case Stat.MaxMana:
+                case Stat.ManaPerAttack:
+                    return new IntObservable(0);
+                case Stat.IsDie:
+                    return new BoolObservable(false);
+                case Stat.ClassTypes:
+                    return new CharacterClassTypeObservable(new CharacterClassType[] { });
+                case Stat.As:
+                case Stat.MoveSpeed:
+                    return new FloatObsrevable(0f);
+                default:
+                    throw new System.Exception("Can not get observable for this type");
+            }
+
+        }
+
+    }
+
+    public static class StatExetension {
+
+        //public static ObservableVal GetObservableVal(this Stat stat) {
+
+        //    //switch (stat) { 
+                
+        //    //}
+
+        //}
+
+    }
+
     public class Stats : MonoBehaviour {
 
         public IntObservable hp = new IntObservable(100);
@@ -34,6 +78,10 @@ namespace Assets.Scripts.StarsData {
         public BoolObservable isDie = new BoolObservable(false);
 
         public ArrayObservable<CharacterClassType> classTypes = new ArrayObservable<CharacterClassType>(new CharacterClassType[] { });
+
+        //public StatField<int> statField = new StatField<int>();
+
+        public StatField sf = new StatField();
 
         public static Stats operator +(Stats first, Stats second) {
 

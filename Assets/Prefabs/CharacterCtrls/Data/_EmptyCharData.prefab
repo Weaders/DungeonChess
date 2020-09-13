@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6ef1ae33bf3714a80be3dce6460ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxItemsCount: 4
 --- !u!1 &9061426662261881583
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +171,16 @@ MonoBehaviour:
     _val: 0
   classTypes:
     _val: 
+  sf:
+    statType: 0
+    observableVal:
+      id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 0
 --- !u!1 &9061426662973236145
 GameObject:
   m_ObjectHideFlags: 0

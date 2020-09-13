@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Assets.Scripts.StarsData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -272,9 +273,23 @@ namespace Assets.Scripts.Observable {
     #endregion
 
     #region Observable val
-    public interface IObservableVal { }
+    public interface IObservableVal {
 
-    public abstract class ObservableVal : IObservableVal {
+        OrderedEventsBase onPreChangeBase { get; }
+        OrderedEventsBase onPostChangeBase { get; }
+
+    }
+
+    [Serializable]
+    public class ObservableVal : IObservableVal {
+
+        public virtual OrderedEventsBase onPreChangeBase { get; }
+
+        public virtual OrderedEventsBase onPostChangeBase { get; }
+
+    }
+
+    public abstract class MonoObservableVal : MonoBehaviour, IObservableVal {
 
         public abstract OrderedEventsBase onPreChangeBase { get; }
 
@@ -282,12 +297,14 @@ namespace Assets.Scripts.Observable {
 
     }
 
-    public interface IModifiedObservable<T> {
-        void Modify(ObservableVal<T> modifVal, bool alterVal = false);
-    }
+    //public class MonoObservableVal<T> : MonoObservableVal
 
     [Serializable]
     public class ObservableVal<T> : ObservableVal {
+
+        public ObservableVal() {
+            val = default(T);
+        }
 
         public ObservableVal(T currentVal) {
             val = currentVal;
@@ -336,12 +353,14 @@ namespace Assets.Scripts.Observable {
 
     }
 
+    public interface IModifiedObservable<T> {
+        void Modify(ObservableVal<T> modifVal, bool alterVal = false);
+    }  
+
     [Serializable]
     public class FloatObsrevable : ObservableVal<float>, IModifiedObservable<float> {
 
         public FloatObsrevable(float val) : base(val) { }
-
-
 
         public void Modify(ObservableVal<float> modifVal, bool alterVal = false) {
             val += alterVal ? -modifVal : modifVal;
@@ -379,7 +398,14 @@ namespace Assets.Scripts.Observable {
         }
     }
 
+    [Serializable]
+    public class CharacterClassTypeObservable : ArrayObservable<CharacterClassType> {
+        public CharacterClassTypeObservable(CharacterClassType[] val) : base(val) { }
+    }
+
     #endregion
+
+
 
     public class ChangeEnumerableItemEvent<T> {
 
