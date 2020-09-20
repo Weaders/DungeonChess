@@ -54,8 +54,12 @@ namespace Assets.Scripts.UI.Inventory {
 
         public void InitWithItem(ItemData item) {
 
-            var mv = GameMng.current.moveItemFactory.CreateOrGet(item);
-            moveItemCell.InitWithItem(mv);
+            if (item != null) {
+
+                var mv = GameMng.current.moveItemFactory.CreateOrGet(item);
+                moveItemCell.InitWithItem(mv);
+
+            }
 
             itemData = item;
 

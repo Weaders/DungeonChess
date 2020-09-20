@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts.DungeonGenerator {
 
     public class DungeonDataPosition {
-        
+
         private readonly RoomData[] _rooms;
 
         public RoomData startRoom => _rooms.First();
@@ -39,7 +36,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
     }
 
-    public enum Direction { 
+    public enum Direction {
         top, left, right, bottom
     }
 

@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI {
 
-    public interface IForMoveItem { }
+    public interface IForMoveItem {
+        void ClickHandle(MoveItem moveItem);
+    }
 
     public class MoveItemFactory : MonoBehaviour {
 
@@ -29,14 +31,37 @@ namespace Assets.Scripts.UI {
 
         }
 
-        public T Get<T>(MoveItem mv) where T : MonoBehaviour, IForMoveItem {
+        /// <summary>
+        /// Get <see cref="IForMoveItem"/>, by move item
+        /// </summary>
+        /// <param name="mv"></param>
+        /// <returns></returns>
+        public IForMoveItem Get(MoveItem mv) {
 
             foreach (var kv in moveItems) {
 
                 if (kv.Value == mv) {
-                    return kv.Key as T;
+                    return kv.Key;
                 }
 
+            }
+
+            return null;
+
+        }
+
+        /// <summary>
+        /// Get obj, by <see cref="MoveItem"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="mv"></param>
+        /// <returns></returns>
+        public T Get<T>(MoveItem mv) where T : MonoBehaviour, IForMoveItem {
+
+            var moveItem = Get(mv);
+
+            if (moveItem != null) {
+                return moveItem as T;
             }
 
             throw new ArgumentException("Try get item for move item, that not exists");

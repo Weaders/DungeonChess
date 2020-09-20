@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8089390165865382683}
   - component: {fileID: 8089390165865382682}
-  - component: {fileID: 8866839153393731233}
   m_Layer: 0
   m_Name: Corone
   m_TagString: Untagged
@@ -45,39 +44,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: corone
-  _title: 
-  _description: 
-  image: {fileID: 0}
-  statsModify: {fileID: 8866839153393731233}
---- !u!114 &8866839153393731233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8089390165865382680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c7e42a7f85399641ac27623ad74c28b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp:
-    _val: 10
-  maxHp:
-    _val: 10
-  mana:
-    _val: 0
-  maxMana:
-    _val: 0
-  manaPerAttack:
-    _val: 5
-  AD:
-    _val: 10
-  AS:
-    _val: 0
-  moveSpeed:
-    _val: 0
-  isDie:
-    _val: 0
-  classTypes:
-    _val: 
+  _title: corone_title
+  _description: corone_description
+  icon: {fileID: 0}
+  statsModify:
+  - statType: 5
+    observableVal:
+      id: 0
+  - statType: 0
+    observableVal:
+      id: 1
+  - statType: 1
+    observableVal:
+      id: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 20
+    00000001:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 20

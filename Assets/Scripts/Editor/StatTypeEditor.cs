@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Linq;
 using Assets.Scripts.Observable;
 using Assets.Scripts.StarsData;
 using UnityEditor;
@@ -12,17 +13,15 @@ namespace Assets.Scripts.Editor {
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 
-            property.serializedObject.Update();
-
             EditorGUI.BeginProperty(position, label, property);
 
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             var statTypeProp = property.FindPropertyRelative("statType");
 
-            var vals = Enum.GetValues(typeof(Stat));
+            var vals = Enum.GetValues(typeof(Stat)).Cast<Stat?>().ToArray();
 
-            var val = vals.GetValue(statTypeProp.enumValueIndex) as Stat?;
+            var val = vals[statTypeProp.enumValueIndex];
 
             var observeVal = val.Value.GetObservableVal();
 
@@ -30,22 +29,11 @@ namespace Assets.Scripts.Editor {
             if ($"managedReference<{observeVal.GetType().Name}>" != property.FindPropertyRelative("observableVal").type) {
                 property.FindPropertyRelative("observableVal").managedReferenceValue = observeVal;
             }
-            
 
-            EditorGUI.PropertyField(new Rect(position.position, position.size - new Vector2(0, 1)), property.FindPropertyRelative("statType"));
-
-            EditorGUI.PropertyField(new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight, position.width, position.height - 15), property.FindPropertyRelative("observableVal").FindPropertyRelative("_val"));
-
-            EditorGUI.EndProperty();
+            EditorGUI.PropertyField(new Rect(position.position - new Vector2(140, 0), position.size - new Vector2(190, 0)), property.FindPropertyRelative("statType"), GUIContent.none);
+            EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, position.height), property.FindPropertyRelative("observableVal").FindPropertyRelative("_val"), GUIContent.none);
 
             property.serializedObject.ApplyModifiedProperties();
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-
-            var totalHeight = (EditorGUI.GetPropertyHeight(property, label, true) * 2);
-
-            return totalHeight;
         }
 
     }

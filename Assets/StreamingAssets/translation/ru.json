@@ -16,6 +16,30 @@
         {
             "key": "heal_description",
             "value": "Исцеляет на %[heal_amount]"
+        },
+        {
+            "key": "corone_title",
+            "value": "Корона"
+        },
+        {
+            "key": "corone_description",
+            "value": "Даёт силу"
+        },
+        {
+            "key": "ignite_target_title",
+            "value": "Сжечь их"
+        },
+        {
+            "key": "ignite_target_description",
+            "value": "Любоё нанесение урона поджигает цель и наносит %[dmg] следущие %[time], каждые %[time_per_dmg]"
+        },
+        {
+            "key": "you_are_in_fire_title",
+            "value": "Вы горите!"
+        },
+        {
+            "key": "you_are_in_fire_description",
+            "value": "Персонаж получает урон каждые %[seconds]"
         }
     ]
 }

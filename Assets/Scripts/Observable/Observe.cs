@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using Assets.Scripts.StarsData;
@@ -289,16 +290,6 @@ namespace Assets.Scripts.Observable {
 
     }
 
-    public abstract class MonoObservableVal : MonoBehaviour, IObservableVal {
-
-        public abstract OrderedEventsBase onPreChangeBase { get; }
-
-        public abstract OrderedEventsBase onPostChangeBase { get; }
-
-    }
-
-    //public class MonoObservableVal<T> : MonoObservableVal
-
     [Serializable]
     public class ObservableVal<T> : ObservableVal {
 
@@ -353,8 +344,11 @@ namespace Assets.Scripts.Observable {
 
     }
 
-    public interface IModifiedObservable<T> {
+    public interface IModifiedObservable { }
+
+    public interface IModifiedObservable<T> : IModifiedObservable {
         void Modify(ObservableVal<T> modifVal, bool alterVal = false);
+        void ModifyTarget(ObservableVal<T> target, bool alterVal = false);
     }  
 
     [Serializable]
@@ -364,6 +358,10 @@ namespace Assets.Scripts.Observable {
 
         public void Modify(ObservableVal<float> modifVal, bool alterVal = false) {
             val += alterVal ? -modifVal : modifVal;
+        }
+
+        public void ModifyTarget(ObservableVal<float> target, bool alterVal = false) {
+            target.val += alterVal ? -val : val;
         }
     }
 
@@ -376,6 +374,10 @@ namespace Assets.Scripts.Observable {
             val += alterVal ? -modifVal : modifVal;
         }
 
+        public void ModifyTarget(ObservableVal<int> target, bool alterVal = false) {
+            target.val += alterVal ? -val : val;
+        }
+
     }
 
     [Serializable]
@@ -386,6 +388,10 @@ namespace Assets.Scripts.Observable {
         public void Modify(ObservableVal<bool> modifVal, bool alterVal = false) {
             val = alterVal ? !modifVal : modifVal;
         }
+
+        public void ModifyTarget(ObservableVal<bool> target, bool alterVal = false) {
+            target.val = alterVal ? !val : val; ;
+        }
     }
 
     [Serializable]
@@ -395,6 +401,10 @@ namespace Assets.Scripts.Observable {
 
         public void Modify(ObservableVal<T[]> modifVal, bool alterVal = false) {
             val = (alterVal ? val.Except(modifVal.val) : val.Union(modifVal.val)).ToArray();
+        }
+
+        public void ModifyTarget(ObservableVal<T[]> target, bool alterVal = false) {
+            target.val = (alterVal ? target.val.Except(val) : target.val.Union(val)).ToArray();
         }
     }
 
@@ -418,189 +428,5 @@ namespace Assets.Scripts.Observable {
         public int index { get; set; }
 
     }
-
-    //public interface IStatChangeData<T> {
-    //    T val { get; }
-    //}
-
-    //public readonly struct StatChangeTextResult {
-
-    //    public readonly string text;
-    //    public readonly Color color;
-
-    //    public StatChangeTextResult(string t, Color c) {
-    //        text = t;
-    //        color = c;
-    //    }
-    //}
-
-    //public class DisplayOpts {
-
-    //    public string source { get; private set; }
-
-    //    public bool onlyInFight { get; set; }
-
-    //    public Sprite sprite => Resources.Load<Sprite>($"UI/{source}");
-
-    //    public DisplayOpts(string _source, bool isDisplayOnlyInFight = false) {
-
-    //        source = _source;
-    //        onlyInFight = isDisplayOnlyInFight;
-
-    //    }
-
-    //}
-
-    //public interface IStat {
-
-    //    DisplayOpts displayOpts { get; }
-
-    //    UnityEvent noticeForChange { get; }
-
-
-    //}
-
-    //public abstract class Stat<T, ChangeStatData> : IStat where ChangeStatData : IStatChangeData<T> {
-
-    //    [SerializeField]
-    //    protected T _val;
-
-    //    public T val {
-    //        get => _val;
-    //        set {
-
-    //            var oldVal = _val;
-
-    //            _val = value;
-
-    //            onPostChangeForBuff.Invoke(oldVal, _val);
-    //            onPostChangeForSpells.Invoke(oldVal, _val);
-    //            onPostChangeForGame.Invoke(oldVal, _val);
-
-    //            noticeForChange.Invoke();
-
-    //        }
-    //    }
-
-    //    /// <summary>
-    //    /// Called after others events
-    //    /// </summary>
-    //    public UnityEvent noticeForChange { get; } = new UnityEvent();
-
-    //    /// <summary>
-    //    /// This events is called first
-    //    /// </summary>
-    //    public ValChange onPostChangeForBuff { get; set; } = new ValChange();
-
-    //    /// <summary>
-    //    /// This events is called second
-    //    /// </summary>
-    //    public ValChange onPostChangeForSpells { get; set; } = new ValChange();
-
-    //    /// <summary>
-    //    /// This events is called third
-    //    /// </summary>
-    //    public ValChange onPostChangeForGame { get; set; } = new ValChange();
-
-    //    public DisplayOpts displayOpts { get; protected set; }
-
-    //    public Stat<T, ChangeStatData> maxStat { get; set; }
-
-    //    public static implicit operator T(Stat<T, ChangeStatData> stat) => stat.val;
-
-    //    public static implicit operator string(Stat<T, ChangeStatData> stat) => stat.ToString();
-
-    //    public abstract StatChangeTextResult? GetChangeText(ChangeStatData changeVal);
-
-    //    public override string ToString() {
-
-    //        if (maxStat != null)
-    //            return $"{val}/{maxStat}";
-
-    //        return val.ToString();
-
-    //    }
-
-    //    public class ValChange : UnityEvent<T, T> { }
-
-    //}
-
-    //#region IntStat
-
-    //[Serializable]
-    //public class IntStat : Stat<int, IntStatChangeData> {
-
-    //    public string statTranslate { get; protected set; }
-
-    //    public IntStat(string translateName, int initVal = default, DisplayOpts opts = null) {
-    //        val = initVal;
-    //        displayOpts = opts;
-    //        statTranslate = translateName ?? throw new ArgumentNullException(translateName);
-    //    }
-
-    //    public static int operator -(IntStat stat, IntStat stat2) => stat.val - stat2.val;
-
-    //    public static int operator +(IntStat stat, IntStat stat2) => stat.val + stat2.val;
-
-    //    public override StatChangeTextResult? GetChangeText(IntStatChangeData data) {
-
-    //        var color = data.val > 0 ? TextColorStore.GoodEffect : TextColorStore.BadEffect;
-
-    //        var text = TranslateReader.GetTranslate("stat_int_change", new System.Collections.Generic.Dictionary<string, string> {
-    //            ["stat"] = TranslateReader.GetTranslate(statTranslate),
-    //            ["change_val"] = data.DisplayChangeVal()
-    //        });
-
-    //        return new StatChangeTextResult(text, color);
-
-    //    }
-
-    //}
-
-    //public readonly struct IntStatChangeData : IStatChangeData<int> {
-
-    //    public int val { get; }
-
-    //    public bool isPercent { get; }
-
-    //    public IntStatChangeData(int val, bool isPercent = false) {
-
-    //        this.val = val;
-    //        this.isPercent = isPercent;
-
-    //    }
-
-    //    public string DisplayChangeVal() {
-
-    //        if (isPercent) {
-    //            return val + "%";
-    //        } else {
-    //            return val.ToString();
-    //        }
-
-    //    }
-
-
-    //}
-
-    //#endregion
-
-    //#region BoolStat
-
-    //public readonly struct BoolStatChangeData : IStatChangeData<bool> {
-    //    public bool val { get; }
-    //}
-
-    //[Serializable]
-    //public class BoolStat : Stat<bool, BoolStatChangeData> {
-
-    //    public BoolStat(bool boolVal = default) {
-    //        val = boolVal;
-    //    }
-
-    //    public override StatChangeTextResult? GetChangeText(BoolStatChangeData changeVal) => null;
-    //}
-
-    //#endregion
 
 }

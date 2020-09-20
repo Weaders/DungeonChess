@@ -20,7 +20,8 @@ namespace Assets.Scripts.CharacterBuyPanel {
         }
 
         public void Init() {
-            
+
+            GameMng.current.buyMng.postBuy.AddListener(RefreshData);
             RefreshData();
 
         }
@@ -37,10 +38,14 @@ namespace Assets.Scripts.CharacterBuyPanel {
 
                 var btnObj = btn.GetComponent<Button>();
 
-                btnObj.interactable = GameMng.current.playerData.money > 500;
+                btnObj.interactable = GameMng.current.playerData.money >= ctrlBuy.cost;
 
                 btnObj.GetComponent<Button>().onClick.AddListener(() => {
                     selectedBuyData = ctrlBuy;
+                });
+
+                GameMng.current.buyMng.postBuy.AddListener(() => {
+                    btnObj.interactable = GameMng.current.playerData.money >= ctrlBuy.cost;
                 });
 
             }

@@ -55,7 +55,7 @@ namespace Assets.Scripts.BuyMng {
         }
 
         public bool IsCanBuy(BuyData buyData)
-            => GameMng.current.playerData.money > buyData.cost;
+            => GameMng.current.playerData.money >= buyData.cost;
 
         public UnityEvent onChangeCtrls = new UnityEvent();
 

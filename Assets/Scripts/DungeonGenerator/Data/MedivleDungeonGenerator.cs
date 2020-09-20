@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CellsGrid;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace Assets.Scripts.DungeonGenerator.Data {
         public GameObject wallPrefab;
 
         public GameObject exitPrefab;
+
+        public GameObject wallWithStencilPrefab;
 
         private List<DungeonRoomCells> dungeonRooms = new List<DungeonRoomCells>();
 
@@ -158,7 +161,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
         private void GenerateWalls(IEnumerable<Cell> cells, DungeonRoomCells roomsCells, Vector2Int size) {
 
-            
+            var wallGroups = new WallGroup[4] { new WallGroup(), new WallGroup(), new WallGroup(), new WallGroup() };
 
             foreach (var cell in cells) {
 
@@ -170,13 +173,19 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                 if (cell.dataPosition.y == 0) {
 
-                    var wall = Instantiate(selectedPrefab, roomsCells.transform);
+                    var wall = Instantiate(wallWithStencilPrefab, roomsCells.transform);
+
+                    wallGroups[0].transforms.Add(wall.transform);
+
                     wall.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     wall.transform.localPosition = new Vector3(cell.transform.localPosition.x, 0, cell.transform.localPosition.z - 2);
 
                 } else if (cell.dataPosition.y == size.y - 1) {
 
                     var wall = Instantiate(selectedPrefab, roomsCells.transform);
+
+                    wallGroups[1].transforms.Add(wall.transform);
+
                     wall.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     wall.transform.localPosition = new Vector3(cell.transform.localPosition.x, 0, cell.transform.localPosition.z + 2);
 
@@ -185,18 +194,26 @@ namespace Assets.Scripts.DungeonGenerator.Data {
                 if (cell.dataPosition.x == 0) {
 
                     var wall = Instantiate(selectedPrefab, roomsCells.transform);
+
+                    wallGroups[2].transforms.Add(wall.transform);
+
                     wall.transform.localRotation = Quaternion.Euler(0, 90, 0);
                     wall.transform.localPosition = new Vector3(cell.transform.localPosition.x - 2, 0, cell.transform.localPosition.z);
 
                 } else if (cell.dataPosition.x == size.x - 1) {
 
                     var wall = Instantiate(selectedPrefab, roomsCells.transform);
+
+                    wallGroups[3].transforms.Add(wall.transform);
+
                     wall.transform.localRotation = Quaternion.Euler(0, 90, 0);
                     wall.transform.localPosition = new Vector3(cell.transform.localPosition.x + 2, 0, cell.transform.localPosition.z);
 
                 }
 
             }
+
+            roomsCells.wallGroups = wallGroups;
 
         } 
 
@@ -214,11 +231,28 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                 dungeonRooms.Add(roomObj);
 
-            }
-
-            
+            }            
 
             return roomObj;
+
+        }
+
+    }
+
+    [Serializable]
+    public class WallGroup {
+
+        public List<Transform> transforms = new List<Transform>();
+
+        public Vector3 centerPos { 
+            get {
+
+                if (!transforms.Any())
+                    return Vector3.zero;
+
+                return transforms[transforms.Count / 2].position;
+
+            }
 
         }
 

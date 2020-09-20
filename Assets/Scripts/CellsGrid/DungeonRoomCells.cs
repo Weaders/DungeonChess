@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Common;
+using Assets.Scripts.DungeonGenerator.Data;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
@@ -7,6 +8,8 @@ namespace Assets.Scripts.CellsGrid {
     public class DungeonRoomCells : MonoBehaviour {
 
         public Vector2 dataPosition;
+
+        public WallGroup[] wallGroups;
 
         public Vector3 GetCenterPosition() {
 
@@ -35,6 +38,17 @@ namespace Assets.Scripts.CellsGrid {
 
                 if (cellTr.gameObject.layer == LayerMask.NameToLayer(LayersStore.CELL_LAYER))
                     yield return cellTr.GetComponent<Cell>();
+
+            }
+
+        }
+
+        public IEnumerable<GameObject> GetWalls() {
+
+            foreach (Transform cellTr in transform) {
+
+                if (cellTr.gameObject.layer == LayerMask.NameToLayer(LayersStore.WALL_LAYER))
+                    yield return cellTr.gameObject;
 
             }
 

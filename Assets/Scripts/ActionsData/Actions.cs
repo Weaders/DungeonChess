@@ -14,6 +14,8 @@ namespace Assets.Scripts.ActionsData {
 
         public OrderedEvents<DmgEventData> onPreMakeDmg = new OrderedEvents<DmgEventData>();
 
+        public OrderedEvents<DmgEventData> onPostMakeDmg = new OrderedEvents<DmgEventData>();
+
         public OrderedEvents<DmgEventData> onPreGetDmg = new OrderedEvents<DmgEventData>();
 
         public OrderedEvents<DmgEventData> onPostGetDmg = new OrderedEvents<DmgEventData>();
@@ -28,7 +30,8 @@ namespace Assets.Scripts.ActionsData {
 
             var dmgEventData = new DmgEventData() {
                 dmg = dmg,
-                from = from
+                from = from,
+                to = _characterData.characterCtrl
             };
 
             from.characterData.actions.onPreMakeDmg.Invoke(dmgEventData);
@@ -38,6 +41,7 @@ namespace Assets.Scripts.ActionsData {
 
             _characterData.stats.hp.val -= dmg.GetCalculateVal();
 
+            onPostMakeDmg.Invoke(dmgEventData);
             onPostGetDmg.Invoke(dmgEventData);
 
         }
@@ -63,6 +67,7 @@ namespace Assets.Scripts.ActionsData {
         public class DmgEventData {
             public Dmg dmg { get; set; }
             public CharacterCtrl from { get; set; }
+            public CharacterCtrl to { get; set; }
 
         }
 

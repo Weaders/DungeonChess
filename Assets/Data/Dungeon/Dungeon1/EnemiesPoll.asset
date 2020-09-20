@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemiesPoll
   m_EditorClassIdentifier: 
   enemies:
-  - characterCtrl: {fileID: 643023112004491202, guid: c4eb4ec0fa539da4b839a0cdf223e406,
+  - characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
       type: 3}
     dropChances:
     - {fileID: 11400000, guid: 5e11ef1dbb2ccf841a8c69ac551e65cd, type: 2}

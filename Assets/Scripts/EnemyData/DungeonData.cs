@@ -7,6 +7,7 @@ namespace Assets.Scripts.EnemyData {
 
         public EnemiesPoll enemiesPoll;
 
+        public int moneyVictory;
 
     }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
+using Assets.Scripts.Bullet;
+using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Spells;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace Assets.Scripts.Character {
 
     [RequireComponent(typeof(CharacterMoveCtrl), typeof(EffectsPlacer))]
-    public class CharacterCtrl : MonoBehaviour {
+    public class CharacterCtrl : MonoBehaviour, IBulletSpawner, IBulletTarget {
 
         public CharacterData characterData;
 
@@ -28,6 +29,12 @@ namespace Assets.Scripts.Character {
         public SliderStatCtrl manaBar;
 
         public EffectsPlacer effectsPlacer;
+
+        [HideInInspector]
+        public Cell cell;
+
+        [SerializeField]
+        private GameObject bulletSpawnObj;
 
         public void GoAttack() {
 
@@ -55,7 +62,9 @@ namespace Assets.Scripts.Character {
 
             animator.SetBool(AnimationValStore.IS_ATTACK, true);
 
-            while (spell.IsInRange(this, target) && !target.characterData.stats.isDie) {
+            while (target != null && spell.IsInRange(this, target) && !target.characterData.stats.isDie) {
+
+                transform.LookAt(target.transform);
 
                 if (characterData.stats.mana.val >= characterData.stats.maxMana.val) {
 
@@ -77,7 +86,9 @@ namespace Assets.Scripts.Character {
 
             animator.SetBool(AnimationValStore.IS_ATTACK, false);
 
-            GoAttack();
+            if (target != null) {
+                GoAttack();
+            }
 
         }
 
@@ -91,7 +102,7 @@ namespace Assets.Scripts.Character {
         }
 
         public void Init() {
-           
+
             var colorStore = StaticData.current.colorStore;
 
             characterData.actions.onPostGetDmg.AddSubscription(Observable.OrderVal.UIUpdate, (dmgEventData) => {
@@ -135,6 +146,9 @@ namespace Assets.Scripts.Character {
 
         public Animator GetAnimator() => animator;
 
+        public Transform GetTargetTransform() => bulletSpawnObj.transform;
+
+        public Transform GetSpawnTransform() => bulletSpawnObj.transform;
     }
 
 }

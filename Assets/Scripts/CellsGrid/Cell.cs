@@ -70,9 +70,16 @@ namespace Assets.Scripts.CellsGrid {
 
         public void StayCtrl(CharacterCtrl ctrl) {
 
-            ctrl.transform.SetParent(transform);
+            ctrl.moveCtrl.DisableNavMesh();
+
+            ctrl.transform.SetParent(transform, true);
             ctrl.transform.localPosition = Vector3.zero;
+
+            ctrl.cell = this;
+
             SetState(CellState.NotAvailable);
+
+            ctrl.moveCtrl.EnableNavMesh();
 
         }
 

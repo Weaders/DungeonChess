@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buyDatas:
   - {fileID: 11400000, guid: 21aacd98cd1b68d4aa6d771715d648d4, type: 2}
-  - {fileID: 11400000, guid: fc5a10e34928b544ab968094240ddf36, type: 2}
+  - {fileID: 11400000, guid: 1205f1e0f5450014ca2106c4075255b2, type: 2}

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Assets.Scripts.Character;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Fight {
@@ -25,6 +27,16 @@ namespace Assets.Scripts.Fight {
                     onAllInTeamDie.Invoke();
 
             });
+
+        }
+
+        public void ClearChars() {
+
+            foreach (var charCtrl in _characterCtrls) {
+                Object.Destroy(charCtrl.gameObject);
+            }
+
+            _characterCtrls.Clear();
 
         }
 

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.BuyMng;
+using Assets.Scripts.CameraMng;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
 using Assets.Scripts.CharacterBuyPanel;
@@ -11,6 +12,7 @@ using Assets.Scripts.Player;
 using Assets.Scripts.Synergy;
 using Assets.Scripts.TopSidePanel;
 using Assets.Scripts.UI;
+using Assets.Scripts.UI.BuffsList;
 using Assets.Scripts.UI.Inventory;
 using Assets.Scripts.UI.SpellsList;
 using UnityEngine;
@@ -65,6 +67,10 @@ namespace Assets.Scripts {
 
         public CharacterSpellsList characterSpellsList;
 
+        public BuffsListPanel buffsListPanel;
+
+        public ItemInfoPanel itemInfoPanel;
+
         public DropCtrl dropCtrl;
 
         private DungeonDataGenerator dungeonDataGenerator = new DungeonDataGenerator();
@@ -77,17 +83,25 @@ namespace Assets.Scripts {
 
             //dungeonGenerator.Generate(dungeonDataGenerator.GetDungeonData());
             cellsGridMng.Init();
-            fightMng.InitEnemies();
+            fightMng.RefreshEnemies();
 
             buyMng.Init();
             buyPanelUI.Init();
             topSidePanelUI.Init();
 
+            // On win, add money to player
+            fightMng.onPlayerWin.AddListener(() => {
+                playerData.money.val += currentDungeonData.moneyVictory;
+            });
+
+            // Set up, synergy data
             buyMng.postBuy.AddListener(() => {
                 synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
             });
 
             playerInventoryGrid.SetItemsContainer(playerData.itemsContainer);
+
+            Camera.main.GetComponent<CameraCtrl>().ToRoom();
 
         }
 
@@ -105,6 +119,7 @@ namespace Assets.Scripts {
                         statsGrid.SetCharacter(ctrl.characterData);
                         characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
                         characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
+                        buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
 
                     } else if (hit.collider.gameObject.layer == LayerMask.NameToLayer(LayersStore.CELL_LAYER)) {
 

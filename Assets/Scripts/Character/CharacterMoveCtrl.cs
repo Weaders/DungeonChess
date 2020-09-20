@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -16,15 +17,14 @@ namespace Assets.Scripts.Character {
 
         public MoveData MoveTo(Transform transform, float distance) {
 
-            TargetForMove targetForMove = null;
+            TargetForMove targetForMove = new TargetForMove() {
+                target = transform,
+                distance = distance
+            };
 
             var result = new MoveData(() => StartCoroutine(MoveToTarget(targetForMove)));
 
-            targetForMove = new TargetForMove() {
-                target = transform,
-                distance = distance,
-                onCome = result.onCome
-            };
+            targetForMove.onCome = result.onCome;
 
             return result;
 
@@ -41,7 +41,10 @@ namespace Assets.Scripts.Character {
 
             ctrl.anim.SetBool("IsWalk", true);
 
-            while (Vector3.Distance(ctrl.transform.position, targetForMove.target.position) > targetForMove.distance) {
+            TagLogger<CharacterMoveCtrl>.Info(targetForMove.target.gameObject.name);
+
+            while (targetForMove.target != null && Vector3.Distance(ctrl.transform.position, targetForMove.target.position) > targetForMove.distance) {
+
 
                 navMeshAgent.SetDestination(targetForMove.target.position);
 
@@ -54,7 +57,10 @@ namespace Assets.Scripts.Character {
                 //);
 
                 yield return new WaitForFixedUpdate();
+
             }
+
+
 
             navMeshAgent.isStopped = true;
 
@@ -62,6 +68,14 @@ namespace Assets.Scripts.Character {
 
             targetForMove.onCome.Invoke();
 
+        }
+
+        public void DisableNavMesh() {
+            navMeshAgent.enabled = false;
+        }
+
+        public void EnableNavMesh() {
+            navMeshAgent.enabled = true;
         }
 
         public class TargetForMove {

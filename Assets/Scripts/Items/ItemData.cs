@@ -2,7 +2,6 @@
 using Assets.Scripts.Translate;
 using Assets.Scripts.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.Items {
 
@@ -17,8 +16,7 @@ namespace Assets.Scripts.Items {
         [SerializeField]
         private string _description;
 
-        [SerializeField]
-        private Image image;
+        public Sprite icon;
 
         public string title => TranslateReader.GetTranslate(_title);
 
@@ -28,5 +26,8 @@ namespace Assets.Scripts.Items {
 
         public abstract void DeEquip(CharacterData characterData);
 
+        public void ClickHandle(MoveItem moveItem) {
+            GameMng.current.itemInfoPanel.SetItemData(this);
+        }
     }
 }

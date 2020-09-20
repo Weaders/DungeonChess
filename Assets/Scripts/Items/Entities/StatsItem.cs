@@ -7,14 +7,20 @@ namespace Assets.Scripts.Items.Entities {
     public class StatsItem : ItemData {
 
         [SerializeField]
-        private Stats statsModify;
+        private StatField[] statsModify;
 
         public override void DeEquip(CharacterData characterData) {
-            characterData.stats -= statsModify;
+
+            foreach (var statModify in statsModify)
+                characterData.stats.Mofify(statModify, true);
+
         }
 
         public override void Equip(CharacterData characterData) {
-            characterData.stats += statsModify;
+
+            foreach (var statModify in statsModify)
+                characterData.stats.Mofify(statModify);
+
         }
     }
 }

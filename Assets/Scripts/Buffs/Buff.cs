@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Character;
+using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.Buffs {
@@ -15,6 +16,16 @@ namespace Assets.Scripts.Buffs {
 
         [SerializeField]
         private string id;
+
+        [SerializeField]
+        private string _titleKey;
+
+        [SerializeField]
+        private string _descriptionKey;
+
+        public string title => TranslateReader.GetTranslate(_titleKey);
+
+        public string description => TranslateReader.GetTranslate(_descriptionKey);
 
         [SerializeField]
         private DuplicateBuffStrategy duplicateBuffStrategy;

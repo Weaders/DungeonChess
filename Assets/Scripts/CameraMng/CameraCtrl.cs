@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
 using UnityEngine;
@@ -9,6 +10,9 @@ namespace Assets.Scripts.CameraMng {
 
         [SerializeField]
         private float speed;
+
+        [SerializeField]
+        private Vector3 offsetToRoom;
 
         private List<GameObject> touchObjects = new List<GameObject>();
 
@@ -24,7 +28,7 @@ namespace Assets.Scripts.CameraMng {
                         horizontalVal * speed * Time.deltaTime, 
                         0, 
                         verticallVal * speed * Time.deltaTime
-                    )
+                    ), Space.World
                 );
             }
 
@@ -64,6 +68,34 @@ namespace Assets.Scripts.CameraMng {
             //    }
 
             //}
+
+        }
+
+        [ContextMenu("ToRoom")]
+        public void ToRoom() {
+
+            var targetPos = GameMng.current.cellsGridMng.currentRoom.wallGroups[0].centerPos + offsetToRoom;
+            StartCoroutine(GoToPosition(targetPos));
+
+        }
+
+
+        private IEnumerator GoToPosition(Vector3 targetPos) {
+
+            var t = 0f;
+
+            while (t < 1f) {
+
+                transform.position = Vector3.Lerp(transform.position, targetPos, t);
+
+                t += speed / 10f * Time.deltaTime;
+
+                if (t > 1f)
+                    t = 1f;
+
+                yield return new WaitForFixedUpdate();
+
+            }
 
         }
 

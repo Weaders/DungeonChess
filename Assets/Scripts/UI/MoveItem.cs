@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 namespace Assets.Scripts.UI {
 
     [RequireComponent(typeof(Collider2D))]
-    public class MoveItem : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler {
+    public class MoveItem : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler, IPointerClickHandler {
 
         private MoveItemCell moveItemCell;
 
@@ -48,6 +48,8 @@ namespace Assets.Scripts.UI {
             moveItemCell = null;
 
         }
+
+        public MoveItemCell currentCell => moveItemCell;
 
         public void OnDrag(PointerEventData eventData) {
 
@@ -136,6 +138,13 @@ namespace Assets.Scripts.UI {
             cellToPlace = null;
             startPos = transform.localPosition;
             cellsWithBounds.Clear();
+        }
+
+        public void OnPointerClick(PointerEventData eventData) {
+
+            var moveItem = GameMng.current.moveItemFactory.Get(this);
+            moveItem.ClickHandle(this);
+
         }
     }
 

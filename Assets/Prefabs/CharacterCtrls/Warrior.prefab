@@ -45,6 +45,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36fa1b355440b404080df0bd0a57c244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1003271593837475471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5506084124265482528}
+  - component: {fileID: 5003929766541887987}
+  - component: {fileID: 6269154066194537377}
+  - component: {fileID: 3223660261709929880}
+  m_Layer: 8
+  m_Name: BulletSpawnObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5506084124265482528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003271593837475471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.44, z: 0.73}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 2328172299832810842}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5003929766541887987
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003271593837475471}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6269154066194537377
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003271593837475471}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3223660261709929880
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003271593837475471}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1009589189037809645
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,25 +205,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp:
-    _val: 100
+    _val: 70
+    statType: 0
   maxHp:
-    _val: 100
+    _val: 70
+    statType: 1
   mana:
     _val: 0
+    statType: 2
   maxMana:
     _val: 100
+    statType: 3
   manaPerAttack:
     _val: 5
+    statType: 4
   AD:
-    _val: 10
+    _val: 15
+    statType: 5
   AS:
     _val: 0.4
+    statType: 6
   moveSpeed:
     _val: 5
+    statType: 7
   isDie:
     _val: 0
+    statType: 8
+  vampirism:
+    _val: 0
+    statType: 10
   classTypes:
     _val: 00000000
+    statType: 9
 --- !u!1 &1923455340226239881
 GameObject:
   m_ObjectHideFlags: 0
@@ -4527,6 +4635,7 @@ Transform:
   - {fileID: 2328172299832810628}
   - {fileID: 5715537072814061275}
   - {fileID: 8392396109971781049}
+  - {fileID: 5506084124265482528}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -4568,6 +4677,8 @@ MonoBehaviour:
   hpBar: {fileID: 2939085797846583874}
   manaBar: {fileID: 8869655052464027727}
   effectsPlacer: {fileID: 5232884066652915929}
+  cell: {fileID: 0}
+  bulletSpawnObj: {fileID: 1003271593837475471}
 --- !u!114 &6845065712008186114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5056,6 +5167,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8040754881020307231}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &578315074311962433 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7462721355388688478, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8040754881020307231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2939085797846583874 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5143045905288441181, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
@@ -5080,9 +5197,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8afe455716fa424f9cf369083748b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!223 &578315074311962433 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 7462721355388688478, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8040754881020307231}
-  m_PrefabAsset: {fileID: 0}
