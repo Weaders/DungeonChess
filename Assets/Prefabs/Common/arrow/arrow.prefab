@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4442580976530282665}
   - component: {fileID: 47938885952905457}
   - component: {fileID: 5858300284953121161}
+  - component: {fileID: 8590860116270520245}
   m_Layer: 0
   m_Name: arrow
   m_TagString: Untagged
@@ -68,6 +69,20 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!64 &8590860116270520245
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3957792643547562515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &3960564372115592927
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +95,7 @@ GameObject:
   - component: {fileID: 156758358174817991}
   - component: {fileID: 2111696604005076585}
   - component: {fileID: 8785692992047926058}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Box1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +191,7 @@ GameObject:
   - component: {fileID: 3674691990447011777}
   - component: {fileID: 8656060880120734100}
   - component: {fileID: 8438461898085227754}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}

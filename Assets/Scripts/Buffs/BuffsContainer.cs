@@ -7,6 +7,7 @@ using Assets.Scripts.Observable;
 using UnityEngine;
 
 namespace Assets.Scripts.Buffs {
+
     public class BuffsContainer : MonoBehaviour, IObservableList<Buff> {
 
         public ObservableList<Buff> buffs = new ObservableList<Buff>();
@@ -21,18 +22,18 @@ namespace Assets.Scripts.Buffs {
 
         public int Count => buffs.Count;
 
-        public Buff AddPrefab(Buff dataPrefab) {
+        public Buff AddPrefab(Buff dataPrefab, CharacterCtrl from = null) {
 
             var buffObj = Instantiate(dataPrefab.gameObject, transform);
             var buff = buffObj.GetComponent<Buff>();
             
-            Add(buff);
+            Add(buff, from);
 
             return buff;
 
         }
 
-        public void Add(Buff data) {
+        public void Add(Buff data, CharacterCtrl from = null) {
 
             var duplicate = buffs.FirstOrDefault(b => b.GetId() == data.GetId());
 
@@ -44,7 +45,7 @@ namespace Assets.Scripts.Buffs {
 
             }
 
-            data.ApplyTo(characterCtrl);
+            data.ApplyTo(characterCtrl, from);
 
             buffs.Add(data);
             data.transform.SetParent(transform);
@@ -94,5 +95,6 @@ namespace Assets.Scripts.Buffs {
 
         }
 
+        public void Add(Buff data) => Add(data, null);
     }
 }

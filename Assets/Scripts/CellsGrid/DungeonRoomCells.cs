@@ -54,6 +54,26 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
+        public void Hide() {
+            
+            var renderers = GetComponentsInChildren<MeshRenderer>();
+
+            foreach (var renderer in renderers) {
+                renderer.enabled = false;
+            }
+
+        }
+
+        public void Show() {
+
+            var renderers = GetComponentsInChildren<MeshRenderer>();
+
+            foreach (var render in renderers) {
+                render.enabled = true;
+            }
+
+        }
+
     }
 
 }

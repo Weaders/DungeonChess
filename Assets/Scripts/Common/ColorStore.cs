@@ -19,5 +19,8 @@ namespace Assets.Scripts.Common {
         public Color cellEnemyOutlineCell = new Color(1, 0, 0, 1f);
         #endregion
 
+        public Color playerTeamDetectColor = new Color(0, 1, 0, 1f);
+        public Color enemyTeamDetectColor = new Color(1, 0, 0, 1f);
+
     }
 }

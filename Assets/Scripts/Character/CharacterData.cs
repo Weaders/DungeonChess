@@ -58,6 +58,7 @@ namespace Assets.Scripts.Character {
         public void OnRemoveItem(ItemData item) {
             item.DeEquip(this);
         }
+
     }
 
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Spells.Data {
 
-    public class BaseRangeAttack : Spell {
+    public class BaseRangeAttack : Spell, IDmgSource {
 
         public BulletCtrl bulletPrefab;
 
@@ -22,8 +22,10 @@ namespace Assets.Scripts.Spells.Data {
             bullObj.StartFly(from, to);
 
             bullObj.onCome.AddListener(() => {
-                to.characterData.actions.GetDmg(from, new Dmg(dmgAmount));
+
+                to.characterData.actions.GetDmg(from, new Dmg(dmgAmount, this));
                 from.characterData.onPostMakeAttack.Invoke();
+
             });
 
         }
@@ -31,5 +33,7 @@ namespace Assets.Scripts.Spells.Data {
         public override IEnumerable<ObservableVal> GetObservablesForModify(CharacterData data) {
             return new ObservableVal[] { };
         }
+
+        public string GetId() => Id;
     }
 }

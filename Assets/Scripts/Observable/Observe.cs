@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Assets.Scripts.StarsData;
 using UnityEngine;
 using UnityEngine.Events;
@@ -190,6 +191,58 @@ namespace Assets.Scripts.Observable {
     }
     #endregion
 
+    #region Observable array
+
+    public interface IObservableArray<T> : IEnumerable<T> {
+
+        OrderedEvents<ChangeEnumerableItemEvent<T>> onSet { get; }
+
+        T this[int index] { get; set; }
+
+        int Count { get; }
+
+        void Clear();
+
+    }
+
+    [Serializable]
+    public class ObservableArray<T> : IObservableArray<T> {
+
+        private T[] items;
+
+        public ObservableArray(int size){
+            items = new T[size];
+        }
+
+        public T this[int index] { 
+            get => items[index];
+            set {
+                items[index] = value;
+                onSet.Invoke(new ChangeEnumerableItemEvent<T>(value, index));
+            }
+        }
+
+        public OrderedEvents<ChangeEnumerableItemEvent<T>> onSet => _onSet;
+
+        private OrderedEvents<ChangeEnumerableItemEvent<T>> _onSet = new OrderedEvents<ChangeEnumerableItemEvent<T>>();
+
+        public int Count => items.Length;
+
+        public void Clear() {
+            for (var i = 0; i < Count; i++) {
+                this[i] = default;
+            }
+        }
+
+        public int GetIndex(T data) => Array.IndexOf(items, data);
+
+        public IEnumerator<T> GetEnumerator() => items.GetEnumerator() as IEnumerator<T>;
+
+        IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
+    }
+
+    #endregion
+
     #region Observable List
     public interface IObservableList<T> : IReadOnlyList<T> {
 
@@ -269,6 +322,8 @@ namespace Assets.Scripts.Observable {
 
         }
 
+        public virtual int GetIndex(T data) => _list.IndexOf(data);
+
     }
 
     #endregion
@@ -310,10 +365,13 @@ namespace Assets.Scripts.Observable {
 
                 var oldVal = _val;
 
-                onPreChange.Invoke(new ChangeData(oldVal, value));
-                _val = value;
-                onPostChange.Invoke(new ChangeData(oldVal, value));
+                if ((oldVal == null && value != null) || (!oldVal?.Equals(value) ?? false)) {
 
+                    onPreChange.Invoke(new ChangeData(oldVal, value));
+                    _val = value;
+                    onPostChange.Invoke(new ChangeData(oldVal, value));
+
+                }
             }
         }
 

@@ -29,6 +29,10 @@ namespace Assets.Scripts.UI {
 
         private Dictionary<MoveItemCell, Bounds> cellsWithBounds = new Dictionary<MoveItemCell, Bounds>();
 
+        public void InitWithCell(MoveItemCell itemCell) {
+            moveItemCell = itemCell;
+        }
+
         public void PlaceIn(MoveItemCell itemCell) {
 
             if (moveItemCell != null) {
@@ -92,9 +96,9 @@ namespace Assets.Scripts.UI {
 
         public void OnEndDrag(PointerEventData eventData) {
 
-            if (cellToPlace != null && cellToPlace.state == MoveItemCell.State.AvaliableForSelect)
+            if (cellToPlace != null && cellToPlace.state == MoveItemCell.State.AvaliableForSelect) {
                 PlaceIn(cellToPlace);
-            else {
+            } else {
 
                 if (cellToPlace != null) {
                     cellToPlace.state = MoveItemCell.State.Default;
@@ -102,7 +106,7 @@ namespace Assets.Scripts.UI {
 
                 transform.localPosition = startPos;
             }
-                
+
 
         }
 

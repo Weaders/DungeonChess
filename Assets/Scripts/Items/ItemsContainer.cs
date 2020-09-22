@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Observable;
@@ -14,27 +15,39 @@ namespace Assets.Scripts.Items {
 
     }
 
-    public class ItemsContainer : MonoBehaviour, IObservableList<ItemData> {
+    public class ItemsContainer : MonoBehaviour, IObservableArray<ItemData> {
 
-        private ObservableList<ItemData> items = new ObservableList<ItemData>();
+        private ObservableArray<ItemData> items = new ObservableArray<ItemData>(0);
 
         public ItemData this[int index] {
             get => items[index];
-            set => items[index] = value;
+            set {
+
+                if (items[index] != null && value != items[index]) {
+
+                    haveItemsContainer.OnRemoveItem(items[index]);
+                    items[index].transform.SetParent(null);
+
+                }
+
+                items[index] = value;
+
+                if (items[index] != null) {
+                    
+                    items[index].transform.SetParent(transform);
+                    haveItemsContainer.OnAddItem(items[index]);
+
+                }
+            }
         }
-
-        public OrderedEvents<ChangeEnumerableItemEvent<ItemData>> onAdd => items.onAdd;
-
-        public OrderedEvents<ChangeEnumerableItemEvent<ItemData>> onRemove => items.onRemove;
-
-
-
 
         public IHaveItemsContainer haveItemsContainer;
 
         public int Count => items.Count;
 
         public int maxItemsCount => _maxItemsCount;
+
+        public OrderedEvents<ChangeEnumerableItemEvent<ItemData>> onSet => items.onSet;
 
         [SerializeField]
         private int _maxItemsCount = 4;
@@ -43,8 +56,9 @@ namespace Assets.Scripts.Items {
 
             haveItemsContainer = haveItems;
 
-            items.Clear();
-            items = new ObservableList<ItemData>(maxItemsCount);
+            Clear();
+
+            items = new ObservableArray<ItemData>(maxItemsCount);
 
             var i = 0;
 
@@ -53,7 +67,7 @@ namespace Assets.Scripts.Items {
             while (enumerator.MoveNext()) {
 
                 var item = (enumerator.Current as Transform).GetComponent<ItemData>();
-                Set(item, i);
+                this[i] = item;
                 i++;
 
             }
@@ -66,11 +80,13 @@ namespace Assets.Scripts.Items {
         /// <param name="data"></param>
         public void Add(ItemData data) {
 
-            for (var i = 0; i < items.Count; i++) {
+            for (var i = 0; i < Count; i++) {
 
-                if (items[i] == null) {
-                    Set(data, i);
+                if (this[i] == null) {
+
+                    this[i] = data;
                     return;
+
                 }
 
             }
@@ -83,49 +99,15 @@ namespace Assets.Scripts.Items {
             Add(Instantiate(prefab.gameObject).GetComponent<ItemData>());
         }
 
-        public void Set(ItemData data, int index) {
-
-            if (items[index] != null) {
-                Remove(index);
-            }
-
-            items[index] = data;
-            AfterAdd(data);
-
-        }
-
-        private void AfterAdd(ItemData data) {
-
-            if (data != null) {
-
-                data.transform.SetParent(transform);
-
-                haveItemsContainer.OnAddItem(data);
-
-            }
-
-        }
-
         public IEnumerator<ItemData> GetEnumerator() => items.GetEnumerator();
 
-        public void Remove(ItemData data) {
-
-            items.Remove(data);
-            data.transform.SetParent(null);
-            haveItemsContainer.OnRemoveItem(data);
-
-        }
-
-        public void Remove(int index) {
-
-            var item = items.GetOrDefault(index);
-
-            if (item != null)
-                Remove(item);
-
-        }
-
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public void Clear() {
+            for (var i = 0; i < Count; i++) {
+                this[i] = null;
+            }
+        }
     }
 
 }

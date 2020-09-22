@@ -41,13 +41,16 @@ namespace Assets.Scripts.UI {
         public void InitWithItem(MoveItem moveItem) {
             
             _moveItem = moveItem;
+            moveItem.InitWithCell(this);
             PlaceItem();
 
         }
 
         private void PlaceItem() {
+
             moveItem.transform.SetParent(transform);
             moveItem.transform.localPosition = Vector3.zero;
+
         }
 
         public State state {

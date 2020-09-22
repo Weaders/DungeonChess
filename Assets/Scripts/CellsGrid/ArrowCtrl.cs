@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Common;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.CellsGrid {
@@ -11,7 +12,7 @@ namespace Assets.Scripts.CellsGrid {
 
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Input.GetMouseButtonUp(0) && Physics.Raycast(ray, out RaycastHit hit)) {
+            if (Input.GetMouseButtonUp(0) && Physics.Raycast(ray, out RaycastHit hit, 1000f, LayerMask.GetMask(LayersStore.EXIT_LAYER))) {
 
                 onClick.Invoke();
                 Debug.Log("Arrow click");

@@ -17,6 +17,12 @@ namespace Assets.Scripts.Fight {
 
         private readonly List<CharacterCtrl> _characterCtrls = new List<CharacterCtrl>();
 
+        public readonly TeamSide teamSide;
+
+        public FightTeam(TeamSide side) {
+            teamSide = side;
+        }
+
         public void AddCharacterToTeam(CharacterCtrl ctrl) {
 
             _characterCtrls.Add(ctrl);
@@ -27,6 +33,8 @@ namespace Assets.Scripts.Fight {
                     onAllInTeamDie.Invoke();
 
             });
+
+            ctrl.teamSide = teamSide;
 
         }
 

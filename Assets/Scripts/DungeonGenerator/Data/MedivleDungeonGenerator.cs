@@ -20,6 +20,12 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
         public GameObject wallWithStencilPrefab;
 
+        public GameObject lampPrefab;
+
+        public Vector3 lampPosition;
+
+        public float lampChance = 0.3f;
+
         private List<DungeonRoomCells> dungeonRooms = new List<DungeonRoomCells>();
 
         public override void Generate(DungeonDataPosition data) {
@@ -132,10 +138,16 @@ namespace Assets.Scripts.DungeonGenerator.Data {
                             exitForRoom = GetOrCreate(roomDataPosition + new Vector2(1, 0));
                         }
 
-                    }                 
+                    }
 
                     var cell = Instantiate(cellPrefab, roomObj.transform);
                     var cellObj = cell.GetComponent<Cell>();
+
+                    if (y > size.y / 2) {
+                        cellObj.SetCellType(Cell.CellType.ForEnemy);
+                    } else {
+                        cellObj.SetCellType(Cell.CellType.ForPlayer);
+                    }
 
                     cellObj.dataPosition = new Vector2Int(x, y);
 
@@ -165,6 +177,10 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
             foreach (var cell in cells) {
 
+                var genLamp = UnityEngine.Random.value < lampChance;
+
+                GameObject wall = null;
+
                 var selectedPrefab = wallPrefab;
 
                 if (cell.IsExit()) {
@@ -173,7 +189,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                 if (cell.dataPosition.y == 0) {
 
-                    var wall = Instantiate(wallWithStencilPrefab, roomsCells.transform);
+                    wall = Instantiate(wallWithStencilPrefab, roomsCells.transform);
 
                     wallGroups[0].transforms.Add(wall.transform);
 
@@ -182,18 +198,18 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                 } else if (cell.dataPosition.y == size.y - 1) {
 
-                    var wall = Instantiate(selectedPrefab, roomsCells.transform);
+                    wall = Instantiate(selectedPrefab, roomsCells.transform);
 
                     wallGroups[1].transforms.Add(wall.transform);
 
-                    wall.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    wall.transform.localRotation = Quaternion.Euler(0, 180, 0);
                     wall.transform.localPosition = new Vector3(cell.transform.localPosition.x, 0, cell.transform.localPosition.z + 2);
 
                 }
 
                 if (cell.dataPosition.x == 0) {
 
-                    var wall = Instantiate(selectedPrefab, roomsCells.transform);
+                    wall = Instantiate(selectedPrefab, roomsCells.transform);
 
                     wallGroups[2].transforms.Add(wall.transform);
 
@@ -202,12 +218,20 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                 } else if (cell.dataPosition.x == size.x - 1) {
 
-                    var wall = Instantiate(selectedPrefab, roomsCells.transform);
+                    wall = Instantiate(selectedPrefab, roomsCells.transform);
 
                     wallGroups[3].transforms.Add(wall.transform);
 
-                    wall.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                    wall.transform.localRotation = Quaternion.Euler(0, -90, 0);
                     wall.transform.localPosition = new Vector3(cell.transform.localPosition.x + 2, 0, cell.transform.localPosition.z);
+
+                }
+
+                if (genLamp && wall != null) {
+
+                    var lamp = Instantiate(lampPrefab, wall.transform);
+                    lamp.transform.localPosition = lampPosition;
+                    lamp.transform.localRotation = Quaternion.identity;
 
                 }
 

@@ -21,7 +21,7 @@ namespace Assets.Scripts.UI.Inventory {
 
                 if (oldVal != null) {
 
-                    itemsContainer.Set(null, indexInItems);
+                    itemsContainer[indexInItems] = null;
                     itemData = null;
 
                 }
@@ -29,7 +29,7 @@ namespace Assets.Scripts.UI.Inventory {
                 if (newVal != null) {
 
                     itemData = GameMng.current.moveItemFactory.Get<ItemData>(newVal);
-                    itemsContainer.Set(itemData, indexInItems);
+                    itemsContainer[indexInItems] = itemData;
                     
                 }
 
@@ -42,7 +42,7 @@ namespace Assets.Scripts.UI.Inventory {
             itemsContainer = itemContainer;
             indexInItems = index;
 
-            itemsContainer.onAdd.AddSubscription(Observable.OrderVal.UIUpdate, (changeData) => {
+            itemsContainer.onSet.AddSubscription(Observable.OrderVal.UIUpdate, (changeData) => {
                 
                 if (changeData.index == index) {
                     InitWithItem(changeData.data);
@@ -65,24 +65,13 @@ namespace Assets.Scripts.UI.Inventory {
 
         }
 
-        public void SetItem(ItemData item) {
-
-            if (item != null) {
-
-                var mv = GameMng.current.moveItemFactory.CreateOrGet(item);
-                mv.PlaceIn(moveItemCell);
-
-            }
-
-            itemData = item;
-
-        }
-
         public ItemData GetItem() => itemData;
 
         private void OnDestroy() {
-            if (itemData != null)
+
+            if (itemData != null && GameMng.current != null)
                 GameMng.current.moveItemFactory.Remove(itemData);
+
         }
 
         public bool IsThereItem() => GetItem() != null;

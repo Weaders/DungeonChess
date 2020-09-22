@@ -65,6 +65,9 @@ namespace Assets.Scripts.ActionsData {
         }
 
         public class DmgEventData {
+
+            public DmgEventData() { }
+
             public Dmg dmg { get; set; }
             public CharacterCtrl from { get; set; }
             public CharacterCtrl to { get; set; }
@@ -81,14 +84,24 @@ namespace Assets.Scripts.ActionsData {
 
     }
 
+    public interface IDmgSource {
+        string GetId();
+    }
+
     public class Dmg {
 
         public List<DmgModifier> dmgModifiers { get; private set; } = new List<DmgModifier>();
 
         public int initVal { get; private set; }
 
-        public Dmg(int val)
-            => initVal = val;
+        public IDmgSource source { get; private set; }
+
+        public Dmg(int val, IDmgSource dmgSource) {
+
+            initVal = val;
+            source = dmgSource;
+
+        }
 
         public int GetCalculateVal() {
 

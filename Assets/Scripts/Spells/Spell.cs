@@ -20,9 +20,16 @@ namespace Assets.Scripts.Spells {
 
     public abstract class Spell : MonoBehaviour {
 
+        [SerializeField]
+        private string id;
+
         public string titleKey;
 
         public string descriptionKey;
+
+        public string Id => id;
+
+        public string GetId() => Id;
 
         public string description
             => TranslateReader.GetTranslate(descriptionKey);
@@ -60,7 +67,6 @@ namespace Assets.Scripts.Spells {
         }
 
         public abstract IEnumerable<ObservableVal> GetObservablesForModify(CharacterData data);
-
 
         public class UseOpts {
             public float scale = 1f;

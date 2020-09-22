@@ -14,6 +14,9 @@ namespace Assets.Scripts.Buffs {
         [HideInInspector]
         public CharacterCtrl characterCtrl;
 
+        [HideInInspector]
+        public CharacterCtrl fromCharacterCtrl;
+
         [SerializeField]
         private string id;
 
@@ -34,9 +37,12 @@ namespace Assets.Scripts.Buffs {
 
         public string GetId() => id;
 
-        public void ApplyTo(CharacterCtrl newCharacter) {
+        public void ApplyTo(CharacterCtrl newCharacter, CharacterCtrl fromCharacter = null) {
+            
             characterCtrl = newCharacter;
+            fromCharacterCtrl = fromCharacter != null ? fromCharacter : newCharacter;
             Apply();
+
         }
 
         public void Remove() {

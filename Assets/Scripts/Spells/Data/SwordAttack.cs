@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Spells.Data {
 
-    public class SwordAttack : Spell {
+    public class SwordAttack : Spell, IDmgSource {
 
         private float adScale = 1f;
 
@@ -22,12 +23,10 @@ namespace Assets.Scripts.Spells.Data {
 
             to.characterData.actions.GetDmg(
                 from,
-                new ActionsData.Dmg(GetDmg(from.characterData))
+                new Dmg(GetDmg(from.characterData), this)
             );
 
             from.characterData.onPostMakeAttack.Invoke();
-
-
 
         }
 

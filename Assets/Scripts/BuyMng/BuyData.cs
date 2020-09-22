@@ -9,5 +9,7 @@ namespace Assets.Scripts.BuyMng {
         public CharacterCtrl ctrlPrefab;
         public int cost;
 
+        public bool IsCanBuy() => GameMng.current.playerData.money >= cost;
+
     }
 }

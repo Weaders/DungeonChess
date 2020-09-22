@@ -5,10 +5,14 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Fight {
 
+    public enum TeamSide {
+        Player, Enemy
+    }
+
     public class FightMng : MonoBehaviour {
 
-        public FightTeam fightTeamPlayer = new FightTeam();
-        public FightTeam fightTeamEnemy = new FightTeam();
+        public FightTeam fightTeamPlayer = new FightTeam(TeamSide.Player);
+        public FightTeam fightTeamEnemy = new FightTeam(TeamSide.Enemy);
 
         public UnityEvent onPlayerWin = new UnityEvent();
         public UnityEvent onEnemyTeamWin = new UnityEvent();
@@ -82,7 +86,17 @@ namespace Assets.Scripts.Fight {
 
         }
 
-        public void EnemyTeamDie() {
+        public TeamSide GetTeamSide(CharacterCtrl characterCtrl) {
+            
+            if (fightTeamEnemy.chars.Any(ctrl => ctrl == characterCtrl)) {
+                return TeamSide.Enemy;
+            }
+
+            return TeamSide.Player;
+
+        }
+
+        private void EnemyTeamDie() {
 
             onPlayerWin.Invoke();
 
@@ -91,7 +105,7 @@ namespace Assets.Scripts.Fight {
 
         }
 
-        public void PlayerTeamDie() {
+        private void PlayerTeamDie() {
 
             onEnemyTeamWin.Invoke();
 

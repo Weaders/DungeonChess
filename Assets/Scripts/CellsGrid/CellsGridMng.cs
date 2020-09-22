@@ -12,6 +12,8 @@ namespace Assets.Scripts.CellsGrid {
 
         public IEnumerable<Cell> playerSideCell => _playerSideCell;
 
+        public DungeonRoomCells[] rooms;
+
         private List<Cell> _enemiesSideCell = new List<Cell>();
 
         private List<Cell> _playerSideCell = new List<Cell>();
@@ -30,6 +32,7 @@ namespace Assets.Scripts.CellsGrid {
 
             GameMng.current.fightMng.onPlayerWin.AddListener(DisplayExits);
             RefreshCells();
+            HideOtherRooms();
 
         }
 
@@ -54,6 +57,8 @@ namespace Assets.Scripts.CellsGrid {
             HideExits();
 
             currentRoomCells = dungeonRoomCells;
+
+            HideOtherRooms();
 
             Camera.main.GetComponent<CameraCtrl>().ToRoom();
 
@@ -90,6 +95,21 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         private IEnumerable<Cell> GetCells() => currentRoomCells.GetCells();
+
+        private void HideOtherRooms() {
+
+            foreach (var room in rooms) {
+
+                if (room != currentRoom) {
+                    room.Hide();
+                } else {
+                    room.Show();
+                }
+
+            }
+
+        }
+
     }
 
 }

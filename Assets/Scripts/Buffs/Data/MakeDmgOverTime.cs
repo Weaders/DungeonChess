@@ -1,19 +1,16 @@
 ﻿using System.Collections;
 using Assets.Scripts.ActionsData;
-using Assets.Scripts.Character;
 using UnityEngine;
 
 namespace Assets.Scripts.Buffs.Data {
 
-    public class MakeDmgOverTime : Buff {
+    public class MakeDmgOverTime : Buff, IDmgSource {
 
         public int dmg;
 
         public int time;
 
         public int countStacks;
-
-        public CharacterCtrl from;
 
         private int currentCountOfStacks = 0;
 
@@ -31,12 +28,14 @@ namespace Assets.Scripts.Buffs.Data {
 
             while (currentCountOfStacks < countStacks) {
 
-                characterCtrl.characterData.actions.GetDmg(from, new Dmg(dmg));
+                characterCtrl.characterData.actions.GetDmg(fromCharacterCtrl, new Dmg(dmg, this));
                 yield return new WaitForSeconds(time / countStacks);
                 currentCountOfStacks++;
+
             }
 
             coroutineStopped = true;
+
             characterCtrl.characterData.buffsContainer.Remove(this);
 
         }

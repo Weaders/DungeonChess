@@ -11,6 +11,8 @@ namespace Assets.Scripts.Character {
     [RequireComponent(typeof(CharacterMoveCtrl), typeof(EffectsPlacer))]
     public class CharacterCtrl : MonoBehaviour, IBulletSpawner, IBulletTarget {
 
+        private Fight.TeamSide _teamSide;
+
         public CharacterData characterData;
 
         public CharacterMoveCtrl moveCtrl;
@@ -29,6 +31,23 @@ namespace Assets.Scripts.Character {
         public SliderStatCtrl manaBar;
 
         public EffectsPlacer effectsPlacer;
+
+        public Fight.TeamSide teamSide {
+            get => _teamSide;
+            set {
+                _teamSide = value;
+
+                if (_teamSide == Fight.TeamSide.Player) {
+                    colorDetect.material.color = StaticData.current.colorStore.playerTeamDetectColor;
+                } else {
+                    colorDetect.material.color = StaticData.current.colorStore.enemyTeamDetectColor;
+                }
+
+            }
+        }
+
+        [SerializeField]
+        public MeshRenderer colorDetect;
 
         [HideInInspector]
         public Cell cell;
@@ -82,6 +101,7 @@ namespace Assets.Scripts.Character {
                 }
 
                 yield return new WaitForFixedUpdate();
+
             }
 
             animator.SetBool(AnimationValStore.IS_ATTACK, false);

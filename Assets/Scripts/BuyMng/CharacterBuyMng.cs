@@ -13,6 +13,8 @@ namespace Assets.Scripts.BuyMng {
 
         public UnityEvent postBuy = new UnityEvent();
 
+        public UnityEvent onChangeCtrls = new UnityEvent();
+
         private readonly List<CharacterCtrl> _ctrls = new List<CharacterCtrl>();
 
         private readonly List<BuyData> _buyDataList = new List<BuyData>();
@@ -53,11 +55,6 @@ namespace Assets.Scripts.BuyMng {
             return ctrl;
 
         }
-
-        public bool IsCanBuy(BuyData buyData)
-            => GameMng.current.playerData.money >= buyData.cost;
-
-        public UnityEvent onChangeCtrls = new UnityEvent();
 
     }
 
