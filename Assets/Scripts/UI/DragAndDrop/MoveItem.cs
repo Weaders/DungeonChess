@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Common;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace Assets.Scripts.UI {
+namespace Assets.Scripts.UI.DragAndDrop {
 
     [RequireComponent(typeof(Collider2D))]
     public class MoveItem : MonoBehaviour, IEndDragHandler, IDragHandler, IBeginDragHandler, IPointerClickHandler {
@@ -15,6 +16,8 @@ namespace Assets.Scripts.UI {
         private RectTransform _rectTransform;
 
         private Vector3 startPos;
+
+        public UnityEvent onDestoy = new UnityEvent();
 
         private RectTransform rectTransform {
 
@@ -29,31 +32,10 @@ namespace Assets.Scripts.UI {
 
         private Dictionary<MoveItemCell, Bounds> cellsWithBounds = new Dictionary<MoveItemCell, Bounds>();
 
-        public void InitWithCell(MoveItemCell itemCell) {
-            moveItemCell = itemCell;
+        public MoveItemCell currentCell {
+            get => moveItemCell;
+            set => moveItemCell = value;
         }
-
-        public void PlaceIn(MoveItemCell itemCell) {
-
-            if (moveItemCell != null) {
-                PlaceOut();
-            }
-
-            moveItemCell = itemCell;
-            itemCell.moveItem = this;
-            moveItemCell.state = MoveItemCell.State.Default;
-
-        }
-
-        public void PlaceOut() {
-
-            moveItemCell.state = MoveItemCell.State.Default;
-            moveItemCell.moveItem = null;
-            moveItemCell = null;
-
-        }
-
-        public MoveItemCell currentCell => moveItemCell;
 
         public void OnDrag(PointerEventData eventData) {
 
@@ -97,7 +79,7 @@ namespace Assets.Scripts.UI {
         public void OnEndDrag(PointerEventData eventData) {
 
             if (cellToPlace != null && cellToPlace.state == MoveItemCell.State.AvaliableForSelect) {
-                PlaceIn(cellToPlace);
+                GameMng.current.moveItemSystem.PlaceItem(this, cellToPlace);
             } else {
 
                 if (cellToPlace != null) {
@@ -149,6 +131,10 @@ namespace Assets.Scripts.UI {
             var moveItem = GameMng.current.moveItemFactory.Get(this);
             moveItem.ClickHandle(this);
 
+        }
+
+        private void OnDestroy() {
+            onDestoy.Invoke();
         }
     }
 

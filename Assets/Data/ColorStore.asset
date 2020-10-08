@@ -12,11 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b041a53f01748941a0a5035f289993b, type: 3}
   m_Name: ColorStore
   m_EditorClassIdentifier: 
-  GoodEffect: {r: 0, g: 0, b: 0, a: 0}
-  BadEffect: {r: 0, g: 0, b: 0, a: 0}
+  getDmgText: {r: 1, g: 0, b: 0, a: 1}
+  getHealText: {r: 0, g: 1, b: 0, a: 1}
   cellPlayerAllow: {r: 1, g: 0.80399513, b: 0, a: 0.69411767}
   cellPlayerAllowOutline: {r: 1, g: 0.8116399, b: 0, a: 1}
   cellPlayerNotAllow: {r: 0, g: 0.5, b: 0, a: 0.6}
   cellPlayerNotAllowOutline: {r: 0, g: 1, b: 0, a: 1}
   cellEnemy: {r: 0.5, g: 0, b: 0, a: 0.6}
   cellEnemyOutlineCell: {r: 1, g: 0, b: 0, a: 1}
+  playerTeamDetectColor: {r: 0, g: 1, b: 0, a: 1}
+  enemyTeamDetectColor: {r: 1, g: 0, b: 0, a: 1}
+  classesTypes:
+  - characterClassType: 0
+    color: {r: 0, g: 1, b: 0.07073355, a: 1}
+  - characterClassType: 1
+    color: {r: 0, g: 0.052369833, b: 1, a: 1}

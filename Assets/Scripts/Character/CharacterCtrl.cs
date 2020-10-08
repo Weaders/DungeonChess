@@ -4,6 +4,7 @@ using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Spells;
+using Assets.Scripts.Synergy;
 using UnityEngine;
 
 namespace Assets.Scripts.Character {
@@ -45,6 +46,8 @@ namespace Assets.Scripts.Character {
 
             }
         }
+
+        public SynergyCharacterPointer synergyCharacterPoint;
 
         [SerializeField]
         public MeshRenderer colorDetect;

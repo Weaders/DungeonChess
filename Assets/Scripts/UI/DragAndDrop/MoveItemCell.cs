@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI {
+namespace Assets.Scripts.UI.DragAndDrop {
 
     [RequireComponent(typeof(Collider2D))]
     public class MoveItemCell : MonoBehaviour {
@@ -12,46 +12,23 @@ namespace Assets.Scripts.UI {
         }
 
         private State _state;
-
-        private MoveItem _moveItem;
-
         public ChangeItemEvent onChangeItem = new ChangeItemEvent();
+
+        public MoveItem moveItem { get; private set; }
+
+        public void SetMoveItem(MoveItem newMoveItem, bool fireEvents = true) {
+
+            var oldVal = moveItem;
+
+            moveItem = newMoveItem;
+
+            if (fireEvents)
+                onChangeItem.Invoke(oldVal, newMoveItem);
+
+        }
 
         [SerializeField]
         private Image image;
-
-        public MoveItem moveItem {
-            get => _moveItem;
-            set {
-
-                var oldVal = _moveItem;
-
-                _moveItem = value;
-
-                if (_moveItem != null) {
-                    PlaceItem();
-                }
-
-                if (oldVal != _moveItem)
-                    onChangeItem.Invoke(oldVal, _moveItem);
-
-            }
-        }
-
-        public void InitWithItem(MoveItem moveItem) {
-            
-            _moveItem = moveItem;
-            moveItem.InitWithCell(this);
-            PlaceItem();
-
-        }
-
-        private void PlaceItem() {
-
-            moveItem.transform.SetParent(transform);
-            moveItem.transform.localPosition = Vector3.zero;
-
-        }
 
         public State state {
             get => _state;

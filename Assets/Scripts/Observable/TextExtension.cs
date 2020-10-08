@@ -9,7 +9,7 @@ namespace Assets.Scripts.Observable {
 
         public static SubsribeTextResult Subscribe(this Text textObj, ObservableVal val, OrderVal orderVal = OrderVal.UIUpdate) {
 
-            UnityAction changeText = () => textObj.text = val.ToString();
+            void changeText() => textObj.text = val.ToString();
 
             textObj.text = val.ToString();
             val.onPostChangeBase.AddSubscription(orderVal, changeText);
@@ -25,12 +25,12 @@ namespace Assets.Scripts.Observable {
 
         public static SubsribeTextResult Subscribe(this Text textObj, Func<string> onChange, OrderVal orderVal, IEnumerable<ObservableVal> stats) {
 
-            UnityAction changeText = () => {
+            void changeText() {
 
                 var str = onChange.Invoke();
                 textObj.text = str;
 
-            };
+            }
 
             foreach (var stat in stats) {
                 stat.onPostChangeBase.AddSubscription(orderVal, changeText);

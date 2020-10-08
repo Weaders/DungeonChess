@@ -40,6 +40,14 @@
         {
             "key": "you_are_in_fire_description",
             "value": "Персонаж получает урон каждые %[seconds]"
+        },
+        {
+            "key": "vampire_amulet_title",
+            "value": "Амулет вампира"
+        },
+        {
+            "key": "vampire_amulet_description",
+            "value": "Амулет вампира"
         }
     ]
 }

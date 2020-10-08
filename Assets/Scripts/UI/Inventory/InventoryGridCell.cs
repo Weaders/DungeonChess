@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Items;
+using Assets.Scripts.UI.DragAndDrop;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Inventory {
@@ -44,35 +45,30 @@ namespace Assets.Scripts.UI.Inventory {
 
             itemsContainer.onSet.AddSubscription(Observable.OrderVal.UIUpdate, (changeData) => {
                 
-                if (changeData.index == index) {
-                    InitWithItem(changeData.data);
+                if (changeData.index == index && changeData.data != itemData) {
+                    PlaceItem(changeData.data);
                 }
 
             });
 
+            if (itemContainer[index] != null)
+                PlaceItem(itemsContainer[index], false);
+
         }
 
-        public void InitWithItem(ItemData item) {
+        private void PlaceItem(ItemData itemData, bool fireTriggers = true) {
 
-            if (item != null) {
+            MoveItem mv = null;
 
-                var mv = GameMng.current.moveItemFactory.CreateOrGet(item);
-                moveItemCell.InitWithItem(mv);
-
+            if (itemData != null) {
+                mv = GameMng.current.moveItemFactory.CreateOrGet(MoveItemFactory.ReasonCreate.Inventory, itemData);
             }
-
-            itemData = item;
+            
+            GameMng.current.moveItemSystem.PlaceItem(mv, moveItemCell, fireTriggers);
 
         }
 
         public ItemData GetItem() => itemData;
-
-        private void OnDestroy() {
-
-            if (itemData != null && GameMng.current != null)
-                GameMng.current.moveItemFactory.Remove(itemData);
-
-        }
 
         public bool IsThereItem() => GetItem() != null;
 

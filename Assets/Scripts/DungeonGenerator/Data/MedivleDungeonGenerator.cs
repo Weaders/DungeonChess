@@ -40,8 +40,8 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                 var (currentRoomPos, currentRoom, roomDataPos) = rooms.Dequeue();
 
-                var cells = GenerateFloor(currentRoomPos, currentRoom.size, currentRoom.exitFromRooms, roomDataPos);
-                GenerateWalls(cells, GetOrCreate(roomDataPos), currentRoom.size);
+                var cells = GenerateFloor(currentRoomPos, currentRoom, roomDataPos);
+                GenerateWalls(cells, GetOrCreate(roomDataPos, currentRoom), currentRoom.size);
 
                 if (currentRoom.exitFromRooms != null) {
 
@@ -73,7 +73,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
                         } else if (exit.direction == Direction.left) {
 
                             nextRoomPos = new Vector3(
-                               currentRoomPos.x - roomsOffset,
+                               currentRoomPos.x - (roomsOffset + exit.toRoomData.size.x) * cellOffset,
                                currentRoomPos.y,
                                currentRoomPos.z
                            );
@@ -106,13 +106,23 @@ namespace Assets.Scripts.DungeonGenerator.Data {
         public void Generate() {
 
             var data = new DungeonDataGenerator();
-            GenerateAndBake(data.GetDungeonData());
+
+            GenerateAndBake(
+                data.GetDungeonDataPositions(GameMng.current.currentDungeonData)
+            );
+
+            Debug.Log($"Rooms clear");
+
+            //GetComponent<CellsGridMng>().rooms = dungeonRooms.ToArray();
 
         }
 
-        private List<Cell> GenerateFloor(Vector3 leftUpper, Vector2Int size, IEnumerable<ExitFromRoom> exists, Vector2 roomDataPosition) {
+        private List<Cell> GenerateFloor(Vector3 leftUpper, RoomData roomData, Vector2 roomDataPosition) {
 
-            var roomObj = GetOrCreate(roomDataPosition);
+            var size = roomData.size;
+            var exists = roomData.exitFromRooms;
+
+            var roomObj = GetOrCreate(roomDataPosition, roomData);
 
             var cells = new List<Cell>();
 
@@ -124,18 +134,42 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                     if (x == size.x / 2) {
 
-                        if (y == 0 && exists.Any(e => e.direction == Direction.bottom)) {
-                            exitForRoom = GetOrCreate(roomDataPosition + new Vector2(0, -1));
-                        } else if (y == size.y - 1 && exists.Any(e => e.direction == Direction.top)) {
-                            exitForRoom = GetOrCreate(roomDataPosition + new Vector2(0, 1));
+                        if (y == 0) {
+
+                            var bottomExit = exists.FirstOrDefault(e => e.direction == Direction.bottom);
+
+                            if (bottomExit != null) {
+                                exitForRoom = GetOrCreate(roomDataPosition + new Vector2(0, -1), bottomExit.toRoomData);
+                            }
+
+                        } else if (y == size.y - 1) {
+
+                            var topExit = exists.FirstOrDefault(e => e.direction == Direction.top);
+
+                            if (topExit != null) {
+                                exitForRoom = GetOrCreate(roomDataPosition + new Vector2(0, 1), topExit.toRoomData);
+                            }
+
                         }
 
                     } else if (y == size.y / 2) {
 
-                        if (x == 0 && exists.Any(e => e.direction == Direction.left)) {
-                            exitForRoom = GetOrCreate(roomDataPosition + new Vector2(-1, 0));
-                        } else if (x == size.x - 1 && exists.Any(e => e.direction == Direction.right)) {
-                            exitForRoom = GetOrCreate(roomDataPosition + new Vector2(1, 0));
+                        if (x == 0) {
+
+                            var leftExit = exists.FirstOrDefault(e => e.direction == Direction.left);
+
+                            if (leftExit != null) {
+                                exitForRoom = GetOrCreate(roomDataPosition + new Vector2(-1, 0), leftExit.toRoomData);
+                            }
+
+                        } else if (x == size.x - 1) {
+
+                            var rigthExit = exists.FirstOrDefault(e => e.direction == Direction.right);
+
+                            if (rigthExit != null) {
+                                exitForRoom = GetOrCreate(roomDataPosition + new Vector2(1, 0), rigthExit.toRoomData);
+                            }
+
                         }
 
                     }
@@ -143,7 +177,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
                     var cell = Instantiate(cellPrefab, roomObj.transform);
                     var cellObj = cell.GetComponent<Cell>();
 
-                    if (y > size.y / 2) {
+                    if (y >= size.y / 2) {
                         cellObj.SetCellType(Cell.CellType.ForEnemy);
                     } else {
                         cellObj.SetCellType(Cell.CellType.ForPlayer);
@@ -241,13 +275,13 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
         } 
 
-        private DungeonRoomCells GetOrCreate(Vector2 pos) {
+        private DungeonRoomCells GetOrCreate(Vector2 pos, RoomData roomData) {
 
             var roomObj = dungeonRooms.FirstOrDefault(x => x.dataPosition == pos);
 
             if (roomObj == null) {
 
-                var gameObj = new GameObject("RoomData");
+                var gameObj = new GameObject(roomData.GetRoomName());
                 gameObj.transform.SetParent(transform);
 
                 roomObj = gameObj.AddComponent<DungeonRoomCells>();

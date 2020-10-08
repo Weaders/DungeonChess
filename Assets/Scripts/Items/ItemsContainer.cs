@@ -23,19 +23,23 @@ namespace Assets.Scripts.Items {
             get => items[index];
             set {
 
-                if (items[index] != null && value != items[index]) {
+                if (items[index] != value) {
 
-                    haveItemsContainer.OnRemoveItem(items[index]);
-                    items[index].transform.SetParent(null);
+                    if (items[index] != null && value != items[index]) {
 
-                }
+                        haveItemsContainer.OnRemoveItem(items[index]);
+                        items[index].transform.SetParent(null);
 
-                items[index] = value;
+                    }
 
-                if (items[index] != null) {
-                    
-                    items[index].transform.SetParent(transform);
-                    haveItemsContainer.OnAddItem(items[index]);
+                    items[index] = value;
+
+                    if (items[index] != null) {
+
+                        items[index].transform.SetParent(transform);
+                        haveItemsContainer.OnAddItem(items[index]);
+
+                    }
 
                 }
             }

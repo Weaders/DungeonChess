@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using Assets.Scripts.StarsData;
+using UnityEngine;
 
 namespace Assets.Scripts.Common {
     
@@ -22,5 +25,21 @@ namespace Assets.Scripts.Common {
         public Color playerTeamDetectColor = new Color(0, 1, 0, 1f);
         public Color enemyTeamDetectColor = new Color(1, 0, 0, 1f);
 
+        #region Classes
+        public ClassColorLine[] classesTypes;
+
+        public Color GetLineColor(CharacterClassType characterClassType) 
+            => classesTypes.FirstOrDefault(c => c.characterClassType == characterClassType)?.color ?? default;
+        #endregion
+
+        [Serializable]
+        public class ClassColorLine {
+            public CharacterClassType characterClassType;
+
+            public Color color;
+        }
+
     }
+
+    
 }

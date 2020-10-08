@@ -26,6 +26,17 @@ namespace Assets.Scripts.Character {
 
         public CharacterCtrl characterCtrl;
 
+        public RangeType rangeType {
+            get {
+
+                if (spellsContainer.Count == 0)
+                    return default;
+
+                return spellsContainer.GetBaseAttackSpell().range <= 6 ? RangeType.Melee : RangeType.Range;
+
+            }
+        }
+
         private void Awake() {
             actions = new Actions(this);
         }
@@ -57,6 +68,10 @@ namespace Assets.Scripts.Character {
 
         public void OnRemoveItem(ItemData item) {
             item.DeEquip(this);
+        }
+
+        public enum RangeType { 
+            Melee, Range
         }
 
     }

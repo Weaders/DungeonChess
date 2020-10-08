@@ -15,5 +15,14 @@ MonoBehaviour:
   enemies:
   - characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
       type: 3}
-    dropChances:
-    - {fileID: 11400000, guid: 5e11ef1dbb2ccf841a8c69ac551e65cd, type: 2}
+  teams:
+  - enemyTeamStrtg: 0
+    characterCtrls:
+    - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
+    - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
+    - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
+  - enemyTeamStrtg: 1
+    characterCtrls:
+    - {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc, type: 3}
+    - {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc, type: 3}
+    - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}

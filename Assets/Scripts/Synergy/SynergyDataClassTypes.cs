@@ -50,6 +50,8 @@ namespace Assets.Scripts.Synergy {
 
         }
 
+        public override Color GetLineColor() => StaticData.current.colorStore.GetLineColor(characterClassType);
+
         [Serializable]
         private class ClassTypeData {
 

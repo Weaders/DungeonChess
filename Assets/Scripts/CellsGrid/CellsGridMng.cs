@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts.CameraMng;
-using Assets.Scripts.Common;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
@@ -74,7 +71,7 @@ namespace Assets.Scripts.CellsGrid {
             foreach (Cell cell in GetCells()) {
 
                 if (cell.IsExit()) {
-                    
+
                     var obj = Instantiate(arrowCtrlPrefab.gameObject, cell.transform);
                     obj.transform.localPosition = Vector3.zero;
 

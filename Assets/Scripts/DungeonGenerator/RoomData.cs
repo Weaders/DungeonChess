@@ -6,14 +6,12 @@ namespace Assets.Scripts.DungeonGenerator {
 
     public class DungeonDataPosition {
 
-        private readonly RoomData[] _rooms;
+        public RoomData startRoom => rooms.First();
 
-        public RoomData startRoom => _rooms.First();
+        public IEnumerable<RoomData> rooms { get; }
 
-        public IEnumerable<RoomData> rooms => _rooms;
-
-        public DungeonDataPosition(RoomData[] rooms) {
-            _rooms = rooms;
+        public DungeonDataPosition(IEnumerable<RoomData> rooms) {
+            this.rooms = rooms;
         }
 
     }
@@ -33,6 +31,11 @@ namespace Assets.Scripts.DungeonGenerator {
         public void AddExit(RoomData roomData, Direction direction) {
             _exitFromRooms.Add(new ExitFromRoom(this, roomData, direction));
         }
+
+        public bool IsThereExit(Direction exit)
+            => exitFromRooms.Any(e => e.direction == exit);
+
+        public virtual string GetRoomName() => "RoomData";
 
     }
 

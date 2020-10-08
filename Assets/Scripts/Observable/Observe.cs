@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Assets.Scripts.StarsData;
 using UnityEngine;
 using UnityEngine.Events;
@@ -210,15 +207,21 @@ namespace Assets.Scripts.Observable {
 
         private T[] items;
 
-        public ObservableArray(int size){
+        public ObservableArray(int size) {
             items = new T[size];
         }
 
-        public T this[int index] { 
+        public T this[int index] {
             get => items[index];
             set {
-                items[index] = value;
-                onSet.Invoke(new ChangeEnumerableItemEvent<T>(value, index));
+
+                if ((items[index] == null && value != null) || (items[index] != null && !items[index].Equals(value))) {
+
+                    items[index] = value;
+                    onSet.Invoke(new ChangeEnumerableItemEvent<T>(value, index));
+
+                }
+
             }
         }
 
@@ -309,7 +312,7 @@ namespace Assets.Scripts.Observable {
                 onRemove.Invoke(new ChangeEnumerableItemEvent<T>(default, i));
             }
 
-            
+
         }
 
         public virtual T GetOrDefault(int index) {
@@ -365,7 +368,7 @@ namespace Assets.Scripts.Observable {
 
                 var oldVal = _val;
 
-                if ((oldVal == null && value != null) || (!oldVal?.Equals(value) ?? false)) {
+                if ((oldVal == null && value != null) || (oldVal != null && !oldVal.Equals(value))) {
 
                     onPreChange.Invoke(new ChangeData(oldVal, value));
                     _val = value;
@@ -407,7 +410,7 @@ namespace Assets.Scripts.Observable {
     public interface IModifiedObservable<T> : IModifiedObservable {
         void Modify(ObservableVal<T> modifVal, bool alterVal = false);
         void ModifyTarget(ObservableVal<T> target, bool alterVal = false);
-    }  
+    }
 
     [Serializable]
     public class FloatObsrevable : ObservableVal<float>, IModifiedObservable<float> {

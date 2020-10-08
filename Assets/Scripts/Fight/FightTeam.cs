@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
+using Assets.Scripts.Fight.PlaceStrategy;
 using UnityEngine;
 using UnityEngine.Events;
 

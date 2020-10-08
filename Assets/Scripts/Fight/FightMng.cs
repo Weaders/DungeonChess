@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Assets.Scripts.Character;
+using Assets.Scripts.Common;
+using Assets.Scripts.EnemyData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +19,8 @@ namespace Assets.Scripts.Fight {
         public UnityEvent onPlayerWin = new UnityEvent();
         public UnityEvent onEnemyTeamWin = new UnityEvent();
 
+        public bool isInFight { get; set; }
+
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 
             if (fightTeamPlayer.chars.Contains(characterCtrl)) {
@@ -31,22 +35,32 @@ namespace Assets.Scripts.Fight {
 
             fightTeamEnemy.ClearChars();
 
-            var enumerator = GameMng.current.cellsGridMng.enemiesSideCell.GetEnumerator();
-
             var i = 0;
 
-            foreach (var enemyData in GameMng.current.currentDungeonData.enemiesPoll.enemies) {
+            var enemiesPoll = GameMng.current.currentDungeonData.enemiesPoll;
 
-                enumerator.MoveNext();
-                var ctrlObj = enumerator.Current.StayCtrlPrefab(enemyData.characterCtrl);
+            var teamIndex = Random.Range(0, enemiesPoll.teams.Length);
+
+            var team = enemiesPoll.teams[teamIndex];
+
+            foreach (var ctrl in team.characterCtrls) {
+
+                var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrl);
 
                 ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
 
                 fightTeamEnemy.AddCharacterToTeam(ctrlObj);
-                GameMng.current.dropCtrl.AddDrop(ctrlObj, enemyData.sortedDropChanges);
 
                 ++i;
             }
+
+            var strtg = team.enemyTeamStrtg.GetStrgObj();
+
+            strtg.Place(
+                fightTeamEnemy, 
+                GameMng.current.cellsGridMng.enemiesSideCell,
+                GameMng.current.cellsGridMng.playerSideCell
+            );
 
         }
 
@@ -84,6 +98,13 @@ namespace Assets.Scripts.Fight {
                 charCtrl.GoAttack();
             }
 
+            isInFight = true;
+
+            // Refresh colors
+            foreach (var cell in GameMng.current.cellsGridMng.currentRoom.GetCells()) {
+                cell.ChangeColor();
+            }
+
         }
 
         public TeamSide GetTeamSide(CharacterCtrl characterCtrl) {
@@ -103,6 +124,8 @@ namespace Assets.Scripts.Fight {
             fightTeamEnemy.onAllInTeamDie.RemoveListener(EnemyTeamDie);
             fightTeamPlayer.onAllInTeamDie.RemoveListener(PlayerTeamDie);
 
+            isInFight = false;
+
         }
 
         private void PlayerTeamDie() {
@@ -111,6 +134,8 @@ namespace Assets.Scripts.Fight {
 
             fightTeamEnemy.onAllInTeamDie.RemoveListener(EnemyTeamDie);
             fightTeamPlayer.onAllInTeamDie.RemoveListener(PlayerTeamDie);
+
+            isInFight = false;
 
         }
 

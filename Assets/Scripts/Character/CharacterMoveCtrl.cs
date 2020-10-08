@@ -43,24 +43,23 @@ namespace Assets.Scripts.Character {
 
             TagLogger<CharacterMoveCtrl>.Info(targetForMove.target.gameObject.name);
 
-            while (targetForMove.target != null && Vector3.Distance(ctrl.transform.position, targetForMove.target.position) > targetForMove.distance) {
+            navMeshAgent.isStopped = false;
 
+            while (targetForMove.target != null && Vector3.Distance(ctrl.transform.position, targetForMove.target.position) > targetForMove.distance) {
 
                 navMeshAgent.SetDestination(targetForMove.target.position);
 
                 ctrl.transform.LookAt(targetForMove.target.transform);
 
-                //GameLogger<CharacterMoveCtrl>.InfoMany(
-                //  $"Move towards for speed - {ctrl.characterData.stats.moveSpeed}, {Time.deltaTime}",
-                //  Vector3.Distance(ctrl.transform.position, targetForMove.target.position),
-                //  $"D: {targetForMove.distance}"
-                //);
+                TagLogger<CharacterMoveCtrl>.InfoMany(
+                  $"Move towards for speed - {ctrl.characterData.stats.moveSpeed}, {Time.deltaTime}",
+                  Vector3.Distance(ctrl.transform.position, targetForMove.target.position),
+                  $"D: {targetForMove.distance}"
+                );
 
                 yield return new WaitForFixedUpdate();
-
+                  
             }
-
-
 
             navMeshAgent.isStopped = true;
 

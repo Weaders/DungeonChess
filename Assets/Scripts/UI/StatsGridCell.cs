@@ -18,8 +18,12 @@ namespace Assets.Scripts.UI {
 
         public void SetCharacter(CharacterData data, CellWhatDisplay whatDisplay) {
 
-            if (subsribeTextResult != null)
+            if (subsribeTextResult != null) {
+                
                 subsribeTextResult.Unsubscribe();
+                subsribeTextResult = null;
+
+            }
 
             switch (whatDisplay) {
                 case CellWhatDisplay.Hp:
@@ -40,6 +44,6 @@ namespace Assets.Scripts.UI {
 
         }
 
-
     }
+
 }

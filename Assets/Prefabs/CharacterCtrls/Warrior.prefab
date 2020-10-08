@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 5003929766541887987}
   - component: {fileID: 6269154066194537377}
   - component: {fileID: 3223660261709929880}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: BulletSpawnObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,8 +235,51 @@ MonoBehaviour:
     _val: 0
     statType: 10
   classTypes:
-    _val: 00000000
+    _val: 01000000
     statType: 9
+--- !u!1 &1653130833115772962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4550753057088512577}
+  - component: {fileID: 3186647781686703765}
+  m_Layer: 0
+  m_Name: SynergyPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4550753057088512577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653130833115772962}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.781, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2328172299832810842}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3186647781686703765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653130833115772962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f66e205ee6c034f9ded313ece22491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1923455340226239881
 GameObject:
   m_ObjectHideFlags: 0
@@ -4637,6 +4680,7 @@ Transform:
   - {fileID: 8392396109971781049}
   - {fileID: 5506084124265482528}
   - {fileID: 7923380238721897}
+  - {fileID: 4550753057088512577}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -4678,6 +4722,7 @@ MonoBehaviour:
   hpBar: {fileID: 2939085797846583874}
   manaBar: {fileID: 8869655052464027727}
   effectsPlacer: {fileID: 5232884066652915929}
+  synergyCharacterPoint: {fileID: 3186647781686703765}
   colorDetect: {fileID: 3989377382797344623}
   cell: {fileID: 0}
   bulletSpawnObj: {fileID: 1003271593837475471}
@@ -5259,6 +5304,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d081c3e33fcc8224b9fd9b57867b8ca3, type: 3}
+--- !u!114 &2939085797846583874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5143045905288441181, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8040754881020307231}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8afe455716fa424f9cf369083748b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8392396109971781049 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
@@ -5274,18 +5331,6 @@ Canvas:
 --- !u!114 &8869655052464027727 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1477505792632020816, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8040754881020307231}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8afe455716fa424f9cf369083748b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2939085797846583874 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5143045905288441181, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
     type: 3}
   m_PrefabInstance: {fileID: 8040754881020307231}
   m_PrefabAsset: {fileID: 0}

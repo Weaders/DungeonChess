@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Dungeon
   m_EditorClassIdentifier: 
   enemiesPoll: {fileID: 11400000, guid: 1cabb5225610c284da7c3d2d0d12a9f1, type: 2}
-  moneyVictory: 200
+  moneyVictory: 150
+  countRooms:
+    min: 2
+    max: 4
+  isThereHealRooms: 1

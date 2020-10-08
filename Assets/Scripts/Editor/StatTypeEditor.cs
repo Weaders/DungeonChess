@@ -15,8 +15,6 @@ namespace Assets.Scripts.Editor {
 
             EditorGUI.BeginProperty(position, label, property);
 
-            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-
             var statTypeProp = property.FindPropertyRelative("statType");
 
             var vals = Enum.GetValues(typeof(Stat)).Cast<Stat?>().ToArray();
@@ -30,8 +28,10 @@ namespace Assets.Scripts.Editor {
                 property.FindPropertyRelative("observableVal").managedReferenceValue = observeVal;
             }
 
-            EditorGUI.PropertyField(new Rect(position.position - new Vector2(140, 0), position.size - new Vector2(190, 0)), property.FindPropertyRelative("statType"), GUIContent.none);
-            EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, position.height), property.FindPropertyRelative("observableVal").FindPropertyRelative("_val"), GUIContent.none);
+            Debug.Log(EditorGUIUtility.currentViewWidth);
+
+            EditorGUI.PropertyField(new Rect(position.position, new Vector2((EditorGUIUtility.currentViewWidth / 2f) - 20, position.size.y)), property.FindPropertyRelative("statType"), GUIContent.none);
+            EditorGUI.PropertyField(new Rect((EditorGUIUtility.currentViewWidth / 2f), position.y, (EditorGUIUtility.currentViewWidth / 2f), position.height), property.FindPropertyRelative("observableVal").FindPropertyRelative("_val"), GUIContent.none);
 
             property.serializedObject.ApplyModifiedProperties();
         }

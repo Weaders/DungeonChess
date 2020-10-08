@@ -14,6 +14,9 @@ namespace Assets.Scripts.UI.Inventory {
 
         public void SetItemsContainer(ItemsContainer itemsContainer) {
 
+            if (itemsContainer == _itemsContainer)
+                return;
+
             foreach (Transform obj in transform) {
                 Destroy(obj.gameObject);
             }
@@ -28,10 +31,6 @@ namespace Assets.Scripts.UI.Inventory {
 
                 inventoryGridCells[i] = cell.GetComponent<InventoryGridCell>();
                 inventoryGridCells[i].SetItemsContainer(_itemsContainer, i);
-
-                if (_itemsContainer.Count > i && _itemsContainer[i] != null)  {
-                    inventoryGridCells[i].InitWithItem(_itemsContainer[i]);
-                }
 
             }
 

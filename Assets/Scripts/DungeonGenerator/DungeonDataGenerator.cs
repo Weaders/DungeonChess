@@ -1,18 +1,71 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Common;
+using Assets.Scripts.EnemyData;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class DungeonDataGenerator {
 
-        public DungeonDataPosition GetDungeonData() {
+        public DungeonDataPosition GetDungeonDataPositions(DungeonData dungeonData) {
 
-            var startRoom = new RoomData(new Vector2Int(6,6));
+            var countRooms = Random.Range(dungeonData.countRooms.min, dungeonData.countRooms.max);
 
-            var secondRoom = new RoomData(new Vector2Int(8, 8));
+            var roomSize = new Vector2Int(6, 6);
 
-            startRoom.AddExit(secondRoom, Direction.top);
+            var directionsExits = new[] { Direction.top, Direction.left, Direction.right };
 
-            return new DungeonDataPosition(new[] { startRoom, secondRoom });
+            var startRoom = new TreeNode<RoomData>(new StartRoomData(roomSize));
+
+            var rooms = new List<RoomData>();
+
+            var roomsStack = new Stack<TreeNode<RoomData>>();
+
+            roomsStack.Push(startRoom);
+
+            rooms.Add(startRoom.data);
+
+            while (roomsStack.Any()) {
+
+                var node = roomsStack.Pop();
+
+                if (node.level == countRooms) {
+
+                    var newRoom = new BossRoomData(roomSize);
+
+                    node.data.AddExit(newRoom, Direction.top);
+
+                    rooms.Add(newRoom);
+
+                } else {
+
+                    var countExists = Random.Range(1, 3);
+
+                    for (var e = 0; e < directionsExits.Length; e++) {
+
+                        if (!node.data.IsThereExit(directionsExits[e])) {
+
+                            var newRoom = new RoomData(roomSize);
+
+                            node.data.AddExit(newRoom, directionsExits[e]);
+
+                            var neweNode = node.AddChild(newRoom);
+                            roomsStack.Push(neweNode);
+
+                            rooms.Add(newRoom);
+
+                        }
+
+                        if (node.data.exitFromRooms.Count == countExists)
+                            break;
+
+                    }
+
+                }
+
+            }
+
+            return new DungeonDataPosition(rooms);
 
         }
 

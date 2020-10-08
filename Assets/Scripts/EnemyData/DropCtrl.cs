@@ -12,22 +12,22 @@ namespace Assets.Scripts.EnemyData {
 
         public void AddDrop(CharacterCtrl ctrl, DropChance[] sortedDropChances) {
 
-            ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
+            //ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
 
-                var random = Random.value;
+            //    var random = Random.value;
 
-                foreach (var drop in sortedDropChances) {
+            //    foreach (var drop in sortedDropChances) {
 
-                    if (1f - drop.chance < random) {
+            //        if (1f - drop.chance < random) {
 
-                        targetItemsContainer.AddPrefab(drop.items[Random.Range(0, drop.items.Length - 1)]);
-                        break;
+            //            targetItemsContainer.AddPrefab(drop.items[Random.Range(0, drop.items.Length - 1)]);
+            //            break;
 
-                    }
+            //        }
 
-                }
+            //    }
 
-            });
+            //});
 
         }
 

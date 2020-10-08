@@ -39,32 +39,41 @@ namespace Assets.Scripts.CellsGrid {
             ChangeColor();
         }
 
-        private void ChangeColor() {
+        public void ChangeColor() {
 
             var colorStore = StaticData.current.colorStore;
 
-            if (cellType == CellType.ForEnemy) {
+            if (GameMng.current.fightMng.isInFight) {
 
-                meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
-                meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
+                meshRenderer.material.SetColor("_Color", Color.white);
+                meshRenderer.material.SetColor("_OutlineColor", Color.white);
 
             } else {
 
-                if (state == CellState.NotAvailable) {
+                if (cellType == CellType.ForEnemy) {
 
-                    meshRenderer.material.SetColor("_Color", colorStore.cellPlayerAllow);
-                    meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerAllowOutline);
+                    meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
+                    meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
 
                 } else {
 
-                    meshRenderer.material.SetColor("_Color", colorStore.cellPlayerNotAllow);
-                    meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerNotAllowOutline);
+                    if (state == CellState.NotAvailable) {
+
+                        meshRenderer.material.SetColor("_Color", colorStore.cellPlayerAllow);
+                        meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerAllowOutline);
+
+                    } else {
+
+                        meshRenderer.material.SetColor("_Color", colorStore.cellPlayerNotAllow);
+                        meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerNotAllowOutline);
+
+                    }
 
                 }
 
-
-
             }
+
+            
 
         }
 

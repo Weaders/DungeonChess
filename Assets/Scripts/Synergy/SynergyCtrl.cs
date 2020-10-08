@@ -15,8 +15,6 @@ namespace Assets.Scripts {
 
         private Dictionary<FightTeam, List<(CharacterCtrl, Buff)>> addedBuffsForTeam = new Dictionary<FightTeam, List<(CharacterCtrl, Buff)>>();
 
-        private Dictionary<FightTeam, IEnumerable<GameObject>> addedLines = new Dictionary<FightTeam, IEnumerable<GameObject>>();
-
         public RecalcResult[] Recalc(IEnumerable<CharacterCtrl> ctrls) {
 
             IEnumerable<RecalcResult> resultArray = new RecalcResult[0];
@@ -47,20 +45,9 @@ namespace Assets.Scripts {
 
             }
 
-            if (addedLines.TryGetValue(team, out var teamLines)) {
-
-                foreach (var obj in teamLines) {
-                    Destroy(obj);
-                }
-
-                addedLines.Remove(team);
-
-            }
-
             var results = Recalc(team.aliveChars);
 
             var ctrlBuffs = new List<(CharacterCtrl, Buff)>();
-            var lines = new List<GameObject>();
 
             foreach (var result in results) {
 
@@ -71,11 +58,10 @@ namespace Assets.Scripts {
 
                 }
 
-                lines.Add(GameMng.current.synergyLines.CreateLineFor(Color.green, result.ctrls.ToArray()));
+                GameMng.current.synergyLines.GetPointFor(result.synergyData, result.ctrls.ToArray());
 
             }
 
-            addedLines.Add(team, lines);
             addedBuffsForTeam.Add(team, ctrlBuffs);
 
         }

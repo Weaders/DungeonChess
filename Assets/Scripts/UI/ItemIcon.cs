@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Inventory;
+﻿using Assets.Scripts.UI.DragAndDrop;
+using Assets.Scripts.UI.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

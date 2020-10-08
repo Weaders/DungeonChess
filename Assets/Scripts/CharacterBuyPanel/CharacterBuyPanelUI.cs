@@ -16,7 +16,7 @@ namespace Assets.Scripts.CharacterBuyPanel {
 
         public BuyData selectedBuyData {
             get;
-            private set;
+            set;
         }
 
         public void Init() {
@@ -41,7 +41,7 @@ namespace Assets.Scripts.CharacterBuyPanel {
                     selectedBuyData = ctrlBuy;
                 });
 
-                GameMng.current.buyMng.postBuy.AddListener(() => {
+                GameMng.current.playerData.money.onPostChange.AddSubscription(Observable.OrderVal.UIUpdate, () => {
                     btnObj.interactable = ctrlBuy.IsCanBuy();
                 });
 

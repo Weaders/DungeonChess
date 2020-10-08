@@ -1,16 +1,15 @@
 ﻿using System.Linq;
 using System.Reflection;
-using System.Runtime.ExceptionServices;
 using Assets.Scripts.Observable;
 using UnityEngine;
 
 namespace Assets.Scripts.StarsData {
 
     public enum CharacterClassType {
-        Defender
+        Defender, Warrior, Mage
     }
 
-    public enum Stat { 
+    public enum Stat {
         Hp, MaxHp, Mana, MaxMana, ManaPerAttack,
         Ad, As, MoveSpeed, IsDie, ClassTypes,
         Vampirism
