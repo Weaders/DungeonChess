@@ -8,13 +8,8 @@ namespace Assets.Scripts.EnemyData {
 
     [CreateAssetMenu(menuName = "Enemies/Poll")]
     public class EnemiesPoll : ScriptableObject {
-
-        public EnemyData[] enemies;
-
         public EnemyTeam[] teams;
-
     }
-
 
     public enum EnemyTeamStrtg { 
         MaxDistance,

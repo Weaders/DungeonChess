@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Linq;
 using Assets.Scripts.Bullet;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Spells;
+using Assets.Scripts.Spells.Modifiers;
 using Assets.Scripts.Synergy;
 using UnityEngine;
 
@@ -146,6 +148,14 @@ namespace Assets.Scripts.Character {
 
                 TagLogger<CharacterCtrl>.Info($"Character is die");
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
+
+            });
+
+            characterData.actions.onPreMakeAttack.AddSubscription(Observable.OrderVal.Fight, (attack) => {
+
+                if (Random.value <= characterData.stats.critChance && !attack.dmg.dmgModifiers.Any(m => m is CritModify)) {
+                    attack.dmg.dmgModifiers.Add(new CritModify(0, characterData.stats.critDmg));
+                }
 
             });
 

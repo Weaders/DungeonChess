@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Character;
-using Assets.Scripts.StarsData;
+﻿using Assets.Scripts.StarsData;
 using UnityEngine;
 
 namespace Assets.Scripts.Items.Entities {
@@ -9,17 +8,17 @@ namespace Assets.Scripts.Items.Entities {
         [SerializeField]
         private StatField[] statsModify;
 
-        public override void DeEquip(CharacterData characterData) {
+        protected override void OnDeEquip() {
 
             foreach (var statModify in statsModify)
-                characterData.stats.Mofify(statModify, true);
+                owner.stats.Mofify(statModify, true);
 
         }
 
-        public override void Equip(CharacterData characterData) {
+        protected override void Equip() {
 
             foreach (var statModify in statsModify)
-                characterData.stats.Mofify(statModify);
+                owner.stats.Mofify(statModify);
 
         }
     }

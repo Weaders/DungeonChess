@@ -28,8 +28,6 @@ namespace Assets.Scripts.Editor {
                 property.FindPropertyRelative("observableVal").managedReferenceValue = observeVal;
             }
 
-            Debug.Log(EditorGUIUtility.currentViewWidth);
-
             EditorGUI.PropertyField(new Rect(position.position, new Vector2((EditorGUIUtility.currentViewWidth / 2f) - 20, position.size.y)), property.FindPropertyRelative("statType"), GUIContent.none);
             EditorGUI.PropertyField(new Rect((EditorGUIUtility.currentViewWidth / 2f), position.y, (EditorGUIUtility.currentViewWidth / 2f), position.height), property.FindPropertyRelative("observableVal").FindPropertyRelative("_val"), GUIContent.none);
 

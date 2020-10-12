@@ -5,12 +5,19 @@ using Assets.Scripts.Character;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Spells.Modifiers;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.ActionsData {
 
     public class Actions {
 
         private readonly CharacterData _characterData;
+
+        private int countAttacks = 0;
+
+        public OrderedEvents<AttackEventData> onPreMakeAttack = new OrderedEvents<AttackEventData>();
+
+        public OrderedEvents<AttackEventData> onPreGetAttack = new OrderedEvents<AttackEventData>();
 
         public OrderedEvents<DmgEventData> onPreMakeDmg = new OrderedEvents<DmgEventData>();
 
@@ -24,6 +31,30 @@ namespace Assets.Scripts.ActionsData {
 
         public Actions(CharacterData charData) {
             _characterData = charData;
+        }
+
+        public void MakeAttack(CharacterCtrl to, Dmg dmg) {
+
+            var from = _characterData.characterCtrl;
+
+            onPreMakeAttack.Invoke(new AttackEventData() 
+            {
+                dmg = dmg,
+                from = from,
+                to = to,
+                attackNumberInFight = countAttacks + 1
+            });
+
+            to.characterData.actions.onPreGetAttack.Invoke(new AttackEventData 
+            {
+                dmg = dmg,
+                from = from,
+                to = to,
+                attackNumberInFight = countAttacks + 1
+            });
+
+            to.characterData.actions.GetDmg(_characterData.characterCtrl, dmg);
+
         }
 
         public void GetDmg(CharacterCtrl from, Dmg dmg) {
@@ -62,6 +93,16 @@ namespace Assets.Scripts.ActionsData {
             _characterData.stats.hp.val += heal.GetCalculateVal();
 
             onPostGetHeal.Invoke(healEventData);
+        }
+
+        public void ResetCountOfAttacks() {
+            countAttacks = 0;
+        }
+
+        public class AttackEventData : DmgEventData {
+
+            public int attackNumberInFight;
+
         }
 
         public class DmgEventData {

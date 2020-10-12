@@ -91,10 +91,12 @@ namespace Assets.Scripts.Fight {
             fightTeamPlayer.onAllInTeamDie.AddListener(PlayerTeamDie);
 
             foreach (var charCtrl in fightTeamPlayer.chars) {
+                charCtrl.characterData.ResetBeforeFight();
                 charCtrl.GoAttack();
             }
 
             foreach (var charCtrl in fightTeamEnemy.chars) {
+                charCtrl.characterData.ResetBeforeFight();
                 charCtrl.GoAttack();
             }
 

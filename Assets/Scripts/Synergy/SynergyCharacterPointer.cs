@@ -19,13 +19,13 @@ namespace Assets.Scripts.Synergy {
 
         }
 
-        public Transform AddOrUpdatePoint(SynergyData synData, float yGlobalPosition) {
+        public SynergLinePoint AddOrUpdatePoint(SynergyData synData, float yGlobalPosition) {
 
             if (points.TryGetValue(synData, out var tr)) { 
                 
                 tr.position = new Vector3(transform.position.x, yGlobalPosition, transform.position.z);
                 yGlobalPositions[synData] = yGlobalPosition;
-                return tr;
+                return new SynergLinePoint(characterCtrl, tr);
 
             }
 
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Synergy {
 
             yGlobalPositions.Add(synData, yGlobalPosition);
 
-            return obj.transform;
+            return new SynergLinePoint(characterCtrl, obj.transform);
 
         }
 
@@ -49,6 +49,23 @@ namespace Assets.Scripts.Synergy {
 
         }
 
+        public class SynergLinePoint {
+
+            public SynergLinePoint(CharacterCtrl ctrl, Transform point) {
+
+                characterCtrl = ctrl;
+                pointTransform = point;
+
+            }
+
+            public readonly CharacterCtrl characterCtrl;
+            public readonly Transform pointTransform;
+
+
+        }
+
     }
+
+    
 
 }

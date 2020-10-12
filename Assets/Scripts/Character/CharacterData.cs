@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.ActionsData;
+﻿using System.Collections.Generic;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.Buffs;
 using Assets.Scripts.Items;
 using Assets.Scripts.Observable;
@@ -60,6 +61,8 @@ namespace Assets.Scripts.Character {
                 actions.GetMana(stats.manaPerAttack.val);
             });
 
+            actions.ResetCountOfAttacks();
+
         }
 
         public void OnAddItem(ItemData item) {
@@ -67,7 +70,11 @@ namespace Assets.Scripts.Character {
         }
 
         public void OnRemoveItem(ItemData item) {
-            item.DeEquip(this);
+            item.DeEquip();
+        }
+
+        public void ResetBeforeFight() {
+            actions.ResetCountOfAttacks();
         }
 
         public enum RangeType { 

@@ -48,6 +48,34 @@
         {
             "key": "vampire_amulet_description",
             "value": "Амулет вампира"
+        },
+        {
+            "key": "gloves_of_speed_title",
+            "value": "Перчатки скорости"
+        },
+        {
+            "key": "gloves_of_speed_description",
+            "value": "Увеличивает скорость атаки"
+        },
+        {
+            "key": "lucky_amulet_title",
+            "value": "Увеличивает шанс крит атаки"
+        },
+        {
+            "key": "braces_of_crit_title",
+            "value": "Наручи удачи"
+        },
+        {
+            "key": "braces_of_crit_description",
+            "value": "Увеличивает шанс крит удара"
+        },
+        {
+            "key": "chest_of_return_title",
+            "value": "Нагрудник возврата"
+        },
+        {
+            "key": "chest_of_return_description",
+            "value": "Каждый %[n] возращает урон"
         }
     ]
 }

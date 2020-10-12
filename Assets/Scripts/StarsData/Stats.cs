@@ -12,7 +12,7 @@ namespace Assets.Scripts.StarsData {
     public enum Stat {
         Hp, MaxHp, Mana, MaxMana, ManaPerAttack,
         Ad, As, MoveSpeed, IsDie, ClassTypes,
-        Vampirism
+        Vampirism, CritChance, CritDmg
     }
 
     public static class StatTypeExtension {
@@ -34,6 +34,7 @@ namespace Assets.Scripts.StarsData {
                     return new CharacterClassTypeObservable(new CharacterClassType[] { });
                 case Stat.As:
                 case Stat.MoveSpeed:
+                case Stat.CritChance:
                     return new FloatObsrevable(0f);
                 default:
                     throw new System.Exception("Can not get observable for this type");
@@ -61,7 +62,17 @@ namespace Assets.Scripts.StarsData {
         /// <summary>
         /// Attack speed
         /// </summary>
-        public StatField<float> AS = new StatField<float>(Stat.As, 0.5f);
+        public PercentStatField AS = new PercentStatField(new StatField<float>(Stat.As, 0.5f));
+
+        /// <summary>
+        /// Crit chance
+        /// </summary>
+        public PercentStatField critChance = new PercentStatField(new StatField<float>(Stat.CritChance, 0f));
+
+        /// <summary>
+        /// Dmg on crit
+        /// </summary>
+        public PercentStatField critDmg = new PercentStatField(new StatField<float>(Stat.CritDmg, 2f));
 
         public StatField<float> moveSpeed = new StatField<float>(Stat.MoveSpeed, 5);
 
@@ -142,6 +153,7 @@ namespace Assets.Scripts.StarsData {
         public FieldInfo[] GetFields() => GetType().GetFields()
                 //.Where(f => f.FieldType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IModifiedObservable<>)))
                 .ToArray();
+
     }
 
 }

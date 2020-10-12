@@ -37,4 +37,17 @@ namespace Assets.Scripts.StarsData {
 
     }
 
+    /// <summary>
+    /// Decorator there for display percent
+    /// </summary>
+    [Serializable]
+    public class PercentStatField : StatField<float> {
+
+        public PercentStatField(StatField<float> oldStat) : base(oldStat.stat, oldStat.val) {
+        }
+
+        public override string ToString() => (val* 100f).ToString();
+
+    }
+
 }

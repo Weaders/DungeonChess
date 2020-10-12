@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Character;
+﻿using System.Linq;
+using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
 using Assets.Scripts.UI;
@@ -11,7 +12,7 @@ namespace Assets.Scripts.Items {
     public abstract class ItemData : MonoBehaviour, IForMoveItem, IForSelectPanel {
 
         [SerializeField]
-        private string id;
+        protected string id;
 
         [SerializeField]
         private string _title;
@@ -19,24 +20,42 @@ namespace Assets.Scripts.Items {
         [SerializeField]
         private string _description;
 
+        protected CharacterData owner;
+
         public Sprite icon;
 
-        public string title => TranslateReader.GetTranslate(_title);
+        public string title => TranslateReader.GetTranslate(_title, GetPlaceholders(owner));
 
-        public string description => TranslateReader.GetTranslate(_description);
+        public string description => TranslateReader.GetTranslate(_description, GetPlaceholders(owner));
 
         public Sprite img => icon;
 
         public ObservableVal onChange => new ObservableVal();
 
-        public abstract void Equip(CharacterData characterData);
+        public void Equip(CharacterData characterData) {
+            owner = characterData;
+            Equip();
+        }
 
-        public abstract void DeEquip(CharacterData characterData);
+        public void DeEquip() {
+            OnDeEquip();
+            owner = null;
+        }
+
+        protected abstract void Equip();
+
+        protected abstract void OnDeEquip();
 
         public void ClickHandle(MoveItem moveItem) {
             GameMng.current.itemInfoPanel.SetItemData(this);
         }
 
+        private Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
+
+            var place = this.GetPlaceholdersFromAttrs(descriptionFor);
+            return place.ToArray();
+
+        }
         public void Select() {
             GameMng.current.playerData.itemsContainer.AddPrefab(this);
         }

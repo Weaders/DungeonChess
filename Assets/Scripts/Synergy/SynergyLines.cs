@@ -23,12 +23,20 @@ namespace Assets.Scripts.Synergy {
 
             var offset = CreateOrGetOffset(synergyData);
 
-            IEnumerable<Transform> trs = ctrls
-                .Select(ctrl => ctrl.synergyCharacterPoint.AddOrUpdatePoint(synergyData, transform.position.y + offset));
+            var trs = ctrls
+                .Select(ctrl => ctrl.synergyCharacterPoint.AddOrUpdatePoint(synergyData, transform.position.y + offset).pointTransform)
+                .OrderBy(d => d.position, new CustomComparer<Vector3>((a, b) => {
+                    var aX = Mathf.RoundToInt(a.x);
+                    var bX = Mathf.RoundToInt(b.x);
 
-            var minTr = trs.MinElement(tr => tr.position.y + tr.position.x + tr.position.z);
+                    var compare = aX.CompareTo(bX);
 
-            trs = trs.OrderBy(tr => Vector3.Distance(minTr.position, tr.position));
+                    if (compare == 0)
+                        return a.z.CompareTo(b.z);
+
+                    return compare;
+
+                }));
 
             if (lineRenders.TryGetValue(synergyData, out var followUp)) {
 
