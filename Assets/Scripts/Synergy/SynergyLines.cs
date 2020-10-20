@@ -19,6 +19,8 @@ namespace Assets.Scripts.Synergy {
 
         private Dictionary<SynergyData, float> offsets = new Dictionary<SynergyData, float>();
 
+        private Dictionary<SynergyData, CharacterCtrl[]> ctrlsForFollowUp = new Dictionary<SynergyData, CharacterCtrl[]>();
+
         public GameObject GetPointFor(SynergyData synergyData, params CharacterCtrl[] ctrls) {
 
             var offset = CreateOrGetOffset(synergyData);
@@ -37,6 +39,8 @@ namespace Assets.Scripts.Synergy {
                     return compare;
 
                 }));
+
+            ctrlsForFollowUp[synergyData] = ctrls;
 
             if (lineRenders.TryGetValue(synergyData, out var followUp)) {
 

@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Common;
+using Assets.Scripts.DungeonGenerator;
 using Assets.Scripts.DungeonGenerator.Data;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
 
     public class DungeonRoomCells : MonoBehaviour {
+
+        public RoomData roomData { get; set; }
 
         public Vector2 dataPosition;
 
@@ -43,6 +47,8 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
+        public IEnumerable<Cell> GetExits() => GetCells().Where(c => c.IsExit());
+
         public IEnumerable<GameObject> GetWalls() {
 
             foreach (Transform cellTr in transform) {
@@ -55,7 +61,7 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         public void Hide() {
-            
+
             var renderers = GetComponentsInChildren<MeshRenderer>();
 
             foreach (var renderer in renderers) {
@@ -73,6 +79,7 @@ namespace Assets.Scripts.CellsGrid {
             }
 
         }
+
 
     }
 

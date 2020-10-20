@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.CellsGrid;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -16,7 +17,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
     }
 
-    public class RoomData {
+    public abstract class RoomData {
 
         public RoomData(Vector2Int sizeData) {
             size = sizeData;
@@ -36,6 +37,8 @@ namespace Assets.Scripts.DungeonGenerator {
             => exitFromRooms.Any(e => e.direction == exit);
 
         public virtual string GetRoomName() => "RoomData";
+
+        public abstract void ComeToRoom(DungeonRoomCells dungeonRoomCells);
 
     }
 

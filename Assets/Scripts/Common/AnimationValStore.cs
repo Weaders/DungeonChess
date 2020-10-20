@@ -7,5 +7,7 @@
 
         public const string IS_ATTACK = "IsAttack";
 
+        public const string IS_SHOW = "IsShow";
+
     }
 }

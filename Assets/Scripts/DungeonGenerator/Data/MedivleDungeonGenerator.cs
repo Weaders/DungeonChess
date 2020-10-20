@@ -131,6 +131,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
                 for (var y = 0; y < size.y; y++) {
 
                     DungeonRoomCells exitForRoom = null;
+                    Direction direction = default;
 
                     if (x == size.x / 2) {
 
@@ -140,6 +141,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                             if (bottomExit != null) {
                                 exitForRoom = GetOrCreate(roomDataPosition + new Vector2(0, -1), bottomExit.toRoomData);
+                                direction = Direction.bottom;
                             }
 
                         } else if (y == size.y - 1) {
@@ -148,6 +150,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                             if (topExit != null) {
                                 exitForRoom = GetOrCreate(roomDataPosition + new Vector2(0, 1), topExit.toRoomData);
+                                direction = Direction.top;
                             }
 
                         }
@@ -160,6 +163,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                             if (leftExit != null) {
                                 exitForRoom = GetOrCreate(roomDataPosition + new Vector2(-1, 0), leftExit.toRoomData);
+                                direction = Direction.left;
                             }
 
                         } else if (x == size.x - 1) {
@@ -168,6 +172,7 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                             if (rigthExit != null) {
                                 exitForRoom = GetOrCreate(roomDataPosition + new Vector2(1, 0), rigthExit.toRoomData);
+                                direction = Direction.right;
                             }
 
                         }
@@ -187,9 +192,9 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                     cells.Add(cellObj);
 
-                    if (exitForRoom != null) {
-                        cellObj.SetExit(exitForRoom);
-                    }
+                    //if (exitForRoom != null) {
+                    //    //cellObj.SetExit(exitForRoom);
+                    //}
 
                     cell.transform.localPosition = new Vector3(
                         leftUpper.x + (x * cellOffset),

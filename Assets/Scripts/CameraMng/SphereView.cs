@@ -7,6 +7,7 @@ namespace Assets.Scripts.CameraMng {
     public class SphereView : MonoBehaviour {
 
         private void OnTriggerEnter(Collider other) {
+
             TagLogger<SphereView>.Info("Colider with " + other.gameObject.name);
 
             if (other.gameObject.layer == LayerMask.NameToLayer(LayersStore.WALL_LAYER)) {

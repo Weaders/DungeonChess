@@ -51,12 +51,6 @@ namespace Assets.Scripts.Character {
 
                 ctrl.transform.LookAt(targetForMove.target.transform);
 
-                TagLogger<CharacterMoveCtrl>.InfoMany(
-                  $"Move towards for speed - {ctrl.characterData.stats.moveSpeed}, {Time.deltaTime}",
-                  Vector3.Distance(ctrl.transform.position, targetForMove.target.position),
-                  $"D: {targetForMove.distance}"
-                );
-
                 yield return new WaitForFixedUpdate();
                   
             }

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.CellsGrid;
+using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
-    public class StartRoomData : RoomData {
+    public class StartRoomData : EnemyRoomData {
 
         public StartRoomData(Vector2Int size) : base(size) { }
 

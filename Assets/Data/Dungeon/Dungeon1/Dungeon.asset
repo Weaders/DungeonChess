@@ -17,4 +17,14 @@ MonoBehaviour:
   countRooms:
     min: 2
     max: 4
-  isThereHealRooms: 1
+  dungeonRoomCells:
+  - roomPrefab: {fileID: 4681840612289310977, guid: 5f5123b840f4d9e48beb671415a7fe20,
+      type: 3}
+    whereData:
+      min: 0
+      max: 2
+  healerRoom:
+    start: 0.2
+    current: 0.9
+    toAdd: 0.15
+    delay: 2

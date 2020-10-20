@@ -25,7 +25,9 @@ namespace Assets.Scripts.Common {
         }
 
         private void Update() {
-            lineRenderer.SetPositions(_trs.Select(tr => tr.position).ToArray());
+            lineRenderer
+                .SetPositions(_trs.Where(tr => tr.gameObject.activeSelf)
+                .Select(tr => tr.position).ToArray());
         }
 
     }

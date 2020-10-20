@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Buffs;
 using Assets.Scripts.Character;
 using Assets.Scripts.Fight;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Synergy;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts {
 
@@ -14,6 +17,8 @@ namespace Assets.Scripts {
         public SynergyData[] synergyDatas;
 
         private Dictionary<FightTeam, List<(CharacterCtrl, Buff)>> addedBuffsForTeam = new Dictionary<FightTeam, List<(CharacterCtrl, Buff)>>();
+
+        private Dictionary<FightTeam, UnityAction> recalcMethod = new Dictionary<FightTeam, UnityAction>();
 
         public RecalcResult[] Recalc(IEnumerable<CharacterCtrl> ctrls) {
 
@@ -63,6 +68,22 @@ namespace Assets.Scripts {
             }
 
             addedBuffsForTeam.Add(team, ctrlBuffs);
+
+            team.onChangeTeamCtrl.AddListener(RecalcTeamMethod(team));
+
+        }
+
+        private UnityAction RecalcTeamMethod(FightTeam team) {
+
+            if (recalcMethod.TryGetValue(team, out var method)) {
+                return method;
+            }
+
+            void m() => SetUpTeam(team);
+
+            recalcMethod.Add(team, m);
+
+            return m;
 
         }
 

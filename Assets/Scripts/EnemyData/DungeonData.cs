@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using Assets.Scripts.CellsGrid;
+using Assets.Scripts.Common;
 using UnityEngine;
 
 namespace Assets.Scripts.EnemyData {
@@ -12,13 +15,49 @@ namespace Assets.Scripts.EnemyData {
 
         public RangeRooms countRooms;
 
-        [Serializable]
-        public class RangeRooms {
-            public int min;
-            public int max;
+        public RoomPrefabsData[] dungeonRoomCells;
+
+        public RoomChance healerRoom;
+
+        public DungeonRoomCells GetRoomForLvlPrefab(int lvl) {
+
+            return dungeonRoomCells
+                .Where(r => r.whereData.IsInRange(lvl))
+                .Select(r => r.roomPrefab)
+                .RandomElement();
         }
 
-        public bool isThereHealRooms;
+        public Vector2Int GetRoomSize()
+            => new Vector2Int(6, 6);
+
+        [Serializable]
+        public class RangeRooms {
+
+            public int min;
+            public int max;
+
+            public bool IsInRange(int val)
+                => min <= val && max >= val;
+
+        }
+
+        [Serializable]
+        public class RoomPrefabsData {
+
+            public DungeonRoomCells roomPrefab;
+            public RangeRooms whereData;
+
+        }
+
+        [Serializable]
+        public class RoomChance {
+
+            public float start;
+            public float current;
+            public float toAdd;
+            public float delay;
+
+        }
 
     }
 

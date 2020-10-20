@@ -74,7 +74,7 @@ namespace Assets.Scripts.CameraMng {
         [ContextMenu("ToRoom")]
         public void ToRoom() {
 
-            var targetPos = GameMng.current.cellsGridMng.currentRoom.wallGroups[0].centerPos + offsetToRoom;
+            var targetPos = GameMng.current.roomCtrl.currentRoom.wallGroups[0].centerPos + offsetToRoom;
             StartCoroutine(GoToPosition(targetPos));
 
         }

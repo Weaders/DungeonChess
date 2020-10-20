@@ -5,6 +5,7 @@ using Assets.Scripts.EnemyData;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
+
     public class DungeonDataGenerator {
 
         public DungeonDataPosition GetDungeonDataPositions(DungeonData dungeonData) {
@@ -45,7 +46,8 @@ namespace Assets.Scripts.DungeonGenerator {
 
                         if (!node.data.IsThereExit(directionsExits[e])) {
 
-                            var newRoom = new RoomData(roomSize);
+                            //new RoomData(roomSize)
+                            RoomData newRoom = null;
 
                             node.data.AddExit(newRoom, directionsExits[e]);
 

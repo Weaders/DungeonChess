@@ -36,11 +36,6 @@ namespace Assets.Scripts.Translate {
                 return key != null ? new Placeholder(key, p.Invoke(obj, new[] { from }).ToString()) : null;
             });
 
-            var vals = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Select(p => {
-                var key = p.GetCustomAttribute<PlacecholderAttribute>()?.Key;
-                return key != null ? new Placeholder(key, p.GetValue(obj).ToString()) : null;
-            }).Where(kv => kv != null);
-
             return pls.Union(obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Select(p => {
                 var key = p.GetCustomAttribute<PlacecholderAttribute>()?.Key;
                 return key != null ? new Placeholder(key, p.GetValue(obj).ToString()) : null;

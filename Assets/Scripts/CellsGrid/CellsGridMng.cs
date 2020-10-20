@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using Assets.Scripts.CameraMng;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
+
+
     public class CellsGridMng : MonoBehaviour {
 
         public IEnumerable<Cell> enemiesSideCell => _enemiesSideCell;
 
         public IEnumerable<Cell> playerSideCell => _playerSideCell;
-
-        public DungeonRoomCells[] rooms;
 
         private List<Cell> _enemiesSideCell = new List<Cell>();
 
@@ -20,20 +20,11 @@ namespace Assets.Scripts.CellsGrid {
         [SerializeField]
         private ArrowCtrl arrowCtrlPrefab;
 
-        [SerializeField]
-        private DungeonRoomCells currentRoomCells;
-
-        public DungeonRoomCells currentRoom => currentRoomCells;
-
         public void Init() {
-
             GameMng.current.fightMng.onPlayerWin.AddListener(DisplayExits);
-            RefreshCells();
-            HideOtherRooms();
-
         }
 
-        private void RefreshCells() {
+        public void RefreshCells() {
 
             _enemiesSideCell = new List<Cell>();
             _playerSideCell = new List<Cell>();
@@ -49,37 +40,18 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-        public void MoveTo(DungeonRoomCells dungeonRoomCells) {
+        public void DisplayExits() {
 
-            HideExits();
+            foreach (Cell cell in GameMng.current.roomCtrl.currentRoom.GetExits()) {
 
-            currentRoomCells = dungeonRoomCells;
+                var obj = Instantiate(arrowCtrlPrefab.gameObject, cell.transform);
+                obj.transform.localPosition = Vector3.zero;
 
-            HideOtherRooms();
+                obj.GetComponent<ArrowCtrl>().onClick.AddListener(
+                    () => GameMng.current.roomCtrl.MoveToNextRoom(cell.exitDirection)
+                );
 
-            Camera.main.GetComponent<CameraCtrl>().ToRoom();
-
-            RefreshCells();
-
-            GameMng.current.fightMng.RefreshEnemies();
-            GameMng.current.fightMng.MovePlayerCtrls();
-
-        }
-
-        private void DisplayExits() {
-
-            foreach (Cell cell in GetCells()) {
-
-                if (cell.IsExit()) {
-
-                    var obj = Instantiate(arrowCtrlPrefab.gameObject, cell.transform);
-                    obj.transform.localPosition = Vector3.zero;
-
-                    obj.GetComponent<ArrowCtrl>().onClick.AddListener(() => MoveTo(cell.GetExit()));
-
-                    _exists.Add(obj);
-
-                }
+                _exists.Add(obj);                
 
             }
 
@@ -91,21 +63,7 @@ namespace Assets.Scripts.CellsGrid {
             }
         }
 
-        private IEnumerable<Cell> GetCells() => currentRoomCells.GetCells();
-
-        private void HideOtherRooms() {
-
-            foreach (var room in rooms) {
-
-                if (room != currentRoom) {
-                    room.Hide();
-                } else {
-                    room.Show();
-                }
-
-            }
-
-        }
+        private IEnumerable<Cell> GetCells() => GameMng.current.roomCtrl.currentRoom.GetCells();
 
     }
 

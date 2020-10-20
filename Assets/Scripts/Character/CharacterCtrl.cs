@@ -4,15 +4,19 @@ using Assets.Scripts.Bullet;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
+using Assets.Scripts.Observable;
 using Assets.Scripts.Spells;
 using Assets.Scripts.Spells.Modifiers;
 using Assets.Scripts.Synergy;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
     [RequireComponent(typeof(CharacterMoveCtrl), typeof(EffectsPlacer))]
     public class CharacterCtrl : MonoBehaviour, IBulletSpawner, IBulletTarget {
+
+        public OrderedEvents onDestoy = new OrderedEvents();
 
         private Fight.TeamSide _teamSide;
 
@@ -182,6 +186,11 @@ namespace Assets.Scripts.Character {
         public Transform GetTargetTransform() => bulletSpawnObj.transform;
 
         public Transform GetSpawnTransform() => bulletSpawnObj.transform;
+
+        private void OnDestroy() {
+            onDestoy.Invoke();
+        }
+
     }
 
 }

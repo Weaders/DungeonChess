@@ -31,42 +31,9 @@ namespace Assets.Scripts.Fight {
 
         }
 
-        public void RefreshEnemies() {
-
-            fightTeamEnemy.ClearChars();
-
-            var i = 0;
-
-            var enemiesPoll = GameMng.current.currentDungeonData.enemiesPoll;
-
-            var teamIndex = Random.Range(0, enemiesPoll.teams.Length);
-
-            var team = enemiesPoll.teams[teamIndex];
-
-            foreach (var ctrl in team.characterCtrls) {
-
-                var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrl);
-
-                ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
-
-                fightTeamEnemy.AddCharacterToTeam(ctrlObj);
-
-                ++i;
-            }
-
-            var strtg = team.enemyTeamStrtg.GetStrgObj();
-
-            strtg.Place(
-                fightTeamEnemy, 
-                GameMng.current.cellsGridMng.enemiesSideCell,
-                GameMng.current.cellsGridMng.playerSideCell
-            );
-
-        }
-
         public void MovePlayerCtrls() {
 
-            var cells = GameMng.current.cellsGridMng.currentRoom.GetCells();
+            var cells = GameMng.current.roomCtrl.currentRoom.GetCells();
 
             foreach (var charCtrl in fightTeamPlayer.aliveChars) {
 
@@ -87,6 +54,8 @@ namespace Assets.Scripts.Fight {
 
         public void StartFight() {
 
+            GameMng.current.buyPanelUI.selectedBuyData = null;
+
             fightTeamEnemy.onAllInTeamDie.AddListener(EnemyTeamDie);
             fightTeamPlayer.onAllInTeamDie.AddListener(PlayerTeamDie);
 
@@ -103,7 +72,7 @@ namespace Assets.Scripts.Fight {
             isInFight = true;
 
             // Refresh colors
-            foreach (var cell in GameMng.current.cellsGridMng.currentRoom.GetCells()) {
+            foreach (var cell in GameMng.current.roomCtrl.currentRoom.GetCells()) {
                 cell.ChangeColor();
             }
 

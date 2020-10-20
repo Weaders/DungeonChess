@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Common {
 
@@ -64,6 +65,24 @@ namespace Assets.Scripts.Common {
             }
 
             return element;
+
+        }
+
+        public static T RandomElement<T>(this IEnumerable<T> elements) {
+
+            var count = elements.Count();
+
+            var randomIndex = UnityEngine.Random.Range(0, count);
+
+            var enumerator = elements.GetEnumerator();
+
+            enumerator.MoveNext();
+
+            while (randomIndex-- > 0) {
+                enumerator.MoveNext();
+            }
+
+            return enumerator.Current;
 
         }
 

@@ -18,6 +18,7 @@ using Assets.Scripts.UI;
 using Assets.Scripts.UI.BuffsList;
 using Assets.Scripts.UI.DragAndDrop;
 using Assets.Scripts.UI.Inventory;
+using Assets.Scripts.UI.MessagePopup;
 using Assets.Scripts.UI.SelectPopup;
 using Assets.Scripts.UI.SpellsList;
 using UnityEngine;
@@ -93,19 +94,36 @@ namespace Assets.Scripts {
 
         public GameData gameData;
 
+        [SerializeField]
+        private Animator blackOverlayAnim;
+
+        public MessagePanel messagePanel;
+
+        public RoomCtrl roomCtrl;
+
         public int level { get; private set; }
 
+        public int roomLvl { get; set; }
+
         private DungeonDataGenerator dungeonDataGenerator = new DungeonDataGenerator();
+
+        private void Awake() {
+            ShowBlackOverlay();
+        }
 
         private void Start() {
 
             playerData.Init();
 
+            messagePanel.Hide();
+
             dropCtrl.targetItemsContainer = playerData.itemsContainer;
+
+            roomCtrl.Init();
+            roomCtrl.MoveToStartRoom();
 
             //dungeonGenerator.Generate(dungeonDataGenerator.GetDungeonData());
             cellsGridMng.Init();
-            fightMng.RefreshEnemies();
 
             buyMng.Init();
             buyPanelUI.Init();
@@ -131,7 +149,9 @@ namespace Assets.Scripts {
 
             playerInventoryGrid.SetItemsContainer(playerData.itemsContainer);
 
-            Camera.main.GetComponent<CameraCtrl>().ToRoom();
+            //Camera.main.GetComponent<CameraCtrl>().ToRoom();
+
+            HideBlackOverlay();
 
         }
 
@@ -179,6 +199,14 @@ namespace Assets.Scripts {
                 }
 
             }
+        }
+
+        public void ShowBlackOverlay() {
+            blackOverlayAnim.SetBool(AnimationValStore.IS_SHOW, true);
+        }
+
+        public void HideBlackOverlay() {
+            blackOverlayAnim.SetBool(AnimationValStore.IS_SHOW, false);
         }
 
         private ItemData[] GetItemsForDropChanches(DropChance[] drops, int coutItems) {

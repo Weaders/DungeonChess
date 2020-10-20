@@ -13,6 +13,8 @@ namespace Assets.Scripts.Fight {
 
         public UnityEvent onAllInTeamDie = new UnityEvent();
 
+        public UnityEvent onChangeTeamCtrl = new UnityEvent();
+
         public IReadOnlyList<CharacterCtrl> chars => _characterCtrls;
 
         public IEnumerable<CharacterCtrl> aliveChars => chars.Where(ctrl => !ctrl.characterData.stats.isDie);
@@ -34,6 +36,11 @@ namespace Assets.Scripts.Fight {
                 if (!aliveChars.Any())
                     onAllInTeamDie.Invoke();
 
+            });
+
+            ctrl.onDestoy.AddSubscription(Observable.OrderVal.Fight, () => {
+                _characterCtrls.Remove(ctrl);
+                onChangeTeamCtrl.Invoke();
             });
 
             ctrl.teamSide = teamSide;

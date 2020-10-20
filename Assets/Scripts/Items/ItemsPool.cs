@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Items {
 
-
     [CreateAssetMenu(menuName = "ItemsPool")]
     public class ItemsPool : ScriptableObject {
 

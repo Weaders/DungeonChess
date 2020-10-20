@@ -10,17 +10,27 @@ namespace Assets.Scripts.CellsGrid {
 
         public Vector2Int dataPosition;
 
-        [SerializeField]
         private CellState state = default;
 
         [SerializeField]
         private CellType cellType = default;
 
         [SerializeField]
-        private MeshRenderer meshRenderer;
+        private Direction _exitDirection;
 
         [SerializeField]
-        private DungeonRoomCells exitFromRoom;
+        private bool _isExit;
+
+        public Direction exitDirection { 
+            get => _exitDirection;
+        }
+
+        public bool isExit {
+            get => _isExit;
+        }
+
+        [SerializeField]
+        private MeshRenderer meshRenderer;
 
         public CharacterCtrl StayCtrlPrefab(CharacterCtrl ctrlPrefab) {
 
@@ -110,13 +120,7 @@ namespace Assets.Scripts.CellsGrid {
 
         public CellType GetCellType() => cellType;
 
-        public void SetExit(DungeonRoomCells exitVal) {
-            exitFromRoom = exitVal;
-        }
-
-        public bool IsExit() => exitFromRoom != null;
-
-        public DungeonRoomCells GetExit() => exitFromRoom;
+        public bool IsExit() => isExit;
 
         public enum CellState {
             Select,
