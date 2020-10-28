@@ -9,7 +9,6 @@ using Assets.Scripts.Spells;
 using Assets.Scripts.Spells.Modifiers;
 using Assets.Scripts.Synergy;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
@@ -26,12 +25,14 @@ namespace Assets.Scripts.Character {
 
         public Canvas characterCanvas;
 
+        public CharacterAnimEvents characterAnimEvents;
+
         [SerializeField]
         private Animator animator;
 
         public Animator anim => animator;
 
-        private CharacterCtrl targetForAttack;
+        public CharacterCtrl targetForAttack { get; private set; }
 
         public SliderStatCtrl hpBar;
 
@@ -134,6 +135,8 @@ namespace Assets.Scripts.Character {
 
             var colorStore = StaticData.current.colorStore;
 
+            characterAnimEvents.Init(this);
+
             characterData.actions.onPostGetDmg.AddSubscription(Observable.OrderVal.UIUpdate, (dmgEventData) => {
                 GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), colorStore.getDmgText);
             });
@@ -152,6 +155,7 @@ namespace Assets.Scripts.Character {
 
                 TagLogger<CharacterCtrl>.Info($"Character is die");
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
+                GetComponent<Collider>().enabled = false;
 
             });
 
@@ -167,17 +171,6 @@ namespace Assets.Scripts.Character {
             manaBar.SetValForObserve(characterData.stats.mana, characterData.stats.maxMana);
 
             characterData.Init();
-
-        }
-
-        /// <summary>
-        /// Called by animation
-        /// </summary>
-        /// <param name="scale"></param>
-        public void AmimEventMakeAttack(float scale) {
-
-            if (targetForAttack != null)
-                MakeBaseAttack(targetForAttack, scale);
 
         }
 

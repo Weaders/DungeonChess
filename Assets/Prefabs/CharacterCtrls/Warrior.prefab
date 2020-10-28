@@ -225,6 +225,12 @@ MonoBehaviour:
   AS:
     _val: 0.4
     statType: 6
+  critChance:
+    _val: 0
+    statType: 11
+  critDmg:
+    _val: 2
+    statType: 12
   moveSpeed:
     _val: 5
     statType: 7
@@ -4656,6 +4662,7 @@ GameObject:
   - component: {fileID: 5232884066652915929}
   - component: {fileID: 4820983699408159290}
   - component: {fileID: -6366125743271059690}
+  - component: {fileID: 5519556431329880679}
   m_Layer: 8
   m_Name: Warrior
   m_TagString: Untagged
@@ -4718,6 +4725,7 @@ MonoBehaviour:
   characterData: {fileID: 3594275277300625508}
   moveCtrl: {fileID: 6845065712008186114}
   characterCanvas: {fileID: 578315074311962433}
+  characterAnimEvents: {fileID: 5519556431329880679}
   animator: {fileID: 2328172299596415979}
   hpBar: {fileID: 2939085797846583874}
   manaBar: {fileID: 8869655052464027727}
@@ -4790,6 +4798,18 @@ NavMeshAgent:
   m_BaseOffset: 0.81
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5519556431329880679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328172299833295226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669157f50d87ebe4eac45d93646cd6a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2328172299833295228
 GameObject:
   m_ObjectHideFlags: 0
@@ -5316,18 +5336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8afe455716fa424f9cf369083748b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &8392396109971781049 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8040754881020307231}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &578315074311962433 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 7462721355388688478, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8040754881020307231}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8869655052464027727 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1477505792632020816, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
@@ -5340,3 +5348,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8afe455716fa424f9cf369083748b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &8392396109971781049 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8040754881020307231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &578315074311962433 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7462721355388688478, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8040754881020307231}
+  m_PrefabAsset: {fileID: 0}
