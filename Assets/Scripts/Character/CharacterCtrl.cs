@@ -137,21 +137,21 @@ namespace Assets.Scripts.Character {
 
             characterAnimEvents.Init(this);
 
-            characterData.actions.onPostGetDmg.AddSubscription(Observable.OrderVal.UIUpdate, (dmgEventData) => {
+            characterData.actions.onPostGetDmg.AddSubscription(OrderVal.UIUpdate, (dmgEventData) => {
                 GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), colorStore.getDmgText);
             });
 
-            characterData.actions.onPostGetHeal.AddSubscription(Observable.OrderVal.UIUpdate, (healEventData) => {
+            characterData.actions.onPostGetHeal.AddSubscription(OrderVal.UIUpdate, (healEventData) => {
                 GameMng.current.fightTextMng.DisplayText(this, healEventData.heal.GetCalculateVal().ToString(), colorStore.getHealText);
             });
 
             animator.SetFloat(AnimationValStore.SPEED_ATTACK, characterData.stats.AS);
 
-            characterData.stats.AS.onPostChange.AddSubscription(Observable.OrderVal.CharacterCtrl, (data) => {
+            characterData.stats.AS.onPostChange.AddSubscription(OrderVal.CharacterCtrl, (data) => {
                 animator.SetFloat(AnimationValStore.SPEED_ATTACK, data.newVal);
             });
 
-            characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.CharacterCtrl, (data) => {
+            characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.CharacterCtrl, (data) => {
 
                 TagLogger<CharacterCtrl>.Info($"Character is die");
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
@@ -187,5 +187,3 @@ namespace Assets.Scripts.Character {
     }
 
 }
-
-

@@ -39,6 +39,9 @@ namespace Assets.Scripts.EnemyData {
             public bool IsInRange(int val)
                 => min <= val && max >= val;
 
+            public int GetRandomLvl()
+                => UnityEngine.Random.Range(min, max);
+
         }
 
         [Serializable]

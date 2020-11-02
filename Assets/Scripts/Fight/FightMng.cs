@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using Assets.Scripts.Character;
-using Assets.Scripts.Common;
-using Assets.Scripts.EnemyData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -79,7 +77,7 @@ namespace Assets.Scripts.Fight {
         }
 
         public TeamSide GetTeamSide(CharacterCtrl characterCtrl) {
-            
+
             if (fightTeamEnemy.chars.Any(ctrl => ctrl == characterCtrl)) {
                 return TeamSide.Enemy;
             }

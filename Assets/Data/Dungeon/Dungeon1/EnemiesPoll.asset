@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662bd0d445752d24786f340f6d21473c, type: 3}
   m_Name: EnemiesPoll
   m_EditorClassIdentifier: 
-  enemies:
-  - characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
-      type: 3}
   teams:
   - enemyTeamStrtg: 0
     characterCtrls:
     - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
     - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
     - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
+    isBoss: 0
   - enemyTeamStrtg: 1
     characterCtrls:
     - {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc, type: 3}
     - {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc, type: 3}
     - {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24, type: 3}
+    isBoss: 0
+  - enemyTeamStrtg: 2
+    characterCtrls:
+    - {fileID: 8651046409866918608, guid: cf9b357e1f482e049ae8e73d2e36e035, type: 3}
+    isBoss: 1

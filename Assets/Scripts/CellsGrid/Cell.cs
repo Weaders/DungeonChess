@@ -55,8 +55,8 @@ namespace Assets.Scripts.CellsGrid {
 
             if (GameMng.current.fightMng.isInFight) {
 
-                meshRenderer.material.SetColor("_Color", Color.white);
-                meshRenderer.material.SetColor("_OutlineColor", Color.white);
+                meshRenderer.material.SetColor("_Color", Color.clear);
+                meshRenderer.material.SetColor("_OutlineColor", Color.clear);
 
             } else {
 

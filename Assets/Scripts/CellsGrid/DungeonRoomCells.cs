@@ -36,16 +36,8 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-        public IEnumerable<Cell> GetCells() {
-
-            foreach (Transform cellTr in transform) {
-
-                if (cellTr.gameObject.layer == LayerMask.NameToLayer(LayersStore.CELL_LAYER))
-                    yield return cellTr.GetComponent<Cell>();
-
-            }
-
-        }
+        public IEnumerable<Cell> GetCells()
+            => GetComponentsInChildren<Cell>();
 
         public IEnumerable<Cell> GetExits() => GetCells().Where(c => c.IsExit());
 

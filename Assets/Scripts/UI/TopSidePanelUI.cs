@@ -10,9 +10,12 @@ namespace Assets.Scripts.TopSidePanel {
 
         public Button startBtn;
 
+        public Text level;
+
         public void Init() {
 
             moneyCount.Subscribe(GameMng.current.playerData.money);
+            level.Subscribe(GameMng.current.level);
 
         }
 

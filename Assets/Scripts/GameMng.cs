@@ -11,6 +11,8 @@ using Assets.Scripts.EnemyData;
 using Assets.Scripts.Fight;
 using Assets.Scripts.FightText;
 using Assets.Scripts.Items;
+using Assets.Scripts.Logging;
+using Assets.Scripts.Observable;
 using Assets.Scripts.Player;
 using Assets.Scripts.Synergy;
 using Assets.Scripts.TopSidePanel;
@@ -100,18 +102,21 @@ namespace Assets.Scripts {
         public MessagePanel messagePanel;
 
         public RoomCtrl roomCtrl;
+        
+        public int countRooms { get; private set; }
 
-        public int level { get; private set; }
-
-        public int roomLvl { get; set; }
-
-        private DungeonDataGenerator dungeonDataGenerator = new DungeonDataGenerator();
+        public ObservableVal<int> level { get; private set; }
 
         private void Awake() {
             ShowBlackOverlay();
         }
 
         private void Start() {
+
+            level = new ObservableVal<int>(0);
+            countRooms = currentDungeonData.countRooms.GetRandomLvl();
+
+            TagLogger<GameMng>.Info($"Set count rooms - {countRooms}");
 
             playerData.Init();
 
@@ -122,7 +127,6 @@ namespace Assets.Scripts {
             roomCtrl.Init();
             roomCtrl.MoveToStartRoom();
 
-            //dungeonGenerator.Generate(dungeonDataGenerator.GetDungeonData());
             cellsGridMng.Init();
 
             buyMng.Init();

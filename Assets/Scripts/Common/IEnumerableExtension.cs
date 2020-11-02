@@ -86,5 +86,36 @@ namespace Assets.Scripts.Common {
 
         }
 
+        public static (T, float) ClosestElement<T, G>(this IEnumerable<T> elements, G forElement, Func<T, G, float> getDistance, IEnumerable<T> ignoreElements = null)  {
+
+            if (!elements.Any())
+                return (default, default);
+
+            var enumerator = elements.GetEnumerator();
+            T forReturn = default;
+
+            var minDistance = float.MaxValue;
+
+            while (enumerator.MoveNext()) {
+
+                if (!enumerator.Current.Equals(forElement) && (ignoreElements == null || !ignoreElements.Contains(enumerator.Current))) {
+
+                    var distance = getDistance(enumerator.Current, forElement);
+
+                    if (minDistance > distance) {
+
+                        minDistance = distance;
+                        forReturn = enumerator.Current;
+
+                    }
+
+                }
+
+            }
+
+            return (forReturn, minDistance);
+
+        }
+
     }
 }

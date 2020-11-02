@@ -18,7 +18,7 @@ MonoBehaviour:
     min: 2
     max: 4
   dungeonRoomCells:
-  - roomPrefab: {fileID: 4681840612289310977, guid: 5f5123b840f4d9e48beb671415a7fe20,
+  - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}
     whereData:
       min: 0

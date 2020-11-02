@@ -42,7 +42,7 @@ namespace Assets.Scripts.DungeonGenerator {
                 _dungeonData.healerRoom
             };
 
-            var newLvl = _roomCtrl.roomLvl + 1;
+            var newLvl = GameMng.current.level + 1;
 
             var random = UnityEngine.Random.value;
 

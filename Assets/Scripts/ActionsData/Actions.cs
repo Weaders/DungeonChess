@@ -68,8 +68,6 @@ namespace Assets.Scripts.ActionsData {
             from.characterData.actions.onPreMakeDmg.Invoke(dmgEventData);
             onPreGetDmg.Invoke(dmgEventData);
 
-            TagLogger<Actions>.Info(dmg.ToString());
-
             _characterData.stats.hp.val -= dmg.GetCalculateVal();
 
             onPostMakeDmg.Invoke(dmgEventData);

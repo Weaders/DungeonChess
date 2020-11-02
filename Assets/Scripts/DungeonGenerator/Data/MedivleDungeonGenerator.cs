@@ -107,9 +107,9 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
             var data = new DungeonDataGenerator();
 
-            GenerateAndBake(
-                data.GetDungeonDataPositions(GameMng.current.currentDungeonData)
-            );
+            //GenerateAndBake(
+            //    data.GetDungeonDataPositions(GameMng.current.currentDungeonData)
+            //);
 
             Debug.Log($"Rooms clear");
 

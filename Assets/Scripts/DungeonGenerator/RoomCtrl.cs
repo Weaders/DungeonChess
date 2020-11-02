@@ -12,8 +12,6 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public DungeonRoomCells currentRoom { get; private set; }
 
-        public int roomLvl { get; private set; }
-
         public void Init() {
             roomDataGenerator = new RoomDataGenerator(this, GameMng.current.currentDungeonData);
         }
@@ -29,7 +27,11 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var startRoomData = roomDataGenerator.GenerateStartRoom();
 
-            currentRoom = PrefabFactory.InitRoomCells(GameMng.current.currentDungeonData.GetRoomForLvlPrefab(roomLvl), startRoomData);
+            currentRoom = PrefabFactory.InitRoomCells(
+                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level), 
+                startRoomData
+            );
+
             ProcessRoom();
 
         }
@@ -47,13 +49,16 @@ namespace Assets.Scripts.DungeonGenerator {
 
             }
 
-            currentRoom = PrefabFactory.InitRoomCells(GameMng.current.currentDungeonData.GetRoomForLvlPrefab(roomLvl), roomData);
+            currentRoom = PrefabFactory.InitRoomCells(
+                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level), 
+                roomData
+            );
 
             ProcessRoom();
 
             GameMng.current.HideBlackOverlay();
 
-            roomLvl++;
+            GameMng.current.level.val += 1;
 
         }
 
