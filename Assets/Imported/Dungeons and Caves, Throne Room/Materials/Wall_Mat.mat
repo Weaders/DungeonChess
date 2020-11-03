@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Wall_Mat
-  m_Shader: {fileID: 4800000, guid: 644873c42c627254093d5550e22a47be, type: 3}
+  m_Shader: {fileID: 4800000, guid: 641988532ffcac740a08ae7db78853ea, type: 3}
   m_ShaderKeywords: _DETAIL_MULX2 _EMISSION _NORMALMAP _PARALLAXMAP
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0

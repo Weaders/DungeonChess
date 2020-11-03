@@ -49,6 +49,7 @@ namespace Assets.Scripts.EnemyData {
 
             public DungeonRoomCells roomPrefab;
             public RangeRooms whereData;
+            public bool isBoss;
 
         }
 

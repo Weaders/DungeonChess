@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Common;
 using Assets.Scripts.DungeonGenerator;
@@ -13,6 +14,8 @@ namespace Assets.Scripts.CellsGrid {
 
         public Vector2 dataPosition;
 
+        [HideInInspector]
+        [Obsolete]
         public WallGroup[] wallGroups;
 
         public Vector3 GetCenterPosition() {

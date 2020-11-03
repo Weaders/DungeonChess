@@ -23,6 +23,13 @@ MonoBehaviour:
     whereData:
       min: 0
       max: 2
+    isBoss: 0
+  - roomPrefab: {fileID: 1887102347892770628, guid: 8995bd44082d97048ad649aec2dc94a4,
+      type: 3}
+    whereData:
+      min: 0
+      max: 10
+    isBoss: 1
   healerRoom:
     start: 0.2
     current: 0.9
