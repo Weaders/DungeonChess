@@ -1,17 +1,17 @@
-﻿using Assets.Scripts.CellsGrid;
+﻿using System.Linq;
+using Assets.Scripts.EnemyData;
 using UnityEngine;
 
-namespace Assets.Scripts.DungeonGenerator
-{
-	public class BossRoomData : RoomData {
+namespace Assets.Scripts.DungeonGenerator {
 
-        public BossRoomData(Vector2Int s) : base(s) { }
+    public class BossRoomData : EnemyRoomData {
 
-        public override void ComeToRoom(DungeonRoomCells dungeonRoomCells) {
-            //throw new System.NotImplementedException();
-        }
+        public BossRoomData(string titleKey) : base(titleKey) { }
 
         public override string GetRoomName() => "BossRoom";
+
+        protected override EnemyTeam[] GetEnemyTeams()
+            => GameMng.current.currentDungeonData.enemiesPoll.GetBossTeams().ToArray();
 
     }
 

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CellsGrid;
+using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -19,10 +21,15 @@ namespace Assets.Scripts.DungeonGenerator {
 
     public abstract class RoomData {
 
-        public RoomData(Vector2Int sizeData) {
-            size = sizeData;
+        public RoomData(string titleKey) {
+            _title = titleKey;
         }
 
+        private readonly string _title;
+
+        public string title => TranslateReader.GetTranslate(_title);
+
+        [Obsolete]
         public Vector2Int size { get; }
 
         public IReadOnlyList<ExitFromRoom> exitFromRooms => _exitFromRooms;

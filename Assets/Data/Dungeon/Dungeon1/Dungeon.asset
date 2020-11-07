@@ -16,7 +16,7 @@ MonoBehaviour:
   moneyVictory: 150
   countRooms:
     min: 2
-    max: 4
+    max: 2
   dungeonRoomCells:
   - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}
@@ -24,11 +24,11 @@ MonoBehaviour:
       min: 0
       max: 2
     isBoss: 0
-  - roomPrefab: {fileID: 1887102347892770628, guid: 8995bd44082d97048ad649aec2dc94a4,
+  - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}
     whereData:
       min: 0
-      max: 10
+      max: 12
     isBoss: 1
   healerRoom:
     start: 0.2

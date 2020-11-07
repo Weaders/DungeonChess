@@ -15,6 +15,8 @@ namespace Assets.Scripts.Character {
         [SerializeField]
         private NavMeshAgent navMeshAgent;
 
+        public NavMeshAgent GetNavMeshAgent() => navMeshAgent;
+
         public MoveData MoveTo(Transform transform, float distance) {
 
             TargetForMove targetForMove = new TargetForMove() {

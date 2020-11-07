@@ -8,18 +8,12 @@ using UnityEngine;
 namespace Assets.Scripts.DungeonGenerator {
     public class EnemyRoomData : RoomData {
 
-        public EnemyRoomData(Vector2Int sizeData) : base(sizeData) {
+        public EnemyRoomData(string titleKey) : base(titleKey) {
         }
 
         public override void ComeToRoom(DungeonRoomCells dungeonRoomCells) {
 
-            EnemyTeam[] teams;
-
-            if (GameMng.current.countRooms - 1 == GameMng.current.level) {
-                teams = GameMng.current.currentDungeonData.enemiesPoll.GetBossTeams().ToArray();
-            } else {
-                teams = GameMng.current.currentDungeonData.enemiesPoll.GetStandartEnemies().ToArray();
-            }
+            var teams = GetEnemyTeams();
 
             var teamIndex = Random.Range(0, teams.Length);
             var team = teams[teamIndex];
@@ -47,5 +41,9 @@ namespace Assets.Scripts.DungeonGenerator {
             );
 
         }
+
+        protected virtual EnemyTeam[] GetEnemyTeams()
+            => GameMng.current.currentDungeonData.enemiesPoll.GetStandartEnemies().ToArray();
+
     }
 }

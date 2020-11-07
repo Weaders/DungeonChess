@@ -10,8 +10,9 @@ namespace Assets.Scripts {
 
         public ItemsPool[] itemsPools;
 
-        public DropChance[] GetDropChances(int lvl) 
+        public DropChance[] GetDropChances(int lvl)
             => itemsPools.First(i => i.level == lvl).itemsWithChanches;
 
     }
+
 }

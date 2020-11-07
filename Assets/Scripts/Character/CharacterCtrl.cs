@@ -153,9 +153,10 @@ namespace Assets.Scripts.Character {
 
             characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.CharacterCtrl, (data) => {
 
-                TagLogger<CharacterCtrl>.Info($"Character is die");
+                TagLogger<CharacterCtrl>.Info($"GON: {gameObject.name}, CN: {characterData.name} is die");
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
                 GetComponent<Collider>().enabled = false;
+                moveCtrl.GetNavMeshAgent().enabled = false;
 
             });
 

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets.Scripts.DungeonGenerator {
     public class StartRoomData : EnemyRoomData {
 
-        public StartRoomData(Vector2Int size) : base(size) { }
+        public StartRoomData(string titleKey) : base(titleKey) { }
 
         public override string GetRoomName() => "StartRoom";
 

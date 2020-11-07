@@ -12,11 +12,11 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var countRooms = Random.Range(dungeonData.countRooms.min, dungeonData.countRooms.max);
 
-            var roomSize = new Vector2Int(6, 6);
+            //var roomSize = new Vector2Int(6, 6);
 
             var directionsExits = new[] { Direction.top, Direction.left, Direction.right };
 
-            var startRoom = new TreeNode<RoomData>(new StartRoomData(roomSize));
+            var startRoom = new TreeNode<RoomData>(new StartRoomData("one_more_room"));
 
             var rooms = new List<RoomData>();
 
@@ -32,7 +32,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 if (node.level == countRooms) {
 
-                    var newRoom = new BossRoomData(roomSize);
+                    var newRoom = new BossRoomData("one_more_room");
 
                     node.data.AddExit(newRoom, Direction.top);
 

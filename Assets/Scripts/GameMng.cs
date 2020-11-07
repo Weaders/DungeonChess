@@ -19,6 +19,7 @@ using Assets.Scripts.TopSidePanel;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.BuffsList;
 using Assets.Scripts.UI.DragAndDrop;
+using Assets.Scripts.UI.GameTitlePopup;
 using Assets.Scripts.UI.Inventory;
 using Assets.Scripts.UI.MessagePopup;
 using Assets.Scripts.UI.SelectPopup;
@@ -94,6 +95,8 @@ namespace Assets.Scripts {
 
         public DropCtrl dropCtrl;
 
+        public GameTitlePanel locationTitle;
+
         public GameData gameData;
 
         [SerializeField]
@@ -103,7 +106,7 @@ namespace Assets.Scripts {
 
         public RoomCtrl roomCtrl;
         
-        public int countRooms { get; private set; }
+        public ObservableVal<int> countLevels { get; private set; }
 
         public ObservableVal<int> level { get; private set; }
 
@@ -114,12 +117,13 @@ namespace Assets.Scripts {
         private void Start() {
 
             level = new ObservableVal<int>(0);
-            countRooms = currentDungeonData.countRooms.GetRandomLvl();
+            countLevels = new ObservableVal<int>(currentDungeonData.countRooms.GetRandomLvl());
 
-            TagLogger<GameMng>.Info($"Set count rooms - {countRooms}");
+            TagLogger<GameMng>.Info($"Set count rooms - {countLevels}");
 
             playerData.Init();
 
+            locationTitle.HidePopup();
             messagePanel.Hide();
 
             dropCtrl.targetItemsContainer = playerData.itemsContainer;
@@ -153,8 +157,6 @@ namespace Assets.Scripts {
 
             playerInventoryGrid.SetItemsContainer(playerData.itemsContainer);
 
-            //Camera.main.GetComponent<CameraCtrl>().ToRoom();
-
             HideBlackOverlay();
 
         }
@@ -165,7 +167,7 @@ namespace Assets.Scripts {
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit, 50f, LayerMask.GetMask(LayersStore.CELL_LAYER, LayersStore.CHARACTER_LAYER))) {
+                if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER, LayersStore.CHARACTER_LAYER))) {
 
                     if (hit.collider.gameObject.layer == LayerMask.NameToLayer(LayersStore.CHARACTER_LAYER)) {
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using Assets.Scripts.EnemyData;
 using Assets.Scripts.Logging;
+using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class RoomDataGenerator {
@@ -33,7 +34,7 @@ namespace Assets.Scripts.DungeonGenerator {
         }
 
         public RoomData GenerateStartRoom() {
-            return new StartRoomData(_dungeonData.GetRoomSize());
+            return new StartRoomData("one_more_room");
         }
 
         private RoomData GenerateExit() {
@@ -45,6 +46,19 @@ namespace Assets.Scripts.DungeonGenerator {
             var newLvl = GameMng.current.level + 1;
 
             var random = UnityEngine.Random.value;
+
+            #region Boss Room
+
+            TagLogger<RoomDataGenerator>.Info($"{GameMng.current.countLevels}|{newLvl}");
+
+            if (newLvl == GameMng.current.countLevels) {
+
+                TagLogger<RoomDataGenerator>.Info($"Generate boss room");
+                return new BossRoomData("boss_room");
+
+            }
+
+            #endregion
 
             #region Heal Room
 
@@ -59,7 +73,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
                     TagLogger<RoomDataGenerator>.Info($"Generate heal room");
 
-                    return new HealerRoomData(_dungeonData.GetRoomSize());
+                    return new HealerRoomData("one_more_room");
 
                 } else {
                     currentHealChance += _dungeonData.healerRoom.toAdd;
@@ -69,9 +83,12 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #endregion
 
+            #region Enemy room
             TagLogger<RoomDataGenerator>.Info($"Generate enenmy room");
 
-            return new EnemyRoomData(_dungeonData.GetRoomSize());
+            return new EnemyRoomData("one_more_room");
+            #endregion
+
 
         }
 

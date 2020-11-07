@@ -15,7 +15,13 @@ namespace Assets.Scripts.TopSidePanel {
         public void Init() {
 
             moneyCount.Subscribe(GameMng.current.playerData.money);
-            level.Subscribe(GameMng.current.level);
+            
+            level.Subscribe(
+                () => $"{GameMng.current.level}/{GameMng.current.countLevels}",
+                OrderVal.UIUpdate, 
+                GameMng.current.level, 
+                GameMng.current.countLevels
+            );
 
         }
 

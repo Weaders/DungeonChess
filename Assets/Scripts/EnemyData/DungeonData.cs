@@ -19,12 +19,18 @@ namespace Assets.Scripts.EnemyData {
 
         public RoomChance healerRoom;
 
-        public DungeonRoomCells GetRoomForLvlPrefab(int lvl) {
+        public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
 
-            return dungeonRoomCells
-                .Where(r => r.whereData.IsInRange(lvl))
+            var cells = dungeonRoomCells
+                .Where(r => r.whereData.IsInRange(lvl));
+
+            if (isBoss)
+                cells = cells.Where(c => c.isBoss);
+
+            return cells
                 .Select(r => r.roomPrefab)
                 .RandomElement();
+
         }
 
         public Vector2Int GetRoomSize()

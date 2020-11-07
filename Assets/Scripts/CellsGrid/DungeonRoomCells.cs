@@ -75,7 +75,6 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-
     }
 
 }

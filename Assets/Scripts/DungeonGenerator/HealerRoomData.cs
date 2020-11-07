@@ -6,7 +6,7 @@ using UnityEngine.SocialPlatforms.GameCenter;
 namespace Assets.Scripts.DungeonGenerator {
     public class HealerRoomData : RoomData {
 
-        public HealerRoomData(Vector2Int sizeData) : base(sizeData) {
+        public HealerRoomData(string titleKey) : base(titleKey) {
         }
 
         public override void ComeToRoom(DungeonRoomCells dungeonRoomCells) {

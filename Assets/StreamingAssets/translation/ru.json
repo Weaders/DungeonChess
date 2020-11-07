@@ -76,6 +76,14 @@
         {
             "key": "chest_of_return_description",
             "value": "Каждый %[n] возращает урон"
+        },
+        {
+            "key": "one_more_room",
+            "value": "Ещё одна комната"
+        },
+        {
+            "key": "boss_room",
+            "value": "Комната с боссом"
         }
     ]
 }

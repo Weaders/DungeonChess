@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.CellsGrid {
+
     public class Cell : MonoBehaviour {
 
         public UnityEvent onClick = new UnityEvent();
@@ -32,6 +33,9 @@ namespace Assets.Scripts.CellsGrid {
         [SerializeField]
         private MeshRenderer meshRenderer;
 
+        [SerializeField]
+        private GameObject cellEffect;
+
         public CharacterCtrl StayCtrlPrefab(CharacterCtrl ctrlPrefab) {
 
             var ctrlObj = Instantiate(ctrlPrefab);
@@ -53,14 +57,19 @@ namespace Assets.Scripts.CellsGrid {
 
             var colorStore = StaticData.current.colorStore;
 
-            if (GameMng.current.fightMng.isInFight) {
+            if (GameMng.current.fightMng.isInFight || cellType == CellType.NotUsable || cellType == CellType.ForEnemy) {
 
                 meshRenderer.material.SetColor("_Color", Color.clear);
                 meshRenderer.material.SetColor("_OutlineColor", Color.clear);
+                meshRenderer.material.SetFloat("_WidthOutLine", 0f);
+
+                cellEffect.SetActive(false);
 
             } else {
 
                 if (cellType == CellType.ForEnemy) {
+
+                    cellEffect.SetActive(false);
 
                     meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
                     meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
@@ -69,10 +78,14 @@ namespace Assets.Scripts.CellsGrid {
 
                     if (state == CellState.NotAvailable) {
 
+                        cellEffect.SetActive(false);
+
                         meshRenderer.material.SetColor("_Color", colorStore.cellPlayerAllow);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerAllowOutline);
 
                     } else {
+
+                        cellEffect.SetActive(true);
 
                         meshRenderer.material.SetColor("_Color", colorStore.cellPlayerNotAllow);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerNotAllowOutline);
@@ -95,6 +108,8 @@ namespace Assets.Scripts.CellsGrid {
             ctrl.transform.localPosition = Vector3.zero;
 
             ctrl.cell = this;
+
+            ctrl.transform.localRotation = Quaternion.identity;
 
             SetState(CellState.NotAvailable);
 
@@ -129,7 +144,8 @@ namespace Assets.Scripts.CellsGrid {
 
         public enum CellType {
             ForPlayer,
-            ForEnemy
+            ForEnemy,
+            NotUsable
         }
 
     }

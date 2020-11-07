@@ -12,6 +12,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public DungeonRoomCells currentRoom { get; private set; }
 
+        [SerializeField]
+        private float durationPopupTitle = 1.5f;
+
         public void Init() {
             roomDataGenerator = new RoomDataGenerator(this, GameMng.current.currentDungeonData);
         }
@@ -28,7 +31,7 @@ namespace Assets.Scripts.DungeonGenerator {
             var startRoomData = roomDataGenerator.GenerateStartRoom();
 
             currentRoom = PrefabFactory.InitRoomCells(
-                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level), 
+                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level, false), 
                 startRoomData
             );
 
@@ -49,16 +52,27 @@ namespace Assets.Scripts.DungeonGenerator {
 
             }
 
-            currentRoom = PrefabFactory.InitRoomCells(
-                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level), 
-                roomData
-            );
+            if (roomData is BossRoomData boosRoomData) {
+
+                currentRoom = PrefabFactory.InitRoomCells(
+                    GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level, true),
+                    roomData
+                );
+
+            } else {
+
+                currentRoom = PrefabFactory.InitRoomCells(
+                    GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level),
+                    roomData
+                );
+
+            }
+
+            GameMng.current.level.val += 1;
 
             ProcessRoom();
 
             GameMng.current.HideBlackOverlay();
-
-            GameMng.current.level.val += 1;
 
         }
 
@@ -74,6 +88,8 @@ namespace Assets.Scripts.DungeonGenerator {
             GameMng.current.cellsGridMng.RefreshCells();
 
             currentRoom.roomData.ComeToRoom(currentRoom);
+
+            GameMng.current.locationTitle.ShowPopup(currentRoom.roomData.title, durationPopupTitle);
 
             GameMng.current.fightMng.MovePlayerCtrls();
 
