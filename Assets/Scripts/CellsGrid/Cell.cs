@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Character;
 using Assets.Scripts.DungeonGenerator;
+using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -101,6 +102,8 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         public void StayCtrl(CharacterCtrl ctrl) {
+
+            TagLogger<Cell>.Info($"Player stay on cell with position {transform.position}");
 
             ctrl.moveCtrl.DisableNavMesh();
 

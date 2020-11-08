@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.AI;

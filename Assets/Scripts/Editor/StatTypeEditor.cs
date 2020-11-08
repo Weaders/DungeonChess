@@ -1,7 +1,5 @@
 ﻿using System;
-using System.CodeDom;
 using System.Linq;
-using Assets.Scripts.Observable;
 using Assets.Scripts.StarsData;
 using UnityEditor;
 using UnityEngine;

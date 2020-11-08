@@ -3891,7 +3891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money:
-    _val: 500
+    _val: 100
   itemsContainer: {fileID: 778070624}
 --- !u!4 &1530916709
 Transform:

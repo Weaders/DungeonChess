@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Assets.Scripts.Character;
+using Assets.Scripts.Common;
+using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -35,16 +37,13 @@ namespace Assets.Scripts.Fight {
 
             foreach (var charCtrl in fightTeamPlayer.aliveChars) {
 
-                foreach (var cell in cells) {
+                TagLogger<FightMng>.Info($@"Start Search for character {charCtrl.name}, old position - {charCtrl.cell.transform.position}");
 
-                    if (cell.dataPosition == charCtrl.cell.dataPosition) {
+                var closestCell = cells.MinElement(c => Vector3.Distance(c.transform.position, charCtrl.cell.transform.position));
 
-                        cell.StayCtrl(charCtrl);
-                        break;
+                TagLogger<FightMng>.Info($"Founded cell with position - {closestCell.transform.position}");
 
-                    }
-
-                }
+                closestCell.StayCtrl(charCtrl);
 
             }
 

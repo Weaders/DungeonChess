@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.EnemyData;
+using Assets.Scripts.Fight;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -39,6 +40,16 @@ namespace Assets.Scripts.DungeonGenerator {
                 GameMng.current.cellsGridMng.enemiesSideCell,
                 GameMng.current.cellsGridMng.playerSideCell
             );
+
+            GameMng.current.fightMng.onPlayerWin.AddListener(OnPlayerWin);
+            
+
+        }
+
+        private void OnPlayerWin() {
+
+            GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
+            GameMng.current.fightMng.onPlayerWin.RemoveListener(OnPlayerWin);
 
         }
 

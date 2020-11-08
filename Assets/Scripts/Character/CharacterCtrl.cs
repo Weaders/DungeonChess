@@ -157,6 +157,7 @@ namespace Assets.Scripts.Character {
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
                 GetComponent<Collider>().enabled = false;
                 moveCtrl.GetNavMeshAgent().enabled = false;
+                characterCanvas.gameObject.SetActive(false);
 
             });
 

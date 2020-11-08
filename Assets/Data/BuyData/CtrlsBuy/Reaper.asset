@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ctrlPrefab: {fileID: 8651046409866918608, guid: cf9b357e1f482e049ae8e73d2e36e035,
     type: 3}
-  cost: 50
+  cost: 80

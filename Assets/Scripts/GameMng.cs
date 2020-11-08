@@ -140,8 +140,6 @@ namespace Assets.Scripts {
             // On win, add money to player
             fightMng.onPlayerWin.AddListener(() => {
 
-                playerData.money.val += currentDungeonData.moneyVictory;
-
                 var drops = gameData.GetDropChances(level);
                 var items = GetItemsForDropChanches(drops, 3);
 
