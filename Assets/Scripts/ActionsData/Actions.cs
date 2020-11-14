@@ -57,7 +57,7 @@ namespace Assets.Scripts.ActionsData {
 
         }
 
-        public void GetDmg(CharacterCtrl from, Dmg dmg) {
+        public DmgMakeResult GetDmg(CharacterCtrl from, Dmg dmg) {
 
             var dmgEventData = new DmgEventData() {
                 dmg = dmg,
@@ -68,11 +68,14 @@ namespace Assets.Scripts.ActionsData {
             from.characterData.actions.onPreMakeDmg.Invoke(dmgEventData);
             onPreGetDmg.Invoke(dmgEventData);
 
-            _characterData.stats.hp.val -= dmg.GetCalculateVal();
+            var calculatedVal = dmg.GetCalculateVal();
+
+            _characterData.stats.hp.val -= calculatedVal;
 
             onPostMakeDmg.Invoke(dmgEventData);
             onPostGetDmg.Invoke(dmgEventData);
 
+            return new DmgMakeResult(calculatedVal, dmg.source);
         }
 
         public void GetMana(int mana) {
@@ -123,8 +126,14 @@ namespace Assets.Scripts.ActionsData {
 
     }
 
-    public interface IDmgSource {
+    public interface ISource {
         string GetId();
+    }
+
+    public interface IDmgSource : ISource {
+    }
+
+    public interface IHealSource : ISource { 
     }
 
     public class Dmg {
@@ -158,6 +167,17 @@ namespace Assets.Scripts.ActionsData {
             return $"Make {GetCalculateVal()} dmg";
         }
 
+    }
+
+    public class DmgMakeResult {
+
+        public DmgMakeResult(int calcVal, ISource dmgSource) {
+            resultVal = calcVal;
+            source = dmgSource;
+        }
+
+        public readonly int resultVal;
+        public readonly ISource source;
     }
 
     public class Heal {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Assets.Scripts.Character;
@@ -15,7 +14,7 @@ namespace Assets.Scripts.Spells {
     }
 
     public enum SpellTarget {
-        Self, Enemy
+        Self, Enemy, RandomEnemy
     }
 
     public abstract class Spell : MonoBehaviour {

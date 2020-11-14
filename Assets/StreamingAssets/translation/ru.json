@@ -84,6 +84,14 @@
         {
             "key": "boss_room",
             "value": "Комната с боссом"
+        },
+        {
+            "key": "reaper_last_touch_title",
+            "value": "Касание смерти"
+        },
+        {
+            "key": "reaper_last_touch_description",
+            "value": "Наносит уроин и исцеляет"
         }
     ]
 }

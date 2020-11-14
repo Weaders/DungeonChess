@@ -12,6 +12,8 @@ namespace Assets.Scripts.Spells {
                     return new EnemyStrtg();
                 case SpellTarget.Self:
                     return new SelfStrtg();
+                case SpellTarget.RandomEnemy:
+                    return new RandomEnemyStrtg();
 
             }
 
