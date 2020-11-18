@@ -97,16 +97,23 @@ namespace Assets.Scripts.Character {
 
                 if (characterData.stats.mana.val >= characterData.stats.maxMana.val) {
 
+                    animator.SetBool(AnimationValStore.IS_USING_SPELL, true);
+
                     var fullManaSpell = characterData.spellsContainer.GetFullManaSpellAttack();
 
                     var strtg = SpellStrategyStorage.GetSpellStrtg(fullManaSpell);
                     var targetForManaSpell = strtg.GetTarget(fullManaSpell, this);
 
                     if (targetForManaSpell != null) {
+                        
                         fullManaSpell.Use(this, targetForManaSpell, null);
-                    }
+                        characterData.stats.mana.val = 0;
 
-                    characterData.stats.mana.val = 0;
+                        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+
+                        animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
+
+                    }
 
                 }
 

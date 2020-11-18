@@ -3,5 +3,6 @@
 
         public const string CHARACTER_TAG = "Character";
         public const string MOVE_ITEM_CELL = "MoveItemCell";
+        public const string EFFECT = "Effect";
     }
 }

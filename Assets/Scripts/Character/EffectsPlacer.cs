@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
+using Assets.Scripts.Common;
 using Assets.Scripts.Effects;
 using UnityEngine;
 
 namespace Assets.Scripts.Character {
 
     public class EffectsPlacer : MonoBehaviour {
-
-        public Vector3 offsetPosition;
-
-        public Vector3 offsetScale;
 
         public EffectOverridePlaceData[] overrieds;
 
@@ -32,18 +29,18 @@ namespace Assets.Scripts.Character {
             if (overrideData == null) {
 
                 effectObj.transform.localPosition
-                   = effectObj.transform.localPosition + offsetPosition;
+                   = Vector3.zero + effect.offset;
 
                 effectObj.transform.localScale
-                    = effectObj.transform.localScale + offsetScale;
+                    = Vector3.one + effect.offsetScale;
 
             } else {
 
                 effectObj.transform.localPosition
-                   = effectObj.transform.localPosition + overrideData.offsetPosition;
+                   = Vector3.zero + overrideData.offsetPosition;
 
                 effectObj.transform.localScale
-                    = effectObj.transform.localScale + overrideData.offsetScale;
+                    = Vector3.one + overrideData.offsetScale;
 
             }
         }
@@ -52,7 +49,7 @@ namespace Assets.Scripts.Character {
         public void PlaceEffects() {
 
             foreach (Transform obj in transform)
-                if (obj.tag == "Effect")
+                if (obj.tag == TagsStore.EFFECT)
                     ProcessEffect(obj.gameObject);
 
         }
