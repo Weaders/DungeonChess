@@ -12,10 +12,10 @@ namespace Assets.Scripts.Common {
         public Color getHealText = new Color(0, 1, 0, 1);
 
         #region Cell
-        public Color cellPlayerAllow = new Color(0, 0.5f, 0, 0.6f);
+        public Color cellPlayerAllow = new Color(0.16f, 0.4f, 0.08f, 0.08f);
         public Color cellPlayerAllowOutline = new Color(0, 1f, 0, 1f);
 
-        public Color cellPlayerNotAllow = new Color(0, 0.5f, 0, 0.6f);
+        public Color cellPlayerNotAllow = new Color(0.5f, 0, 0, 0.6f);
         public Color cellPlayerNotAllowOutline = new Color(0, 1f, 0, 1f);
 
         public Color cellEnemy = new Color(0.5f, 0, 0, 0.6f);

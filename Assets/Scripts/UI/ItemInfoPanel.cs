@@ -6,9 +6,6 @@ namespace Assets.Scripts.UI {
     public class ItemInfoPanel : MonoBehaviour {
 
         [SerializeField]
-        private Image img;
-
-        [SerializeField]
         private Text title;
 
         [SerializeField]
@@ -16,7 +13,6 @@ namespace Assets.Scripts.UI {
 
         public void SetItemData(ItemData itemData) {
 
-            //img.sprite = itemData.icon;
             title.text = itemData.title;
             description.text = itemData.description;
 

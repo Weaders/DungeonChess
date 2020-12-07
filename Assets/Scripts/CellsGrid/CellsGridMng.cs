@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.DungeonGenerator;
+using Assets.Scripts.Logging;
+using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
@@ -42,18 +46,38 @@ namespace Assets.Scripts.CellsGrid {
 
         public void DisplayExits() {
 
-            foreach (Cell cell in GameMng.current.roomCtrl.currentRoom.GetExits()) {
+            var exists = GameMng.current.roomCtrl.currentRoom.roomData.exitFromRooms
+                .Take(3)
+                .ToArray();
 
-                var obj = Instantiate(arrowCtrlPrefab.gameObject, cell.transform);
-                obj.transform.localPosition = Vector3.zero;
+            TagLogger<CellsGridMng>.Info($"Display {exists.Length} exists");
 
-                obj.GetComponent<ArrowCtrl>().onClick.AddListener(
-                    () => GameMng.current.roomCtrl.MoveToNextRoom(cell.exitDirection)
-                );
+            ExitFromRoom getExit(int i)  {
+                if (exists.Length > i) {
+                    return exists[i];
+                } else {
+                    return null;
+                }
+            };
 
-                _exists.Add(obj);                
+            GameMng.current.selectPanel.titleText = TranslateReader.GetTranslate("select_exit");
+            GameMng.current.selectPanel.SetItems((getExit(0), getExit(1), getExit(2)));
+            GameMng.current.selectPanel.Show();
 
-            }
+            //foreach (Cell cell in GameMng.current.roomCtrl.currentRoom.GetExits()) {
+
+            //    i++;
+
+            //    //var obj = Instantiate(arrowCtrlPrefab.gameObject, cell.transform);
+            //    //obj.transform.localPosition = Vector3.zero;
+
+            //    //obj.GetComponent<ArrowCtrl>().onClick.AddListener(
+            //    //    () => GameMng.current.roomCtrl.MoveToNextRoom(cell.exitDirection)
+            //    //);
+
+            //    //_exists.Add(obj);            
+
+            //}
 
         }
 

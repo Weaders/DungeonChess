@@ -22,7 +22,7 @@ namespace Assets.Scripts.Spells.Data {
         [Placecholder("heal_amount")]
         public int GetHealAmount(CharacterData data) => healAmount;
 
-        public override void Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
 
             TagLogger<Heal>.Info("Use Heal");
 
@@ -31,6 +31,8 @@ namespace Assets.Scripts.Spells.Data {
             var effect = to.effectsPlacer.PlaceEffect(healEffect);
 
             Destroy(effect, effectTime);
+
+            return null;
 
         }
 

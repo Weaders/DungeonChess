@@ -8,11 +8,15 @@ namespace Assets.Scripts.Character {
 
     public class EffectsPlacer : MonoBehaviour {
 
+        static int i = 0;
+
         public EffectOverridePlaceData[] overrieds;
 
         public GameObject PlaceEffect(GameObject effectPrefab) {
 
-            var effectObj = Instantiate(effectPrefab, transform);
+            var effectObj = Instantiate(effectPrefab, transform, false);
+
+            effectObj.name = $"Effect_{i++}";
 
             ProcessEffect(effectObj);
 

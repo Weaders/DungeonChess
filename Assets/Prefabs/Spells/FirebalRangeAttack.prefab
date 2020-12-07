@@ -43,11 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9cc58d2bd58c2418bfe9501f16df7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
   titleKey: 
   descriptionKey: 
   spellType: 0
   spellTarget: 1
   range: 15
-  bulletPrefab: {fileID: 4841880483067470451, guid: c6e19c9fffd6cc146b5dbe2022b5606a,
+  bulletPrefab: {fileID: 1876101832145320996, guid: 6255900985d3a0c41b51259e7167dea6,
     type: 3}
   dmgAmount: 10

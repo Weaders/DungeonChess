@@ -24,11 +24,11 @@ namespace Assets.Scripts.Spells.Data {
             data.stats.AD
         };
 
-        public override void Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
 
-            var eventData = spellAnimationData.RunFor(this, from, to);
+            var eventData = spellAnimationData.RunFor(this, from, to, opts);
 
-            eventData.AddListener((animData) => {
+            eventData.animEventData.AddListener((animData) => {
 
                 if (animData.animEventType == AnimEventForward.AnimEventType.AmimEventMakeAttack) {
 
@@ -40,6 +40,10 @@ namespace Assets.Scripts.Spells.Data {
                 }
 
             });
+
+            return new UseSpellResult {
+                IsEndUseSpell = eventData.IsEndAnim
+            };
             
         }
 

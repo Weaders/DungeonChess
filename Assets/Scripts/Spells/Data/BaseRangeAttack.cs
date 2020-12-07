@@ -13,7 +13,7 @@ namespace Assets.Scripts.Spells.Data {
 
         public int dmgAmount;
 
-        public override void Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
 
             var bullObj = Instantiate(bulletPrefab, from.transform);
 
@@ -27,6 +27,8 @@ namespace Assets.Scripts.Spells.Data {
                 from.characterData.onPostMakeAttack.Invoke();
 
             });
+
+            return null;
 
         }
 

@@ -8,7 +8,10 @@ namespace Assets.Scripts.AnimationCtrl {
             AmimEventMakeAttack, EndSpellEvent
         }
 
-        public ITargetForAnimEvents targetForAnimEvents;
+        public ITargetForAnimEvents targetForAnimEvents { 
+            get;
+            set; 
+        }
 
         /// <summary>
         /// Trigger from 

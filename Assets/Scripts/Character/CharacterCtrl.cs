@@ -89,6 +89,7 @@ namespace Assets.Scripts.Character {
 
             var spell = characterData.spellsContainer.GetBaseAttackSpell();
 
+            animator.SetBool(AnimationValStore.IS_USING_SPELL, characterData.stats.mana.val >= characterData.stats.maxMana.val);
             animator.SetBool(AnimationValStore.IS_ATTACK, true);
 
             while (target != null && spell.IsInRange(this, target) && !target.characterData.stats.isDie) {
@@ -105,11 +106,19 @@ namespace Assets.Scripts.Character {
                     var targetForManaSpell = strtg.GetTarget(fullManaSpell, this);
 
                     if (targetForManaSpell != null) {
-                        
-                        fullManaSpell.Use(this, targetForManaSpell, null);
+
+                        TagLogger<CharacterCtrl>.Info($"{gameObject.name} is start using spell");
+
+                        var useResult = fullManaSpell.Use(this, targetForManaSpell, new Spell.UseOpts 
+                        {
+                            animator = animator
+                        });
+
                         characterData.stats.mana.val = 0;
 
-                        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+                        yield return new WaitUntil(() => useResult.IsEndUseSpell());
+
+                        TagLogger<CharacterCtrl>.Info($"{gameObject.name} is stop using spell");
 
                         animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
 
@@ -145,11 +154,22 @@ namespace Assets.Scripts.Character {
             characterAnimEvents.Init(this);
 
             characterData.actions.onPostGetDmg.AddSubscription(OrderVal.UIUpdate, (dmgEventData) => {
-                GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), colorStore.getDmgText);
+                
+                GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts 
+                {
+                    color = colorStore.getDmgText,
+                    size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1
+                });
+
             });
 
             characterData.actions.onPostGetHeal.AddSubscription(OrderVal.UIUpdate, (healEventData) => {
-                GameMng.current.fightTextMng.DisplayText(this, healEventData.heal.GetCalculateVal().ToString(), colorStore.getHealText);
+
+                GameMng.current.fightTextMng.DisplayText(this, healEventData.heal.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts 
+                { 
+                    color = colorStore.getHealText
+                });
+
             });
 
             animator.SetFloat(AnimationValStore.SPEED_ATTACK, characterData.stats.AS);
@@ -188,6 +208,10 @@ namespace Assets.Scripts.Character {
         public Transform GetTargetTransform() => bulletSpawnObj.transform;
 
         public Transform GetSpawnTransform() => bulletSpawnObj.transform;
+
+        private void Update() {
+            characterCanvas.transform.rotation = Quaternion.identity;
+        }
 
         private void OnDestroy() {
             onDestoy.Invoke();

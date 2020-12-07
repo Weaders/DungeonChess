@@ -19,7 +19,7 @@ namespace Assets.Scripts.Spells.Data {
             data.stats.AD
         };
 
-        public override void Use(CharacterCtrl from, CharacterCtrl to, UseOpts useOpts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts useOpts) {
 
             to.characterData.actions.GetDmg(
                 from,
@@ -27,6 +27,8 @@ namespace Assets.Scripts.Spells.Data {
             );
 
             from.characterData.onPostMakeAttack.Invoke();
+
+            return null;
 
         }
 

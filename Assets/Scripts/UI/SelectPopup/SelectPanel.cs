@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Common;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.SelectPopup {
 
@@ -11,6 +12,9 @@ namespace Assets.Scripts.UI.SelectPopup {
 
         [SerializeField]
         private CanvasGroup canvasGroup;
+
+        [SerializeField]
+        private Text title;
 
         private void Reset() {
             canvasGroup = GetComponent<CanvasGroup>();
@@ -24,10 +28,35 @@ namespace Assets.Scripts.UI.SelectPopup {
         /// </param>
         public void SetItems((IForSelectPanel, IForSelectPanel, IForSelectPanel) items) {
 
-            selectPanelItems[0].SetItem(items.Item1);
-            selectPanelItems[1].SetItem(items.Item2);
-            selectPanelItems[2].SetItem(items.Item3);
+            if (items.Item1 == null)
+                selectPanelItems[0].gameObject.SetActive(false);
+            else {
+                selectPanelItems[0].gameObject.SetActive(true);
+                selectPanelItems[0].SetItem(items.Item1);
+            }
+                
 
+            if (items.Item2 == null)
+                selectPanelItems[1].gameObject.SetActive(false);
+            else {
+                selectPanelItems[1].gameObject.SetActive(true);
+                selectPanelItems[1].SetItem(items.Item2);
+            }
+                
+
+            if (items.Item3 == null)
+                selectPanelItems[2].gameObject.SetActive(false);
+            else {
+                selectPanelItems[2].gameObject.SetActive(true);
+                selectPanelItems[2].SetItem(items.Item3);
+            }
+                
+
+        }
+
+        public string titleText {
+            get => title.text;
+            set => title.text = value;
         }
 
         public void Show() {

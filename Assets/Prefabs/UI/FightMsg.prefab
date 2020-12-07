@@ -89,6 +89,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2761795359429991201}
   - component: {fileID: 461108356741565952}
+  - component: {fileID: 5433629607162866440}
+  - component: {fileID: 5658676843085314076}
   m_Layer: 0
   m_Name: FightMsg
   m_TagString: Untagged
@@ -129,4 +131,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textObj: {fileID: 6260508576068271446}
-  speed: 2
+  ySpeed: 1.5
+  yChange: -3
+  currentYChange: 0
+  canvasGroup: {fileID: 0}
+  isRuning: 0
+--- !u!225 &5433629607162866440
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8942653248585637314}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!95 &5658676843085314076
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8942653248585637314}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f5ed6153e78c5b34c8d495ca6e995b6d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

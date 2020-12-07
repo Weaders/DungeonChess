@@ -17,10 +17,12 @@ namespace Assets.Scripts.Spells.Data {
         [Placecholder("time_use")]
         public float GetTimeUse(CharacterData from) => timeEffect;
 
-        public override void Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
 
             from.characterData.buffsContainer.AddPrefab(holyShieldBuffPrefab);
             StartCoroutine(RemoveEffect(from));
+
+            return null;
 
         }
 

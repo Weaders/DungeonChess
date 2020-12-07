@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsPools:
   - {fileID: 11400000, guid: b5ea4f3c4ee957549bad4d0a911092c3, type: 2}
+  statsInfoData: {fileID: 11400000, guid: 7d271b0228bf68447ace3e8d936fd344, type: 2}

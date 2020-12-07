@@ -17,12 +17,15 @@ namespace Assets.Scripts.DungeonGenerator {
 
             GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
                 msg = "You has been healed for 10%",
-                btnOk = "Ok"
+                btnOk = "Ok",
+                onClick = () => {
+                    GameMng.current.cellsGridMng.DisplayExits();
+                }
             });
 
             GameMng.current.messagePanel.Show();
 
-            GameMng.current.cellsGridMng.DisplayExits();
+            
 
         }
     }

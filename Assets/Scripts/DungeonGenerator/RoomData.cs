@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CellsGrid;
+using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
+using Assets.Scripts.UI.SelectPopup;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -53,7 +55,7 @@ namespace Assets.Scripts.DungeonGenerator {
         top, left, right, bottom
     }
 
-    public class ExitFromRoom {
+    public class ExitFromRoom : IForSelectPanel {
 
         public ExitFromRoom(RoomData from, RoomData to, Direction dir) {
 
@@ -69,6 +71,19 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public readonly Direction direction;
 
+        public Sprite img => null;
+
+        public string title => $"Title";
+
+        public string description => $"Description";
+
+        private ObservableVal _onChange = new ObservableVal();
+
+        public ObservableVal onChange => _onChange;
+
+        public void Select() {
+            GameMng.current.roomCtrl.MoveToNextRoom(direction);
+        }
     }
 
 }

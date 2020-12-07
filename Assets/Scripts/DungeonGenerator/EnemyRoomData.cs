@@ -43,7 +43,6 @@ namespace Assets.Scripts.DungeonGenerator {
 
             GameMng.current.fightMng.onPlayerWin.AddListener(OnPlayerWin);
             
-
         }
 
         private void OnPlayerWin() {
@@ -53,8 +52,14 @@ namespace Assets.Scripts.DungeonGenerator {
 
         }
 
-        protected virtual EnemyTeam[] GetEnemyTeams()
-            => GameMng.current.currentDungeonData.enemiesPoll.GetStandartEnemies().ToArray();
+        protected virtual EnemyTeam[] GetEnemyTeams() {
+
+            var enemies = GameMng.current.currentDungeonData.enemiesPoll.GetStandartEnemies()
+                .Where(e => e.condition.IsInRange(GameMng.current.level))
+                .ToArray();
+
+            return enemies;
+        }
 
     }
 }

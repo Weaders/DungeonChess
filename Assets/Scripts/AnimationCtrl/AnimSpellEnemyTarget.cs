@@ -5,6 +5,7 @@ using Assets.Scripts.Effects;
 using Assets.Scripts.Spells;
 using UnityEngine;
 using static Assets.Scripts.AnimationCtrl.AnimEventForward;
+using static Assets.Scripts.Spells.Spell;
 
 namespace Assets.Scripts.AnimationCtrl {
 
@@ -14,21 +15,29 @@ namespace Assets.Scripts.AnimationCtrl {
 
         public Dictionary<AnimEventForward, AnimEventData> anims = new Dictionary<AnimEventForward, AnimEventData>();
 
-        public override AnimEventData RunFor(Spell spell, CharacterCtrl from, CharacterCtrl to) {
+        public bool afterCharSpell;
 
-            var animObj = to.effectsPlacer.PlaceEffect(animObjPrefab.gameObject);
+        public override AnimRunResult RunFor(Spell spell, CharacterCtrl from, CharacterCtrl to, UseOpts opts = null) {
 
-            var eventForward = animObj.gameObject.AddComponent<AnimEventForward>();
+            var isEnded = false;
 
-            eventForward.targetForAnimEvents = this;
+            var result = new AnimRunResult {
+                animEventData = new AnimEventData(),
+                IsEndAnim = () => isEnded
+            };
 
-            var animEventData = new AnimEventData();
+            result.animEventData.AddListener((d) => {
+                if (d.animEventType == AnimEventType.EndSpellEvent)
+                    isEnded = true;
+            });
 
-            anims.Add(eventForward, animEventData);
+            if (afterCharSpell) {
+                StartCoroutine(WaitForEndAndRunSpell(opts.animator, to, result.animEventData));
+            } else {
+                RunEffectSpell(to, result.animEventData);
+            }
 
-            StartCoroutine(WaitForEnd(animObj.GetComponent<Animator>()));
-
-            return animEventData;
+            return result;
 
         }
 
@@ -40,11 +49,46 @@ namespace Assets.Scripts.AnimationCtrl {
 
         }
 
-        private IEnumerator WaitForEnd(Animator animator) {
+        private IEnumerator WaitForEndAndRunSpell(Animator animator, CharacterCtrl to, AnimEventData eventData) {
 
             yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
 
+            RunEffectSpell(to, eventData);
+
+        }
+
+        private IEnumerator WaitForEndAndDestory(Animator animator, AnimEventData eventData) {
+
+            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+
+            eventData.Invoke(new AnimData 
+            {
+                animEventType = AnimEventType.EndSpellEvent
+            });
+
             Destroy(animator.gameObject);
+
+        }
+
+        private AnimEventData RunEffectSpell(CharacterCtrl to, AnimEventData animEventData) {
+
+            var animObj = to.effectsPlacer.PlaceEffect(animObjPrefab.gameObject);
+
+            var animator = animObj.GetComponent<Animator>();
+
+            animator.enabled = false;
+
+            var eventForward = animObj.gameObject.AddComponent<AnimEventForward>();
+
+            eventForward.targetForAnimEvents = this;
+
+            anims.Add(eventForward, animEventData);
+
+            animator.enabled = true;
+
+            StartCoroutine(WaitForEndAndDestory(animator, animEventData));
+
+            return animEventData;
 
         }
 

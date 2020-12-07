@@ -18,7 +18,7 @@ Shader "EGA/Particles/FireSphere"
 
 	SubShader
 	{
-		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  "PreviewType"="Plane" }
+		Tags{ "RenderType" = "Transparent"  "RenderPipeline" = "UniversalRenderPipeline" "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  "PreviewType"="Plane" }
 		Cull Back
 		CGPROGRAM
 		#include "UnityShaderVariables.cginc"

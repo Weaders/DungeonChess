@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Dungeon
   m_EditorClassIdentifier: 
   enemiesPoll: {fileID: 11400000, guid: 1cabb5225610c284da7c3d2d0d12a9f1, type: 2}
-  moneyVictory: 25
+  moneyVictory: 45
   countRooms:
-    min: 2
-    max: 2
+    min: 3
+    max: 4
   dungeonRoomCells:
   - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}

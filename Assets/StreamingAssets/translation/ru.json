@@ -92,6 +92,14 @@
         {
             "key": "reaper_last_touch_description",
             "value": "Наносит уроин и исцеляет"
+        },
+        {
+            "key": "select_exit",
+            "value": "Выберите выход"
+        },
+        {
+            "key": "select_items",
+            "value": "Выберите предмет"
         }
     ]
 }

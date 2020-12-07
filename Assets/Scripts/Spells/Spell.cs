@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Assets.Scripts.Character;
@@ -44,7 +45,7 @@ namespace Assets.Scripts.Spells {
             => TranslateReader.GetTranslate(titleKey, GetPlaceholders(owner));
 
 
-        public abstract void Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts);
+        public abstract UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts);
 
         public float range = 2f;
 
@@ -69,6 +70,14 @@ namespace Assets.Scripts.Spells {
 
         public class UseOpts {
             public float scale = 1f;
+            public Animator animator = null;
+        }
+
+        public class UseSpellResult {
+            
+            public Func<bool> IsEndUseSpell;
+
+
         }
 
     }

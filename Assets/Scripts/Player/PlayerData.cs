@@ -20,7 +20,6 @@ namespace Assets.Scripts.Player {
         public void OnRemoveItem(ItemData item) {
         }
 
-        //public ObservableList<CharacterCtrl> playerCtrls = new ObservableList<CharacterCtrl>();
     }
 
 }

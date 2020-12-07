@@ -5,6 +5,7 @@ using Assets.Scripts.Character;
 using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Fight.PlaceStrategy;
 using UnityEngine;
+using static Assets.Scripts.EnemyData.DungeonData;
 
 namespace Assets.Scripts.EnemyData {
 
@@ -14,10 +15,10 @@ namespace Assets.Scripts.EnemyData {
         public EnemyTeam[] teams;
 
         public IEnumerable<EnemyTeam> GetBossTeams()
-            => teams.Where(t => t.isBoss);
+            => teams.Where(t => t.isBoss && t.isEnabled);
 
         public IEnumerable<EnemyTeam> GetStandartEnemies()
-            => teams.Where(t => !t.isBoss);
+            => teams.Where(t => !t.isBoss && t.isEnabled);
     }
 
     public enum EnemyTeamStrtg { 
@@ -51,16 +52,13 @@ namespace Assets.Scripts.EnemyData {
         public EnemyTeamStrtg enemyTeamStrtg;
         public CharacterCtrl[] characterCtrls;
         public bool isBoss;
+        public bool isEnabled;
+        public Condition condition;
+
     }
 
     [Serializable]
-    public class EnemyData {
-
-        public CharacterCtrl characterCtrl;
-
-
-
-
+    public class Condition : RangeRooms {
     }
 
 }

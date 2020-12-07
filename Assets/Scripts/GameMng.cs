@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Assets.Scripts.BuyMng;
-using Assets.Scripts.CameraMng;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
 using Assets.Scripts.CharacterBuyPanel;
@@ -25,6 +24,7 @@ using Assets.Scripts.UI.MessagePopup;
 using Assets.Scripts.UI.SelectPopup;
 using Assets.Scripts.UI.SpellsList;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts {
 
@@ -100,12 +100,15 @@ namespace Assets.Scripts {
         public GameData gameData;
 
         [SerializeField]
+        private Text selectedCharacterName;
+
+        [SerializeField]
         private Animator blackOverlayAnim;
 
         public MessagePanel messagePanel;
 
         public RoomCtrl roomCtrl;
-        
+
         public ObservableVal<int> countLevels { get; private set; }
 
         public ObservableVal<int> level { get; private set; }
@@ -174,6 +177,7 @@ namespace Assets.Scripts {
                         if (ctrl == null || ctrl.characterData == null)
                             throw new Exception(hit.collider.gameObject.name);
 
+                        selectedCharacterName.text = ctrl.characterData.characterName.val;
                         statsGrid.SetCharacter(ctrl.characterData);
                         characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
                         characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);

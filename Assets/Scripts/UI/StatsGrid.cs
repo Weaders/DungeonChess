@@ -16,23 +16,15 @@ namespace Assets.Scripts.UI {
         [SerializeField]
         private CellWhatDisplay[] whatDisplay;
 
-        private StatsGridCell[] cells;
-
-        private void Awake() {
-
-            cells = new StatsGridCell[whatDisplay.Length];
-
-            for (var i = 0; i < whatDisplay.Length; i++) {
-                var cell = Instantiate(gridCellPrefab, transform);
-                cells[i] = cell.GetComponent<StatsGridCell>();
-            }
-
-        }
-
         public void SetCharacter(CharacterData characterData) {
 
-            for (var i = 0; i < whatDisplay.Length; i++) {
-                cells[i].SetCharacter(characterData, whatDisplay[i]);
+            foreach (Transform tr in transform) {
+                Destroy(tr.gameObject);
+            }
+
+            foreach (var d in whatDisplay) {
+                var cell = Instantiate(gridCellPrefab, transform);
+                cell.SetCharacter(characterData, d);
             }
 
         }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.DragAndDrop {
 
     public interface IForMoveItem {
         void ClickHandle(MoveItem moveItem);
+        Sprite img { get; }
     }
 
     public class MoveItemFactory : MonoBehaviour {
@@ -30,6 +32,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
             var moveItemObj = Instantiate(moveItemPrefab.gameObject, transform);
 
             var moveItem = moveItemObj.GetComponent<MoveItem>();
+
+            moveItemObj.GetComponent<Image>().sprite = itemData.img;
 
             moveItems.Add(obj, moveItem);
 

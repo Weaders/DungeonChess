@@ -27,6 +27,8 @@ namespace Assets.Scripts.Character {
 
         public CharacterCtrl characterCtrl;
 
+        public ObservableVal<string> characterName;
+
         public RangeType rangeType {
             get {
 

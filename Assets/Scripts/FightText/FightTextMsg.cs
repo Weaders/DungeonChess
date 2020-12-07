@@ -1,27 +1,29 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Logging;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.FightText {
 
+    [ExecuteAlways]
     public class FightTextMsg : MonoBehaviour {
 
         [SerializeField]
         private Text textObj;
 
         [SerializeField]
-        private float speed;
+        private CanvasGroup canvasGroup;
 
-        public void SetText(string text, Color color) {
+        public void SetText(string text, SetTextOpts opts) {
 
             textObj.text = text;
-            textObj.color = color;
+            textObj.color = opts.color;
+            textObj.fontSize = opts.size;
 
         }
 
-        private void Update() {
-            transform.Translate(transform.up * speed * Time.deltaTime);
+        public class SetTextOpts {
+            public Color color;
+            public int size = 1;
         }
-
-
     }
 }
