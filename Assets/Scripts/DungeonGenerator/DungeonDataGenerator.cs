@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Common;
 using Assets.Scripts.EnemyData;
+using Assets.Scripts.Logging;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
 
+    [Obsolete]
     public class DungeonDataGenerator {
 
         public DungeonDataPosition GetDungeonDataPositions(DungeonData dungeonData) {
 
-            var countRooms = Random.Range(dungeonData.countRooms.min, dungeonData.countRooms.max);
+            var countRooms = UnityEngine.Random.Range(dungeonData.countRooms.min, dungeonData.countRooms.max);
 
             //var roomSize = new Vector2Int(6, 6);
 
@@ -40,19 +43,20 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 } else {
 
-                    var countExists = Random.Range(1, 3);
+                    var countExists = UnityEngine.Random.Range(1, 3);
+
+                    TagLogger<DungeonDataGenerator>.Info($"For {rooms.Count - 1} will be generated {countExists} exists");
 
                     for (var e = 0; e < directionsExits.Length; e++) {
 
                         if (!node.data.IsThereExit(directionsExits[e])) {
 
-                            //new RoomData(roomSize)
                             RoomData newRoom = null;
 
                             node.data.AddExit(newRoom, directionsExits[e]);
 
-                            var neweNode = node.AddChild(newRoom);
-                            roomsStack.Push(neweNode);
+                            var newNode = node.AddChild(newRoom);
+                            roomsStack.Push(newNode);
 
                             rooms.Add(newRoom);
 

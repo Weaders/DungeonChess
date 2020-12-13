@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Character;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,17 +10,13 @@ namespace Assets.Scripts.BuyMng {
 
         public IReadOnlyList<BuyData> buyDataList => _buyDataList;
 
-        public IReadOnlyList<CharacterCtrl> characterCtrls => _ctrls;
+        public IEnumerable<CharacterCtrl> characterCtrls => buyDataList.Select(b => b.ctrlPrefab);
 
         public UnityEvent postBuy = new UnityEvent();
 
         public UnityEvent onChangeCtrls = new UnityEvent();
 
-        private readonly List<CharacterCtrl> _ctrls = new List<CharacterCtrl>();
-
         private readonly List<BuyData> _buyDataList = new List<BuyData>();
-
-        private int count = 0;
 
         [SerializeField]
         private StoreData storeData;
@@ -41,14 +38,7 @@ namespace Assets.Scripts.BuyMng {
 
             GameMng.current.playerData.money.val -= buyData.cost;
             
-            var ctrlObj = Instantiate(buyData.ctrlPrefab);
-            ctrlObj.gameObject.name = $"{ctrlObj.gameObject.name}_{++count}";
-
-            var ctrl = ctrlObj.GetComponent<CharacterCtrl>();
-
-            ctrl.Init();
-
-            GameMng.current.fightMng.fightTeamPlayer.AddCharacterToTeam(ctrl);
+            var ctrl = GameMng.current.fightMng.fightTeamPlayer.AddCharacterToTeamPrefab(buyData.ctrlPrefab);
 
             postBuy.Invoke();
 

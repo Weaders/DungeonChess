@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Assets.Scripts.Logging;
 using UnityEngine;
 
 namespace Assets.Scripts.Translate {
@@ -46,7 +47,8 @@ namespace Assets.Scripts.Translate {
 #if UNITY_EDITOR
                 throw new Exception($"There no translation with key - {key}, lang - {lang}");
 #else
-                Debg.LogError($"There no translation with key - {key}" );
+                
+                TagLogger<TranslateReader>.Error($"There no translation with key - {key}, lang - {lang}");
                 return key;
 #endif
 

@@ -19,6 +19,10 @@ namespace Assets.Scripts.EnemyData {
 
         public RoomChance healerRoom;
 
+        public RoomChance itemsRoom;
+
+        public RoomChance rerollRoom;
+
         public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
 
             var cells = dungeonRoomCells

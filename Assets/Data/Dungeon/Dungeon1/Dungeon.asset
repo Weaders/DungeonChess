@@ -15,8 +15,8 @@ MonoBehaviour:
   enemiesPoll: {fileID: 11400000, guid: 1cabb5225610c284da7c3d2d0d12a9f1, type: 2}
   moneyVictory: 45
   countRooms:
-    min: 3
-    max: 4
+    min: 6
+    max: 10
   dungeonRoomCells:
   - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}
@@ -35,3 +35,13 @@ MonoBehaviour:
     current: 0.9
     toAdd: 0.15
     delay: 2
+  itemsRoom:
+    start: 0.2
+    current: 0.9
+    toAdd: 0.2
+    delay: 4
+  rerollRoom:
+    start: 0.2
+    current: 1
+    toAdd: 0.2
+    delay: 4

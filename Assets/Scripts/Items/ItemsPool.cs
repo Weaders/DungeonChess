@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.EnemyData;
 using UnityEngine;
+using static Assets.Scripts.EnemyData.DungeonData;
 
 namespace Assets.Scripts.Items {
 
@@ -8,7 +9,7 @@ namespace Assets.Scripts.Items {
 
         public DropChance[] itemsWithChanches;
 
-        public int level;
+        public RangeRooms rooms;
 
     }
 }

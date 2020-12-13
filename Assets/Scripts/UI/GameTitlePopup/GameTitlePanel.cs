@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.GameTitlePopup {
-    
+
     [RequireComponent(typeof(CanvasGroup))]
     public class GameTitlePanel : MonoBehaviour {
 
@@ -14,19 +14,31 @@ namespace Assets.Scripts.UI.GameTitlePopup {
         private CanvasGroup canvasGroup;
 
         private void Reset() {
-            canvasGroup =  GetComponent<CanvasGroup>();
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
+
+        public void SetData(SetDataMsg setDataMsg) {
+            titleText.text = setDataMsg.text;
+        }
+
+        public void Show() {
+            canvasGroup.Show();
         }
 
         public void ShowPopup(string title, float delay = 2f) {
 
             titleText.text = title;
             Invoke("HidePopup", delay);
-            canvasGroup.Show();
+            Show();
 
         }
 
         public void HidePopup() {
             canvasGroup.Hide();
+        }
+
+        public class SetDataMsg {
+            public string text;
         }
 
     }

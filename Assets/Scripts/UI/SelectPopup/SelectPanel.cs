@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Common;
+﻿using System;
+using Assets.Scripts.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,13 +27,13 @@ namespace Assets.Scripts.UI.SelectPopup {
         /// <param name="items">
         /// I will be butn in the hell, for this code :D
         /// </param>
-        public void SetItems((IForSelectPanel, IForSelectPanel, IForSelectPanel) items) {
+        public void SetItems((IForSelectPanel, IForSelectPanel, IForSelectPanel) items, Action<IForSelectPanel> onSelect = null) {
 
             if (items.Item1 == null)
                 selectPanelItems[0].gameObject.SetActive(false);
             else {
                 selectPanelItems[0].gameObject.SetActive(true);
-                selectPanelItems[0].SetItem(items.Item1);
+                selectPanelItems[0].SetItem(items.Item1, onSelect);
             }
                 
 
@@ -40,7 +41,7 @@ namespace Assets.Scripts.UI.SelectPopup {
                 selectPanelItems[1].gameObject.SetActive(false);
             else {
                 selectPanelItems[1].gameObject.SetActive(true);
-                selectPanelItems[1].SetItem(items.Item2);
+                selectPanelItems[1].SetItem(items.Item2, onSelect);
             }
                 
 
@@ -48,7 +49,7 @@ namespace Assets.Scripts.UI.SelectPopup {
                 selectPanelItems[2].gameObject.SetActive(false);
             else {
                 selectPanelItems[2].gameObject.SetActive(true);
-                selectPanelItems[2].SetItem(items.Item3);
+                selectPanelItems[2].SetItem(items.Item3, onSelect);
             }
                 
 

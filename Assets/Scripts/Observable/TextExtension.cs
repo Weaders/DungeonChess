@@ -11,9 +11,11 @@ namespace Assets.Scripts.Observable {
 
         public static SubsribeTextResult Subscribe(this TextMeshProUGUI textObj, ObservableVal val, OrderVal orderVal = OrderVal.UIUpdate) {
 
-            void changeText() => textObj.text = val.ToString();
+            void changeText() { 
+                textObj.text = val.ToString(); 
 
-            textObj.text = val.ToString();
+            };
+
             val.onPostChangeBase.AddSubscription(orderVal, changeText);
 
             changeText();

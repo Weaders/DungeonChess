@@ -31,6 +31,16 @@ namespace Assets.Scripts.Fight {
 
         }
 
+        public FightTeam GetTeamFor(CharacterCtrl characterCtrl) {
+
+            if (fightTeamPlayer.chars.Contains(characterCtrl)) {
+                return fightTeamPlayer;
+            } else {
+                return fightTeamEnemy;
+            }
+
+        }
+
         public void MovePlayerCtrls() {
 
             var cells = GameMng.current.roomCtrl.currentRoom.GetCells();

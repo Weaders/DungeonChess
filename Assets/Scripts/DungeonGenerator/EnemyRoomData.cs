@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.EnemyData;
-using Assets.Scripts.Fight;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -16,38 +14,47 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var teams = GetEnemyTeams();
 
-            var teamIndex = Random.Range(0, teams.Length);
-            var team = teams[teamIndex];
+            if (teams.Any()) {
 
-            var i = 0;
+                var teamIndex = Random.Range(0, teams.Length);
+                var team = teams[teamIndex];
 
-            foreach (var ctrl in team.characterCtrls) {
+                var i = 0;
 
-                var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrl);
+                foreach (var ctrl in team.characterCtrls) {
 
-                ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
+                    var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrl);
 
-                GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
+                    ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
 
-                ++i;
+                    GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
 
+                    ++i;
+
+                }
+
+                var strtg = team.enemyTeamStrtg.GetStrgObj();
+
+                strtg.Place(
+                    GameMng.current.fightMng.fightTeamEnemy,
+                    GameMng.current.cellsGridMng.enemiesSideCell,
+                    GameMng.current.cellsGridMng.playerSideCell
+                );
+
+                GameMng.current.fightMng.onPlayerWin.AddListener(OnPlayerWin);
+
+            } else {
+            
             }
 
-            var strtg = team.enemyTeamStrtg.GetStrgObj();
-
-            strtg.Place(
-                GameMng.current.fightMng.fightTeamEnemy,
-                GameMng.current.cellsGridMng.enemiesSideCell,
-                GameMng.current.cellsGridMng.playerSideCell
-            );
-
-            GameMng.current.fightMng.onPlayerWin.AddListener(OnPlayerWin);
-            
         }
 
         private void OnPlayerWin() {
 
             GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
+
+            GameMng.current.cellsGridMng.DisplayExits();
+
             GameMng.current.fightMng.onPlayerWin.RemoveListener(OnPlayerWin);
 
         }
@@ -61,5 +68,7 @@ namespace Assets.Scripts.DungeonGenerator {
             return enemies;
         }
 
+        public override object Clone()
+            => new EnemyRoomData(_title);
     }
 }

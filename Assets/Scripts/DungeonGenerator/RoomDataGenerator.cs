@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Assets.Scripts.EnemyData;
 using Assets.Scripts.Logging;
-using UnityEngine;
+using static Assets.Scripts.EnemyData.DungeonData;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class RoomDataGenerator {
@@ -14,13 +14,24 @@ namespace Assets.Scripts.DungeonGenerator {
 
         #region State
         private List<int> healRoomLvls = new List<int>();
+        private List<int> itemsRoomLvls = new List<int>();
+        private Dictionary<Type, int> roomLvls = new Dictionary<Type, int>();
         private float currentHealChance = 0f;
         #endregion
+
+        private RoomGenerator[] generators;
 
         public RoomDataGenerator(RoomCtrl roomCtrl, DungeonData dungeonData) {
 
             _roomCtrl = roomCtrl;
             _dungeonData = dungeonData;
+
+            generators = new RoomGenerator[] 
+            {
+                new RoomGenerator(_dungeonData.healerRoom, new HealerRoomData("healer_room")),
+                new RoomGenerator(_dungeonData.itemsRoom, new ItemsRoomData("items_room")),
+                new RoomGenerator(_dungeonData.rerollRoom, new RerollRoomData("reroll_room"))
+            };
 
             currentHealChance = _dungeonData.healerRoom.current;
 
@@ -34,14 +45,10 @@ namespace Assets.Scripts.DungeonGenerator {
         }
 
         public RoomData GenerateStartRoom() {
-            return new StartRoomData("one_more_room");
+            return new RerollRoomData("reroll_room");
         }
 
         private RoomData GenerateExit() {
-
-            var chances = new[] {
-                _dungeonData.healerRoom
-            };
 
             var newLvl = GameMng.current.level + 1;
 
@@ -49,7 +56,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #region Boss Room
 
-            TagLogger<RoomDataGenerator>.Info($"{GameMng.current.countLevels}|{newLvl}");
+            TagLogger<RoomDataGenerator>.Info($"Count levels - {GameMng.current.countLevels}. Current lvl - {newLvl}");
 
             if (newLvl == GameMng.current.countLevels) {
 
@@ -60,37 +67,86 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #endregion
 
-            #region Heal Room
+            #region Generators
 
-            var maxLvl = healRoomLvls.Any() ? healRoomLvls.Max() : (_dungeonData.healerRoom.delay + 1 + newLvl);
+            RoomData selectedRoom = null;
 
-            if (maxLvl - newLvl > _dungeonData.healerRoom.delay) {
+            foreach (var generator in generators.OrderByDescending(g => g.currentChance)) {
 
-                if (random < currentHealChance) {
-
-                    healRoomLvls.Add(newLvl);
-                    currentHealChance = _dungeonData.healerRoom.start;
-
-                    TagLogger<RoomDataGenerator>.Info($"Generate heal room");
-
-                    return new HealerRoomData("one_more_room");
-
-                } else {
-                    currentHealChance += _dungeonData.healerRoom.toAdd;
-                }
+                if (selectedRoom == null)
+                    selectedRoom = generator.TryGen(newLvl, random);
+                else
+                    generator.PlusChance();
 
             }
+
+            if (selectedRoom != null)
+                return selectedRoom;
 
             #endregion
 
             #region Enemy room
+            
             TagLogger<RoomDataGenerator>.Info($"Generate enenmy room");
-
             return new EnemyRoomData("one_more_room");
+
             #endregion
 
 
         }
 
+        public class RoomGenerator {
+
+            private RoomChance _ch;
+
+            private List<int> lvls = new List<int>();
+
+            private float _currentChance = 0;
+
+            public float currentChance => _currentChance;
+
+            private RoomData _prototype;
+
+            public RoomGenerator(RoomChance ch, RoomData prototype) {
+
+                _ch = ch;
+                _currentChance = _ch.current;
+                _prototype = prototype;
+
+            }
+
+            public RoomData TryGen(int newLvl, float random) {
+
+                var maxLvl = lvls.Any() ? lvls.Max() : (_ch.delay + 1 + newLvl);
+
+                if (maxLvl - newLvl > _ch.delay) {
+
+                    if (random < _currentChance) {
+
+                        lvls.Add(newLvl);
+                        _currentChance = _ch.start;
+
+                        TagLogger<RoomDataGenerator>.Info($"Generate {_prototype.GetType().Name}");
+
+                        return _prototype.Clone() as RoomData;
+
+                    } else {
+                        PlusChance();
+                    }
+
+                }
+
+                return null;
+
+            }
+
+            public void PlusChance() {
+                _currentChance += _ch.toAdd;
+            }
+
+        }
+
     }
+
+
 }

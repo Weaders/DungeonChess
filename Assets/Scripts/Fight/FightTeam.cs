@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
-using Assets.Scripts.Fight.PlaceStrategy;
+using Assets.Scripts.Common;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -47,13 +45,30 @@ namespace Assets.Scripts.Fight {
 
         }
 
+        public CharacterCtrl AddCharacterToTeamPrefab(CharacterCtrl ctrlPrefab) {
+
+            var ctrl = PrefabFactory.InitCharacterCtrl(ctrlPrefab);
+            AddCharacterToTeam(ctrl);
+
+            return ctrl;
+
+        }
+
+        public void RemoveCharacter(CharacterCtrl ctrl) {
+
+            foreach (var charCtrl in _characterCtrls) {
+                if (ctrl == charCtrl) {
+                    Object.Destroy(ctrl.gameObject);
+                }
+            }
+
+        }
+
         public void ClearChars() {
 
             foreach (var charCtrl in _characterCtrls) {
                 Object.Destroy(charCtrl.gameObject);
             }
-
-            _characterCtrls.Clear();
 
         }
 

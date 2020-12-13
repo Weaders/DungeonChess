@@ -24,6 +24,7 @@ using Assets.Scripts.UI.MessagePopup;
 using Assets.Scripts.UI.SelectPopup;
 using Assets.Scripts.UI.SpellsList;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Assets.Scripts {
@@ -109,6 +110,10 @@ namespace Assets.Scripts {
 
         public RoomCtrl roomCtrl;
 
+        public RerollCtrl rerollCtrl = new RerollCtrl();
+
+        public SelectCharacterEvent onSelectCharacter = new SelectCharacterEvent();
+
         public ObservableVal<int> countLevels { get; private set; }
 
         public ObservableVal<int> level { get; private set; }
@@ -140,17 +145,6 @@ namespace Assets.Scripts {
             buyPanelUI.Init();
             topSidePanelUI.Init();
 
-            // On win, add money to player
-            fightMng.onPlayerWin.AddListener(() => {
-
-                var drops = gameData.GetDropChances(level);
-                var items = GetItemsForDropChanches(drops, 3);
-
-                selectPanel.SetItems((items[0], items[1], items[2]));
-                selectPanel.Show();
-
-            });
-
             // Set up, synergy data
             buyMng.postBuy.AddListener(() => {
                 synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
@@ -177,6 +171,8 @@ namespace Assets.Scripts {
                         if (ctrl == null || ctrl.characterData == null)
                             throw new Exception(hit.collider.gameObject.name);
 
+                        onSelectCharacter.Invoke(ctrl);
+
                         selectedCharacterName.text = ctrl.characterData.characterName.val;
                         statsGrid.SetCharacter(ctrl.characterData);
                         characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
@@ -202,10 +198,8 @@ namespace Assets.Scripts {
                             }
 
                         }
-
                     }
                 }
-
             }
         }
 
@@ -220,6 +214,8 @@ namespace Assets.Scripts {
         private ItemData[] GetItemsForDropChanches(DropChance[] drops, int coutItems) {
             return drops[0].items.Take(coutItems).ToArray();
         }
+
+        public class SelectCharacterEvent : UnityEvent<CharacterCtrl>{}
 
     }
 

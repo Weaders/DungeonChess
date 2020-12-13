@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Character;
+﻿using Assets.Scripts.Character;
 using UnityEngine;
 
 namespace Assets.Scripts.UI {
@@ -23,8 +18,10 @@ namespace Assets.Scripts.UI {
             }
 
             foreach (var d in whatDisplay) {
+
                 var cell = Instantiate(gridCellPrefab, transform);
                 cell.SetCharacter(characterData, d);
+
             }
 
         }

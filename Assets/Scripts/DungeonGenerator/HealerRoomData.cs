@@ -1,13 +1,15 @@
 ﻿using Assets.Scripts.ActionsData;
 using Assets.Scripts.CellsGrid;
-using UnityEngine;
-using UnityEngine.SocialPlatforms.GameCenter;
+using Assets.Scripts.Translate;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class HealerRoomData : RoomData {
 
         public HealerRoomData(string titleKey) : base(titleKey) {
         }
+
+        public override object Clone()
+            => new HealerRoomData(_title);
 
         public override void ComeToRoom(DungeonRoomCells dungeonRoomCells) {
 
@@ -17,15 +19,17 @@ namespace Assets.Scripts.DungeonGenerator {
 
             GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
                 msg = "You has been healed for 10%",
-                btnOk = "Ok",
-                onClick = () => {
-                    GameMng.current.cellsGridMng.DisplayExits();
+                btns = new[] {
+                    new UI.MessagePopup.MessagePanel.MessageData.BtnData {
+                        title = TranslateReader.GetTranslate("ok"),
+                        onClick = () => {
+                            GameMng.current.cellsGridMng.DisplayExits();
+                        }
+                    }
                 }
             });
 
             GameMng.current.messagePanel.Show();
-
-            
 
         }
     }

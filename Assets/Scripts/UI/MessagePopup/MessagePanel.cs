@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Common;
+﻿using Assets.Scripts.Common;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,6 +13,12 @@ namespace Assets.Scripts.UI.MessagePopup {
         [SerializeField]
         private Text _text;
 
+        [SerializeField]
+        private Button buttonPrefab;
+
+        [SerializeField]
+        private Transform containerBtns;
+
         private MessageData _messageData;
 
         public void Show() => _canvasGroup.Show();
@@ -26,7 +27,20 @@ namespace Assets.Scripts.UI.MessagePopup {
 
         public void SetData(MessageData messageData) {
             _text.text = messageData.msg;
-            GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = messageData.btnOk;
+
+            foreach (Transform tr in containerBtns)
+                Destroy(tr.gameObject);
+
+            foreach (var btn in messageData.btns) {
+
+                var obj = Instantiate(buttonPrefab.gameObject, containerBtns);
+                var btnObj = obj.GetComponent<Button>();
+
+                btnObj.onClick.AddListener(btn.onClick);
+                btnObj.GetComponentInChildren<Text>().text = btn.title;
+
+            }
+
             _messageData = messageData;
         }
 
@@ -35,17 +49,17 @@ namespace Assets.Scripts.UI.MessagePopup {
             _text = GetComponentInChildren<Text>();
         }
 
-        public void ClickOK() {
-            Hide();
-            _messageData.onClick?.Invoke();
-        }
+        public class MessageData {
 
-        public class MessageData { 
             public string msg { get; set; }
 
-            public string btnOk { get; set; }
+            public BtnData[] btns { get; set; }
 
-            public UnityAction onClick { get; set; }
+            public class BtnData {
+                public string title { get; set; }
+                public UnityAction onClick { get; set; }
+            }
+
         }
 
     }

@@ -25,7 +25,7 @@ namespace Assets.Scripts.CellsGrid {
         private ArrowCtrl arrowCtrlPrefab;
 
         public void Init() {
-            GameMng.current.fightMng.onPlayerWin.AddListener(DisplayExits);
+            //GameMng.current.fightMng.onPlayerWin.AddListener(DisplayExits);
         }
 
         public void RefreshCells() {

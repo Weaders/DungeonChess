@@ -17,6 +17,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
         private Vector3 startPos;
 
+        private Transform startParent;
+
         public UnityEvent onDestoy = new UnityEvent();
 
         private RectTransform rectTransform {
@@ -36,6 +38,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
             get => moveItemCell;
             set => moveItemCell = value;
         }
+
+
 
         public void OnDrag(PointerEventData eventData) {
 
@@ -86,7 +90,9 @@ namespace Assets.Scripts.UI.DragAndDrop {
                     cellToPlace.state = MoveItemCell.State.Default;
                 }
 
+                transform.SetParent(startParent);
                 transform.localPosition = startPos;
+                
             }
 
 
@@ -121,9 +127,17 @@ namespace Assets.Scripts.UI.DragAndDrop {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
+            
             cellToPlace = null;
             startPos = transform.localPosition;
+            startParent = transform.parent;
             cellsWithBounds.Clear();
+
+            var canvas = GameObject.FindGameObjectWithTag(TagsStore.MAIN_CANVAS);
+
+            transform.SetParent(canvas.transform, true);
+            transform.SetAsLastSibling();
+
         }
 
         public void OnPointerClick(PointerEventData eventData) {

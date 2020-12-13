@@ -7,9 +7,13 @@ namespace Assets.Scripts.Common {
 
     public static class PrefabFactory {
 
+        static int characterCount = 0;
+
         public static CharacterCtrl InitCharacterCtrl(CharacterCtrl ctrlPrefab) {
 
             var ctrl = Object.Instantiate(ctrlPrefab);
+
+            ctrl.gameObject.name = $"{ctrl.gameObject.name}_{++characterCount}";
 
             ctrl.Init();
 
@@ -26,6 +30,7 @@ namespace Assets.Scripts.Common {
             return room;
 
         }
+
 
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Scripts.StarsData {
 
     [CreateAssetMenu(menuName = "Stas/Data")]
-    public class StatsIfoData : ScriptableObject {
+    public class StatsInfoData : ScriptableObject {
 
         public StatInfo[] stats;
 

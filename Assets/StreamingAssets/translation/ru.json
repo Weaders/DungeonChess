@@ -86,6 +86,14 @@
             "value": "Комната с боссом"
         },
         {
+            "key": "healer_room",
+            "value": "Комната с юсцеляющим фонтаном"
+        },
+        {
+            "key": "items_room",
+            "value": "Комната с алтарём"
+        },
+        {
             "key": "reaper_last_touch_title",
             "value": "Касание смерти"
         },
@@ -100,6 +108,34 @@
         {
             "key": "select_items",
             "value": "Выберите предмет"
+        },
+        {
+            "key": "lucky_amulet_description",
+            "value": "Амулет удачи описание"
+        },
+        {
+            "key": "select_hero_for_reroll",
+            "value": "Выберите персонада для изменения"
+        },
+        {
+            "key": "want_reroll_hero",
+            "value": "Вы можете изменить случайного персонажа.\r\n Вы хотите сделать это?"
+        },
+        {
+            "key": "yes",
+            "value": "Да"
+        },
+        {
+            "key": "no",
+            "value": "Нет"
+        },
+        {
+            "key": "change_character_to_random",
+            "value": "Изменить персонажа на случайного"
+        },
+        {
+            "key": "reroll_room",
+            "value": "Комната перевоплащения"
         }
     ]
 }

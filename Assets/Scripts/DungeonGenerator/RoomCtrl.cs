@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
+using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,6 +46,8 @@ namespace Assets.Scripts.DungeonGenerator {
 
             GameMng.current.ShowBlackOverlay();
 
+            var timeForHide = Time.time + 1.5f;
+
             var roomData = currentRoom.roomData.exitFromRooms.First(e => e.direction == direction).toRoomData;
 
             if (currentRoom != null) {
@@ -72,7 +77,18 @@ namespace Assets.Scripts.DungeonGenerator {
 
             ProcessRoom();
 
-            GameMng.current.HideBlackOverlay();
+            //if (timeForHide <= Time.time) {
+                GameMng.current.HideBlackOverlay();
+            //} else {
+
+            //    IEnumerator hideForDiff() {
+            //        yield return new WaitForSeconds(timeForHide - Time.time);
+            //        GameMng.current.HideBlackOverlay();
+            //    }
+
+            //    StartCoroutine(hideForDiff());
+
+            //}            
 
         }
 
@@ -81,9 +97,15 @@ namespace Assets.Scripts.DungeonGenerator {
             currentRoom.transform.SetParent(transform);
             currentRoom.transform.localPosition = Vector3.zero;
 
-            foreach (var exit in currentRoom.GetExits()) {
-                roomDataGenerator.GenerateExit(exit.exitDirection);
+            var directions = Enum.GetValues(typeof(Direction));
+
+            var countExists = UnityEngine.Random.Range(1, directions.Length);
+
+            for (var i = 0; i < countExists; i++) {
+                roomDataGenerator.GenerateExit((Direction)directions.GetValue(i));
             }
+
+            TagLogger<RoomCtrl>.Info($"Generate {countExists} exits");
 
             GameMng.current.cellsGridMng.RefreshCells();
 

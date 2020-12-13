@@ -21,13 +21,14 @@ namespace Assets.Scripts.DungeonGenerator {
 
     }
 
-    public abstract class RoomData {
+    public abstract class RoomData : ICloneable  {
 
         public RoomData(string titleKey) {
             _title = titleKey;
         }
 
-        private readonly string _title;
+
+        protected readonly string _title;
 
         public string title => TranslateReader.GetTranslate(_title);
 
@@ -36,7 +37,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public IReadOnlyList<ExitFromRoom> exitFromRooms => _exitFromRooms;
 
-        public List<ExitFromRoom> _exitFromRooms = new List<ExitFromRoom>();
+        private List<ExitFromRoom> _exitFromRooms = new List<ExitFromRoom>();
 
         public void AddExit(RoomData roomData, Direction direction) {
             _exitFromRooms.Add(new ExitFromRoom(this, roomData, direction));
@@ -48,6 +49,8 @@ namespace Assets.Scripts.DungeonGenerator {
         public virtual string GetRoomName() => "RoomData";
 
         public abstract void ComeToRoom(DungeonRoomCells dungeonRoomCells);
+
+        public abstract object Clone();
 
     }
 
@@ -73,9 +76,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public Sprite img => null;
 
-        public string title => $"Title";
+        public string title => toRoomData?.title;
 
-        public string description => $"Description";
+        public string description => null;
 
         private ObservableVal _onChange = new ObservableVal();
 
