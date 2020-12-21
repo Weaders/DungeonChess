@@ -25,6 +25,7 @@ namespace Assets.Scripts.DungeonGenerator {
                         onClick = () => {
                             GameMng.current.messagePanel.Hide();
                             GameMng.current.rerollCtrl.Activate();
+                            GameMng.current.rerollCtrl.onPostReroll.AddListener(OnPostReroll);
                         }
                     },
                     new BtnData {
@@ -40,6 +41,14 @@ namespace Assets.Scripts.DungeonGenerator {
             });
 
             GameMng.current.messagePanel.Show();
+
+        }
+
+        public void OnPostReroll() {
+
+            GameMng.current.rerollCtrl.Deactivate();
+            GameMng.current.rerollCtrl.onPostReroll.RemoveListener(OnPostReroll);
+            GameMng.current.cellsGridMng.DisplayExits();
 
         }
     }

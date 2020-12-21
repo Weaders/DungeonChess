@@ -45,6 +45,10 @@ namespace Assets.Scripts {
 
         private MoveItemSystem _moveItemSystem;
 
+        private Vector3 mousePosition;
+
+        private CharacterCtrl selectedCharacterCtrl;
+
         public MoveItemSystem moveItemSystem {
             get {
                 if (_moveItemSystem == null)
@@ -114,6 +118,11 @@ namespace Assets.Scripts {
 
         public SelectCharacterEvent onSelectCharacter = new SelectCharacterEvent();
 
+        [SerializeField]
+        private GameInputCtrl gameInputCtrl;
+
+        public PathToCell pathToCell { get; private set; }
+
         public ObservableVal<int> countLevels { get; private set; }
 
         public ObservableVal<int> level { get; private set; }
@@ -147,60 +156,31 @@ namespace Assets.Scripts {
 
             // Set up, synergy data
             buyMng.postBuy.AddListener(() => {
+
                 synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
             });
 
             playerInventoryGrid.SetItemsContainer(playerData.itemsContainer);
 
+            // Update ui on select character ctrl
+            gameInputCtrl.onSelectCharacter.AddListener((ctrl) => {
+
+                if (ctrl != null) {
+
+                    selectedCharacterName.text = ctrl.characterData.characterName.val;
+                    statsGrid.SetCharacter(ctrl.characterData);
+                    characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
+                    characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
+                    buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
+
+                }
+
+            });
+
             HideBlackOverlay();
 
-        }
+            pathToCell = new PathToCell(cellsGridMng);
 
-        private void Update() {
-
-            if (Input.GetMouseButtonDown(0)) {
-
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER, LayersStore.CHARACTER_LAYER))) {
-
-                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer(LayersStore.CHARACTER_LAYER)) {
-
-                        var ctrl = hit.collider.GetComponent<CharacterCtrl>();
-
-                        if (ctrl == null || ctrl.characterData == null)
-                            throw new Exception(hit.collider.gameObject.name);
-
-                        onSelectCharacter.Invoke(ctrl);
-
-                        selectedCharacterName.text = ctrl.characterData.characterName.val;
-                        statsGrid.SetCharacter(ctrl.characterData);
-                        characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
-                        characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
-                        buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
-
-
-                    } else if (hit.collider.gameObject.layer == LayerMask.NameToLayer(LayersStore.CELL_LAYER)) {
-
-                        if (buyPanelUI.selectedBuyData != null && buyPanelUI.selectedBuyData.IsCanBuy()) {
-
-                            var cell = hit.collider.GetComponent<Cell>();
-
-                            if (cell != null && cell.GetState() == Cell.CellState.Select) {
-
-                                var ctrl = current.buyMng.Buy(current.buyPanelUI.selectedBuyData);
-                                cell.StayCtrl(ctrl);
-
-                                if (!current.buyPanelUI.selectedBuyData.IsCanBuy()) {
-                                    current.buyPanelUI.selectedBuyData = null;
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-            }
         }
 
         public void ShowBlackOverlay() {

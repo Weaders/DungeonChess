@@ -52,7 +52,8 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
                 var nearCell = exceptFirstLine.Select(e => new CellWithDistance(e, fc.firstCell)).Min();
 
-                secondLineCells.Add(nearCell);
+                if (nearCell != null)
+                    secondLineCells.Add(nearCell);
 
             }
 

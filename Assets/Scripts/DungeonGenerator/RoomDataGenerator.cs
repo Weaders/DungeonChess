@@ -45,7 +45,7 @@ namespace Assets.Scripts.DungeonGenerator {
         }
 
         public RoomData GenerateStartRoom() {
-            return new RerollRoomData("reroll_room");
+            return new StartRoomData("start_room");
         }
 
         private RoomData GenerateExit() {

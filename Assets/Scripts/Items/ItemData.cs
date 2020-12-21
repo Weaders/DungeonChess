@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Items {
 
-    public abstract class ItemData : MonoBehaviour, IForMoveItem, IForSelectPanel {
+    public abstract class ItemData : MonoBehaviour, IForMoveItem, IForSelectPanel, ISource {
 
         [SerializeField]
         protected string id;
@@ -59,5 +60,7 @@ namespace Assets.Scripts.Items {
         public void Select() {
             GameMng.current.playerData.itemsContainer.AddPrefab(this);
         }
+
+        public string GetId() => id;
     }
 }

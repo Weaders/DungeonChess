@@ -136,6 +136,26 @@
         {
             "key": "reroll_room",
             "value": "Комната перевоплащения"
+        },
+        {
+            "key": "ok",
+            "value": "Ок"
+        },
+        {
+            "key": "ring_of_strength_title",
+            "value": "Кольцо силы"
+        },
+        {
+            "key": "ring_of_strength_description",
+            "value": "Увеличивает силу атаки"
+        },
+        {
+            "key": "fire_emulet_title",
+            "value": "Огненый амулет"
+        },
+        {
+            "key": "fire_emulet_description",
+            "value": "При уроне наносит дополнительно огненый урон"
         }
     ]
 }

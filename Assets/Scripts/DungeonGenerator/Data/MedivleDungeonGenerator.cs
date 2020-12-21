@@ -192,10 +192,6 @@ namespace Assets.Scripts.DungeonGenerator.Data {
 
                     cells.Add(cellObj);
 
-                    //if (exitForRoom != null) {
-                    //    //cellObj.SetExit(exitForRoom);
-                    //}
-
                     cell.transform.localPosition = new Vector3(
                         leftUpper.x + (x * cellOffset),
                         0,

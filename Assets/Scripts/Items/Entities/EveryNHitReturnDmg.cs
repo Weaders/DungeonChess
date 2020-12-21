@@ -7,10 +7,6 @@ namespace Assets.Scripts.Items.Entities {
 
     public class EveryNHitReturnDmg : EveryNHit, IDmgSource {
 
-        protected override bool onGetAttack => true;
-
-        public string GetId() => id;
-
         protected override void OnMakeAttack(AttackEventData attackEventData) {
 
             attackEventData.dmg.dmgModifiers.Add(new DmgScale(0f, int.MaxValue));

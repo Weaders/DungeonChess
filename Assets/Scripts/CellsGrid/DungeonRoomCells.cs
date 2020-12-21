@@ -14,9 +14,30 @@ namespace Assets.Scripts.CellsGrid {
 
         public Vector2 dataPosition;
 
+        public Vector2 roomOffset;
+
         [HideInInspector]
         [Obsolete]
         public WallGroup[] wallGroups;
+
+        [ContextMenu("Set position of cells")]
+        public void SetPositions() {
+
+            var cells = GetCells();
+
+            var minCell = cells.MinElement(c => c.transform.position.magnitude);
+
+            foreach (var cell in cells) {
+
+                var result = (cell.transform.position - minCell.transform.position);
+
+                cell.transform.localPosition = Vector3.zero;
+                cell.dataPosition = new Vector2Int(Mathf.RoundToInt(result.x / roomOffset.x), Mathf.RoundToInt(result.z / roomOffset.y));
+                cell.transform.parent.position = minCell.transform.position + new Vector3(roomOffset.x * cell.dataPosition.x, 0, roomOffset.y * cell.dataPosition.y);
+
+            }
+
+        }
 
         public Vector3 GetCenterPosition() {
 

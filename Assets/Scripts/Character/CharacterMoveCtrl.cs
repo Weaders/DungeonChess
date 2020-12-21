@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Linq;
 using Assets.Scripts.CellsGrid;
-using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -17,6 +16,49 @@ namespace Assets.Scripts.Character {
         private NavMeshAgent navMeshAgent;
 
         public NavMeshAgent GetNavMeshAgent() => navMeshAgent;
+
+        public MoveData MoveToCharacter(CharacterCtrl characterCtrl) {
+
+            UnityEvent onCome = new UnityEvent();
+
+            var result = new MoveData(() => {
+
+                var path = GameMng.current.pathToCell.GetPath(ctrl.cell, characterCtrl.cell);
+
+                ctrl.anim.SetBool("IsWalk", true);
+
+                var enumerator = path.GetToMovePath().GetEnumerator();
+
+                var currentTargetCell = characterCtrl.cell;
+
+                void toNextCell() {
+
+                    if (currentTargetCell != characterCtrl.cell) {
+                        enumerator = GameMng.current.pathToCell.GetPath(ctrl.cell, characterCtrl.cell).GetToMovePath().GetEnumerator();
+                    }
+
+                    if (enumerator.MoveNext()) {
+                        StartCoroutine(MoveToCell(enumerator.Current, toNextCell));
+                    } else {
+
+                        ctrl.anim.SetBool("IsWalk", false);
+                        onCome.Invoke();
+
+                    }
+
+                }
+
+                toNextCell();
+
+            }) {
+                onCome = onCome
+            };
+
+            return result;
+        }
+
+
+        #region Use without path, not used currently
 
         public MoveData MoveTo(Transform transform, float distance) {
 
@@ -40,27 +82,60 @@ namespace Assets.Scripts.Character {
             navMeshAgent.updateRotation = false;
         }
 
-        private IEnumerator MoveToTarget(TargetForMove targetForMove) {
+        private IEnumerator MoveToCell(Cell cell, UnityAction onCome) {
+
+            cell.StayCtrl(ctrl, false);
+
+            var t = 0f;
+
+            var startPosition = ctrl.transform.position;
+
+            while (t < 1f) {
+
+                t += Time.deltaTime * ctrl.characterData.stats.moveSpeed / 5f;
+
+                var newPos = Vector3.Lerp(startPosition, cell.transform.position, t);
+
+                ctrl.transform.LookAt(new Vector3(
+                    cell.transform.position.x,
+                    ctrl.transform.position.y,
+                    cell.transform.position.z
+                ));
+
+                ctrl.transform.position = new Vector3(newPos.x, ctrl.transform.position.y, newPos.z);
+
+                yield return new WaitForFixedUpdate();
+
+            }
+
+            onCome.Invoke();
+
+        }
+
+        private IEnumerator MoveToTarget(TargetForMove targetForMove, bool isDisableWalk = true) {
 
             ctrl.anim.SetBool("IsWalk", true);
 
-            TagLogger<CharacterMoveCtrl>.Info(targetForMove.target.gameObject.name);
-
-            navMeshAgent.isStopped = false;
+            //navMeshAgent.isStopped = false;
+            var t = 0f;
 
             while (targetForMove.target != null && Vector3.Distance(ctrl.transform.position, targetForMove.target.position) > targetForMove.distance) {
 
-                navMeshAgent.SetDestination(targetForMove.target.position);
+                t += Time.deltaTime * ctrl.characterData.stats.moveSpeed / 100;
 
+                var newPos = Vector3.Lerp(ctrl.transform.position, targetForMove.target.position, t);
+                
                 ctrl.transform.LookAt(targetForMove.target.transform);
+                ctrl.transform.position = newPos;
 
                 yield return new WaitForFixedUpdate();
-                  
+
             }
 
-            navMeshAgent.isStopped = true;
+            //navMeshAgent.isStopped = true;
 
-            ctrl.anim.SetBool("IsWalk", false);
+            if (isDisableWalk)
+                ctrl.anim.SetBool("IsWalk", false);
 
             targetForMove.onCome.Invoke();
 
@@ -73,6 +148,8 @@ namespace Assets.Scripts.Character {
         public void EnableNavMesh() {
             navMeshAgent.enabled = true;
         }
+
+        #endregion
 
         public class TargetForMove {
 
@@ -95,7 +172,6 @@ namespace Assets.Scripts.Character {
             public void Start() => _onStart.Invoke();
 
         }
-
 
     }
 }

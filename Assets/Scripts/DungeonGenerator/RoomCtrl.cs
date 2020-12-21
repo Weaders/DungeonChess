@@ -111,7 +111,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
             currentRoom.roomData.ComeToRoom(currentRoom);
 
-            GameMng.current.locationTitle.ShowPopup(currentRoom.roomData.title, durationPopupTitle);
+            if (!(currentRoom.roomData is StartRoomData)) {
+                GameMng.current.locationTitle.ShowPopup(currentRoom.roomData.title, durationPopupTitle);
+            }
 
             GameMng.current.fightMng.MovePlayerCtrls();
 

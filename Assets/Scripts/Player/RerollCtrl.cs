@@ -1,10 +1,13 @@
 ﻿using Assets.Scripts.Character;
 using Assets.Scripts.Common;
 using Assets.Scripts.Translate;
+using UnityEngine.Events;
 using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
 
 namespace Assets.Scripts.Player {
     public class RerollCtrl {
+
+        public UnityEvent onPostReroll = new UnityEvent();
 
         public void Activate() {
 
@@ -59,9 +62,9 @@ namespace Assets.Scripts.Player {
 
                 cellForCharacter.StayCtrl(addedCtrl);
 
+                onPostReroll.Invoke();
+
                 return addedCtrl;
-
-
 
             }
 

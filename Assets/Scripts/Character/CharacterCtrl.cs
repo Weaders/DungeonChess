@@ -75,7 +75,7 @@ namespace Assets.Scripts.Character {
 
             if (targetForAttack != null) {
 
-                var moveAction = moveCtrl.MoveTo(targetForAttack.transform, spell.range);
+                var moveAction = moveCtrl.MoveToCharacter(targetForAttack);
 
                 moveAction.onCome.AddListener(() => StartCoroutine(AttackWhileInRange(targetForAttack)));
 

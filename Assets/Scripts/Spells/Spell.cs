@@ -50,7 +50,8 @@ namespace Assets.Scripts.Spells {
         public float range = 2f;
 
         public virtual bool IsInRange(CharacterCtrl from, CharacterCtrl to)
-            => Vector3.Distance(from.transform.position, to.transform.position) <= range;
+            => true;
+            //=> Vector3.Distance(from.transform.position, to.transform.position) <= range;
 
         private Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
 

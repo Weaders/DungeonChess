@@ -19,6 +19,8 @@ namespace Assets.Scripts.CellsGrid {
 
         private List<Cell> _playerSideCell = new List<Cell>();
 
+        private Dictionary<Vector2Int, Cell> cellsByPlace = new Dictionary<Vector2Int, Cell>();
+
         private List<GameObject> _exists = new List<GameObject>();
 
         [SerializeField]
@@ -40,6 +42,9 @@ namespace Assets.Scripts.CellsGrid {
                 } else {
                     _playerSideCell.Add(cell);
                 }
+
+                cellsByPlace.Add(cell.dataPosition, cell);
+
             }
 
         }
@@ -89,6 +94,32 @@ namespace Assets.Scripts.CellsGrid {
 
         private IEnumerable<Cell> GetCells() => GameMng.current.roomCtrl.currentRoom.GetCells();
 
+        public IEnumerable<Cell> GetNeighbours(Cell cell, int range = 1) {
+
+            var result = new List<Cell>(range * 4);
+
+            for (var i = 1; i <= range; i++) {
+
+                var offsets = new[] { 
+                    new Vector2Int(i, 0),
+                    new Vector2Int(0, i),
+                    new Vector2Int(-i, 0),
+                    new Vector2Int(0, -i)
+                };
+
+                foreach (var offset in offsets) {
+
+                    if (cellsByPlace.TryGetValue(cell.dataPosition + offset, out var val)) {
+                        result.Add(cellsByPlace[cell.dataPosition + offset]);
+                    }
+
+                }
+
+            }
+
+            return result;
+
+        }
     }
 
 }

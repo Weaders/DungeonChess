@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Dungeon
   m_EditorClassIdentifier: 
   enemiesPoll: {fileID: 11400000, guid: 1cabb5225610c284da7c3d2d0d12a9f1, type: 2}
-  moneyVictory: 45
+  moneyVictory: 10
   countRooms:
-    min: 6
-    max: 10
+    min: 8
+    max: 12
   dungeonRoomCells:
   - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}
@@ -37,11 +37,11 @@ MonoBehaviour:
     delay: 2
   itemsRoom:
     start: 0.2
-    current: 0.9
+    current: 0.5
     toAdd: 0.2
     delay: 4
   rerollRoom:
     start: 0.2
-    current: 1
+    current: 0.5
     toAdd: 0.2
     delay: 4

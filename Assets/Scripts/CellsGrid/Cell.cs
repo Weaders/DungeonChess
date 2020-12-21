@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Character;
+﻿using System.Collections;
+using Assets.Scripts.Character;
+using Assets.Scripts.Common;
 using Assets.Scripts.DungeonGenerator;
 using Assets.Scripts.Logging;
 using UnityEngine;
@@ -10,6 +12,9 @@ namespace Assets.Scripts.CellsGrid {
 
         public UnityEvent onClick = new UnityEvent();
 
+        public CharacterCtrl characterCtrl { get; private set; }
+
+        //[ReadOnly]
         public Vector2Int dataPosition;
 
         private CellState state = default;
@@ -61,8 +66,8 @@ namespace Assets.Scripts.CellsGrid {
             if (GameMng.current.fightMng.isInFight || cellType == CellType.NotUsable || cellType == CellType.ForEnemy) {
 
                 meshRenderer.material.SetColor("_Color", Color.clear);
-                meshRenderer.material.SetColor("_OutlineColor", Color.clear);
-                meshRenderer.material.SetFloat("_WidthOutLine", 0f);
+                meshRenderer.material.SetColor("_OutlineColor", Color.white);
+                meshRenderer.material.SetFloat("_WidthOutLine", 0.01f);
 
                 cellEffect.SetActive(false);
 
@@ -101,22 +106,42 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-        public void StayCtrl(CharacterCtrl ctrl) {
+        public void StayCtrl(CharacterCtrl ctrl, bool isChangePosition = true) {
 
-            TagLogger<Cell>.Info($"Player stay on cell with position {transform.position}");
+            if (ctrl != null) {
 
-            ctrl.moveCtrl.DisableNavMesh();
+                if (ctrl.cell != null) {
 
-            ctrl.transform.SetParent(transform, true);
-            ctrl.transform.localPosition = Vector3.zero;
+                    ctrl.cell.characterCtrl = null;
+                    ctrl.cell = null;
 
-            ctrl.cell = this;
+                }
 
-            ctrl.transform.localRotation = Quaternion.identity;
+                TagLogger<Cell>.Info($"Player stay on cell with position {transform.position}");
 
-            SetState(CellState.NotAvailable);
+                if (ctrl.cell != null) {
+                    ctrl.cell.SetState(CellState.Select);
+                }
 
-            ctrl.moveCtrl.EnableNavMesh();
+
+                ctrl.moveCtrl.DisableNavMesh();
+
+                ctrl.transform.SetParent(transform, true);
+
+                if (isChangePosition) {
+                    ctrl.transform.localPosition = Vector3.zero;
+                    ctrl.transform.localRotation = Quaternion.identity;
+                }
+                
+
+                ctrl.cell = this;
+
+                SetState(CellState.NotAvailable);
+
+                ctrl.moveCtrl.EnableNavMesh();
+                characterCtrl = ctrl;
+
+            }
 
         }
 
@@ -133,6 +158,9 @@ namespace Assets.Scripts.CellsGrid {
             ChangeColor();
 
         }
+
+        public bool IsAvailableToStay()
+            => characterCtrl == null || characterCtrl.characterData.stats.isDie;
 
         public CellState GetState() => state;
 

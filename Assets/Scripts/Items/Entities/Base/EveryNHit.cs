@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Translate;
+﻿using System;
+using Assets.Scripts.Translate;
 using UnityEngine;
 using static Assets.Scripts.ActionsData.Actions;
 
@@ -9,8 +10,6 @@ namespace Assets.Scripts.Items.Entities.Base {
         [SerializeField]
         [Placecholder("n")]
         protected int n = 2;
-
-        protected abstract bool onGetAttack { get; }
 
         private void OnPreMakeAttack(AttackEventData attackEventData) {
 
@@ -23,10 +22,7 @@ namespace Assets.Scripts.Items.Entities.Base {
         protected abstract void OnMakeAttack(AttackEventData attackEventData);
 
         protected override void Equip() {
-            if (onGetAttack)
-                owner.actions.onPreMakeAttack.AddSubscription(Observable.OrderVal.Fight, OnPreMakeAttack);
-            else
-                owner.actions.onPreMakeAttack.AddSubscription(Observable.OrderVal.Fight, OnPreMakeAttack);
+            owner.actions.onPreMakeAttack.AddSubscription(Observable.OrderVal.Fight, OnPreMakeAttack);
         }
 
         protected override void OnDeEquip() {
