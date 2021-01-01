@@ -15,34 +15,38 @@ namespace Assets.Scripts.Player {
                 text = TranslateReader.GetTranslate("select_hero_for_reroll")
             });
 
-            GameMng.current.onSelectCharacter.AddListener(OnSelectCharacter);
+            GameMng.current.gameInputCtrl.onChangeSelectCharacter.AddListener(OnSelectCharacter);
 
         }
 
-        public void OnSelectCharacter(CharacterCtrl ctrl) {
+        public void OnSelectCharacter(CharacterCtrl old, CharacterCtrl ctrl) {
 
-            GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
-                msg = TranslateReader.GetTranslate("change_character_to_random"),
-                btns = new[] { 
+            if (ctrl != null) {
+
+                GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
+                    msg = TranslateReader.GetTranslate("change_character_to_random"),
+                    btns = new[] {
                     new BtnData {
                         title = TranslateReader.GetTranslate("yes"),
                         onClick = () => {
-                            
+
                             RerollCharacter(ctrl);
                             GameMng.current.messagePanel.Hide();
 
                         }
                     },
-                    new BtnData { 
+                    new BtnData {
                         title = TranslateReader.GetTranslate("no"),
                         onClick = () => {
                             GameMng.current.messagePanel.Hide();
                         }
                     }
                 }
-            });
+                });
 
-            GameMng.current.messagePanel.Show();
+                GameMng.current.messagePanel.Show();
+
+            }
 
         }
 
@@ -74,7 +78,7 @@ namespace Assets.Scripts.Player {
 
         public void Deactivate() {
 
-            GameMng.current.onSelectCharacter.RemoveListener(OnSelectCharacter);
+            GameMng.current.gameInputCtrl.onChangeSelectCharacter.RemoveListener(OnSelectCharacter);
 
             GameMng.current.locationTitle.HidePopup();
 

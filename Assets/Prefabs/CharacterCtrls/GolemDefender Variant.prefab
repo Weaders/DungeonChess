@@ -989,6 +989,11 @@ PrefabInstance:
       propertyPath: characterAnimEvents
       value: 
       objectReference: {fileID: 5053014956348406470}
+    - target: {fileID: 7563941473688893011, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: stateIconsCtrl
+      value: 
+      objectReference: {fileID: 7742693395998144328}
     - target: {fileID: 7814877910924485175, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1093,6 +1098,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5685220234559121658}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7742693395998144328 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2708465688342241202, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5685220234559121658}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d59de500a45da04c8e05db5487cab39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4166529189931968542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8590486098532270308, guid: 777c6c0bab92f23499ffc6a4e3d022b6,

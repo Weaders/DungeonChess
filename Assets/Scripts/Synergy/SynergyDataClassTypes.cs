@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Buffs;
 using Assets.Scripts.Character;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.StatsData;
 using UnityEngine;
 
 namespace Assets.Scripts.Synergy {

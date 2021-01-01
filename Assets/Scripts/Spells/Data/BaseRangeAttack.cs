@@ -9,7 +9,7 @@ namespace Assets.Scripts.Spells.Data {
 
     public class BaseRangeAttack : Spell, IDmgSource {
 
-        public BulletCtrl bulletPrefab;
+        public GameObject bulletPrefab;
 
         public int dmgAmount;
 
@@ -17,16 +17,20 @@ namespace Assets.Scripts.Spells.Data {
 
             var bullObj = Instantiate(bulletPrefab, from.transform);
 
-            bullObj.transform.localPosition = Vector3.zero;
+            var bullet = bullObj.GetComponent<IBullet>();
 
-            bullObj.StartFly(from, to);
+            //if (bullet is Targ)
 
-            bullObj.onCome.AddListener(() => {
+            //bullObj.transform.localPosition = Vector3.zero;
 
-                to.characterData.actions.GetDmg(from, new Dmg(dmgAmount, this));
-                from.characterData.onPostMakeAttack.Invoke();
+            //bullObj.StartFly(from, to);
 
-            });
+            //bullObj.onCome.AddListener(() => {
+
+            //    to.characterData.actions.GetDmg(from, new Dmg(dmgAmount, this));
+            //    from.characterData.onPostMakeAttack.Invoke();
+
+            //});
 
             return null;
 

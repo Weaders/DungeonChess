@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.StatsData;
 using UnityEngine;
 
 namespace Assets.Scripts.Common {
@@ -20,6 +20,9 @@ namespace Assets.Scripts.Common {
 
         public Color cellEnemy = new Color(0.5f, 0, 0, 0.6f);
         public Color cellEnemyOutlineCell = new Color(1, 0, 0, 1f);
+
+        public Color cellHover = new Color(.5f,0f, 0f, .6f);
+        public Color cellHoverOutlineCell = new Color(.5f, 0f, 0f, .6f);
         #endregion
 
         public Color playerTeamDetectColor = new Color(0, 1, 0, 1f);

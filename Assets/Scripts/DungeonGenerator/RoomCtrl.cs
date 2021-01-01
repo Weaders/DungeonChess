@@ -115,12 +115,17 @@ namespace Assets.Scripts.DungeonGenerator {
                 GameMng.current.locationTitle.ShowPopup(currentRoom.roomData.title, durationPopupTitle);
             }
 
+            foreach (var cell in currentRoom.GetCells()) {
+                cell.AddState(Cell.CellState.Select);
+            }
+
             GameMng.current.fightMng.MovePlayerCtrls();
 
-            var surfaces = GetComponents<NavMeshSurface>();
 
-            foreach (var surface in surfaces)
-                surface.BuildNavMesh();
+            //var surfaces = GetComponents<NavMeshSurface>();
+
+            //foreach (var surface in surfaces)
+            //    surface.BuildNavMesh();
 
         }
 

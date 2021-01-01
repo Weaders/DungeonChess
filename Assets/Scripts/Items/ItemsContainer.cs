@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Observable;
 using UnityEngine;
@@ -9,9 +10,9 @@ namespace Assets.Scripts.Items {
 
     public interface IHaveItemsContainer {
 
-        void OnAddItem(ItemData item);
+        //void OnAddItem(ItemData item);
 
-        void OnRemoveItem(ItemData item);
+        //void OnRemoveItem(ItemData item);
 
     }
 
@@ -27,7 +28,6 @@ namespace Assets.Scripts.Items {
 
                     if (items[index] != null && value != items[index]) {
 
-                        haveItemsContainer.OnRemoveItem(items[index]);
                         items[index].transform.SetParent(null);
 
                     }
@@ -37,7 +37,6 @@ namespace Assets.Scripts.Items {
                     if (items[index] != null) {
 
                         items[index].transform.SetParent(transform);
-                        haveItemsContainer.OnAddItem(items[index]);
 
                     }
 
@@ -51,7 +50,7 @@ namespace Assets.Scripts.Items {
 
         public int maxItemsCount => _maxItemsCount;
 
-        public OrderedEvents<ChangeEnumerableItemEvent<ItemData>> onSet => items.onSet;
+        public OrderedEvents<SetEnumerableItemEvent<ItemData>> onSet => items.onSet;
 
         [SerializeField]
         private int _maxItemsCount = 4;
@@ -103,6 +102,17 @@ namespace Assets.Scripts.Items {
             Add(Instantiate(prefab.gameObject).GetComponent<ItemData>());
         }
 
+        /// <summary>
+        /// Get items, without cells
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ItemData> GetItems()
+            => items.Where(i => i != null);
+
+        /// <summary>
+        /// Enumerator by all items cells
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ItemData> GetEnumerator() => items.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

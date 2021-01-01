@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.StarsData;
+﻿using Assets.Scripts.StatsData;
 
 namespace Assets.Scripts.Buffs.Data {
 

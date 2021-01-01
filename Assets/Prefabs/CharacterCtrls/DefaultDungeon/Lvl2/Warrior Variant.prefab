@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 2328172299833295226, guid: ee818fd36b2767d48a9504fef2141bdc,
         type: 3}
       propertyPath: m_Name
-      value: Warrior
+      value: Warrior Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4242525771372960318, guid: ee818fd36b2767d48a9504fef2141bdc,
         type: 3}

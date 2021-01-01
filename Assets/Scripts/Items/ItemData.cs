@@ -21,7 +21,7 @@ namespace Assets.Scripts.Items {
         [SerializeField]
         private string _description;
 
-        protected CharacterData owner;
+        public CharacterData owner { get; protected set; }
 
         public Sprite icon;
 
@@ -63,4 +63,5 @@ namespace Assets.Scripts.Items {
 
         public string GetId() => id;
     }
+
 }

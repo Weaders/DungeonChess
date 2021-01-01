@@ -4,8 +4,10 @@ using Assets.Scripts.Buffs;
 using Assets.Scripts.Items;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Spells;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.StatsData;
+using Assets.Scripts.State;
 using UnityEngine;
+using System.Linq;
 
 namespace Assets.Scripts.Character {
 
@@ -19,6 +21,8 @@ namespace Assets.Scripts.Character {
 
         public ItemsContainer itemsContainer;
 
+        public StateContainer stateContainer;
+
         public Actions actions;
 
         public OrderedEvents onPreMakeAttack = new OrderedEvents();
@@ -28,6 +32,10 @@ namespace Assets.Scripts.Character {
         public CharacterCtrl characterCtrl;
 
         public ObservableVal<string> characterName;
+
+        public bool isCanMove => stateContainer.All(s => s.isCharCanMove);
+
+        public bool isCanAttack => stateContainer.All(s => s.isCharCanAttack);
 
         public RangeType rangeType {
             get {
@@ -48,9 +56,21 @@ namespace Assets.Scripts.Character {
 
             spellsContainer.Init(this);
 
+            stateContainer.Init(this);
+
             buffsContainer.Init(characterCtrl);
 
             itemsContainer.SetOwner(this);
+
+            itemsContainer.onSet.AddSubscription(OrderVal.Internal, (setData) => {
+
+                if (setData.oldData != null)
+                    setData.oldData.DeEquip();
+
+                if (setData.data != null)
+                    setData.data.Equip(this);
+
+            });
 
             stats.hp.onPostChange.AddSubscription(OrderVal.Internal, (data) => {
 
@@ -65,14 +85,6 @@ namespace Assets.Scripts.Character {
 
             actions.ResetCountOfAttacks();
 
-        }
-
-        public void OnAddItem(ItemData item) {
-            item.Equip(this);
-        }
-
-        public void OnRemoveItem(ItemData item) {
-            item.DeEquip();
         }
 
         public void ResetBeforeFight() {

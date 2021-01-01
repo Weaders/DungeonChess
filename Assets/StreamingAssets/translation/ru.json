@@ -156,6 +156,14 @@
         {
             "key": "fire_emulet_description",
             "value": "При уроне наносит дополнительно огненый урон"
+        },
+        {
+            "key": "drums_of_speed_title",
+            "value": "Барабаны скорости"
+        },
+        {
+            "key": "drums_of_speed_description",
+            "value": "Увеличивает скороость атаки на 20% процентов"
         }
     ]
 }

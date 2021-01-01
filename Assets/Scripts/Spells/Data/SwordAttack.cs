@@ -28,6 +28,8 @@ namespace Assets.Scripts.Spells.Data {
 
             from.characterData.onPostMakeAttack.Invoke();
 
+            from.characterData.stateContainer.AddStun(2f);
+
             return null;
 
         }

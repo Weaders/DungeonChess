@@ -44,6 +44,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxItemsCount: 4
+--- !u!1 &8080391661659656620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1920866064265288417}
+  - component: {fileID: 2738750187774145611}
+  m_Layer: 0
+  m_Name: StaateContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1920866064265288417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080391661659656620}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9061426662518823011}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2738750187774145611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080391661659656620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3a506fa91098f4b99b804691a76ff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9061426662261881583
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +162,7 @@ Transform:
   - {fileID: 9061426662973236147}
   - {fileID: 9061426662261881585}
   - {fileID: 5692757030907306692}
+  - {fileID: 1920866064265288417}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -138,7 +182,10 @@ MonoBehaviour:
   spellsContainer: {fileID: 9061426662973236144}
   buffsContainer: {fileID: 9061426662261881582}
   itemsContainer: {fileID: 7643965727856427395}
+  stateContainer: {fileID: 2738750187774145611}
   characterCtrl: {fileID: 0}
+  characterName:
+    _val: 
 --- !u!114 &9061426662518823009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,34 +200,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp:
     _val: 100
+    statType: 0
   maxHp:
     _val: 100
+    statType: 1
   mana:
     _val: 0
+    statType: 2
   maxMana:
     _val: 100
+    statType: 3
   manaPerAttack:
     _val: 5
+    statType: 4
   AD:
     _val: 10
+    statType: 5
   AS:
     _val: 0.5
+    statType: 6
+  critChance:
+    _val: 0
+    statType: 11
+  critDmg:
+    _val: 2
+    statType: 12
   moveSpeed:
     _val: 5
+    statType: 7
   isDie:
     _val: 0
+    statType: 8
+  vampirism:
+    _val: 0
+    statType: 10
   classTypes:
     _val: 
-  sf:
-    statType: 0
-    observableVal:
-      id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
-      data:
-        _val: 0
+    statType: 9
 --- !u!1 &9061426662973236145
 GameObject:
   m_ObjectHideFlags: 0

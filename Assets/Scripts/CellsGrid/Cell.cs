@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using Assets.Scripts.Character;
-using Assets.Scripts.Common;
+﻿using Assets.Scripts.Character;
 using Assets.Scripts.DungeonGenerator;
 using Assets.Scripts.Logging;
 using UnityEngine;
@@ -14,10 +12,9 @@ namespace Assets.Scripts.CellsGrid {
 
         public CharacterCtrl characterCtrl { get; private set; }
 
-        //[ReadOnly]
         public Vector2Int dataPosition;
 
-        private CellState state = default;
+        public CellStateManager stateMng = new CellStateManager();
 
         [SerializeField]
         private CellType cellType = default;
@@ -28,7 +25,7 @@ namespace Assets.Scripts.CellsGrid {
         [SerializeField]
         private bool _isExit;
 
-        public Direction exitDirection { 
+        public Direction exitDirection {
             get => _exitDirection;
         }
 
@@ -63,7 +60,7 @@ namespace Assets.Scripts.CellsGrid {
 
             var colorStore = StaticData.current.colorStore;
 
-            if (GameMng.current.fightMng.isInFight || cellType == CellType.NotUsable || cellType == CellType.ForEnemy) {
+            if (GameMng.current.fightMng.isInFight || cellType == CellType.NotUsable || cellType == CellType.ForEnemy || GetState() == CellState.Default) {
 
                 meshRenderer.material.SetColor("_Color", Color.clear);
                 meshRenderer.material.SetColor("_OutlineColor", Color.white);
@@ -73,6 +70,7 @@ namespace Assets.Scripts.CellsGrid {
 
             } else {
 
+                // For enemy
                 if (cellType == CellType.ForEnemy) {
 
                     cellEffect.SetActive(false);
@@ -80,16 +78,24 @@ namespace Assets.Scripts.CellsGrid {
                     meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
                     meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
 
+                // For Player
                 } else {
 
-                    if (state == CellState.NotAvailable) {
+                    if (GetState() == CellState.NotAvailable) {
 
                         cellEffect.SetActive(false);
 
                         meshRenderer.material.SetColor("_Color", colorStore.cellPlayerAllow);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerAllowOutline);
 
-                    } else {
+                    } else if (GetState() == CellState.Hover) {
+
+                        cellEffect.SetActive(false);
+
+                        meshRenderer.material.SetColor("_Color", colorStore.cellHover);
+                        meshRenderer.material.SetColor("_OutlineColor", colorStore.cellHoverOutlineCell);
+
+                    } else if (GetState() == CellState.Select){
 
                         cellEffect.SetActive(true);
 
@@ -102,11 +108,14 @@ namespace Assets.Scripts.CellsGrid {
 
             }
 
-            
+
 
         }
 
         public void StayCtrl(CharacterCtrl ctrl, bool isChangePosition = true) {
+
+            if (ctrl.cell == this)
+                return;
 
             if (ctrl != null) {
 
@@ -120,7 +129,7 @@ namespace Assets.Scripts.CellsGrid {
                 TagLogger<Cell>.Info($"Player stay on cell with position {transform.position}");
 
                 if (ctrl.cell != null) {
-                    ctrl.cell.SetState(CellState.Select);
+                    ctrl.cell.AddState(CellState.Select);
                 }
 
 
@@ -132,11 +141,11 @@ namespace Assets.Scripts.CellsGrid {
                     ctrl.transform.localPosition = Vector3.zero;
                     ctrl.transform.localRotation = Quaternion.identity;
                 }
-                
+
 
                 ctrl.cell = this;
 
-                SetState(CellState.NotAvailable);
+                AddState(CellState.NotAvailable);
 
                 ctrl.moveCtrl.EnableNavMesh();
                 characterCtrl = ctrl;
@@ -145,9 +154,16 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-        public void SetState(CellState cellState) {
+        public void AddState(CellState cellState) {
 
-            state = cellState;
+            stateMng.AddState(cellState);
+            ChangeColor();
+
+        }
+
+        public void RemoveState(CellState cellState) {
+
+            stateMng.RemoveState(cellState);
             ChangeColor();
 
         }
@@ -162,15 +178,17 @@ namespace Assets.Scripts.CellsGrid {
         public bool IsAvailableToStay()
             => characterCtrl == null || characterCtrl.characterData.stats.isDie;
 
-        public CellState GetState() => state;
+        public CellState GetState() => stateMng.GetCurrent();
 
         public CellType GetCellType() => cellType;
 
         public bool IsExit() => isExit;
 
         public enum CellState {
+            Default,
             Select,
-            NotAvailable
+            NotAvailable,
+            Hover
         }
 
         public enum CellType {

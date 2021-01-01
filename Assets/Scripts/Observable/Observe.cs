@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.StatsData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -60,12 +60,14 @@ namespace Assets.Scripts.Observable {
                     break;
                 }
 
+                if (current.Next == null)
+                    return current; ;
 
                 current = current.Next;
 
             }
 
-            return null;
+            return current;
 
         }
 
@@ -97,7 +99,7 @@ namespace Assets.Scripts.Observable {
                 var added = events.AddBefore(current, new OrderedEventData(order));
                 added.Value.unityEvent.AddListener(unityAction);
 
-            }
+            }            
 
         }
 
@@ -140,7 +142,14 @@ namespace Assets.Scripts.Observable {
 
             } else {
 
-                var added = events.AddBefore(current, new OrderedEventData<T>(order));
+                LinkedListNode<OrderedEventData<T>> added;
+
+                if (current.Value.order > order) {
+                    added = events.AddBefore(current, new OrderedEventData<T>(order));
+                } else {
+                    added = events.AddAfter(current, new OrderedEventData<T>(order));
+                }
+
                 added.Value.unityEvent.AddListener(action);
 
             }
@@ -157,11 +166,15 @@ namespace Assets.Scripts.Observable {
 
         public override void AddSubscription(OrderVal order, UnityAction unityAction) {
 
-            void newAction(T _) { unityAction.Invoke(); }
+            UnityAction<T> temp = (T _) => unityAction.Invoke();
 
-            actPointers.Add(unityAction, newAction);
+            //if (!actPointers.ContainsKey(unityAction)) {
 
-            AddSubscription(order, newAction);
+            actPointers.Add(unityAction, temp);
+            AddSubscription(order, temp);
+
+            //}
+
         }
 
 
@@ -172,6 +185,8 @@ namespace Assets.Scripts.Observable {
                 foreach (var e in events) {
                     e.unityEvent.RemoveListener(newAct);
                 }
+
+                actPointers.Remove(act);
 
             }
 
@@ -192,7 +207,7 @@ namespace Assets.Scripts.Observable {
 
     public interface IObservableArray<T> : IEnumerable<T> {
 
-        OrderedEvents<ChangeEnumerableItemEvent<T>> onSet { get; }
+        OrderedEvents<SetEnumerableItemEvent<T>> onSet { get; }
 
         T this[int index] { get; set; }
 
@@ -217,17 +232,19 @@ namespace Assets.Scripts.Observable {
 
                 if ((items[index] == null && value != null) || (items[index] != null && !items[index].Equals(value))) {
 
+                    var oldVal = items[index];
+
                     items[index] = value;
-                    onSet.Invoke(new ChangeEnumerableItemEvent<T>(value, index));
+                    onSet.Invoke(new SetEnumerableItemEvent<T>(oldVal, value, index));
 
                 }
 
             }
         }
 
-        public OrderedEvents<ChangeEnumerableItemEvent<T>> onSet => _onSet;
+        public OrderedEvents<SetEnumerableItemEvent<T>> onSet => _onSet;
 
-        private OrderedEvents<ChangeEnumerableItemEvent<T>> _onSet = new OrderedEvents<ChangeEnumerableItemEvent<T>>();
+        private OrderedEvents<SetEnumerableItemEvent<T>> _onSet = new OrderedEvents<SetEnumerableItemEvent<T>>();
 
         public int Count => items.Length;
 
@@ -239,7 +256,13 @@ namespace Assets.Scripts.Observable {
 
         public int GetIndex(T data) => Array.IndexOf(items, data);
 
-        public IEnumerator<T> GetEnumerator() => items.GetEnumerator() as IEnumerator<T>;
+        public IEnumerator<T> GetEnumerator() {
+
+            foreach (var item in items) {
+                yield return item;
+            }
+
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
     }
@@ -476,6 +499,16 @@ namespace Assets.Scripts.Observable {
 
     #endregion
 
+
+    public class SetEnumerableItemEvent<T> : ChangeEnumerableItemEvent<T> {
+        
+        public SetEnumerableItemEvent(T old, T newData, int index) : base(newData, index) {
+            oldData = old;
+        }
+
+        public T oldData { get; private set; }
+
+    }
 
 
     public class ChangeEnumerableItemEvent<T> {

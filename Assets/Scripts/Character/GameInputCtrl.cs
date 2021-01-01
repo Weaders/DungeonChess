@@ -10,24 +10,30 @@ namespace Assets.Scripts.Character {
 
         private CharacterCtrl _characterCtrl;
 
-        private Cell _ctrlToSelect;
+        private Cell _cellToSelect;
 
         private CharacterCtrl selectedCharacterCtrl {
             get => _characterCtrl;
             set {
+
+                var oldVal = _characterCtrl;                
                 _characterCtrl = value;
-                onSelectCharacter.Invoke(_characterCtrl);
+
+                onChangeSelectCharacter.Invoke(oldVal, _characterCtrl);
             }
         }
-
-        private bool isMoveCharacter = false;
 
         private Vector3 mousePosition;
 
         [SerializeField]
         private float dragSpeed = .005f;
 
-        public OnSelectCharacter onSelectCharacter = new OnSelectCharacter();
+        /// <summary>
+        /// First val old val, second new val
+        /// </summary>
+        public OnChangedSelectedCharacter onChangeSelectCharacter = new OnChangedSelectedCharacter();
+
+        private CharacterCtrl _draggedCtrl;
 
         private void Update() {
 
@@ -38,7 +44,30 @@ namespace Assets.Scripts.Character {
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (selectedCharacterCtrl == null) {
+                if (_draggedCtrl != null) {
+
+                    if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER))) {
+
+                        var cell = hit.collider.GetComponent<Cell>();
+
+                        if (_cellToSelect != cell && cell != null && cell.IsAvailableToStay()) {
+
+                            if (_cellToSelect != null) {
+                                _cellToSelect.RemoveState(Cell.CellState.NotAvailable);
+                            }
+
+                            _cellToSelect = cell;
+                            _draggedCtrl.OnDraggableToCell(_cellToSelect);
+
+                            _cellToSelect.AddState(Cell.CellState.NotAvailable);
+
+                        }
+
+                    }
+
+                    selectedCharacterCtrl.transform.position -= (new Vector3(delta.x, 0, delta.y) * dragSpeed * Time.deltaTime);
+
+                } else {
 
                     if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER, LayersStore.CELL_LAYER))) {
 
@@ -58,7 +87,7 @@ namespace Assets.Scripts.Character {
                                     }
 
                                 }
-                                
+
                             }
 
                         } else {
@@ -68,45 +97,26 @@ namespace Assets.Scripts.Character {
                             if (GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player) {
 
                                 selectedCharacterCtrl = ctrl;
+                                
+                                _cellToSelect = selectedCharacterCtrl.cell;
+
                                 ctrl.moveCtrl.DisableNavMesh();
-                                isMoveCharacter = true;
+                                _draggedCtrl = ctrl;
 
                             } else {
                                 selectedCharacterCtrl = ctrl;
-                                isMoveCharacter = false;
+                                _draggedCtrl = null;
                             }
 
                         }
 
                     }
-
-                } else if (isMoveCharacter) {
-
-                    if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER))) {
-
-                        var cell = hit.collider.GetComponent<Cell>();
-
-                        if (_ctrlToSelect != cell) {
-
-                            if (_ctrlToSelect != null) {
-                                _ctrlToSelect.SetState(Cell.CellState.Select);
-                            }
-
-                            _ctrlToSelect = cell;
-
-                            _ctrlToSelect.SetState(Cell.CellState.NotAvailable);
-
-                        }
-
-                    }
-
-                    selectedCharacterCtrl.transform.position -= (new Vector3(delta.x, 0, delta.y) * dragSpeed * Time.deltaTime);
 
                 }
 
-            } else if (Input.GetMouseButtonUp(0) && selectedCharacterCtrl != null) {
+            } else if (Input.GetMouseButtonUp(0) ) {
 
-                if (isMoveCharacter) {
+                if (_draggedCtrl != null) {
 
                     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -116,18 +126,20 @@ namespace Assets.Scripts.Character {
 
                         var cell = hit.collider.GetComponent<Cell>();
                         cell.StayCtrl(selectedCharacterCtrl);
+                        
 
                     }
 
-                }
+                    selectedCharacterCtrl.OnDraggableToCell(null);
+                    _draggedCtrl = null;
 
-                selectedCharacterCtrl = null;
+                }
 
             }
 
         }
 
-        public class OnSelectCharacter : UnityEvent<CharacterCtrl> { }
+        public class OnChangedSelectedCharacter : UnityEvent<CharacterCtrl, CharacterCtrl> { }
 
 
     }

@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.StatsData;
 using UnityEngine;
 using UnityEngine.UI;
 using static Assets.Scripts.Observable.TextExtension;

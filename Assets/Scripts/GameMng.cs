@@ -116,10 +116,7 @@ namespace Assets.Scripts {
 
         public RerollCtrl rerollCtrl = new RerollCtrl();
 
-        public SelectCharacterEvent onSelectCharacter = new SelectCharacterEvent();
-
-        [SerializeField]
-        private GameInputCtrl gameInputCtrl;
+        public GameInputCtrl gameInputCtrl;
 
         public PathToCell pathToCell { get; private set; }
 
@@ -148,30 +145,39 @@ namespace Assets.Scripts {
             roomCtrl.Init();
             roomCtrl.MoveToStartRoom();
 
-            cellsGridMng.Init();
-
             buyMng.Init();
             buyPanelUI.Init();
             topSidePanelUI.Init();
 
             // Set up, synergy data
             buyMng.postBuy.AddListener(() => {
-
                 synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
             });
 
             playerInventoryGrid.SetItemsContainer(playerData.itemsContainer);
 
             // Update ui on select character ctrl
-            gameInputCtrl.onSelectCharacter.AddListener((ctrl) => {
+            gameInputCtrl.onChangeSelectCharacter.AddListener((old, ctrl) => {
 
-                if (ctrl != null) {
+                if (old != ctrl) {
 
-                    selectedCharacterName.text = ctrl.characterData.characterName.val;
-                    statsGrid.SetCharacter(ctrl.characterData);
-                    characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
-                    characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
-                    buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
+                    if (old != null) {
+                        old.HideWhenDeselected();
+                    }
+
+                    if (ctrl != null) {
+
+                        ctrl.characterData.stateContainer.AddStun(10);
+
+                        selectedCharacterName.text = ctrl.characterData.characterName.val;
+                        statsGrid.SetCharacter(ctrl.characterData);
+                        characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
+                        characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
+                        buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
+
+                        ctrl.ShowWhenSelected();
+
+                    }
 
                 }
 
@@ -189,10 +195,6 @@ namespace Assets.Scripts {
 
         public void HideBlackOverlay() {
             blackOverlayAnim.SetBool(AnimationValStore.IS_SHOW, false);
-        }
-
-        private ItemData[] GetItemsForDropChanches(DropChance[] drops, int coutItems) {
-            return drops[0].items.Take(coutItems).ToArray();
         }
 
         public class SelectCharacterEvent : UnityEvent<CharacterCtrl>{}

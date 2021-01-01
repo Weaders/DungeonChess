@@ -14,12 +14,6 @@ namespace Assets.Scripts.Player {
             itemsContainer.SetOwner(this);
         }
 
-        public void OnAddItem(ItemData item) {
-        }
-
-        public void OnRemoveItem(ItemData item) {
-        }
-
     }
 
 }

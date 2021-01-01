@@ -11,7 +11,7 @@ namespace Assets.Scripts.Bullet {
         Transform GetTargetTransform();
     }
 
-    public class BulletCtrl : MonoBehaviour {
+    public class BulletCtrl : MonoBehaviour, IBullet {
 
         public UnityEvent onCome = new UnityEvent();
 
@@ -28,6 +28,12 @@ namespace Assets.Scripts.Bullet {
 
         public Vector3 up;
 
+        private bool isForByDirection = false;
+
+        private Vector3 _direction;
+
+        private float _time;
+
         public void StartFly(IBulletSpawner bulletSpawner, IBulletTarget bulletTarget) {
 
             var tr = bulletSpawner.GetSpawnTransform();
@@ -35,6 +41,24 @@ namespace Assets.Scripts.Bullet {
             transform.position = tr.position;
 
             currentTarget = bulletTarget.GetTargetTransform();
+
+            isForByDirection = false;
+
+        }
+
+        public void StartFly(IBulletSpawner spawner, Vector3 direction, float time) {
+
+            var tr = spawner.GetSpawnTransform();
+
+            transform.position = tr.position;
+
+            isForByDirection = true;
+
+            _direction = direction;
+
+
+
+
 
         }
 

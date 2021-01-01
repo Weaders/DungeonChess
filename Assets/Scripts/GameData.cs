@@ -2,7 +2,8 @@
 using System.Linq;
 using Assets.Scripts.EnemyData;
 using Assets.Scripts.Items;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.State;
+using Assets.Scripts.StatsData;
 using UnityEngine;
 
 namespace Assets.Scripts {
@@ -13,6 +14,8 @@ namespace Assets.Scripts {
         public ItemsPool[] itemsPools;
 
         public StatsInfoData statsInfoData;
+
+        public StaticStatesData staticStatesData;
 
         public IEnumerable<DropChance> GetDropChances(int lvl)
             => itemsPools.Where(i => i.rooms.IsInRange(lvl)).SelectMany(i => i.itemsWithChanches);

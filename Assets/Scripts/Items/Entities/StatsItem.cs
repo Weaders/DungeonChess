@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.StarsData;
+﻿using Assets.Scripts.StatsData;
 using UnityEngine;
 
 namespace Assets.Scripts.Items.Entities {

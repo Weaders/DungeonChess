@@ -20,6 +20,8 @@ MonoBehaviour:
   cellPlayerNotAllowOutline: {r: 0, g: 1, b: 0, a: 1}
   cellEnemy: {r: 0.5, g: 0, b: 0, a: 0.6}
   cellEnemyOutlineCell: {r: 1, g: 0, b: 0, a: 1}
+  cellHover: {r: 0.39215687, g: 0.4117647, b: 0.6431373, a: 0.6}
+  cellHoverOutlineCell: {r: 0.39035243, g: 0.41339442, b: 0.6415094, a: 0.6}
   playerTeamDetectColor: {r: 0, g: 1, b: 0, a: 1}
   enemyTeamDetectColor: {r: 1, g: 0, b: 0, a: 1}
   classesTypes:

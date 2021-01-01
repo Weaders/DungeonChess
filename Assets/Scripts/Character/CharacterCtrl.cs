@@ -9,6 +9,7 @@ using Assets.Scripts.Spells;
 using Assets.Scripts.Spells.Modifiers;
 using Assets.Scripts.Synergy;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
@@ -16,6 +17,8 @@ namespace Assets.Scripts.Character {
     public class CharacterCtrl : MonoBehaviour, IBulletSpawner, IBulletTarget {
 
         public OrderedEvents onDestoy = new OrderedEvents();
+
+        public UnityEvent<Cell, Cell> onChangeCell = new UnityEvent<Cell, Cell>();
 
         private Fight.TeamSide _teamSide;
 
@@ -56,30 +59,65 @@ namespace Assets.Scripts.Character {
 
         public SynergyCharacterPointer synergyCharacterPoint;
 
+        private Cell _cell;
+
+        private Cell _draggedCell;
+
         [SerializeField]
         public MeshRenderer colorDetect;
 
-        [HideInInspector]
-        public Cell cell;
+        public Cell cell {
+            get => _cell;
+            set {
+
+                var oldVal = _cell;
+
+                _cell = value;
+
+                onChangeCell.Invoke(oldVal, _cell);
+            }
+        }
 
         [SerializeField]
         private GameObject bulletSpawnObj;
 
+        [SerializeField]
+        private StateIconsCtrl stateIconsCtrl;
+
+        private bool isShowedSelected;
+
         public void GoAttack() {
+            StartCoroutine(GoAttackWhileNotDead());
+        }
 
-            var spell = characterData.spellsContainer.GetBaseAttackSpell();
+        private IEnumerator GoAttackWhileNotDead() {
 
-            var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
+            bool isStartMove = false;
 
-            targetForAttack = strtg.GetTarget(spell, this);
+            while (!isStartMove && !characterData.stats.isDie) {
 
-            if (targetForAttack != null) {
+                if (characterData.isCanMove) {
 
-                var moveAction = moveCtrl.MoveToCharacter(targetForAttack);
+                    var spell = characterData.spellsContainer.GetBaseAttackSpell();
 
-                moveAction.onCome.AddListener(() => StartCoroutine(AttackWhileInRange(targetForAttack)));
+                    var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
 
-                moveAction.Start();
+                    targetForAttack = strtg.GetTarget(spell, this);
+
+                    if (targetForAttack != null) {
+
+                        var moveAction = moveCtrl.MoveToCharacter(targetForAttack);
+
+                        moveAction.onCome.AddListener(() => StartCoroutine(AttackWhileInRange(targetForAttack)));
+
+                        isStartMove = true;
+                        moveAction.Start();
+
+                    }
+
+                }
+
+                yield return new WaitForFixedUpdate();
 
             }
 
@@ -94,33 +132,36 @@ namespace Assets.Scripts.Character {
 
             while (target != null && spell.IsInRange(this, target) && !target.characterData.stats.isDie) {
 
-                transform.LookAt(target.transform);
+                if (characterData.isCanAttack) {
 
-                if (characterData.stats.mana.val >= characterData.stats.maxMana.val) {
+                    transform.LookAt(target.transform);
 
-                    animator.SetBool(AnimationValStore.IS_USING_SPELL, true);
+                    if (characterData.stats.mana.val >= characterData.stats.maxMana.val) {
 
-                    var fullManaSpell = characterData.spellsContainer.GetFullManaSpellAttack();
+                        animator.SetBool(AnimationValStore.IS_USING_SPELL, true);
 
-                    var strtg = SpellStrategyStorage.GetSpellStrtg(fullManaSpell);
-                    var targetForManaSpell = strtg.GetTarget(fullManaSpell, this);
+                        var fullManaSpell = characterData.spellsContainer.GetFullManaSpellAttack();
 
-                    if (targetForManaSpell != null) {
+                        var strtg = SpellStrategyStorage.GetSpellStrtg(fullManaSpell);
+                        var targetForManaSpell = strtg.GetTarget(fullManaSpell, this);
 
-                        TagLogger<CharacterCtrl>.Info($"{gameObject.name} is start using spell");
+                        if (targetForManaSpell != null) {
 
-                        var useResult = fullManaSpell.Use(this, targetForManaSpell, new Spell.UseOpts 
-                        {
-                            animator = animator
-                        });
+                            TagLogger<CharacterCtrl>.Info($"{gameObject.name} is start using spell");
 
-                        characterData.stats.mana.val = 0;
+                            var useResult = fullManaSpell.Use(this, targetForManaSpell, new Spell.UseOpts {
+                                animator = animator
+                            });
 
-                        yield return new WaitUntil(() => useResult.IsEndUseSpell());
+                            characterData.stats.mana.val = 0;
 
-                        TagLogger<CharacterCtrl>.Info($"{gameObject.name} is stop using spell");
+                            yield return new WaitUntil(() => useResult.IsEndUseSpell());
 
-                        animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
+                            TagLogger<CharacterCtrl>.Info($"{gameObject.name} is stop using spell");
+
+                            animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
+
+                        }
 
                     }
 
@@ -152,6 +193,8 @@ namespace Assets.Scripts.Character {
             var colorStore = StaticData.current.colorStore;
 
             characterAnimEvents.Init(this);
+
+            stateIconsCtrl.SetCharacterData(characterData);
 
             characterData.actions.onPostGetDmg.AddSubscription(OrderVal.UIUpdate, (dmgEventData) => {
                 
@@ -188,7 +231,7 @@ namespace Assets.Scripts.Character {
 
             });
 
-            characterData.actions.onPreMakeAttack.AddSubscription(Observable.OrderVal.Fight, (attack) => {
+            characterData.actions.onPreMakeAttack.AddSubscription(OrderVal.Fight, (attack) => {
 
                 if (Random.value <= characterData.stats.critChance && !attack.dmg.dmgModifiers.Any(m => m is CritModify)) {
                     attack.dmg.dmgModifiers.Add(new CritModify(0, characterData.stats.critDmg));
@@ -208,6 +251,82 @@ namespace Assets.Scripts.Character {
         public Transform GetTargetTransform() => bulletSpawnObj.transform;
 
         public Transform GetSpawnTransform() => bulletSpawnObj.transform;
+
+        public void OnDraggableToCell(Cell cell) {
+            _draggedCell = cell;
+            OnRefreshShow();
+        }
+
+        public void ShowWhenSelected() {
+
+            if (!isShowedSelected) {
+
+                isShowedSelected = true;
+                OnRefreshShow();
+                characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, OnRefreshShow);
+                onChangeCell.AddListener(OnRefreshShow);
+
+            }
+            
+
+        }
+
+        public void HideWhenDeselected() {
+
+            if (isShowedSelected) {
+
+                isShowedSelected = false;
+                OnRefreshHide();
+                characterData.itemsContainer.onSet.RemoveSubscription(OnRefreshShow);
+                onChangeCell.RemoveListener(OnRefreshShow);
+
+            }
+        }
+
+        public Cell GetCellForSelectedDisplay() {
+
+            if (_draggedCell != null)
+                return _draggedCell;
+            else
+                return cell;
+
+        }
+
+        public void OnRefreshShow() {
+
+
+            foreach (var item in characterData.itemsContainer.GetItems()) {
+
+                if (item is IDisplayOnSelect display) {
+                    display.HideFor();
+                }
+
+            }
+
+            foreach (var item in characterData.itemsContainer.GetItems()) {
+
+                if (item is IDisplayOnSelect display) {
+                    display.ShowFor();
+                }
+
+            }
+
+        }
+
+        public void OnRefreshShow<T>(T oldVal, T newVal)
+            => OnRefreshShow();
+
+        public void OnRefreshHide() {
+
+            foreach (var item in characterData.itemsContainer.GetItems()) {
+
+                if (item is IDisplayOnSelect display) {
+                    display.HideFor();
+                }
+
+            }
+
+        }
 
         private void Update() {
             characterCanvas.transform.rotation = Quaternion.identity;

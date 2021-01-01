@@ -26,10 +26,6 @@ namespace Assets.Scripts.CellsGrid {
         [SerializeField]
         private ArrowCtrl arrowCtrlPrefab;
 
-        public void Init() {
-            //GameMng.current.fightMng.onPlayerWin.AddListener(DisplayExits);
-        }
-
         public void RefreshCells() {
 
             _enemiesSideCell = new List<Cell>();
@@ -93,6 +89,18 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         private IEnumerable<Cell> GetCells() => GameMng.current.roomCtrl.currentRoom.GetCells();
+
+        public Vector2Int minXYDataPosition
+            => new Vector2Int(GetCells().Min(c => c.dataPosition.x), GetCells().Min(c => c.dataPosition.y));
+
+        public Vector2Int maxXYDataPosition
+            => new Vector2Int(GetCells().Max(c => c.dataPosition.x), GetCells().Max(c => c.dataPosition.y));
+
+        public int WidthDataPosition
+            => GetCells().Max(c => c.dataPosition.x) - GetCells().Min(c => c.dataPosition.x);
+
+        public IEnumerable<Cell> GetByDataPositions(IEnumerable<Vector2Int> positions) 
+            => GetCells().Where(c => positions.Contains(c.dataPosition));
 
         public IEnumerable<Cell> GetNeighbours(Cell cell, int range = 1) {
 

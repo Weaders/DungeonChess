@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Assets.Scripts.StarsData;
+using Assets.Scripts.StatsData;
 using UnityEditor;
 using UnityEngine;
 
