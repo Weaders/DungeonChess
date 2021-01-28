@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Character;
 using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Fight.PlaceStrategy;
+using Assets.Scripts.StatsData;
 using UnityEngine;
 using static Assets.Scripts.EnemyData.DungeonData;
 
 namespace Assets.Scripts.EnemyData {
 
-    [CreateAssetMenu(menuName = "Enemies/Poll")]
+    [CreateAssetMenu(menuName = "Dungeon/EnemiesPoll")]
     public class EnemiesPoll : ScriptableObject {
 
         public EnemyTeam[] teams;
@@ -21,7 +21,7 @@ namespace Assets.Scripts.EnemyData {
             => teams.Where(t => !t.isBoss && t.isEnabled);
     }
 
-    public enum EnemyTeamStrtg { 
+    public enum EnemyTeamStrtg {
         MaxDistance,
         TankCarryFormation,
         MiddleFormation
@@ -41,7 +41,7 @@ namespace Assets.Scripts.EnemyData {
                 default:
                     throw new GameException("Bad strtg");
             }
-        
+
         }
 
     }
@@ -50,7 +50,7 @@ namespace Assets.Scripts.EnemyData {
     public class EnemyTeam {
 
         public EnemyTeamStrtg enemyTeamStrtg;
-        public CharacterCtrl[] characterCtrls;
+        public CharacterDungeonData[] characterCtrls;
         public bool isBoss;
         public bool isEnabled;
         public Condition condition;
@@ -59,6 +59,13 @@ namespace Assets.Scripts.EnemyData {
 
     [Serializable]
     public class Condition : RangeRooms {
+    }
+
+    [Serializable]
+    public class StatGroup {
+        public StatField[] stats;
+        public Condition condition;
+
     }
 
 }

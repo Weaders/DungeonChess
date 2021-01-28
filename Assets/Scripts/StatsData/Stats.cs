@@ -17,7 +17,7 @@ namespace Assets.Scripts.StatsData {
 
     public static class StatTypeExtension {
 
-        public static ObservableVal GetObservableVal(this Stat stat) {
+        public static ObservableVal GetObservableVal(this Stat stat, StatField statField = null) {
 
             switch (stat) {
                 case Stat.Ad:
@@ -27,15 +27,15 @@ namespace Assets.Scripts.StatsData {
                 case Stat.MaxMana:
                 case Stat.ManaPerAttack:
                 case Stat.Vampirism:
-                    return new IntObservable(0);
+                    return new IntObservable(statField == null ? 0 : statField.intVal);
                 case Stat.IsDie:
-                    return new BoolObservable(false);
+                    return new BoolObservable(statField == null ? default : statField.boolVal);
                 case Stat.ClassTypes:
                     return new CharacterClassTypeObservable(new CharacterClassType[] { });
                 case Stat.As:
                 case Stat.MoveSpeed:
                 case Stat.CritChance:
-                    return new FloatObsrevable(0f);
+                    return new FloatObsrevable(statField == null ? default : statField.floatVal);
                 default:
                     throw new System.Exception("Can not get observable for this type");
             }
@@ -140,19 +140,17 @@ namespace Assets.Scripts.StatsData {
         private FieldInfo GetStatFieldInfo(Stat stat)
             => GetFields().FirstOrDefault(f => (f.GetValue(this) as IStatField).stat == stat);
 
-        public void Mofify(StatField statField, bool alterVal = false) {
+        public void Mofify(StatField statField, ModifyType modifyType = ModifyType.Plus) {
 
             var field = GetStatFieldInfo(statField.stat);
 
             var val = field.GetValue(this);
 
-            field.FieldType.GetMethod("ModifyBy").Invoke(val, new object[] { statField.observableVal, alterVal });
+            field.FieldType.GetMethod("ModifyBy").Invoke(val, new object[] { statField.observableVal, modifyType });
 
         }
 
-        public FieldInfo[] GetFields() => GetType().GetFields()
-                //.Where(f => f.FieldType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IModifiedObservable<>)))
-                .ToArray();
+        public FieldInfo[] GetFields() => GetType().GetFields().ToArray();
 
     }
 

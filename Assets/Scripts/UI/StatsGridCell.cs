@@ -8,7 +8,7 @@ using static Assets.Scripts.Observable.TextExtension;
 namespace Assets.Scripts.UI {
 
     public enum CellWhatDisplay {
-        Hp, Ad
+        Hp, Ad, As
     }
 
     public class StatsGridCell : MonoBehaviour {
@@ -45,6 +45,24 @@ namespace Assets.Scripts.UI {
                     );
                     img.sprite = GameMng.current.gameData.statsInfoData[Stat.Ad].sprite;
                     break;
+                case CellWhatDisplay.As:
+                    subsribeTextResult = contentText.Subscribe(
+                        data.stats.AS,
+                        OrderVal.UIUpdate
+                    );
+                    img.sprite = GameMng.current.gameData.statsInfoData[Stat.As].sprite;
+                    break;
+            }
+
+        }
+
+        private void OnDestroy() {
+
+            if (subsribeTextResult != null) {
+
+                subsribeTextResult.Unsubscribe();
+                subsribeTextResult = null;
+
             }
 
         }

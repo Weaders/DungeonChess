@@ -43,7 +43,7 @@ namespace Assets.Scripts.Character {
                 if (spellsContainer.Count == 0)
                     return default;
 
-                return spellsContainer.GetBaseAttackSpell().range <= 6 ? RangeType.Melee : RangeType.Range;
+                return spellsContainer.GetBaseAttackSpell().range <= 2 ? RangeType.Melee : RangeType.Range;
 
             }
         }

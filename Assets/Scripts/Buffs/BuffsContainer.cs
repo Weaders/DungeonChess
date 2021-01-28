@@ -10,6 +10,8 @@ namespace Assets.Scripts.Buffs {
 
     public class BuffsContainer : MonoBehaviour, IObservableList<Buff> {
 
+        public bool isInProcessOfInit { get; private set; } = false;
+
         public ObservableList<Buff> buffs = new ObservableList<Buff>();
 
         private CharacterCtrl characterCtrl;
@@ -82,6 +84,8 @@ namespace Assets.Scripts.Buffs {
 
         public void Init(CharacterCtrl charCtrl) {
 
+            isInProcessOfInit = true;
+
             characterCtrl = charCtrl;
 
             TagLogger<BuffsContainer>.Info("Start add default spells");
@@ -92,6 +96,8 @@ namespace Assets.Scripts.Buffs {
                 Add(spell.gameObject.GetComponent<Buff>());
 
             }
+
+            isInProcessOfInit = false;
 
         }
 

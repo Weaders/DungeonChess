@@ -10,7 +10,7 @@ namespace Assets.Scripts.AnimationCtrl {
 
     public abstract class SpellAnimationData : MonoBehaviour {
 
-        public abstract AnimRunResult RunFor(Spell spell, CharacterCtrl from, CharacterCtrl to, UseOpts opts);
+        public abstract AnimRunResult RunFor(Spell spell, CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts);
 
         public class AnimRunResult {
 

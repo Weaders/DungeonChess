@@ -16,7 +16,7 @@ namespace Assets.Scripts.Buffs.Data {
         protected override void DeApply() {
 
             foreach (var stat in statsModify)
-                characterCtrl.characterData.stats.Mofify(stat, true);
+                characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Minus);
 
         }
     }

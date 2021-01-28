@@ -19,7 +19,7 @@ namespace Assets.Scripts.Spells.Data {
             data.stats.AD
         };
 
-        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts useOpts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts useOpts) {
 
             to.characterData.actions.GetDmg(
                 from,

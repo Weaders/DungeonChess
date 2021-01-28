@@ -72,7 +72,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1003271593837475471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.44, z: 0.73}
+  m_LocalPosition: {x: 0, y: 1.252, z: 0.1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 2328172299832810842}
@@ -195,7 +195,7 @@ MonoBehaviour:
   stateContainer: {fileID: 5429501778116860748}
   characterCtrl: {fileID: 8215336324123496539}
   characterName:
-    _val: 
+    _val: warrior_of_light
 --- !u!114 &4242525771372960318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
     _val: 2
     statType: 12
   moveSpeed:
-    _val: 5
+    _val: 1
     statType: 7
   isDie:
     _val: 0
@@ -4665,7 +4665,6 @@ GameObject:
   - component: {fileID: 6845065712008186114}
   - component: {fileID: 5232884066652915929}
   - component: {fileID: 4820983699408159290}
-  - component: {fileID: -6366125743271059690}
   - component: {fileID: 5519556431329880679}
   m_Layer: 8
   m_Name: Warrior
@@ -4726,6 +4725,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4642e3519912a46498f5abd7681ef213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSelected:
+    m_PersistentCalls:
+      m_Calls: []
   onChangeCell:
     m_PersistentCalls:
       m_Calls: []
@@ -4754,7 +4756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ctrl: {fileID: 8215336324123496539}
-  navMeshAgent: {fileID: -6366125743271059690}
+  navMeshAgent: {fileID: 0}
 --- !u!114 &5232884066652915929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4768,6 +4770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overrieds: []
+  scaleMultiply: {x: 1, y: 1, z: 1}
 --- !u!65 &4820983699408159290
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4779,30 +4782,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7805114, y: 3.1807332, z: 1}
-  m_Center: {x: 0.022776246, y: 1.6014786, z: 0}
---- !u!195 &-6366125743271059690
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2328172299833295226}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0.81
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_Size: {x: 1.7805114, y: 3.119294, z: 1}
+  m_Center: {x: 0.022776246, y: 0.7807461, z: 0}
 --- !u!114 &5519556431329880679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5303,7 +5284,7 @@ PrefabInstance:
     - target: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.32
+      value: 3.504
       objectReference: {fileID: 0}
     - target: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
         type: 3}

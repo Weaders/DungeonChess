@@ -13,4 +13,5 @@ namespace Assets.Scripts.Spells.Strsgs {
         }
 
     }
+
 }

@@ -21,3 +21,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 0a52efe37dfe742a69a93ff59613fb62, type: 3}
     maxStatType: 0
     isHaveMaxStatType: 0
+  - statType: 6
+    sprite: {fileID: 21300000, guid: 0a52efe37dfe742a69a93ff59613fb62, type: 3}
+    maxStatType: 0
+    isHaveMaxStatType: 0

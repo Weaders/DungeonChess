@@ -57,6 +57,7 @@ namespace Assets.Scripts.Items {
             return place.ToArray();
 
         }
+
         public void Select() {
             GameMng.current.playerData.itemsContainer.AddPrefab(this);
         }

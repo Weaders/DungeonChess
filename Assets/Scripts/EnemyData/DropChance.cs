@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.EnemyData {
 
-    [CreateAssetMenu(menuName = "Enemies/DropChance")]
+    [CreateAssetMenu(menuName = "Dungeon/DropChance")]
     public class DropChance : ScriptableObject, IComparable<DropChance> {
 
         public float chance;

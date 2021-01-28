@@ -12,6 +12,8 @@ namespace Assets.Scripts.Character {
 
         public EffectOverridePlaceData[] overrieds;
 
+        public Vector3 scaleMultiply = Vector3.one;
+
         public GameObject PlaceEffect(GameObject effectPrefab) {
 
             var effectObj = Instantiate(effectPrefab, transform, false);
@@ -35,8 +37,7 @@ namespace Assets.Scripts.Character {
                 effectObj.transform.localPosition
                    = Vector3.zero + effect.offset;
 
-                effectObj.transform.localScale
-                    = Vector3.one + effect.offsetScale;
+                effect.transform.localScale = Vector3.Scale(effect.transform.localScale, scaleMultiply);
 
             } else {
 
@@ -47,6 +48,9 @@ namespace Assets.Scripts.Character {
                     = Vector3.one + overrideData.offsetScale;
 
             }
+
+            Destroy(effectObj, effect.defaultDuration);
+
         }
 
         [ContextMenu("PlaceExistsEffects")]

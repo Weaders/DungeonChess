@@ -49,16 +49,17 @@ MonoBehaviour:
   _description: drums_of_speed_description
   icon: {fileID: 0}
   statsModify:
+  - statType: 0
+    intVal: 25
+    floatVal: 0
+    boolVal: 0
   - statType: 6
-    observableVal:
-      id: 0
+    intVal: 0
+    floatVal: 0.25
+    boolVal: 0
   rowStrtg: {fileID: 7384843452970528774}
-  references:
-    version: 1
-    00000000:
-      type: {class: FloatObsrevable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
-      data:
-        _val: 0.2
+  buffPrefab: {fileID: 8311777820870793070, guid: 08aa345741fc90b44aee67c96eb30a9f,
+    type: 3}
 --- !u!114 &7384843452970528774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,3 +74,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 1
   isFullWidth: 0
+  orientation: 0

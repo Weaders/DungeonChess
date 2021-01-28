@@ -19,33 +19,22 @@ namespace Assets.Scripts.CellsGrid.RowStrtgs {
 
         public override IEnumerable<Cell> CalcCellsFor(Cell cell) {
 
-            try {
+            var widthForSelect = isFullWidth ? GameMng.current.cellsGridMng.widthDataPosition : width;
+            var min = GameMng.current.cellsGridMng.minXYDataPosition;
+            var max = GameMng.current.cellsGridMng.maxXYDataPosition;
+            var positions = new List<Vector2Int>(width * 2);
 
-                var widthForSelect = isFullWidth ? GameMng.current.cellsGridMng.WidthDataPosition : width;
-                var min = GameMng.current.cellsGridMng.minXYDataPosition;
-                var max = GameMng.current.cellsGridMng.maxXYDataPosition;
-                var positions = new List<Vector2Int>(width * 2);
+            for (var x = Mathf.Max(cell.dataPosition.x - widthForSelect, min.x); x <= Mathf.Min(cell.dataPosition.x + widthForSelect, max.x); x++) {
 
-                for (var x = Mathf.Max(cell.dataPosition.x - widthForSelect, min.x); x <= Mathf.Min(cell.dataPosition.x + widthForSelect, max.x); x++) {
+                var position = new Vector2Int(x, cell.dataPosition.y);
 
-                    var position = new Vector2Int(x, cell.dataPosition.y);
-
-                    if (position != cell.dataPosition) {
-                        positions.Add(position);
-                    }
-
+                if (position != cell.dataPosition) {
+                    positions.Add(position);
                 }
-
-                return GameMng.current.cellsGridMng.GetByDataPositions(positions);
-
-            } catch (Exception e) {
-
-                Debug.Log(e.Message);
 
             }
 
-            return null;
-           
+            return GameMng.current.cellsGridMng.GetByDataPositions(positions);           
 
         }
     }

@@ -23,7 +23,7 @@ namespace Assets.Scripts.Fight {
 
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 
-            if (fightTeamPlayer.chars.Contains(characterCtrl)) {
+            if (fightTeamPlayer.characters.Contains(characterCtrl)) {
                 return fightTeamEnemy;
             } else {
                 return fightTeamPlayer;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Fight {
 
         public FightTeam GetTeamFor(CharacterCtrl characterCtrl) {
 
-            if (fightTeamPlayer.chars.Contains(characterCtrl)) {
+            if (fightTeamPlayer.characters.Contains(characterCtrl)) {
                 return fightTeamPlayer;
             } else {
                 return fightTeamEnemy;
@@ -66,12 +66,7 @@ namespace Assets.Scripts.Fight {
             fightTeamEnemy.onAllInTeamDie.AddListener(EnemyTeamDie);
             fightTeamPlayer.onAllInTeamDie.AddListener(PlayerTeamDie);
 
-            foreach (var charCtrl in fightTeamPlayer.chars) {
-                charCtrl.characterData.ResetBeforeFight();
-                charCtrl.GoAttack();
-            }
-
-            foreach (var charCtrl in fightTeamEnemy.chars) {
+            foreach (var charCtrl in fightTeamPlayer.characters.Union(fightTeamEnemy.characters)) {
                 charCtrl.characterData.ResetBeforeFight();
                 charCtrl.GoAttack();
             }
@@ -87,7 +82,7 @@ namespace Assets.Scripts.Fight {
 
         public TeamSide GetTeamSide(CharacterCtrl characterCtrl) {
 
-            if (fightTeamEnemy.chars.Any(ctrl => ctrl == characterCtrl)) {
+            if (fightTeamEnemy.characters.Any(ctrl => ctrl == characterCtrl)) {
                 return TeamSide.Enemy;
             }
 
@@ -102,6 +97,8 @@ namespace Assets.Scripts.Fight {
             fightTeamEnemy.onAllInTeamDie.RemoveListener(EnemyTeamDie);
             fightTeamPlayer.onAllInTeamDie.RemoveListener(PlayerTeamDie);
 
+            StopAttack();
+
             isInFight = false;
 
         }
@@ -114,6 +111,17 @@ namespace Assets.Scripts.Fight {
             fightTeamPlayer.onAllInTeamDie.RemoveListener(PlayerTeamDie);
 
             isInFight = false;
+
+        }
+
+        /// <summary>
+        /// Stop attack for characters on battlefield
+        /// </summary>
+        private void StopAttack() {
+
+            foreach (var character in fightTeamEnemy.characters.Union(fightTeamPlayer.characters)) {
+                character.StopAttack();
+            }
 
         }
 

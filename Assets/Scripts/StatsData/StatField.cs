@@ -13,8 +13,12 @@ namespace Assets.Scripts.StatsData {
 
         public Stat statType;
 
-        [SerializeReference]
-        public ObservableVal observableVal;
+        public ObservableVal observableVal
+            => statType.GetObservableVal(this);
+
+        public int intVal;
+        public float floatVal;
+        public bool boolVal;
 
         public Stat stat => statType;
 
@@ -32,8 +36,13 @@ namespace Assets.Scripts.StatsData {
 
         public Stat stat => statType;
 
-        public void ModifyBy(IModifiedObservable obsrVal, bool alterVal = false) 
-            => (obsrVal as IModifiedObservable<T>).ModifyTarget(this, alterVal);
+        /// <summary>
+        /// Called by reflection <see cref="Stats.Mofify(StatField, ModifyType)"/>
+        /// </summary>
+        /// <param name="obsrVal"></param>
+        /// <param name="modifyType"></param>
+        public void ModifyBy(IModifiedObservable obsrVal, ModifyType modifyType = ModifyType.Plus)
+            => (obsrVal as IModifiedObservable<T>).ModifyTarget(this, modifyType);
 
     }
 

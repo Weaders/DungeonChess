@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1785873643495435007}
   - component: {fileID: 1786884939273018371}
   - component: {fileID: 1876101832145320996}
+  - component: {fileID: -7750589830776591225}
   m_Layer: 0
   m_Name: URPFireBall
   m_TagString: Untagged
@@ -4835,6 +4836,27 @@ MonoBehaviour:
   timeBeforeDestroy: 1
   speed: 4.5
   up: {x: 0, y: 0, z: 0}
+--- !u!114 &-7750589830776591225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877907831518483413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c707f71efbfb6459981f035d2195fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: fireball
+  offset: {x: 0, y: 0, z: 0}
+  offsetScale: {x: 0, y: 0, z: 0}
+  onTouch:
+    m_PersistentCalls:
+      m_Calls: []
+  onCome:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1877967038477318173
 GameObject:
   m_ObjectHideFlags: 0

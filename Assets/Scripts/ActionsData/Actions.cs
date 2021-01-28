@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using Assets.Scripts.Character;
-using Assets.Scripts.Logging;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Spells.Modifiers;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts.ActionsData {
 
@@ -37,16 +34,14 @@ namespace Assets.Scripts.ActionsData {
 
             var from = _characterData.characterCtrl;
 
-            onPreMakeAttack.Invoke(new AttackEventData() 
-            {
+            onPreMakeAttack.Invoke(new AttackEventData() {
                 dmg = dmg,
                 from = from,
                 to = to,
                 attackNumberInFight = countAttacks + 1
             });
 
-            to.characterData.actions.onPreGetAttack.Invoke(new AttackEventData 
-            {
+            to.characterData.actions.onPreGetAttack.Invoke(new AttackEventData {
                 dmg = dmg,
                 from = from,
                 to = to,
@@ -116,8 +111,8 @@ namespace Assets.Scripts.ActionsData {
 
         }
 
-        public class HealEventData { 
-            
+        public class HealEventData {
+
             public Heal heal { get; set; }
 
             public CharacterCtrl from { get; set; }
@@ -133,7 +128,7 @@ namespace Assets.Scripts.ActionsData {
     public interface IDmgSource : ISource {
     }
 
-    public interface IHealSource : ISource { 
+    public interface IHealSource : ISource {
     }
 
     public class Dmg {

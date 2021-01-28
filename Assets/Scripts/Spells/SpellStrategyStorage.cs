@@ -14,13 +14,14 @@ namespace Assets.Scripts.Spells {
                     return new SelfStrtg();
                 case SpellTarget.RandomEnemy:
                     return new RandomEnemyStrtg();
+                case SpellTarget.EnemyAOE:
+                    return new EnemyStrtg();
 
             }
 
             throw new Exception($"Spell has wrong {nameof(spell.spellTarget)}");
 
         }
-
 
     }
 }

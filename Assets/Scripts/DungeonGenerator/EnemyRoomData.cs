@@ -21,13 +21,27 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 var i = 0;
 
-                foreach (var ctrl in team.characterCtrls) {
+                foreach (var ctrlData in team.characterCtrls) {
 
-                    var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrl);
+                    var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrlData.characterCtrl);
 
                     ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
 
                     GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
+
+                    var statsChange = ctrlData.data.FirstOrDefault(d => d.condition.IsInRange(GameMng.current.level));
+
+                    if (statsChange == null) {
+                        statsChange = ctrlData.data.Last();
+                    }
+
+                    if (statsChange != null) {
+
+                        foreach (var stat in statsChange.stats) {
+                            ctrlObj.characterData.stats.Mofify(stat, Observable.ModifyType.Set);
+                        }
+
+                    }
 
                     ++i;
 
@@ -37,14 +51,12 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 strtg.Place(
                     GameMng.current.fightMng.fightTeamEnemy,
-                    GameMng.current.cellsGridMng.enemiesSideCell,
+                    GameMng.current.cellsGridMng.enemiesSideCell.Where(c => c.IsAvailableToStay()),
                     GameMng.current.cellsGridMng.playerSideCell
                 );
 
                 GameMng.current.fightMng.onPlayerWin.AddListener(OnPlayerWin);
 
-            } else {
-            
             }
 
         }

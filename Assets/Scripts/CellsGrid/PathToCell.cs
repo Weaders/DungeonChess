@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Common;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
@@ -19,6 +20,7 @@ namespace Assets.Scripts.CellsGrid {
             var paths = new Stack<Path>();
 
             var usedCells = new List<Cell>() { from };
+            var result = new Stack<Cell>();
 
             var initPath = new Path();
             initPath.cells.Push(from);
@@ -45,9 +47,10 @@ namespace Assets.Scripts.CellsGrid {
                     var p = new Path(cellPath.cells);
                     p.cells.Push(nextCell);
 
-                    if (nextCell == to)
+                    if (CellRangeHelper.IsInRange(to.dataPosition, nextCell.dataPosition, 1)) {
                         return p;
-
+                    }
+                        
                     paths.Push(p);
                     usedCells.Add(nextCell);
 
@@ -72,7 +75,7 @@ namespace Assets.Scripts.CellsGrid {
         public Stack<Cell> cells = new Stack<Cell>();
 
         public IEnumerable<Cell> GetToMovePath()
-            => cells.Reverse().Skip(1).Take(cells.Count - 2);
+            => cells.Reverse().Skip(1).Take(cells.Count - 1);
 
     }
 

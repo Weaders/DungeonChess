@@ -23,7 +23,10 @@ namespace Assets.Scripts.DungeonGenerator {
                     new UI.MessagePopup.MessagePanel.MessageData.BtnData {
                         title = TranslateReader.GetTranslate("ok"),
                         onClick = () => {
+
+                            GameMng.current.messagePanel.Hide();
                             GameMng.current.cellsGridMng.DisplayExits();
+
                         }
                     }
                 }

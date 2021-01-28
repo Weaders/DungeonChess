@@ -896,14 +896,16 @@ ModelImporter:
       - time: 0.1434871
         functionName: AmimEventMakeAttack
         data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0.5
+        objectReferenceParameter: {fileID: 11400000, guid: 02c32a5122a8f8a448aecc0bcbc833b8,
+          type: 2}
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.5808378
         functionName: AmimEventMakeAttack
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11400000, guid: 22cb0553893b2bf4a839a33e1285a973,
+          type: 2}
         floatParameter: 1
         intParameter: 0
         messageOptions: 0

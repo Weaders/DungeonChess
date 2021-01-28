@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using Assets.Scripts.CellsGrid;
+using Assets.Scripts.Common;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -57,6 +58,7 @@ namespace Assets.Scripts.Character {
             return result;
         }
 
+      
 
         #region Use without path, not used currently
 
@@ -77,12 +79,14 @@ namespace Assets.Scripts.Character {
 
         private void Start() {
             //WTF!Unity!WTF!
-            navMeshAgent.enabled = false;
-            navMeshAgent.enabled = true;
-            navMeshAgent.updateRotation = false;
+            //navMeshAgent.enabled = false;
+            //navMeshAgent.enabled = true;
+            //navMeshAgent.updateRotation = false;
         }
 
-        private IEnumerator MoveToCell(Cell cell, UnityAction onCome) {
+        public IEnumerator MoveToCell(Cell cell, UnityAction onCome = null) {
+
+            ctrl.anim.SetBool(AnimationValStore.IS_WALK, true);
 
             cell.StayCtrl(ctrl, false);
 
@@ -104,11 +108,14 @@ namespace Assets.Scripts.Character {
 
                 ctrl.transform.position = new Vector3(newPos.x, ctrl.transform.position.y, newPos.z);
 
-                yield return new WaitForFixedUpdate();
+                yield return null;
 
             }
 
-            onCome.Invoke();
+            ctrl.anim.SetBool(AnimationValStore.IS_WALK, false);
+
+            if (onCome != null)
+                onCome.Invoke();
 
         }
 
@@ -142,11 +149,11 @@ namespace Assets.Scripts.Character {
         }
 
         public void DisableNavMesh() {
-            navMeshAgent.enabled = false;
+            //navMeshAgent.enabled = false;
         }
 
         public void EnableNavMesh() {
-            navMeshAgent.enabled = true;
+            //navMeshAgent.enabled = true;
         }
 
         #endregion

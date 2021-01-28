@@ -65,4 +65,4 @@ MonoBehaviour:
     00000001:
       type: {class: FloatObsrevable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
       data:
-        _val: 0.2
+        _val: 0

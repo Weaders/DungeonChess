@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.Buffs;
 using Assets.Scripts.Character;
+using Assets.Scripts.Effects;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Assets.Scripts.Spells.Data {
         [Placecholder("time_use")]
         public float GetTimeUse(CharacterData from) => timeEffect;
 
-        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 
             from.characterData.buffsContainer.AddPrefab(holyShieldBuffPrefab);
             StartCoroutine(RemoveEffect(from));

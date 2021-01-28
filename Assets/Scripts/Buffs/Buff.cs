@@ -9,6 +9,8 @@ namespace Assets.Scripts.Buffs {
         Replace
     }
 
+    public interface IBuffSource { }
+
     public abstract class Buff : MonoBehaviour {
 
         [HideInInspector]

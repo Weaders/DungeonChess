@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8662498970382279207}
-  - component: {fileID: 7620729441877496200}
   - component: {fileID: 1505001067324619178}
   - component: {fileID: 5757421134895305761}
   - component: {fileID: 2130686993324243065}
@@ -38,28 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &7620729441877496200
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4042358078194169588}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.36
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.1
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &1505001067324619178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -86,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ctrl: {fileID: 7563941473688893011}
-  navMeshAgent: {fileID: 7620729441877496200}
+  navMeshAgent: {fileID: 0}
 --- !u!114 &2130686993324243065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,8 +76,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78162ec31f910e48a0127db117166e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetPosition: {x: 0, y: 0, z: 0}
-  offsetScale: {x: 0, y: 0, z: 0}
   overrieds: []
 --- !u!114 &7563941473688893011
 MonoBehaviour:
@@ -114,13 +89,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4642e3519912a46498f5abd7681ef213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onChangeCell:
+    m_PersistentCalls:
+      m_Calls: []
   characterData: {fileID: 8590486098072271671}
   moveCtrl: {fileID: 5757421134895305761}
   characterCanvas: {fileID: 6909576024662793571}
+  characterAnimEvents: {fileID: 0}
   animator: {fileID: 7817734793858064534}
   hpBar: {fileID: 5595981049610362797}
   manaBar: {fileID: 2194952508844060064}
   effectsPlacer: {fileID: 2130686993324243065}
+  synergyCharacterPoint: {fileID: 0}
+  colorDetect: {fileID: 0}
+  bulletSpawnObj: {fileID: 0}
+  stateIconsCtrl: {fileID: 0}
 --- !u!95 &7817734793858064534
 Animator:
   serializedVersion: 3
@@ -136,148 +119,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: '
-
-    Transform ''Base HumanLLegDigit11'' has been deleted
-
-    Transform
-    ''Base HumanLLegFoot'' has been deleted
-
-    Transform ''Base HumanLLegCalf''
-    has been deleted
-
-    Transform ''Base HumanLLegThigh'' has been deleted
-
-    Transform
-    ''Base HumanRDigit11'' has been deleted
-
-    Transform ''Base HumanRFoot'' has
-    been deleted
-
-    Transform ''Base HumanRCalf'' has been deleted
-
-    Transform
-    ''Base HumanRThigh'' has been deleted
-
-    Transform ''Base HumanLArmDigit12''
-    has been deleted
-
-    Transform ''Base HumanLArmDigit11'' has been deleted
-
-    Transform
-    ''Base HumanLArmDigit23'' has been deleted
-
-    Transform ''Base HumanLArmDigit22''
-    has been deleted
-
-    Transform ''Base HumanLArmDigit21'' has been deleted
-
-    Transform
-    ''Base HumanLArmDigit33'' has been deleted
-
-    Transform ''Base HumanLArmDigit32''
-    has been deleted
-
-    Transform ''Base HumanLArmDigit31'' has been deleted
-
-    Transform
-    ''Base HumanLArmDigit43'' has been deleted
-
-    Transform ''Base HumanLArmDigit42''
-    has been deleted
-
-    Transform ''Base HumanLArmDigit41'' has been deleted
-
-    Transform
-    ''Base HumanLArmDigit53'' has been deleted
-
-    Transform ''Base HumanLArmDigit52''
-    has been deleted
-
-    Transform ''Base HumanLArmDigit51'' has been deleted
-
-    Transform
-    ''Base HumanLArmPalm'' has been deleted
-
-    Transform ''Base HumanLArmForearm''
-    has been deleted
-
-    Transform ''Base HumanLArmUpperarm'' has been deleted
-
-    Transform
-    ''Base HumanLArmCollarbone'' has been deleted
-
-    Transform ''Base HumanHeadJaw''
-    has been deleted
-
-    Transform ''Base HumanHeadREye'' has been deleted
-
-    Transform
-    ''Base HumanLEye'' has been deleted
-
-    Transform ''Base HumanHead'' has been
-    deleted
-
-    Transform ''Base HumanNeck'' has been deleted
-
-    Transform ''Base
-    HumanRArmDigit12'' has been deleted
-
-    Transform ''Base HumanRArmDigit11''
-    has been deleted
-
-    Transform ''Base HumanRArmDigit23'' has been deleted
-
-    Transform
-    ''Base HumanRArmDigit22'' has been deleted
-
-    Transform ''Base HumanRArmDigit21''
-    has been deleted
-
-    Transform ''Base HumanRArmDigit33'' has been deleted
-
-    Transform
-    ''Base HumanRArmDigit32'' has been deleted
-
-    Transform ''Base HumanRArmDigit31''
-    has been deleted
-
-    Transform ''Base HumanRArmDigit43'' has been deleted
-
-    Transform
-    ''Base HumanRArmDigit42'' has been deleted
-
-    Transform ''Base HumanRArmDigit41''
-    has been deleted
-
-    Transform ''Base HumanRArmDigit53'' has been deleted
-
-    Transform
-    ''Base HumanRArmDigit52'' has been deleted
-
-    Transform ''Base HumanRArmDigit51''
-    has been deleted
-
-    Transform ''Base HumanRArmPalm'' has been deleted
-
-    Transform
-    ''Base HumanRArmForearm'' has been deleted
-
-    Transform ''Base HumanRArmUpperarm''
-    has been deleted
-
-    Transform ''Base HumanRArmCollarbone'' has been deleted
-
-    Transform
-    ''Base HumanRibcage'' has been deleted
-
-    Transform ''Base HumanSpine2'' has
-    been deleted
-
-    Transform ''Base HumanSpine1'' has been deleted
-
-    Transform
-    ''Base HumanPelvis'' has been deleted'
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0

@@ -12,10 +12,6 @@ namespace Assets.Scripts.Character {
         [SerializeField]
         private Text hpText;
 
-        public void SetData() { 
-            
-        }
-
         public void Init(CharacterData charData) {
 
             stats = charData.stats;

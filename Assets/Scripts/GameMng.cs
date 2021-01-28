@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Assets.Scripts.BuyMng;
+﻿using Assets.Scripts.BuyMng;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
 using Assets.Scripts.CharacterBuyPanel;
@@ -9,7 +7,6 @@ using Assets.Scripts.DungeonGenerator;
 using Assets.Scripts.EnemyData;
 using Assets.Scripts.Fight;
 using Assets.Scripts.FightText;
-using Assets.Scripts.Items;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Player;
@@ -25,7 +22,6 @@ using Assets.Scripts.UI.SelectPopup;
 using Assets.Scripts.UI.SpellsList;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Assets.Scripts {
 
@@ -44,10 +40,6 @@ namespace Assets.Scripts {
         }
 
         private MoveItemSystem _moveItemSystem;
-
-        private Vector3 mousePosition;
-
-        private CharacterCtrl selectedCharacterCtrl;
 
         public MoveItemSystem moveItemSystem {
             get {
@@ -105,9 +97,6 @@ namespace Assets.Scripts {
         public GameData gameData;
 
         [SerializeField]
-        private Text selectedCharacterName;
-
-        [SerializeField]
         private Animator blackOverlayAnim;
 
         public MessagePanel messagePanel;
@@ -117,6 +106,9 @@ namespace Assets.Scripts {
         public RerollCtrl rerollCtrl = new RerollCtrl();
 
         public GameInputCtrl gameInputCtrl;
+
+        [SerializeField]
+        private NameOfCharacter nameOfCharacter;
 
         public PathToCell pathToCell { get; private set; }
 
@@ -130,7 +122,7 @@ namespace Assets.Scripts {
 
         private void Start() {
 
-            level = new ObservableVal<int>(0);
+            level = new ObservableVal<int>(1);
             countLevels = new ObservableVal<int>(currentDungeonData.countRooms.GetRandomLvl());
 
             TagLogger<GameMng>.Info($"Set count rooms - {countLevels}");
@@ -162,20 +154,18 @@ namespace Assets.Scripts {
                 if (old != ctrl) {
 
                     if (old != null) {
-                        old.HideWhenDeselected();
+                        //old.HideWhenDeselected();
                     }
 
                     if (ctrl != null) {
 
-                        ctrl.characterData.stateContainer.AddStun(10);
-
-                        selectedCharacterName.text = ctrl.characterData.characterName.val;
+                        nameOfCharacter.SetCharacterData(ctrl.characterData);
                         statsGrid.SetCharacter(ctrl.characterData);
                         characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
                         characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
                         buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
 
-                        ctrl.ShowWhenSelected();
+                        //ctrl.ShowWhenSelected();
 
                     }
 
@@ -197,7 +187,7 @@ namespace Assets.Scripts {
             blackOverlayAnim.SetBool(AnimationValStore.IS_SHOW, false);
         }
 
-        public class SelectCharacterEvent : UnityEvent<CharacterCtrl>{}
+        public class SelectCharacterEvent : UnityEvent<CharacterCtrl> { }
 
     }
 

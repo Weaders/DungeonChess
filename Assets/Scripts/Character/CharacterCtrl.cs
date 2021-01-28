@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
-using Assets.Scripts.Bullet;
+using Assets.Scripts.AnimationCtrl;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
@@ -14,9 +14,23 @@ using UnityEngine.Events;
 namespace Assets.Scripts.Character {
 
     [RequireComponent(typeof(CharacterMoveCtrl), typeof(EffectsPlacer))]
-    public class CharacterCtrl : MonoBehaviour, IBulletSpawner, IBulletTarget {
+    public class CharacterCtrl : MonoBehaviour {
 
         public OrderedEvents onDestoy = new OrderedEvents();
+
+        private bool _isSelected = false;
+
+        public bool isSelected {
+            get => _isSelected;
+            set {
+
+                _isSelected = value;
+                onSelected.Invoke();
+
+            }
+        }
+
+        public UnityEvent onSelected = new UnityEvent();
 
         public UnityEvent<Cell, Cell> onChangeCell = new UnityEvent<Cell, Cell>();
 
@@ -63,6 +77,8 @@ namespace Assets.Scripts.Character {
 
         private Cell _draggedCell;
 
+        private Cell _startedCell;
+
         [SerializeField]
         public MeshRenderer colorDetect;
 
@@ -84,85 +100,91 @@ namespace Assets.Scripts.Character {
         [SerializeField]
         private StateIconsCtrl stateIconsCtrl;
 
-        private bool isShowedSelected;
+        public bool isCanMakeFullManaAttack => characterData.stats.mana >= characterData.stats.maxMana && characterData.isCanAttack;
 
+        private bool isStartToFight = false;
+
+        private bool isReadyForMove = true;
+
+        /// <summary>
+        /// After call this character start move for enemy character for attack.
+        /// </summary>
         public void GoAttack() {
-            StartCoroutine(GoAttackWhileNotDead());
+
+            _startedCell = cell;
+            isStartToFight = true;
+
         }
 
-        private IEnumerator GoAttackWhileNotDead() {
+        /// <summary>
+        /// After call character stop move or attack, and reset position on started cell.
+        /// </summary>
+        public void StopAttack() {
 
-            bool isStartMove = false;
+            isStartToFight = false;
+            _startedCell.StayCtrl(this);
 
-            while (!isStartMove && !characterData.stats.isDie) {
+        }
 
-                if (characterData.isCanMove) {
+        private void Update() {
 
-                    var spell = characterData.spellsContainer.GetBaseAttackSpell();
+            characterCanvas.transform.rotation = Quaternion.identity;
 
-                    var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
+            if (!isStartToFight || !isReadyForMove || characterData.stats.isDie)
+                return;
 
-                    targetForAttack = strtg.GetTarget(spell, this);
+            var spell = GetSpellForUse();
+            var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
 
-                    if (targetForAttack != null) {
+            targetForAttack = strtg.GetTarget(spell, this);
 
-                        var moveAction = moveCtrl.MoveToCharacter(targetForAttack);
+            if (targetForAttack != null) {
 
-                        moveAction.onCome.AddListener(() => StartCoroutine(AttackWhileInRange(targetForAttack)));
+                if (spell.IsInRange(this, targetForAttack)) {
+                    
+                    isReadyForMove = false;
+                    StartCoroutine(AttackWhileInRange(targetForAttack, () => isReadyForMove = true));
 
-                        isStartMove = true;
-                        moveAction.Start();
+                } else if (characterData.isCanMove) {
+
+                    var path = GameMng.current.pathToCell.GetPath(cell, targetForAttack.cell);
+
+                    if (path != null && path.cells.Count > 1) {
+
+                        var cells = path.GetToMovePath();
+                        isReadyForMove = false;
+                        StartCoroutine(moveCtrl.MoveToCell(cells.First(), () => isReadyForMove = true));
 
                     }
 
                 }
 
-                yield return new WaitForFixedUpdate();
-
-            }
+            }       
 
         }
 
-        private IEnumerator AttackWhileInRange(CharacterCtrl target) {
+        private Spell GetSpellForUse() =>
+            characterData.stats.mana.val < characterData.stats.maxMana.val ?
+                characterData.spellsContainer.GetBaseAttackSpell() : characterData.spellsContainer.GetFullManaSpellAttack();
 
-            var spell = characterData.spellsContainer.GetBaseAttackSpell();
+        private IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd) {
 
-            animator.SetBool(AnimationValStore.IS_USING_SPELL, characterData.stats.mana.val >= characterData.stats.maxMana.val);
+            animator.SetBool(AnimationValStore.IS_USING_SPELL, GetSpellForUse().spellType == SpellType.FullManaAttack);
             animator.SetBool(AnimationValStore.IS_ATTACK, true);
 
-            while (target != null && spell.IsInRange(this, target) && !target.characterData.stats.isDie) {
+            while (target != null && !target.characterData.stats.isDie) {
+
+                var spell = GetSpellForUse();
+
+                if (!spell.IsInRange(this, target))
+                    break;
 
                 if (characterData.isCanAttack) {
 
                     transform.LookAt(target.transform);
 
-                    if (characterData.stats.mana.val >= characterData.stats.maxMana.val) {
-
+                    if (spell.spellType == SpellType.FullManaAttack) {
                         animator.SetBool(AnimationValStore.IS_USING_SPELL, true);
-
-                        var fullManaSpell = characterData.spellsContainer.GetFullManaSpellAttack();
-
-                        var strtg = SpellStrategyStorage.GetSpellStrtg(fullManaSpell);
-                        var targetForManaSpell = strtg.GetTarget(fullManaSpell, this);
-
-                        if (targetForManaSpell != null) {
-
-                            TagLogger<CharacterCtrl>.Info($"{gameObject.name} is start using spell");
-
-                            var useResult = fullManaSpell.Use(this, targetForManaSpell, new Spell.UseOpts {
-                                animator = animator
-                            });
-
-                            characterData.stats.mana.val = 0;
-
-                            yield return new WaitUntil(() => useResult.IsEndUseSpell());
-
-                            TagLogger<CharacterCtrl>.Info($"{gameObject.name} is stop using spell");
-
-                            animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
-
-                        }
-
                     }
 
                 }
@@ -173,22 +195,45 @@ namespace Assets.Scripts.Character {
 
             animator.SetBool(AnimationValStore.IS_ATTACK, false);
 
-            if (target != null) {
-                GoAttack();
+            onEnd?.Invoke();
+
+        }
+
+        public void MakeBaseAttack(CharacterCtrl target, AnimAttackData data = null) {
+
+            var spell = characterData.spellsContainer.GetBaseAttackSpell();
+
+            spell.UseWithEffect(this, target, new Spell.UseSpellOpts {
+                scale = data.scale,
+                isEndAttack = data.isTiggerEndAttack
+            });
+
+            TagLogger<CharacterCtrl>.Info($"{name} make a base attack for {target.name}|scale: {data.scale}");
+
+        }
+
+        public void MakeFullManaAttack(CharacterCtrl target, AnimAttackData data = null) {
+
+            var spell = characterData.spellsContainer.GetFullManaSpellAttack();
+
+            spell.UseWithEffect(this, target, new Spell.UseSpellOpts {
+                scale = data.scale,
+                isEndAttack = data.isTiggerEndAttack
+            });
+
+            characterData.stats.mana.val = 0;
+
+            TagLogger<CharacterCtrl>.Info($"{name} make a full mana attack for {target.name}| scale: {data.scale}");
+
+            if (data.isTiggerEndAttack) {
+                animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
             }
 
         }
 
-        public void MakeBaseAttack(CharacterCtrl target, float scale = 1f) {
-
-            var spell = characterData.spellsContainer.GetBaseAttackSpell();
-            spell.Use(this, target, new Spell.UseOpts { scale = scale });
-
-            TagLogger<CharacterCtrl>.Info($"{name} make a base attack for {target.name}|scale: {scale}");
-
-        }
-
         public void Init() {
+
+            characterData.Init();
 
             var colorStore = StaticData.current.colorStore;
 
@@ -226,7 +271,6 @@ namespace Assets.Scripts.Character {
                 TagLogger<CharacterCtrl>.Info($"GON: {gameObject.name}, CN: {characterData.name} is die");
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
                 GetComponent<Collider>().enabled = false;
-                moveCtrl.GetNavMeshAgent().enabled = false;
                 characterCanvas.gameObject.SetActive(false);
 
             });
@@ -239,10 +283,42 @@ namespace Assets.Scripts.Character {
 
             });
 
+            characterData.buffsContainer.onAdd.AddSubscription(OrderVal.CharacterCtrl, () => {
+
+                if (!characterData.buffsContainer.isInProcessOfInit)
+                    effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);                
+
+            });
+
+            characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, () => {
+
+                OnRefreshActionCells();
+                //if (isSelected)
+                OnRefreshShowCellsEffects();
+
+            });
+
+            onChangeCell.AddListener((oldCell, newCell) => {
+
+                OnRefreshActionCells();
+
+                //if (isSelected) {
+                    OnRefreshShowCellsEffects();
+                //}
+
+            });
+
+            //onSelected.AddListener(() => {
+
+            //    if (isSelected)
+            //        OnRefreshShowCellsEffects();
+            //    else
+            //        OnRefreshShowCellsEffects();
+
+            //});
+
             hpBar.SetValForObserve(characterData.stats.hp, characterData.stats.maxHp);
             manaBar.SetValForObserve(characterData.stats.mana, characterData.stats.maxMana);
-
-            characterData.Init();
 
         }
 
@@ -253,34 +329,10 @@ namespace Assets.Scripts.Character {
         public Transform GetSpawnTransform() => bulletSpawnObj.transform;
 
         public void OnDraggableToCell(Cell cell) {
-            _draggedCell = cell;
-            OnRefreshShow();
-        }
-
-        public void ShowWhenSelected() {
-
-            if (!isShowedSelected) {
-
-                isShowedSelected = true;
-                OnRefreshShow();
-                characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, OnRefreshShow);
-                onChangeCell.AddListener(OnRefreshShow);
-
-            }
             
+            _draggedCell = cell;
+            OnRefreshShowCellsEffects();
 
-        }
-
-        public void HideWhenDeselected() {
-
-            if (isShowedSelected) {
-
-                isShowedSelected = false;
-                OnRefreshHide();
-                characterData.itemsContainer.onSet.RemoveSubscription(OnRefreshShow);
-                onChangeCell.RemoveListener(OnRefreshShow);
-
-            }
         }
 
         public Cell GetCellForSelectedDisplay() {
@@ -292,8 +344,7 @@ namespace Assets.Scripts.Character {
 
         }
 
-        public void OnRefreshShow() {
-
+        public void OnRefreshShowCellsEffects() {
 
             foreach (var item in characterData.itemsContainer.GetItems()) {
 
@@ -313,23 +364,38 @@ namespace Assets.Scripts.Character {
 
         }
 
-        public void OnRefreshShow<T>(T oldVal, T newVal)
-            => OnRefreshShow();
-
-        public void OnRefreshHide() {
+        public void OnRefreshActionCells() {
 
             foreach (var item in characterData.itemsContainer.GetItems()) {
 
-                if (item is IDisplayOnSelect display) {
-                    display.HideFor();
+                if (item is IAddCellActions display) {
+                    display.RemoveActionsFor();
+                }
+
+            }
+
+            foreach (var item in characterData.itemsContainer.GetItems()) {
+
+                if (item is IAddCellActions display) {
+                    display.AddActionsFor();
                 }
 
             }
 
         }
 
-        private void Update() {
-            characterCanvas.transform.rotation = Quaternion.identity;
+        public void OnRefreshShowCellsEffects<T>(T oldVal, T newVal)
+            => OnRefreshShowCellsEffects();
+
+        public void OnRefreshHide() {
+
+            foreach (var item in characterData.itemsContainer.GetItems()) {
+
+                if (item is IAddCellActions actions)
+                    actions.RemoveActionsFor();
+
+            }
+
         }
 
         private void OnDestroy() {

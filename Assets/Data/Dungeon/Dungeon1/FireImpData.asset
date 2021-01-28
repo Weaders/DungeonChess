@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ece5f8b527e9ef48b2b3de0a6229820, type: 3}
+  m_Name: FireImpData
+  m_EditorClassIdentifier: 
+  characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
+    type: 3}
+  data:
+  - stats:
+    - statType: 0
+      observableVal:
+        id: 0
+    - statType: 1
+      observableVal:
+        id: 1
+    - statType: 5
+      observableVal:
+        id: 2
+    condition:
+      min: 0
+      max: 1
+  - stats:
+    - statType: 0
+      observableVal:
+        id: 3
+    - statType: 1
+      observableVal:
+        id: 4
+    - statType: 5
+      observableVal:
+        id: 5
+    condition:
+      min: 2
+      max: 3
+  references:
+    version: 1
+    00000000:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 55
+    00000001:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 55
+    00000002:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 20
+    00000003:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 55
+    00000004:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 75
+    00000005:
+      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
+      data:
+        _val: 35

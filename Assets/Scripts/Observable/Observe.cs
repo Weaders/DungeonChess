@@ -168,12 +168,8 @@ namespace Assets.Scripts.Observable {
 
             UnityAction<T> temp = (T _) => unityAction.Invoke();
 
-            //if (!actPointers.ContainsKey(unityAction)) {
-
             actPointers.Add(unityAction, temp);
             AddSubscription(order, temp);
-
-            //}
 
         }
 
@@ -431,8 +427,75 @@ namespace Assets.Scripts.Observable {
     public interface IModifiedObservable { }
 
     public interface IModifiedObservable<T> : IModifiedObservable {
-        void Modify(ObservableVal<T> modifVal, bool alterVal = false);
-        void ModifyTarget(ObservableVal<T> target, bool alterVal = false);
+        void Modify(ObservableVal<T> modifVal, ModifyType modifyType = ModifyType.Plus);
+        void ModifyTarget(ObservableVal<T> target, ModifyType modifyType = ModifyType.Plus);
+    }
+
+    public enum ModifyType { 
+        Plus, Minus, Set
+    }
+
+    public static class ModifyTypeExtensions {
+
+        public static int Modify(this ModifyType modifyType, int old, int newVal) {
+
+            switch (modifyType) {
+                case ModifyType.Minus:
+                    return old - newVal;
+                case ModifyType.Set:
+                    return newVal;
+                case ModifyType.Plus:
+                default:
+                    return old + newVal;
+
+            }
+
+        }
+
+        public static float Modify(this ModifyType modifyType, float old, float newVal) {
+
+            switch (modifyType) {
+                case ModifyType.Minus:
+                    return old - newVal;
+                case ModifyType.Set:
+                    return newVal;
+                case ModifyType.Plus:
+                default:
+                    return old + newVal;
+
+            }
+
+        }
+
+        public static bool Modify(this ModifyType modifyType, bool old, bool newVal) {
+
+            switch (modifyType) {
+                case ModifyType.Minus:
+                    return !newVal;
+                case ModifyType.Set:
+                case ModifyType.Plus:
+                default:
+                    return newVal;
+
+            }
+
+        }
+
+        public static T[] Modify<T>(this ModifyType modifyType, T[] old, T[] newVal){
+
+            switch (modifyType) {
+                case ModifyType.Minus:
+                    return old.Except(newVal).ToArray();
+                case ModifyType.Set:
+                    return newVal;
+                case ModifyType.Plus:
+                default:
+                    return old.Union(newVal).ToArray();
+
+            }
+
+        }
+
     }
 
     [Serializable]
@@ -440,26 +503,28 @@ namespace Assets.Scripts.Observable {
 
         public FloatObsrevable(float val) : base(val) { }
 
-        public void Modify(ObservableVal<float> modifVal, bool alterVal = false) {
-            val += alterVal ? -modifVal : modifVal;
+        public void Modify(ObservableVal<float> modifVal, ModifyType modifyType = ModifyType.Plus) {
+            val = modifyType.Modify(val, modifVal);
         }
 
-        public void ModifyTarget(ObservableVal<float> target, bool alterVal = false) {
-            target.val += alterVal ? -val : val;
+        public void ModifyTarget(ObservableVal<float> target, ModifyType modifyType = ModifyType.Plus) {
+            target.val = modifyType.Modify(target.val, val);
         }
     }
 
     [Serializable]
     public class IntObservable : ObservableVal<int>, IModifiedObservable<int> {
 
+        public IntObservable() : base(default) { }
+
         public IntObservable(int val) : base(val) { }
 
-        public void Modify(ObservableVal<int> modifVal, bool alterVal = false) {
-            val += alterVal ? -modifVal : modifVal;
+        public void Modify(ObservableVal<int> modifVal, ModifyType modifyType = ModifyType.Plus) {
+            val = modifyType.Modify(val, modifVal.val);
         }
 
-        public void ModifyTarget(ObservableVal<int> target, bool alterVal = false) {
-            target.val += alterVal ? -val : val;
+        public void ModifyTarget(ObservableVal<int> target, ModifyType modifyType = ModifyType.Plus) {
+            target.val = modifyType.Modify(target.val, val);
         }
 
     }
@@ -469,12 +534,12 @@ namespace Assets.Scripts.Observable {
 
         public BoolObservable(bool val) : base(val) { }
 
-        public void Modify(ObservableVal<bool> modifVal, bool alterVal = false) {
-            val = alterVal ? !modifVal : modifVal;
+        public void Modify(ObservableVal<bool> modifVal, ModifyType modifyType = ModifyType.Plus) {
+            val = modifyType.Modify(val, modifVal);
         }
 
-        public void ModifyTarget(ObservableVal<bool> target, bool alterVal = false) {
-            target.val = alterVal ? !val : val; ;
+        public void ModifyTarget(ObservableVal<bool> target, ModifyType modifyType = ModifyType.Plus) {
+            target.val = modifyType.Modify(target.val, val);
         }
     }
 
@@ -483,12 +548,12 @@ namespace Assets.Scripts.Observable {
 
         public ArrayObservable(T[] val) : base(val) { }
 
-        public void Modify(ObservableVal<T[]> modifVal, bool alterVal = false) {
-            val = (alterVal ? val.Except(modifVal.val) : val.Union(modifVal.val)).ToArray();
+        public void Modify(ObservableVal<T[]> modifVal, ModifyType modifyType = ModifyType.Plus) {
+            val = modifyType.Modify(val, modifVal.val);
         }
 
-        public void ModifyTarget(ObservableVal<T[]> target, bool alterVal = false) {
-            target.val = (alterVal ? target.val.Except(val) : target.val.Union(val)).ToArray();
+        public void ModifyTarget(ObservableVal<T[]> target, ModifyType modifyType = ModifyType.Plus) {
+            target.val = modifyType.Modify(target.val, val);
         }
     }
 

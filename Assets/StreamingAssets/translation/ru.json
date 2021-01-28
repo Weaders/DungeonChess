@@ -164,6 +164,22 @@
         {
             "key": "drums_of_speed_description",
             "value": "Увеличивает скороость атаки на 20% процентов"
+        },
+        {
+            "key": "warrior_of_light",
+            "value": "Воин света"
+        },
+        {
+            "key": "druyms_of_spped_buff_title",
+            "titl": "Под действие барабанов скорости"
+        },
+        {
+            "key": "druyms_of_spped_buff_description",
+            "titl": "Увеличивает скорость атаки"
+        },
+        {
+            "key": "fire_imp",
+            "value": "Бес"
         }
     ]
 }

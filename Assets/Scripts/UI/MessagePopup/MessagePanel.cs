@@ -26,6 +26,7 @@ namespace Assets.Scripts.UI.MessagePopup {
         public void Hide() => _canvasGroup.Hide();
 
         public void SetData(MessageData messageData) {
+
             _text.text = messageData.msg;
 
             foreach (Transform tr in containerBtns)

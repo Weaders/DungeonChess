@@ -10,6 +10,7 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
         public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
 
+
             var minPosition = cells.MinElement(c => c.dataPosition.x + c.dataPosition.y);
             var maxPosition = cells.MaxElement(c => c.dataPosition.x + c.dataPosition.y);
 

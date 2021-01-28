@@ -13,9 +13,9 @@ namespace Assets.Scripts.Fight {
 
         public UnityEvent onChangeTeamCtrl = new UnityEvent();
 
-        public IReadOnlyList<CharacterCtrl> chars => _characterCtrls;
+        public IReadOnlyList<CharacterCtrl> characters => _characterCtrls;
 
-        public IEnumerable<CharacterCtrl> aliveChars => chars.Where(ctrl => !ctrl.characterData.stats.isDie);
+        public IEnumerable<CharacterCtrl> aliveChars => characters.Where(ctrl => !ctrl.characterData.stats.isDie);
 
         private readonly List<CharacterCtrl> _characterCtrls = new List<CharacterCtrl>();
 

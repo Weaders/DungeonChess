@@ -17,7 +17,7 @@ namespace Assets.Scripts.AnimationCtrl {
 
         public bool afterCharSpell;
 
-        public override AnimRunResult RunFor(Spell spell, CharacterCtrl from, CharacterCtrl to, UseOpts opts = null) {
+        public override AnimRunResult RunFor(Spell spell, CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts = null) {
 
             var isEnded = false;
 

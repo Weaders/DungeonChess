@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Effects;
 using Assets.Scripts.EnemyData;
 using Assets.Scripts.Items;
 using Assets.Scripts.State;
@@ -16,6 +17,8 @@ namespace Assets.Scripts {
         public StatsInfoData statsInfoData;
 
         public StaticStatesData staticStatesData;
+
+        public EffectObj onGetGoodEffect;
 
         public IEnumerable<DropChance> GetDropChances(int lvl)
             => itemsPools.Where(i => i.rooms.IsInRange(lvl)).SelectMany(i => i.itemsWithChanches);

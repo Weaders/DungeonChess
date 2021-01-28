@@ -19,6 +19,9 @@ namespace Assets.Scripts.CellsGrid {
             states.Remove(state);
         }
 
+        public bool ContainsState(CellState state) =>
+            states.Contains(state);
+
         public CellState GetCurrent()
             => states.Last();
 

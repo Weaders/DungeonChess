@@ -43,8 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a6f234bd2595a40a83b334ad0d786b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
   titleKey: hand_hit_title
   descriptionKey: hand_hit_description
   spellType: 0
   spellTarget: 1
-  range: 5
+  effectObjPrefab: {fileID: 0}
+  effectSpeed: 0
+  triggerTouchEvery: 1000
+  range: 1

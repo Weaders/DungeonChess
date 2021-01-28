@@ -11,7 +11,7 @@ namespace Assets.Scripts.Items.Entities {
         protected override void OnDeEquip() {
 
             foreach (var statModify in statsModify)
-                owner.stats.Mofify(statModify, true);
+                owner.stats.Mofify(statModify, Observable.ModifyType.Minus);
 
         }
 

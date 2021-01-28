@@ -8,13 +8,24 @@ namespace Assets.Scripts.CellsGrid {
 
     public class Cell : MonoBehaviour {
 
-        public UnityEvent onClick = new UnityEvent();
+        private CharacterCtrl _characterCtrl;
 
-        public CharacterCtrl characterCtrl { get; private set; }
+        public CharacterCtrl characterCtrl {
+            get => _characterCtrl;
+            private set {
+
+                var oldCtrl = _characterCtrl;
+                _characterCtrl = value;
+                onStayCtrl.Invoke(oldCtrl, _characterCtrl);
+
+            }
+        }
 
         public Vector2Int dataPosition;
 
         public CellStateManager stateMng = new CellStateManager();
+
+        public CellActionsContainer cellActionsContainer;
 
         [SerializeField]
         private CellType cellType = default;
@@ -24,6 +35,8 @@ namespace Assets.Scripts.CellsGrid {
 
         [SerializeField]
         private bool _isExit;
+
+        public UnityEvent<CharacterCtrl, CharacterCtrl> onStayCtrl = new UnityEvent<CharacterCtrl, CharacterCtrl>();
 
         public Direction exitDirection {
             get => _exitDirection;
@@ -78,7 +91,7 @@ namespace Assets.Scripts.CellsGrid {
                     meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
                     meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
 
-                // For Player
+                    // For Player
                 } else {
 
                     if (GetState() == CellState.NotAvailable) {
@@ -95,7 +108,7 @@ namespace Assets.Scripts.CellsGrid {
                         meshRenderer.material.SetColor("_Color", colorStore.cellHover);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellHoverOutlineCell);
 
-                    } else if (GetState() == CellState.Select){
+                    } else if (GetState() == CellState.Select) {
 
                         cellEffect.SetActive(true);
 
@@ -107,8 +120,6 @@ namespace Assets.Scripts.CellsGrid {
                 }
 
             }
-
-
 
         }
 
@@ -132,16 +143,13 @@ namespace Assets.Scripts.CellsGrid {
                     ctrl.cell.AddState(CellState.Select);
                 }
 
-
                 ctrl.moveCtrl.DisableNavMesh();
 
                 ctrl.transform.SetParent(transform, true);
 
                 if (isChangePosition) {
-                    ctrl.transform.localPosition = Vector3.zero;
-                    ctrl.transform.localRotation = Quaternion.identity;
+                    StayCtrlOnlyPosition(ctrl);
                 }
-
 
                 ctrl.cell = this;
 
@@ -151,6 +159,19 @@ namespace Assets.Scripts.CellsGrid {
                 characterCtrl = ctrl;
 
             }
+
+        }
+
+        public void StayCtrlOnlyPosition(CharacterCtrl ctrl) {
+
+            var collider = ctrl.gameObject.GetComponent<BoxCollider>();
+
+            ctrl.transform.localPosition = Vector3.zero;
+
+            var diff = (transform.position.y + 0.01f) - collider.bounds.min.y;
+
+            ctrl.transform.position = new Vector3(ctrl.transform.position.x, ctrl.transform.position.y + diff, ctrl.transform.position.z);
+            ctrl.transform.localRotation = Quaternion.identity;
 
         }
 
@@ -176,13 +197,24 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         public bool IsAvailableToStay()
-            => characterCtrl == null || characterCtrl.characterData.stats.isDie;
+            => (characterCtrl == null || characterCtrl.characterData.stats.isDie) && GetCellType() != CellType.NotUsable;
 
         public CellState GetState() => stateMng.GetCurrent();
+
+        public bool IsThereState(CellState state) => stateMng.ContainsState(state);
 
         public CellType GetCellType() => cellType;
 
         public bool IsExit() => isExit;
+
+        [ContextMenu("Log States")]
+        public void LogStates() {
+
+            foreach (var state in stateMng.states) {
+                TagLogger<Cell>.Info(state.ToString());
+            }
+
+        }
 
         public enum CellState {
             Default,

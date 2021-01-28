@@ -1,36 +1,19 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.ActionsData;
-using Assets.Scripts.Bullet;
 using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
-using UnityEngine;
 
 namespace Assets.Scripts.Spells.Data {
 
     public class BaseRangeAttack : Spell, IDmgSource {
 
-        public GameObject bulletPrefab;
-
         public int dmgAmount;
 
-        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public int adScale;
 
-            var bullObj = Instantiate(bulletPrefab, from.transform);
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 
-            var bullet = bullObj.GetComponent<IBullet>();
-
-            //if (bullet is Targ)
-
-            //bullObj.transform.localPosition = Vector3.zero;
-
-            //bullObj.StartFly(from, to);
-
-            //bullObj.onCome.AddListener(() => {
-
-            //    to.characterData.actions.GetDmg(from, new Dmg(dmgAmount, this));
-            //    from.characterData.onPostMakeAttack.Invoke();
-
-            //});
+            to.characterData.actions.GetDmg(from, new Dmg(dmgAmount + from.characterData.stats.AD * adScale, this));
 
             return null;
 
@@ -40,6 +23,5 @@ namespace Assets.Scripts.Spells.Data {
             return new ObservableVal[] { };
         }
 
-        public string GetId() => Id;
     }
 }

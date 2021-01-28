@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.StatsData {
 
-    [CreateAssetMenu(menuName = "Stas/Data")]
+    [CreateAssetMenu(menuName = "Common/Data")]
     public class StatsInfoData : ScriptableObject {
 
         public StatInfo[] stats;

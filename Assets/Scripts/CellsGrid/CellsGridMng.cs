@@ -31,6 +31,8 @@ namespace Assets.Scripts.CellsGrid {
             _enemiesSideCell = new List<Cell>();
             _playerSideCell = new List<Cell>();
 
+            cellsByPlace.Clear();
+
             foreach (Cell cell in GetCells()) {
 
                 if (cell.GetCellType() == Cell.CellType.ForEnemy) {
@@ -88,7 +90,22 @@ namespace Assets.Scripts.CellsGrid {
             }
         }
 
-        private IEnumerable<Cell> GetCells() => GameMng.current.roomCtrl.currentRoom.GetCells();
+        private IEnumerable<Cell> GetCells(bool isAvailableForMoveOnly = true, bool onlyUsable = false, bool onlyForPlayer = false) {
+
+            var result = GameMng.current.roomCtrl.currentRoom.GetCells();
+
+            if (isAvailableForMoveOnly)
+                result = result.Where(c => c.IsAvailableToStay());
+
+            if (onlyUsable)
+                result = result.Where(c => c.GetCellType() != Cell.CellType.NotUsable);
+
+            if (onlyForPlayer)
+                result = result.Where(c => c.GetCellType() == Cell.CellType.ForPlayer);
+
+            return result;
+
+        }
 
         public Vector2Int minXYDataPosition
             => new Vector2Int(GetCells().Min(c => c.dataPosition.x), GetCells().Min(c => c.dataPosition.y));
@@ -96,13 +113,13 @@ namespace Assets.Scripts.CellsGrid {
         public Vector2Int maxXYDataPosition
             => new Vector2Int(GetCells().Max(c => c.dataPosition.x), GetCells().Max(c => c.dataPosition.y));
 
-        public int WidthDataPosition
+        public int widthDataPosition
             => GetCells().Max(c => c.dataPosition.x) - GetCells().Min(c => c.dataPosition.x);
 
-        public IEnumerable<Cell> GetByDataPositions(IEnumerable<Vector2Int> positions) 
-            => GetCells().Where(c => positions.Contains(c.dataPosition));
+        public IEnumerable<Cell> GetByDataPositions(IEnumerable<Vector2Int> positions, bool onlyUsable = false, bool onlyPlayers = true) 
+            => GetCells(false, onlyUsable, onlyPlayers).Where(c => positions.Contains(c.dataPosition));
 
-        public IEnumerable<Cell> GetNeighbours(Cell cell, int range = 1) {
+        public IEnumerable<Cell> GetNeighbours(Cell cell, int range = 1, bool isAvailableForMoveOnly = true) {
 
             var result = new List<Cell>(range * 4);
 
@@ -118,7 +135,11 @@ namespace Assets.Scripts.CellsGrid {
                 foreach (var offset in offsets) {
 
                     if (cellsByPlace.TryGetValue(cell.dataPosition + offset, out var val)) {
-                        result.Add(cellsByPlace[cell.dataPosition + offset]);
+
+                        if ((isAvailableForMoveOnly && val.IsAvailableToStay()) || !isAvailableForMoveOnly) {
+                            result.Add(cellsByPlace[cell.dataPosition + offset]);
+                        }
+
                     }
 
                 }

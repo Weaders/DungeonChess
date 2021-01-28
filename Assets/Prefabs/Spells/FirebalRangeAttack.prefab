@@ -43,12 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9cc58d2bd58c2418bfe9501f16df7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
+  id: fireball
   titleKey: 
   descriptionKey: 
   spellType: 0
   spellTarget: 1
-  range: 15
-  bulletPrefab: {fileID: 1876101832145320996, guid: 6255900985d3a0c41b51259e7167dea6,
+  effectObjPrefab: {fileID: -7750589830776591225, guid: 6255900985d3a0c41b51259e7167dea6,
     type: 3}
+  effectSpeed: 10
+  triggerTouchEvery: 1
+  range: 2
   dmgAmount: 10
+  adScale: 1

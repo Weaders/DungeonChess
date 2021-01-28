@@ -2,7 +2,9 @@
 using UnityEngine;
 
 namespace Assets.Scripts.Common {
+
     public class ComparerVector2IntByY : IComparer<Vector2Int> {
+
         public int Compare(Vector2Int a, Vector2Int b) {
 
             var firstCompare = a.y.CompareTo(b.y);
@@ -17,8 +19,6 @@ namespace Assets.Scripts.Common {
 
     public class ComparerVector3ByX : IComparer<Vector3> {
 
-
-
         public int Compare(Vector3 a, Vector3 b) {
 
             var aY = Mathf.RoundToInt(a.y);
@@ -32,5 +32,7 @@ namespace Assets.Scripts.Common {
             return compare;
 
         }
+
     }
+
 }

@@ -24,7 +24,7 @@ namespace Assets.Scripts.Spells.Data {
             data.stats.AD
         };
 
-        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseOpts opts) {
+        public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 
             var eventData = spellAnimationData.RunFor(this, from, to, opts);
 
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Spells.Data {
             });
 
             return new UseSpellResult {
-                IsEndUseSpell = eventData.IsEndAnim
+                isEndUseSpell = true
             };
             
         }

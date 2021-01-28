@@ -12,6 +12,8 @@
 
         public const string IS_USING_SPELL = "IsUsingSpell";
 
+        public const string IS_WALK = "IsWalk";
+
     }
 
 }
