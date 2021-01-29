@@ -35,7 +35,10 @@ namespace Assets.Scripts.StatsData {
                 case Stat.As:
                 case Stat.MoveSpeed:
                 case Stat.CritChance:
-                    return new FloatObsrevable(statField == null ? default : statField.floatVal);
+                    if (statField != null)
+                        return new PercentFloatObsrevable(new FloatObsrevable(statField.floatVal));
+                    else
+                        return new FloatObsrevable(statField == null ? default : statField.floatVal);
                 default:
                     throw new System.Exception("Can not get observable for this type");
             }

@@ -19,11 +19,11 @@
         },
         {
             "key": "corone_title",
-            "value": "Корона"
+            "value": "Корона короля"
         },
         {
             "key": "corone_description",
-            "value": "Даёт силу"
+            "value": "Вы чувствоваете себя королём!\r\n Увеличивает хп на %[Hp_prop] и силу атаки на %[Ad_prop]"
         },
         {
             "key": "ignite_target_title",
@@ -163,7 +163,7 @@
         },
         {
             "key": "drums_of_speed_description",
-            "value": "Увеличивает скороость атаки на 20% процентов"
+            "value": "Увеличивает скороость атаки на %[As_prop]% процентов. А также даёт %[As_prop]% скорость атаки соседям"
         },
         {
             "key": "warrior_of_light",
@@ -180,6 +180,14 @@
         {
             "key": "fire_imp",
             "value": "Бес"
+        },
+        {
+            "key": "difficult_up",
+            "value": "Уровень сложности увеличен!"
+        },
+        {
+            "key": "reaper",
+            "value": "Ученик Смерти"
         }
     ]
 }

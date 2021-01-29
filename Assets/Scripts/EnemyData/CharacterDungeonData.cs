@@ -10,6 +10,7 @@ namespace Assets.Scripts.EnemyData {
         /// Prefab of character ctrl
         /// </summary>
         public CharacterCtrl characterCtrl;
+
         public StatGroup[] data;
 
     }

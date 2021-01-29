@@ -29,7 +29,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
                     GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
 
-                    var statsChange = ctrlData.data.FirstOrDefault(d => d.condition.IsInRange(GameMng.current.level));
+                    var statsChange = ctrlData.data.FirstOrDefault(d => d.levelOfDifficult == GameMng.current.levelDifficult);
 
                     if (statsChange == null) {
                         statsChange = ctrlData.data.Last();
@@ -61,7 +61,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
         }
 
-        private void OnPlayerWin() {
+        protected virtual void OnPlayerWin() {
 
             GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
 
@@ -73,8 +73,8 @@ namespace Assets.Scripts.DungeonGenerator {
 
         protected virtual EnemyTeam[] GetEnemyTeams() {
 
-            var enemies = GameMng.current.currentDungeonData.enemiesPoll.GetStandartEnemies()
-                .Where(e => e.condition.IsInRange(GameMng.current.level))
+            var enemies = GameMng.current.currentDungeonData.enemiesPoll
+                .GetStandartEnemies()
                 .ToArray();
 
             return enemies;

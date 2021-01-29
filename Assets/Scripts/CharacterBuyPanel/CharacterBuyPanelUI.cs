@@ -1,17 +1,27 @@
-﻿using Assets.Scripts.BuyMng;
+﻿using System.Collections.Generic;
+using Assets.Scripts.BuyMng;
 using Assets.Scripts.Character;
+using Assets.Scripts.Common;
+using Assets.Scripts.DungeonGenerator;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.CharacterBuyPanel {
+
+    [RequireComponent(typeof(CanvasGroup))]
     public class CharacterBuyPanelUI : MonoBehaviour {
 
         [SerializeField]
         private Button btnPrefab = null;
 
-        public CharacterCtrl selectedCharaCtrl { 
-            get; 
-            private set; 
+        [SerializeField]
+        private CanvasGroup canvasGroup = null;
+
+        private List<(BuyData, Button)> btns = new List<(BuyData, Button)>();
+
+        public CharacterCtrl selectedCharaCtrl {
+            get;
+            private set;
         }
 
         public BuyData selectedBuyData {
@@ -20,13 +30,53 @@ namespace Assets.Scripts.CharacterBuyPanel {
         }
 
         public void Init() {
+            
             RefreshData();
+
+            GameMng.current.roomCtrl.onMoveToNextRoom.AddListener(RefreshData);
+
+            GameMng.current.fightMng.isInFight.onPostChange.AddSubscription(
+                Observable.OrderVal.UIUpdate, 
+                RefreshData
+            );
+
+            GameMng.current.isBuildPhase.onPostChange.AddSubscription(
+                Observable.OrderVal.UIUpdate,
+                RefreshData
+            );
+
+            GameMng.current.playerData.money.onPostChange.AddSubscription(Observable.OrderVal.UIUpdate, () => {
+
+                foreach (var (buyData, btn) in btns) {
+                    btn.interactable = buyData.IsCanBuy();
+                }
+
+            });
+
         }
 
         private void RefreshData() {
 
+            var roomCtrl = GameMng.current.roomCtrl;
+            var isBuildPhase = GameMng.current.isBuildPhase;
+
+            if (isBuildPhase && roomCtrl.currentRoom != null 
+                && (roomCtrl.currentRoom.roomData is RerollRoomData 
+                    || roomCtrl.currentRoom.roomData is StartRoomData)) {
+
+                canvasGroup.Show();
+
+            } else {
+
+                canvasGroup.Hide();
+                return;
+
+            }
+
             foreach (Transform tr in transform)
                 Destroy(tr.gameObject);
+
+            btns.Clear();
 
             foreach (var ctrlBuy in GameMng.current.buyMng.buyDataList) {
 
@@ -41,9 +91,7 @@ namespace Assets.Scripts.CharacterBuyPanel {
                     selectedBuyData = ctrlBuy;
                 });
 
-                GameMng.current.playerData.money.onPostChange.AddSubscription(Observable.OrderVal.UIUpdate, () => {
-                    btnObj.interactable = ctrlBuy.IsCanBuy();
-                });
+                btns.Add((ctrlBuy, btnObj));
 
             }
 

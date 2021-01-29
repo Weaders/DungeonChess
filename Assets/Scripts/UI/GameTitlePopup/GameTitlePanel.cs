@@ -27,7 +27,10 @@ namespace Assets.Scripts.UI.GameTitlePopup {
 
         public void ShowPopup(string title, float delay = 2f) {
 
-            titleText.text = title;
+            SetData(new SetDataMsg {
+                text = title
+            });
+
             Invoke("HidePopup", delay);
             Show();
 

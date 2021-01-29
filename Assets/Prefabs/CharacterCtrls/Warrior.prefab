@@ -221,7 +221,7 @@ MonoBehaviour:
     _val: 100
     statType: 3
   manaPerAttack:
-    _val: 5
+    _val: 25
     statType: 4
   AD:
     _val: 15

@@ -72,8 +72,6 @@ namespace Assets.Scripts {
 
         public SynergyCtrl synergyCtrl;
 
-        public DungeonObjectGenerator dungeonGenerator;
-
         public SynergyLines synergyLines;
 
         public StatsGrid statsGrid;
@@ -112,20 +110,35 @@ namespace Assets.Scripts {
 
         public PathToCell pathToCell { get; private set; }
 
-        public ObservableVal<int> countLevels { get; private set; }
+        public int levelsBeforeChange { get; set; }
 
         public ObservableVal<int> level { get; private set; }
+
+        public int levelDifficult { get; private set; } = -1;
+
+        public ObservableVal<bool> isBuildPhase = new ObservableVal<bool>();
 
         private void Awake() {
             ShowBlackOverlay();
         }
 
+        public bool IsNextBossRoom()
+            => levelsBeforeChange == 1;
+
+        public void RefeshLevelsToNextDifficult() {
+            
+            levelsBeforeChange = new ObservableVal<int>(currentDungeonData.changeDifficultEvery.GetRandomLvl());
+            levelDifficult++;
+
+        }
+
         private void Start() {
 
             level = new ObservableVal<int>(1);
-            countLevels = new ObservableVal<int>(currentDungeonData.countRooms.GetRandomLvl());
 
-            TagLogger<GameMng>.Info($"Set count rooms - {countLevels}");
+            RefeshLevelsToNextDifficult();
+
+            TagLogger<GameMng>.Info($"Set levels before change difficult - {levelsBeforeChange}");
 
             playerData.Init();
 

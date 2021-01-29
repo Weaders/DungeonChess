@@ -56,9 +56,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #region Boss Room
 
-            TagLogger<RoomDataGenerator>.Info($"Count levels - {GameMng.current.countLevels}. Current lvl - {newLvl}");
+            //TagLogger<RoomDataGenerator>.Info($"Count levels - {GameMng.current.countLevels}. Current lvl - {newLvl}");
 
-            if (newLvl == GameMng.current.countLevels) {
+            if (GameMng.current.IsNextBossRoom()) {
 
                 TagLogger<RoomDataGenerator>.Info($"Generate boss room");
                 return new BossRoomData("boss_room");

@@ -10,36 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ece5f8b527e9ef48b2b3de0a6229820, type: 3}
-  m_Name: FireImpData
+  m_Name: GolemDefenderData
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
+  characterCtrl: {fileID: 2746475727465504425, guid: 26daf9e76728e2e4a865ebd75af57b3f,
     type: 3}
   data:
   - stats:
-    - statType: 0
-      intVal: 60
+    - statType: 1
+      intVal: 200
       floatVal: 0
       boolVal: 0
-    - statType: 1
-      intVal: 60
+    - statType: 0
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 15
+      intVal: 5
       floatVal: 0
       boolVal: 0
     levelOfDifficult: 0
   - stats:
     - statType: 0
-      intVal: 100
+      intVal: 350
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 100
+      intVal: 350
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 25
+      intVal: 7
       floatVal: 0
       boolVal: 0
     levelOfDifficult: 1

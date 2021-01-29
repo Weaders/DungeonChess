@@ -379,7 +379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &62512041
 LightingSettings:
@@ -461,6 +461,7 @@ GameObject:
   - component: {fileID: 117236553}
   - component: {fileID: 117236555}
   - component: {fileID: 117236556}
+  - component: {fileID: 117236557}
   m_Layer: 5
   m_Name: BuyPanelUi
   m_TagString: Untagged
@@ -539,6 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnPrefab: {fileID: 5737529157276830030, guid: 3839cd9666b16774e8ba6d96eec6a89b,
     type: 3}
+  canvasGroup: {fileID: 117236557}
 --- !u!114 &117236556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +567,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &117236557
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117236551}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &208385099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,7 +1387,7 @@ Transform:
   m_Children:
   - {fileID: 1411601916}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -79.4, y: 0, z: 0}
 --- !u!1 &580921270
 GameObject:
@@ -1470,6 +1484,7 @@ RectTransform:
   - {fileID: 235867842}
   - {fileID: 1096181727}
   - {fileID: 3966409417473782779}
+  - {fileID: 1450072949}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1604,8 +1619,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.6000366, y: -55.600006}
-  m_SizeDelta: {x: -120.80994, y: 51.7134}
+  m_AnchoredPosition: {x: 4.6000366, y: -42.42}
+  m_SizeDelta: {x: -120.80994, y: 57.614723}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &677915810
 MonoBehaviour:
@@ -1620,7 +1635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8, g: 0.60784316, b: 0.1764706, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1628,7 +1643,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: cbd1f812773c7453ba9c2b9db01294e8, type: 3}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 1
     m_FontStyle: 0
     m_BestFit: 1
@@ -2639,7 +2654,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1138139120
 MonoBehaviour:
@@ -2696,6 +2711,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc4d845eeadfa04c8b0ad268e342716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onMoveToNextRoom:
+    m_PersistentCalls:
+      m_Calls: []
   durationPopupTitle: 1.5
 --- !u!1 &1151079810
 GameObject:
@@ -3127,7 +3145,6 @@ MonoBehaviour:
   fightTextMng: {fileID: 1353280054}
   currentDungeonData: {fileID: 11400000, guid: c11b1141c21231f41b62e3fce2a528c7, type: 2}
   synergyCtrl: {fileID: 1353280055}
-  dungeonGenerator: {fileID: 0}
   synergyLines: {fileID: 2048452684}
   statsGrid: {fileID: 874101539}
   characterInventoryGrid: {fileID: 2062338111}
@@ -3283,8 +3300,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.000061035156, y: 91.07}
-  m_SizeDelta: {x: -82.75134, y: 101.76576}
+  m_AnchoredPosition: {x: 0.000061035156, y: 50.5}
+  m_SizeDelta: {x: -82.75134, y: 149.76756}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1366995430
 MonoBehaviour:
@@ -3307,7 +3324,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: cbd1f812773c7453ba9c2b9db01294e8, type: 3}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 1
     m_FontStyle: 0
     m_BestFit: 0
@@ -3687,12 +3704,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450072946}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960.20764, y: -539.8833, z: 0}
+  m_LocalScale: {x: 1.8681083, y: 1.8681083, z: 1.8681083}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 580921274}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1471052871
 GameObject:
@@ -3818,7 +3835,7 @@ Transform:
   m_Children:
   - {fileID: 778070623}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1548434510
 GameObject:
@@ -4112,7 +4129,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1635433288
 GameObject:
@@ -4482,7 +4499,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1790707954
 GameObject:
@@ -5017,7 +5034,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2048452684
 MonoBehaviour:

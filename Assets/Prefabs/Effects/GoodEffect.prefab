@@ -115,7 +115,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4920,6 +4920,7 @@ MonoBehaviour:
   id: good_effect
   offset: {x: 0, y: 0, z: 0}
   offsetScale: {x: 0, y: 0, z: 0}
+  defaultDuration: 1.5
   onTouch:
     m_PersistentCalls:
       m_Calls: []

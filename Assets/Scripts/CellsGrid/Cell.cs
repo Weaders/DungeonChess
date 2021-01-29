@@ -130,13 +130,6 @@ namespace Assets.Scripts.CellsGrid {
 
             if (ctrl != null) {
 
-                if (ctrl.cell != null) {
-
-                    ctrl.cell.characterCtrl = null;
-                    ctrl.cell = null;
-
-                }
-
                 TagLogger<Cell>.Info($"Player stay on cell with position {transform.position}");
 
                 if (ctrl.cell != null) {
@@ -150,8 +143,16 @@ namespace Assets.Scripts.CellsGrid {
                 if (isChangePosition) {
                     StayCtrlOnlyPosition(ctrl);
                 }
+                if (ctrl.cell != null) {
 
-                ctrl.cell = this;
+                    ctrl.cell.characterCtrl = null;
+                    ctrl.cell = this;
+
+                } else {
+                    ctrl.cell = this;
+                }
+                
+                
 
                 AddState(CellState.NotAvailable);
 

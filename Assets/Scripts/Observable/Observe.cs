@@ -510,6 +510,17 @@ namespace Assets.Scripts.Observable {
         public void ModifyTarget(ObservableVal<float> target, ModifyType modifyType = ModifyType.Plus) {
             target.val = modifyType.Modify(target.val, val);
         }
+
+    }
+
+    public class PercentFloatObsrevable : FloatObsrevable {
+
+        public PercentFloatObsrevable(float val) : base(val) { }
+
+        public override string ToString() {
+            return (val * 100f).ToString();
+        }
+
     }
 
     [Serializable]

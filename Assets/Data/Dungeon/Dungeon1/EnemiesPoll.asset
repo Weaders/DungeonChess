@@ -20,41 +20,21 @@ MonoBehaviour:
     - {fileID: 0}
     isBoss: 0
     isEnabled: 0
-    condition:
-      min: 0
-      max: 0
   - enemyTeamStrtg: 1
     characterCtrls:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    isBoss: 0
-    isEnabled: 0
-    condition:
-      min: 0
-      max: 0
-  - enemyTeamStrtg: 2
-    characterCtrls:
-    - {fileID: 0}
-    isBoss: 1
-    isEnabled: 0
-    condition:
-      min: 0
-      max: 2
-  - enemyTeamStrtg: 2
-    characterCtrls:
-    - {fileID: 0}
-    - {fileID: 0}
-    isBoss: 0
-    isEnabled: 0
-    condition:
-      min: 2
-      max: 5
-  - enemyTeamStrtg: 2
-    characterCtrls:
     - {fileID: 11400000, guid: f698fafd2fe26fc498a4c43aefa05300, type: 2}
+    - {fileID: 11400000, guid: f698fafd2fe26fc498a4c43aefa05300, type: 2}
+    - {fileID: 11400000, guid: 28cda8e188bbd594b8a4342cb1886a5c, type: 2}
     isBoss: 0
     isEnabled: 1
-    condition:
-      min: 0
-      max: 5
+  - enemyTeamStrtg: 2
+    characterCtrls:
+    - {fileID: 11400000, guid: 04d16727cbe072240bac3dbd31502796, type: 2}
+    isBoss: 1
+    isEnabled: 1
+  - enemyTeamStrtg: 2
+    characterCtrls:
+    - {fileID: 11400000, guid: 592e2225418a89743843349a8e99cb4a, type: 2}
+    - {fileID: 11400000, guid: 592e2225418a89743843349a8e99cb4a, type: 2}
+    isBoss: 0
+    isEnabled: 1

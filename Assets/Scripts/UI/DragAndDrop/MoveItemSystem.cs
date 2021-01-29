@@ -7,6 +7,9 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
         public void PlaceItem(MoveItem moveItem, MoveItemCell cell, bool fireEvents = true) {
 
+            if (cell == null)
+                return;
+
             if (moveItem == cell.moveItem)
                 return;
 

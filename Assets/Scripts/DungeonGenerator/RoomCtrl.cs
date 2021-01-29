@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.DungeonGenerator {
 
@@ -13,7 +12,19 @@ namespace Assets.Scripts.DungeonGenerator {
 
         private RoomDataGenerator roomDataGenerator;
 
-        public DungeonRoomCells currentRoom { get; private set; }
+        private DungeonRoomCells _currentRoomCells = null;
+
+        public DungeonRoomCells currentRoom {
+            get => _currentRoomCells;
+            private set {
+
+                _currentRoomCells = value;
+                onMoveToNextRoom.Invoke();
+
+            }
+        }
+
+        public UnityEvent onMoveToNextRoom = new UnityEvent();
 
         [SerializeField]
         private float durationPopupTitle = 1.5f;
@@ -34,7 +45,7 @@ namespace Assets.Scripts.DungeonGenerator {
             var startRoomData = roomDataGenerator.GenerateStartRoom();
 
             currentRoom = PrefabFactory.InitRoomCells(
-                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level, false), 
+                GameMng.current.currentDungeonData.GetRoomForLvlPrefab(GameMng.current.level, false),
                 startRoomData
             );
 
@@ -74,11 +85,12 @@ namespace Assets.Scripts.DungeonGenerator {
             }
 
             GameMng.current.level.val += 1;
+            GameMng.current.levelsBeforeChange--;
 
             ProcessRoom();
 
             //if (timeForHide <= Time.time) {
-                GameMng.current.HideBlackOverlay();
+            GameMng.current.HideBlackOverlay();
             //} else {
 
             //    IEnumerator hideForDiff() {
@@ -96,13 +108,20 @@ namespace Assets.Scripts.DungeonGenerator {
 
             currentRoom.transform.SetParent(transform);
             currentRoom.transform.localPosition = Vector3.zero;
+            GameMng.current.isBuildPhase.val = true;
 
             var directions = Enum.GetValues(typeof(Direction));
 
             var countExists = UnityEngine.Random.Range(1, directions.Length);
 
-            for (var i = 0; i < countExists; i++) {
-                roomDataGenerator.GenerateExit((Direction)directions.GetValue(i));
+            if (GameMng.current.IsNextBossRoom()) {
+                roomDataGenerator.GenerateExit(Direction.top);
+            } else {
+
+                for (var i = 0; i < countExists; i++) {
+                    roomDataGenerator.GenerateExit((Direction)directions.GetValue(i));
+                }
+
             }
 
             TagLogger<RoomCtrl>.Info($"Generate {countExists} exits");

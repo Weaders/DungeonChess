@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Common;
 using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Fight.PlaceStrategy;
 using Assets.Scripts.StatsData;
@@ -53,7 +54,6 @@ namespace Assets.Scripts.EnemyData {
         public CharacterDungeonData[] characterCtrls;
         public bool isBoss;
         public bool isEnabled;
-        public Condition condition;
 
     }
 
@@ -63,8 +63,13 @@ namespace Assets.Scripts.EnemyData {
 
     [Serializable]
     public class StatGroup {
+
         public StatField[] stats;
-        public Condition condition;
+
+        /// <summary>
+        /// Start from 0
+        /// </summary>
+        public int levelOfDifficult;
 
     }
 

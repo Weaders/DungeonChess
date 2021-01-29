@@ -67,21 +67,6 @@ namespace Assets.Scripts.CellsGrid {
             GameMng.current.selectPanel.SetItems((getExit(0), getExit(1), getExit(2)));
             GameMng.current.selectPanel.Show();
 
-            //foreach (Cell cell in GameMng.current.roomCtrl.currentRoom.GetExits()) {
-
-            //    i++;
-
-            //    //var obj = Instantiate(arrowCtrlPrefab.gameObject, cell.transform);
-            //    //obj.transform.localPosition = Vector3.zero;
-
-            //    //obj.GetComponent<ArrowCtrl>().onClick.AddListener(
-            //    //    () => GameMng.current.roomCtrl.MoveToNextRoom(cell.exitDirection)
-            //    //);
-
-            //    //_exists.Add(obj);            
-
-            //}
-
         }
 
         private void HideExits() {

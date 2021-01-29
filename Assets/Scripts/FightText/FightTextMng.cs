@@ -49,7 +49,7 @@ namespace Assets.Scripts.FightText {
 
         private IEnumerator WaitAndDestroy(Animator anim, GameObject obj) {
 
-            yield return new WaitUntil(() => anim != null && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
+            yield return new WaitUntil(() => anim != null && anim.isActiveAndEnabled && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1);
 
             TagLogger<FightTextMng>.Info($"Destroy fight text mng");
 

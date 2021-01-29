@@ -68,8 +68,8 @@ namespace Assets.Scripts.Spells {
 
                 void onDie() {
 
-                    if (runEffectResult != null)
-                        Destroy(runEffectResult.effectObj);
+                    if (runEffectResult != null && spellTarget != SpellTarget.EnemyAOE)
+                        Destroy(runEffectResult.effectObj.gameObject);
 
                 }
 

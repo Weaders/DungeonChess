@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Common;
 using Assets.Scripts.DungeonGenerator;
-using Assets.Scripts.DungeonGenerator.Data;
 using UnityEngine;
 
 namespace Assets.Scripts.CellsGrid {
@@ -15,10 +14,6 @@ namespace Assets.Scripts.CellsGrid {
         public Vector2 dataPosition;
 
         public Vector2 roomOffset;
-
-        [HideInInspector]
-        [Obsolete]
-        public WallGroup[] wallGroups;
 
         [ContextMenu("Set position of cells")]
         public void SetPositions() {

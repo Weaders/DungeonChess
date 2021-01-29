@@ -4,6 +4,7 @@ using Assets.Scripts.Buffs;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.CellsGrid.RowStrtgs;
 using Assets.Scripts.Common;
+using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.Items.Entities.Base {
@@ -72,23 +73,21 @@ namespace Assets.Scripts.Items.Entities.Base {
 
             HideFor();
 
-            //if (ctrl.cell != null) {
+            showedCells = rowStrtg.CalcCellsFor(ctrl.GetCellForSelectedDisplay()).ToArray();
 
-                showedCells = rowStrtg.CalcCellsFor(ctrl.GetCellForSelectedDisplay()).ToArray();
+            foreach (var selectedCell in showedCells) {
 
-                foreach (var selectedCell in showedCells) {
+                selectedCell.AddState(Cell.CellState.Hover);
 
-                    selectedCell.AddState(Cell.CellState.Hover);
-
-                }
-
-            //}
+            }
 
         }
 
         protected override void OnDeEquip() {
+
             base.OnDeEquip();
             HideFor();
+
         }
 
     }

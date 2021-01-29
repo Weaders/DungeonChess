@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1875665782368513765}
   - component: {fileID: 1785873643495435007}
   - component: {fileID: 1786884939273018371}
-  - component: {fileID: 1876101832145320996}
   - component: {fileID: -7750589830776591225}
   m_Layer: 0
   m_Name: URPFireBall
@@ -4815,27 +4814,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &1876101832145320996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877907831518483413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6222499a38513a247bbf1534b78cc727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onCome:
-    m_PersistentCalls:
-      m_Calls: []
-  onComeExplosion: {fileID: 2700707618170491937, guid: 55747f52956e4d240ac327ac2e6aa36d,
-    type: 3}
-  currentTarget: {fileID: 0}
-  timeBeforeDestroy: 1
-  speed: 4.5
-  up: {x: 0, y: 0, z: 0}
 --- !u!114 &-7750589830776591225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4851,10 +4829,14 @@ MonoBehaviour:
   id: fireball
   offset: {x: 0, y: 0, z: 0}
   offsetScale: {x: 0, y: 0, z: 0}
+  defaultDuration: 1
   onTouch:
     m_PersistentCalls:
       m_Calls: []
   onCome:
+    m_PersistentCalls:
+      m_Calls: []
+  onStart:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1877967038477318173

@@ -51,7 +51,7 @@ namespace Assets.Scripts.Items {
             GameMng.current.itemInfoPanel.SetItemData(this);
         }
 
-        private Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
+        protected virtual Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
 
             var place = this.GetPlaceholdersFromAttrs(descriptionFor);
             return place.ToArray();

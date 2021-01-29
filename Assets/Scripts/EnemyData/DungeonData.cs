@@ -13,7 +13,7 @@ namespace Assets.Scripts.EnemyData {
 
         public int moneyVictory;
 
-        public RangeRooms countRooms;
+        public RangeRooms changeDifficultEvery;
 
         public RoomPrefabsData[] dungeonRoomCells;
 

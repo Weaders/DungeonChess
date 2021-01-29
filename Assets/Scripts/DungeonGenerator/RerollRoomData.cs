@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.CellsGrid;
+﻿using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Translate;
 using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class RerollRoomData : RoomData {
+
         public RerollRoomData(string titleKey) : base(titleKey) {
         }
 

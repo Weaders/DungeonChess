@@ -2,6 +2,7 @@
 using Assets.Scripts.Character;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
+using Assets.Scripts.Observable;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,7 +20,9 @@ namespace Assets.Scripts.Fight {
         public UnityEvent onPlayerWin = new UnityEvent();
         public UnityEvent onEnemyTeamWin = new UnityEvent();
 
-        public bool isInFight { get; set; }
+        public ObservableVal<bool> isInFight = new ObservableVal<bool>();
+
+        public UnityEvent onChangeIsInFight = new UnityEvent();
 
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 
@@ -47,9 +50,11 @@ namespace Assets.Scripts.Fight {
 
             foreach (var charCtrl in fightTeamPlayer.aliveChars) {
 
-                TagLogger<FightMng>.Info($@"Start Search for character {charCtrl.name}, old position - {charCtrl.cell.transform.position}");
+                var cellForMove = charCtrl.startCell == null ? charCtrl.cell : charCtrl.startCell;
 
-                var closestCell = cells.MinElement(c => Vector3.Distance(c.transform.position, charCtrl.cell.transform.position));
+                TagLogger<FightMng>.Info($"Start Search for character {charCtrl.name}, old position - {cellForMove.transform.position}");
+
+                var closestCell = cells.MinElement(c => Vector3.Distance(c.transform.position, cellForMove.transform.position));
 
                 TagLogger<FightMng>.Info($"Founded cell with position - {closestCell.transform.position}");
 
@@ -61,6 +66,7 @@ namespace Assets.Scripts.Fight {
 
         public void StartFight() {
 
+            GameMng.current.isBuildPhase.val = false;
             GameMng.current.buyPanelUI.selectedBuyData = null;
 
             fightTeamEnemy.onAllInTeamDie.AddListener(EnemyTeamDie);
@@ -71,7 +77,7 @@ namespace Assets.Scripts.Fight {
                 charCtrl.GoAttack();
             }
 
-            isInFight = true;
+            isInFight.val = true;
 
             // Refresh colors
             foreach (var cell in GameMng.current.roomCtrl.currentRoom.GetCells()) {
@@ -99,7 +105,7 @@ namespace Assets.Scripts.Fight {
 
             StopAttack();
 
-            isInFight = false;
+            isInFight.val = false;
 
         }
 
@@ -110,7 +116,7 @@ namespace Assets.Scripts.Fight {
             fightTeamEnemy.onAllInTeamDie.RemoveListener(EnemyTeamDie);
             fightTeamPlayer.onAllInTeamDie.RemoveListener(PlayerTeamDie);
 
-            isInFight = false;
+            isInFight.val = false;
 
         }
 

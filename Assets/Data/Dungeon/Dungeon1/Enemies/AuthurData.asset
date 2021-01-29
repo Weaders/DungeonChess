@@ -28,22 +28,18 @@ MonoBehaviour:
       intVal: 10
       floatVal: 0
       boolVal: 0
-    condition:
-      min: 0
-      max: 1
+    levelOfDifficult: 0
   - stats:
     - statType: 1
-      intVal: 120
+      intVal: 150
       floatVal: 0
       boolVal: 0
     - statType: 0
-      intVal: 120
+      intVal: 150
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 15
+      intVal: 20
       floatVal: 0
       boolVal: 0
-    condition:
-      min: 2
-      max: 3
+    levelOfDifficult: 1

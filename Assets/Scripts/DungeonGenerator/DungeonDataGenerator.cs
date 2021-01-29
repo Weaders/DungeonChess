@@ -13,7 +13,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public DungeonDataPosition GetDungeonDataPositions(DungeonData dungeonData) {
 
-            var countRooms = UnityEngine.Random.Range(dungeonData.countRooms.min, dungeonData.countRooms.max);
+            var countRooms = UnityEngine.Random.Range(dungeonData.changeDifficultEvery.min, dungeonData.changeDifficultEvery.max);
 
             //var roomSize = new Vector2Int(6, 6);
 

@@ -10,32 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ece5f8b527e9ef48b2b3de0a6229820, type: 3}
-  m_Name: FireImpData
+  m_Name: BossReaperData
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
+  characterCtrl: {fileID: 8651046409866918608, guid: cf9b357e1f482e049ae8e73d2e36e035,
     type: 3}
   data:
   - stats:
     - statType: 0
-      intVal: 60
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 60
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 15
+      intVal: 20
       floatVal: 0
       boolVal: 0
     levelOfDifficult: 0
   - stats:
     - statType: 0
-      intVal: 100
+      intVal: 300
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 100
+      intVal: 300
       floatVal: 0
       boolVal: 0
     - statType: 5

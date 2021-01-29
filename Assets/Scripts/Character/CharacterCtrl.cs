@@ -79,6 +79,8 @@ namespace Assets.Scripts.Character {
 
         private Cell _startedCell;
 
+        public Cell startCell => _startedCell;
+
         [SerializeField]
         public MeshRenderer colorDetect;
 
@@ -122,7 +124,9 @@ namespace Assets.Scripts.Character {
         public void StopAttack() {
 
             isStartToFight = false;
-            _startedCell.StayCtrl(this);
+
+            //if (!characterData.stats.isDie)
+            //    _startedCell.StayCtrl(this);
 
         }
 
