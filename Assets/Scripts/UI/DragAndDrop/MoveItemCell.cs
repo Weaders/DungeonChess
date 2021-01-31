@@ -8,7 +8,10 @@ namespace Assets.Scripts.UI.DragAndDrop {
     public class MoveItemCell : MonoBehaviour {
 
         public enum State {
-            Default, AvaliableForSelect, NotAvailableForSelect
+            Default, 
+            AvaliableForSelect, 
+            NotAvailableForSelect,
+            Locked
         }
 
         private State _state;
@@ -46,6 +49,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
                 image.color = Color.white;
             } else if (state == State.NotAvailableForSelect) {
                 image.color = Color.red;
+            } else if (state == State.Locked) {
+                image.color = new Color(1, 1, 1, 0.5f);
             }
 
         }

@@ -1,8 +1,8 @@
-﻿using System;
-using Assets.Scripts.CellsGrid;
+﻿using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Character {
 
@@ -12,14 +12,15 @@ namespace Assets.Scripts.Character {
 
         private Cell _cellToSelect;
 
-        private CharacterCtrl selectedCharacterCtrl {
+        public CharacterCtrl selectedCharacterCtrl {
             get => _characterCtrl;
-            set {
+            private set {
 
-                var oldVal = _characterCtrl;                
+                var oldVal = _characterCtrl;
                 _characterCtrl = value;
 
                 onChangeSelectCharacter.Invoke(oldVal, _characterCtrl);
+
                 if (oldVal != null)
                     oldVal.isSelected = false;
 
@@ -43,7 +44,11 @@ namespace Assets.Scripts.Character {
 
         private Vector3 _offsetDraggedCtrl;
 
-        private Vector3 lastDragHit = Vector3.zero;
+        private Vector3 lastDragHit;
+
+        private Vector3 lastSourceRay;
+
+        private Vector3 sourceDir;
 
         private void Update() {
 
@@ -51,6 +56,9 @@ namespace Assets.Scripts.Character {
             mousePosition = Input.mousePosition;
 
             if (Input.GetMouseButton(0)) {
+
+                if (EventSystem.current.IsPointerOverGameObject())
+                    return;
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -73,24 +81,58 @@ namespace Assets.Scripts.Character {
 
                         }
 
+                        //var offset = lastDragHit - hit.point;
+
+                        var offset2 = _draggedCtrl.cell.transform.position - (hit.point - _offsetDraggedCtrl);
+
+                        var from = Camera.main.transform.position - offset2;
+
+                        var ray2 = new Ray(from, sourceDir);
+
+                        //Debug.DrawRay(from, sourceDir * 100f, Color.red, 1000f);
+                        //Debug.DrawLine(from, from + Vector3.one * .1f, Color.green, 100f);
+
+                        Physics.Raycast(ray2, out RaycastHit hit2, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
+
+                        //var r = new Ray(lastSourceRay + offset, ray.direction);
+
+                        //Physics.Raycast(r, out RaycastHit hit2, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
+
+                        //Debug.DrawRay(ray.origin, ray.direction, Color.red, 100);
+
+
                         //selectedCharacterCtrl.transform.position -= (new Vector3(delta.x, 0, delta.y) * dragSpeed * Time.deltaTime);
 
                         //var newPos = new Vector3(hit.point.x, selectedCharacterCtrl.transform.position.y, hit.point.z);
                         //var offset = new Vector3(_offsetDraggedCtrl.x, 0, _offsetDraggedCtrl.z);
                         //var targetPos = newPos + offset * 2;
-                        var offset = hit.point - lastDragHit;
-                        lastDragHit = hit.point;
+                        //var offset = hit.point - lastDragHit;
+                        //lastDragHit = hit.point;
 
-                        //Debug.Log($"{newPos}|{offset}|{targetPos}");
+                        ////Debug.Log($"{newPos}|{offset}|{targetPos}");
+                        //_draggedCtrl.transform.position = new Vector3(
+                        //    _draggedCtrl.transform.position.x - offset.x * .9f,
+                        //    _draggedCtrl.transform.position.y,
+                        //    _draggedCtrl.transform.position.z - offset.z * .9f
+                        //);
+
+                        // Why .87? This is hard calculaton! And this is very secret!
+                        var offset = (lastDragHit - hit2.point) * .87f;
+
+                        //_draggedCtrl.transform.position = hit2.point - _offsetDraggedCtrl;
+
                         _draggedCtrl.transform.position = new Vector3(
-                            hit.point.x,
+                            _draggedCtrl.transform.position.x - offset.x,
                             _draggedCtrl.transform.position.y,
-                            hit.point.z
+                            _draggedCtrl.transform.position.z - offset.z
                         );
 
-                    }                    
+                        lastDragHit = hit2.point;
+
+                    }
 
                 } else {
+
 
                     if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER, LayersStore.CELL_LAYER))) {
 
@@ -105,10 +147,6 @@ namespace Assets.Scripts.Character {
                                     var ctrl = GameMng.current.buyMng.Buy(GameMng.current.buyPanelUI.selectedBuyData);
                                     cell.StayCtrl(ctrl);
 
-                                    if (!GameMng.current.buyPanelUI.selectedBuyData.IsCanBuy()) {
-                                        GameMng.current.buyPanelUI.selectedBuyData = null;
-                                    }
-
                                 }
 
                             }
@@ -120,16 +158,18 @@ namespace Assets.Scripts.Character {
                             if (GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player) {
 
                                 selectedCharacterCtrl = ctrl;
-                                
+
                                 _cellToSelect = selectedCharacterCtrl.cell;
 
                                 ctrl.moveCtrl.DisableNavMesh();
                                 _draggedCtrl = ctrl;
-                                
 
                                 Physics.Raycast(ray, out RaycastHit hitCell, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
+
                                 lastDragHit = hitCell.point;
-                                _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position;
+                                lastSourceRay = Camera.main.transform.position;
+                                _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position ;
+                                sourceDir = ray.direction;
 
                             } else {
                                 selectedCharacterCtrl = ctrl;
@@ -142,7 +182,7 @@ namespace Assets.Scripts.Character {
 
                 }
 
-            } else if (Input.GetMouseButtonUp(0) ) {
+            } else if (Input.GetMouseButtonUp(0)) {
 
                 if (_draggedCtrl != null) {
 

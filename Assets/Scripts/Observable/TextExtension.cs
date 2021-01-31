@@ -39,6 +39,11 @@ namespace Assets.Scripts.Observable {
 
         }
 
+        public static SubsribeTextResult Subscribe(this TextMeshProUGUI textObj, Func<string> onChange, OrderVal orderVal, params ObservableVal[] stats)
+            => Subscribe(textObj, () => new TextData {
+                text = onChange()
+            }, orderVal, stats);
+
         public static SubsribeTextResult Subscribe(this Text textObj, Func<string> onChange, OrderVal orderVal, params ObservableVal[] stats)
             => Subscribe(textObj, onChange, orderVal, (IEnumerable<ObservableVal>)stats);
 
@@ -49,6 +54,29 @@ namespace Assets.Scripts.Observable {
             }, orderVal, stats);
 
         public static SubsribeTextResult Subscribe(this Text textObj, Func<TextData> onChange, OrderVal orderVal, IEnumerable<ObservableVal> stats) {
+
+            void changeText() {
+
+                var str = onChange.Invoke();
+
+                textObj.text = str.text;
+
+                if (str.color.HasValue)
+                    textObj.color = str.color.Value;
+
+            }
+
+            foreach (var stat in stats) {
+                stat.onPostChangeBase.AddSubscription(orderVal, changeText);
+            }
+
+            changeText();
+
+            return new SubsribeTextResult(changeText, stats);
+
+        }
+
+        public static SubsribeTextResult Subscribe(this TextMeshProUGUI textObj, Func<TextData> onChange, OrderVal orderVal, IEnumerable<ObservableVal> stats) {
 
             void changeText() {
 

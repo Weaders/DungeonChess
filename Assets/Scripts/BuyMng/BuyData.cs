@@ -8,8 +8,9 @@ namespace Assets.Scripts.BuyMng {
 
         public CharacterCtrl ctrlPrefab;
         public int cost;
+        public string descriptionKey;
 
-        public bool IsCanBuy() => GameMng.current.playerData.money >= cost;
+        public bool IsCanBuy() => GameMng.current.playerData.money >= cost && GameMng.current.playerData.charactersCount < GameMng.current.playerData.maxCharacterCount;
 
     }
 }

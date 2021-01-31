@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: fireball
-  titleKey: 
-  descriptionKey: 
+  titleKey: fireball_title
+  descriptionKey: fireball_description
   spellType: 0
   spellTarget: 1
   effectObjPrefab: {fileID: -7750589830776591225, guid: 6255900985d3a0c41b51259e7167dea6,

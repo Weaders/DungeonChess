@@ -16,6 +16,21 @@ namespace Assets.Scripts.UI.Inventory {
 
         private int indexInItems;
 
+        private bool _isBelongsToUser;
+
+        public bool isBelongsToUser {
+            get => _isBelongsToUser;
+            set {
+
+                _isBelongsToUser = value;
+
+                if (!_isBelongsToUser) {
+                    moveItemCell.state = MoveItemCell.State.Locked;
+                }
+
+            }
+        }
+
         private void Awake() {
 
             moveItemCell.onChangeItem.AddListener((oldVal, newVal) => {
@@ -71,6 +86,8 @@ namespace Assets.Scripts.UI.Inventory {
         public ItemData GetItem() => itemData;
 
         public bool IsThereItem() => GetItem() != null;
+
+        public bool IsCanUserPlaceItem() => !IsThereItem() && isBelongsToUser;
 
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.BuyMng;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
-using Assets.Scripts.CharacterBuyPanel;
 using Assets.Scripts.Common;
 using Assets.Scripts.DungeonGenerator;
 using Assets.Scripts.EnemyData;
@@ -14,6 +13,7 @@ using Assets.Scripts.Synergy;
 using Assets.Scripts.TopSidePanel;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.BuffsList;
+using Assets.Scripts.UI.CharacterBuyPanel;
 using Assets.Scripts.UI.DragAndDrop;
 using Assets.Scripts.UI.GameTitlePopup;
 using Assets.Scripts.UI.Inventory;
@@ -105,6 +105,8 @@ namespace Assets.Scripts {
 
         public GameInputCtrl gameInputCtrl;
 
+        public ArrowSelectCtrl arrowCtrl;
+
         [SerializeField]
         private NameOfCharacter nameOfCharacter;
 
@@ -154,12 +156,14 @@ namespace Assets.Scripts {
             buyPanelUI.Init();
             topSidePanelUI.Init();
 
+            arrowCtrl.Init();
+
             // Set up, synergy data
             buyMng.postBuy.AddListener(() => {
                 synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
             });
 
-            playerInventoryGrid.SetItemsContainer(playerData.itemsContainer);
+            playerInventoryGrid.SetItemsContainer(playerData.itemsContainer, true);
 
             // Update ui on select character ctrl
             gameInputCtrl.onChangeSelectCharacter.AddListener((old, ctrl) => {
@@ -172,9 +176,11 @@ namespace Assets.Scripts {
 
                     if (ctrl != null) {
 
+                        var sideOfCtrl = fightMng.GetTeamSide(ctrl);
+
                         nameOfCharacter.SetCharacterData(ctrl.characterData);
                         statsGrid.SetCharacter(ctrl.characterData);
-                        characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer);
+                        characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer, sideOfCtrl == TeamSide.Player);
                         characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
                         buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
 

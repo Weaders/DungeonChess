@@ -35,10 +35,14 @@ namespace Assets.Scripts.BuyMng {
         }
 
         public CharacterCtrl Buy(BuyData buyData) {
-
-            GameMng.current.playerData.money.val -= buyData.cost;
             
             var ctrl = GameMng.current.fightMng.fightTeamPlayer.AddCharacterToTeamPrefab(buyData.ctrlPrefab);
+
+            GameMng.current.buyPanelUI.selectedBuyData = null;
+
+            GameMng.current.playerData.charactersCount.val++;
+
+            GameMng.current.playerData.money.val -= buyData.cost;
 
             postBuy.Invoke();
 

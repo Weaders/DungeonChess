@@ -12,7 +12,7 @@ namespace Assets.Scripts.UI.Inventory {
 
         private InventoryGridCell[] inventoryGridCells;
 
-        public void SetItemsContainer(ItemsContainer itemsContainer) {
+        public void SetItemsContainer(ItemsContainer itemsContainer, bool isBelongsToUser) {
 
             if (itemsContainer == _itemsContainer)
                 return;
@@ -31,6 +31,7 @@ namespace Assets.Scripts.UI.Inventory {
 
                 inventoryGridCells[i] = cell.GetComponent<InventoryGridCell>();
                 inventoryGridCells[i].SetItemsContainer(_itemsContainer, i);
+                inventoryGridCells[i].isBelongsToUser = isBelongsToUser;
 
             }
 

@@ -15,3 +15,4 @@ MonoBehaviour:
   ctrlPrefab: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
     type: 3}
   cost: 25
+  descriptionKey: fire_imp_buy_description

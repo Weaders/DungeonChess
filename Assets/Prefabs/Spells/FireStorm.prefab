@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: fire_storm
-  titleKey: 
-  descriptionKey: 
+  titleKey: fire_storm_title
+  descriptionKey: fire_storm_description
   spellType: 0
   spellTarget: 3
   effectObjPrefab: {fileID: 5252393583101219614, guid: 30323ea54d6c5e84998edb46acab0be5,
@@ -54,3 +54,4 @@ MonoBehaviour:
   triggerTouchEvery: 1
   range: 3
   dmgAmount: 10
+  adScale: 0

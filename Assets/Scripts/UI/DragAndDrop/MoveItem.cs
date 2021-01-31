@@ -61,6 +61,22 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
             }
 
+            if (cellToSel == null) {
+
+                if (cellToPlace != null) {
+                    
+                    cellToPlace.state = MoveItemCell.State.Default;
+                    cellToPlace = moveItemCell;
+
+                }
+                
+                return;
+
+            }
+
+            if (cellToSel.state == MoveItemCell.State.Locked || cellToSel == moveItemCell)
+                return;
+
             if (cellToPlace != null && cellToPlace != cellToSel) {
                 cellToPlace.state = MoveItemCell.State.Default;
             }

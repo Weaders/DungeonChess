@@ -188,6 +188,60 @@
         {
             "key": "reaper",
             "value": "Ученик Смерти"
+        },
+        {
+            "key": "warrior_buy_description",
+            "value": "Воин, медленно идущий, наносящий средний противникам. Может становиться неуязвимым"
+        },
+        {
+            "key": "fire_imp_buy_description",
+            "value": "Боей дальнего боя, мало хп зато большой урон. Вызывает огненое торнадо, наносящие урон всем на пути"
+        },
+        {
+            "key": "golem_defender_buy_description",
+            "value": "Практичесски не наносит урону, пригоден только для впитывания урона. Исцеляется при получение урона"
+        },
+        {
+            "key": "golem_defender",
+            "value": "Стальной Голем"
+        },
+        {
+            "key": "fireball_title",
+            "value": "Огненый шар"
+        },
+        {
+            "key": "fireball_description",
+            "value": "Выпускает огненый щар на растояние двух блоков. Наносящие какой-то урон"
+        },
+        {
+            "key": "fire_storm_title",
+            "value": "Огненый шторм"
+        },
+        {
+            "key": "fire_storm_description",
+            "value": "Выпускает огненый шторм наносящий какойто урон"
+        },
+        {
+            "key": "drums_of_spped_buff_title",
+            "value": "Барабаны скорости"
+        },
+        {
+            "key": "drums_of_spped_buff_description",
+            "value": "Барабаны скорости увеличивают скорость атаки на %[As_prop]%"
+        },
+        {
+            "key": "spells_and_buffs",
+            "value": "Спелы и баффы"
+        },
+        {
+            "key": "spells",
+            "value": "Спелы"
+        },
+        {
+            "key": "buffs",
+            "value": "Баффы"
         }
+
+        
     ]
 }
