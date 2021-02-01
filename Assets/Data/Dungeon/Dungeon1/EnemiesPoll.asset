@@ -37,4 +37,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 592e2225418a89743843349a8e99cb4a, type: 2}
     - {fileID: 11400000, guid: 592e2225418a89743843349a8e99cb4a, type: 2}
     isBoss: 0
-    isEnabled: 1
+    isEnabled: 0

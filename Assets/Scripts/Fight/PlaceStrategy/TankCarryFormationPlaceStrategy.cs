@@ -57,21 +57,32 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
             }
 
-            var firstEnum = firstLineCells.GetEnumerator();
+            var tanksEnumerator = tanks.GetEnumerator();
+            tanksEnumerator.MoveNext();
 
-            foreach (var tank in tanks) {
+            for (var i = firstLineCells.Count / 2 - tanks.Count() / 2; i < firstLineCells.Count; i++) {
 
-                firstEnum.MoveNext();
-                firstEnum.Current.firstCell.StayCtrl(tank);
+                if (tanksEnumerator.Current == null)
+                    break;
+
+                firstLineCells[i].firstCell.StayCtrl(tanksEnumerator.Current);
+
+                tanksEnumerator.MoveNext();
 
             }
 
-            var lastEnum = secondLineCells.GetEnumerator();
 
-            foreach (var carry in carries) {
+            var carryEnumerator = carries.GetEnumerator();
+            carryEnumerator.MoveNext();
 
-                lastEnum.MoveNext();
-                lastEnum.Current.firstCell.StayCtrl(carry);
+            for (var i = secondLineCells.Count / 2 - carries.Count() / 2; i < secondLineCells.Count; i++) {
+
+                if (carryEnumerator.Current == null)
+                    break;
+
+                secondLineCells[i].firstCell.StayCtrl(carryEnumerator.Current);
+
+                carryEnumerator.MoveNext();
 
             }
 
