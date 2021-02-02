@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterCtrl: {fileID: 0}
+  fromCharacterCtrl: {fileID: 0}
   id: ignite_target
   _titleKey: ignite_target_title
   _descriptionKey: ignite_target_description
+  buffType: 1
   duplicateBuffStrategy: 1
   buffToAddPrefab: {fileID: 986570553378162687, guid: 803fbd0523a03d4449f3190dc1a8fb6d,
     type: 3}

@@ -19,7 +19,7 @@ namespace Assets.Scripts.Spells.Data {
 
         public float effectTime = 2f;
 
-        [Placecholder("heal_amount")]
+        [Placeholder("heal_amount")]
         public int GetHealAmount(CharacterData data) => healAmount;
 
         public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {

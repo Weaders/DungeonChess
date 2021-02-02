@@ -63,7 +63,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ctrl: {fileID: 7563941473688893011}
-  navMeshAgent: {fileID: 0}
 --- !u!114 &2130686993324243065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overrieds: []
+  scaleMultiply: {x: 1, y: 1, z: 1}
 --- !u!114 &7563941473688893011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4642e3519912a46498f5abd7681ef213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSelected:
+    m_PersistentCalls:
+      m_Calls: []
   onChangeCell:
     m_PersistentCalls:
       m_Calls: []
@@ -101,7 +104,6 @@ MonoBehaviour:
   manaBar: {fileID: 2194952508844060064}
   effectsPlacer: {fileID: 2130686993324243065}
   synergyCharacterPoint: {fileID: 0}
-  colorDetect: {fileID: 0}
   bulletSpawnObj: {fileID: 0}
   stateIconsCtrl: {fileID: 0}
 --- !u!95 &7817734793858064534
@@ -196,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -204,7 +206,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
+  m_DynamicPixelsPerUnit: 100
 --- !u!114 &6909576024662793569
 MonoBehaviour:
   m_ObjectHideFlags: 0

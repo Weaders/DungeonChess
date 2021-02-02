@@ -2,6 +2,7 @@
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.EnemyData;
+using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -26,6 +27,10 @@ namespace Assets.Scripts.DungeonGenerator {
                     var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrlData.characterCtrl);
 
                     ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
+
+                    ctrlObj.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
+                        GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
+                    });
 
                     GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
 
@@ -59,6 +64,8 @@ namespace Assets.Scripts.DungeonGenerator {
 
             }
 
+            GameMng.current.topSidePanelUI.stateTopBtn = TopSidePanel.StateTopBtn.Start;
+
         }
 
         protected virtual void OnPlayerWin() {
@@ -82,5 +89,11 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public override object Clone()
             => new EnemyRoomData(_title);
+
+        public override Sprite GetSprite()
+            => GameMng.current.currentDungeonData.enemyRoom.roomSprite;
+
+        public override string GetRoomDescription()
+            => TranslateReader.GetTranslate("enemies_room_description");
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.ActionsData;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Translate;
+using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class HealerRoomData : RoomData {
@@ -35,5 +36,11 @@ namespace Assets.Scripts.DungeonGenerator {
             GameMng.current.messagePanel.Show();
 
         }
+
+        public override string GetRoomDescription()
+            => TranslateReader.GetTranslate("healer_room_description");
+
+        public override Sprite GetSprite()
+            => GameMng.current.currentDungeonData.healerRoom.roomSprite;
     }
 }

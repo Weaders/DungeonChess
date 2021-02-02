@@ -15,7 +15,7 @@ namespace Assets.Scripts.Spells.Data {
 
         public float timeEffect;
 
-        [Placecholder("time_use")]
+        [Placeholder("time_use")]
         public float GetTimeUse(CharacterData from) => timeEffect;
 
         public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {

@@ -22,15 +22,15 @@ namespace Assets.Scripts.Character {
 
         public void RefreshIcons() {
 
-            foreach (Transform tr in transform)
-                Destroy(tr.gameObject);
+            //foreach (Transform tr in transform)
+            //    Destroy(tr.gameObject);
 
-            foreach (var buff in _characterData.stateContainer) {
+            //foreach (var buff in _characterData.stateContainer) {
 
-                var obj = Instantiate(iconPrefab, transform);
-                obj.sprite = buff.icon;
+            //    var obj = Instantiate(iconPrefab, transform);
+            //    obj.sprite = buff.icon;
 
-            }
+            //}
 
         }
 

@@ -3,7 +3,6 @@ using Assets.Scripts.ActionsData;
 using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
-using Assets.Scripts.UI;
 using Assets.Scripts.UI.DragAndDrop;
 using Assets.Scripts.UI.SelectPopup;
 using UnityEngine;
@@ -32,6 +31,10 @@ namespace Assets.Scripts.Items {
         public Sprite img => icon;
 
         public ObservableVal onChange => new ObservableVal();
+
+        public string selectText => TranslateReader.GetTranslate("add_in_player_invent");
+
+        public bool isEnableToSelect => true;
 
         public void Equip(CharacterData characterData) {
             owner = characterData;
@@ -63,6 +66,9 @@ namespace Assets.Scripts.Items {
         }
 
         public string GetId() => id;
+
+        public int cost;
+
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Translate;
+using UnityEngine;
 using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
 
 namespace Assets.Scripts.DungeonGenerator {
@@ -39,6 +40,12 @@ namespace Assets.Scripts.DungeonGenerator {
             GameMng.current.messagePanel.Show();
 
         }
+
+        public override Sprite GetSprite()
+            => GameMng.current.currentDungeonData.rerollRoom.roomSprite;
+
+        public override string GetRoomDescription()
+            => TranslateReader.GetTranslate("reroll_room_description");
 
         public void OnPostReroll() {
 

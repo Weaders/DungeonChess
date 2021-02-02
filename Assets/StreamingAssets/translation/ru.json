@@ -135,7 +135,11 @@
         },
         {
             "key": "reroll_room",
-            "value": "Комната перевоплащения"
+            "value": "Комната отдыха"
+        },
+        {
+            "key": "enter",
+            "value": "Войти"
         },
         {
             "key": "ok",
@@ -240,8 +244,122 @@
         {
             "key": "buffs",
             "value": "Баффы"
+        },
+        {
+            "key": "demon_buy",
+            "value": "Младший демон, но очень хочет доратси до старшего. Ближний бой среднее кол-во защиты и хп при участвие в убийстве навсегда получает АД и ХП"
+        },
+        {
+            "key": "demon_attack_title",
+            "value": "Удар косой"
+        },
+        {
+            "key": "demon_attack_description",
+            "value": "Наносит %[dmg_amount] урона. Если персонаж умрёт, то увеличивате ад на 5 и хп навсегда на 15"
+        },
+        {
+            "key": "on_dead_growth_demon_title",
+            "value": "Касание Демона"
+        },
+        {
+            "key": "on_dead_growth_demon_description",
+            "value": "При смсерти Демон увеличит свою мощ"
+        },
+        {
+            "key": "on_dead_growth_title",
+            "value": "Проклен демоном"
+        },
+        {
+            "key": "on_dead_growth_description",
+            "value": "При cмерти увеличивает мощ демона, который его проклял"
+        },
+        {
+            "key": "growth_stats_title",
+            "value": "Пожиратель душь"
+        },
+        {
+            "key": "growth_stats_description",
+            "value": "Когда уумирает персонаж которго атаковал Демон, демон увечивает свою силу атаки на %[Ad_prop] АД и %[Hp_prop] ХПю \r\n Текущие увелечение АД: %[ad_up] и ХП: %[hp_up]"
+        },
+        {
+            "key": "demon",
+            "value": "Младший демон"
+        },
+        {
+            "key": "voiid_mark_ctrl_title",
+            "value": "Проклятье демона"
+        },
+        {
+            "key": "voiid_mark_ctrl_description",
+            "value": "Нанеснниеурона данному персонаду отхиливает наносившему на %[heal_percent]%  от нанесённого урона"
+        },
+        {
+            "key": "demon_mage_attack_title",
+            "value": "Проклятие демона"
+        },
+        {
+            "key": "demon_mage_attack_description",
+            "value": "Делает критический удар по враку и накладывает проклятие на противника, пока на противнике проклятье, востанавливает весь нанесённый урон наносящему в виде хп."
+        },
+        {
+            "key": "skeleton_archer",
+            "value": "Скелет лучник"
+        },
+        {
+            "key": "skeleton_warrior",
+            "value": "Скелет воин"
+        },
+        {
+            "key": "display_menu",
+            "value": "Меню"
+        },
+        {
+            "key": "hide",
+            "value": "Скрыть"
+        },
+        {
+            "key": "fight",
+            "value": "В Бой"
+        },
+        {
+            "key": "enemies_room_description",
+            "value": "Комната с врагами, стоит или туда идти?"
+        },
+        {
+            "key": "reroll_room_description",
+            "value": "Комната отдыха, здесь можно призвать больше юнитов и поменять персонажа"
+        },
+        {
+            "key": "healer_room_description",
+            "value": "Комната исцеления, здесь все персонажи исцеляться на 10%"
+        },
+        {
+            "key": "items_room_description",
+            "value": "Комната с кладом, что же в сундуке?"
+        },
+        {
+            "key": "add_in_player_invent",
+            "value": "В инвентарь"
+        },
+        {
+            "key": "heal_full",
+            "value": "Исцелить полностью выбранного персонажа? За %[money] маны"
+        },
+        {
+            "key": "item_cost",
+            "value": "%[cost] Маны"
+        },
+        {
+            "key": "seller_room_description",
+            "value": "Комната с продавцом, что он тут делает?"
+        },
+        {
+            "key": "seller_room",
+            "value": "Продавец"
+        },
+        {
+            "key": "tresure_with_trap",
+            "value": "Сундук оказался с ловушкой, у всех ваших персонажей отнялось 10% от текущего"
         }
-
-        
     ]
 }

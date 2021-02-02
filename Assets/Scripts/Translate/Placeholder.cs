@@ -32,12 +32,12 @@ namespace Assets.Scripts.Translate {
         public static IEnumerable<Placeholder> GetPlaceholdersFromAttrs(this object obj, CharacterData from) {
 
             var pls = obj.GetType().GetMethods().Select(p => {
-                var key = p.GetCustomAttribute<PlacecholderAttribute>()?.Key;
+                var key = p.GetCustomAttribute<PlaceholderAttribute>()?.Key;
                 return key != null ? new Placeholder(key, p.Invoke(obj, new[] { from }).ToString()) : null;
             });
 
             return pls.Union(obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Select(p => {
-                var key = p.GetCustomAttribute<PlacecholderAttribute>()?.Key;
+                var key = p.GetCustomAttribute<PlaceholderAttribute>()?.Key;
                 return key != null ? new Placeholder(key, p.GetValue(obj).ToString()) : null;
             })).Where(kv => kv != null);
 
@@ -49,11 +49,11 @@ namespace Assets.Scripts.Translate {
     }
 
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Field)]
-    public class PlacecholderAttribute : Attribute { 
+    public class PlaceholderAttribute : Attribute { 
         
         public string Key { get; set; }
 
-        public PlacecholderAttribute(string key) {
+        public PlaceholderAttribute(string key) {
             Key = key;
         }
 

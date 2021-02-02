@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Character;
+﻿using System.Linq;
+using Assets.Scripts.Character;
 using Assets.Scripts.Translate;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ namespace Assets.Scripts.Buffs {
     public enum DuplicateBuffStrategy { 
         None,
         Replace
+    }
+
+    public enum BuffType { 
+        Buff,
+        Debuff
     }
 
     public interface IBuffSource { }
@@ -28,14 +34,19 @@ namespace Assets.Scripts.Buffs {
         [SerializeField]
         private string _descriptionKey;
 
-        public string title => TranslateReader.GetTranslate(_titleKey);
+        [SerializeField]
+        private BuffType buffType;
 
-        public string description => TranslateReader.GetTranslate(_descriptionKey);
+        public string title => TranslateReader.GetTranslate(_titleKey, GetPlaceholders(fromCharacterCtrl.characterData));
+
+        public string description => TranslateReader.GetTranslate(_descriptionKey, GetPlaceholders(fromCharacterCtrl.characterData));
 
         [SerializeField]
         private DuplicateBuffStrategy duplicateBuffStrategy;
 
         public DuplicateBuffStrategy GetDuplicateStrg() => duplicateBuffStrategy;
+
+        public BuffType GetBuffType() => buffType;
 
         public string GetId() => id;
 
@@ -47,15 +58,29 @@ namespace Assets.Scripts.Buffs {
 
         }
 
+        /// <summary>
+        /// De apply buff, but there you 
+        /// </summary>
         public void Remove() {
             DeApply();
             characterCtrl = null;
         }
 
+        protected void RemoveFromCurrent() {
+            characterCtrl.characterData.buffsContainer.Remove(this);
+        }
+
+
         protected abstract void Apply();
 
         protected abstract void DeApply();
 
+        protected virtual Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
+
+            var place = this.GetPlaceholdersFromAttrs(descriptionFor);
+            return place.ToArray();
+
+        }
 
     }
 }

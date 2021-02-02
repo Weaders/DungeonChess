@@ -13,7 +13,11 @@ namespace Assets.Scripts.UI.SelectPopup {
 
         string description { get; }
 
+        string selectText { get; }
+
         ObservableVal onChange { get; }
+
+        bool isEnableToSelect { get; }
 
         void Select();
 
@@ -29,6 +33,12 @@ namespace Assets.Scripts.UI.SelectPopup {
 
         [SerializeField]
         private Text description;
+
+        [SerializeField]
+        private Text btnText;
+
+        [SerializeField]
+        private Button button;
 
         private Action<IForSelectPanel> _onSelect;
 
@@ -49,6 +59,9 @@ namespace Assets.Scripts.UI.SelectPopup {
             img.sprite = item.img;
             title.text = item.title;
             description.text = item.description;
+            btnText.text = item.selectText;
+
+            button.interactable = item.isEnableToSelect;
 
             _item = item;
             _onSelect = onSelect;

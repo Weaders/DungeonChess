@@ -8,6 +8,7 @@ namespace Assets.Scripts.Player {
 
         public ObservableVal<int> money = new ObservableVal<int>(1000);
 
+        [HideInInspector]
         public ObservableVal<int> charactersCount = new ObservableVal<int>(0);
 
         public ObservableVal<int> maxCharacterCount = new ObservableVal<int>(4);

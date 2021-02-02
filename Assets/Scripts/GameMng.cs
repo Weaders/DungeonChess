@@ -66,6 +66,9 @@ namespace Assets.Scripts {
 
         public TopSidePanelUI topSidePanelUI;
 
+        [SerializeField]
+        private CharacterOpenInfoBtn characterOpenInfoBtn;
+
         public FightTextMng fightTextMng;
 
         public DungeonData currentDungeonData;
@@ -92,6 +95,8 @@ namespace Assets.Scripts {
 
         public GameTitlePanel locationTitle;
 
+        public CharacterHealService characterHealService;
+
         public GameData gameData;
 
         [SerializeField]
@@ -112,7 +117,9 @@ namespace Assets.Scripts {
 
         public PathToCell pathToCell { get; private set; }
 
-        public int levelsBeforeChange { get; set; }
+        public int initLevelsBeforeChange { get; set; }
+
+        public ObservableVal<int> levelsBeforeChange { get; set; }
 
         public ObservableVal<int> level { get; private set; }
 
@@ -127,9 +134,13 @@ namespace Assets.Scripts {
         public bool IsNextBossRoom()
             => levelsBeforeChange == 1;
 
+        public bool IsNextBuildRoom()
+            => levelsBeforeChange == 0;
+
         public void RefeshLevelsToNextDifficult() {
             
             levelsBeforeChange = new ObservableVal<int>(currentDungeonData.changeDifficultEvery.GetRandomLvl());
+            initLevelsBeforeChange = levelsBeforeChange;
             levelDifficult++;
 
         }
@@ -142,7 +153,10 @@ namespace Assets.Scripts {
 
             TagLogger<GameMng>.Info($"Set levels before change difficult - {levelsBeforeChange}");
 
+            characterOpenInfoBtn.Init();
+
             playerData.Init();
+            characterHealService.Init();
 
             locationTitle.HidePopup();
             messagePanel.Hide();

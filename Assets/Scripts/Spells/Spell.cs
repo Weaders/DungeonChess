@@ -165,7 +165,7 @@ namespace Assets.Scripts.Spells {
                 .Select(f => new Placeholder(f.Name, f.GetValue(descriptionFor.stats).ToString()));
 
             result = result.Union(GetType().GetMethods().Select(p => {
-                var key = p.GetCustomAttribute<PlacecholderAttribute>()?.Key;
+                var key = p.GetCustomAttribute<PlaceholderAttribute>()?.Key;
                 return key != null ? new Placeholder(key, p.Invoke(this, new[] { descriptionFor }).ToString()) : null;
             }).Where(kv => kv != null));
 

@@ -85,23 +85,12 @@ namespace Assets.Scripts.DungeonGenerator {
             }
 
             GameMng.current.level.val += 1;
-            GameMng.current.levelsBeforeChange--;
+            GameMng.current.levelsBeforeChange.val--;
 
             ProcessRoom();
 
-            //if (timeForHide <= Time.time) {
             GameMng.current.HideBlackOverlay();
-            //} else {
-
-            //    IEnumerator hideForDiff() {
-            //        yield return new WaitForSeconds(timeForHide - Time.time);
-            //        GameMng.current.HideBlackOverlay();
-            //    }
-
-            //    StartCoroutine(hideForDiff());
-
-            //}            
-
+      
         }
 
         private void ProcessRoom() {
@@ -115,6 +104,8 @@ namespace Assets.Scripts.DungeonGenerator {
             var countExists = UnityEngine.Random.Range(1, directions.Length);
 
             if (GameMng.current.IsNextBossRoom()) {
+                roomDataGenerator.GenerateExit(Direction.top);
+            } else if (GameMng.current.IsNextBuildRoom()) {
                 roomDataGenerator.GenerateExit(Direction.top);
             } else {
 

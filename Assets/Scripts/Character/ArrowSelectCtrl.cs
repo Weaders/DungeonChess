@@ -32,7 +32,8 @@ namespace Assets.Scripts.Character {
                 if (selectedCharacterCtrl != null && selectedCharacterCtrl.characterData && selectedCharacterCtrl.characterData.stats.isDie)
                     selectedCharacterCtrl = null;
 
-                obj.SetActive(false);
+                if (obj != null)
+                    obj.SetActive(false);
 
             });
 

@@ -20,6 +20,8 @@ namespace Assets.Scripts {
 
         public EffectObj onGetGoodEffect;
 
+        public EffectObj healingEffect;
+
         public IEnumerable<DropChance> GetDropChances(int lvl)
             => itemsPools.Where(i => i.rooms.IsInRange(lvl)).SelectMany(i => i.itemsWithChanches);
 

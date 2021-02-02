@@ -17,11 +17,17 @@ namespace Assets.Scripts.EnemyData {
 
         public RoomPrefabsData[] dungeonRoomCells;
 
-        public RoomChance healerRoom;
+        public RoomDataAndChance healerRoom;
 
-        public RoomChance itemsRoom;
+        public RoomDataAndChance itemsRoom;
 
-        public RoomChance rerollRoom;
+        public RoomDataAndChance rerollRoom;
+
+        public RoomDataAndChance enemyRoom;
+
+        public RoomDataAndChance sellerRoom;
+
+        public RoomDataAndChance fakeItemsRoom;
 
         public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
 
@@ -64,13 +70,14 @@ namespace Assets.Scripts.EnemyData {
         }
 
         [Serializable]
-        public class RoomChance {
+        public class RoomDataAndChance {
 
             public float start;
             public float current;
             public float toAdd;
             public float delay;
 
+            public Sprite roomSprite;
         }
 
     }

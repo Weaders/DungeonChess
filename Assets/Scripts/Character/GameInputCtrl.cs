@@ -81,45 +81,16 @@ namespace Assets.Scripts.Character {
 
                         }
 
-                        //var offset = lastDragHit - hit.point;
-
                         var offset2 = _draggedCtrl.cell.transform.position - (hit.point - _offsetDraggedCtrl);
 
                         var from = Camera.main.transform.position - offset2;
 
                         var ray2 = new Ray(from, sourceDir);
 
-                        //Debug.DrawRay(from, sourceDir * 100f, Color.red, 1000f);
-                        //Debug.DrawLine(from, from + Vector3.one * .1f, Color.green, 100f);
-
                         Physics.Raycast(ray2, out RaycastHit hit2, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
-
-                        //var r = new Ray(lastSourceRay + offset, ray.direction);
-
-                        //Physics.Raycast(r, out RaycastHit hit2, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
-
-                        //Debug.DrawRay(ray.origin, ray.direction, Color.red, 100);
-
-
-                        //selectedCharacterCtrl.transform.position -= (new Vector3(delta.x, 0, delta.y) * dragSpeed * Time.deltaTime);
-
-                        //var newPos = new Vector3(hit.point.x, selectedCharacterCtrl.transform.position.y, hit.point.z);
-                        //var offset = new Vector3(_offsetDraggedCtrl.x, 0, _offsetDraggedCtrl.z);
-                        //var targetPos = newPos + offset * 2;
-                        //var offset = hit.point - lastDragHit;
-                        //lastDragHit = hit.point;
-
-                        ////Debug.Log($"{newPos}|{offset}|{targetPos}");
-                        //_draggedCtrl.transform.position = new Vector3(
-                        //    _draggedCtrl.transform.position.x - offset.x * .9f,
-                        //    _draggedCtrl.transform.position.y,
-                        //    _draggedCtrl.transform.position.z - offset.z * .9f
-                        //);
 
                         // Why .87? This is hard calculaton! And this is very secret!
                         var offset = (lastDragHit - hit2.point) * .87f;
-
-                        //_draggedCtrl.transform.position = hit2.point - _offsetDraggedCtrl;
 
                         _draggedCtrl.transform.position = new Vector3(
                             _draggedCtrl.transform.position.x - offset.x,
@@ -155,7 +126,7 @@ namespace Assets.Scripts.Character {
 
                             var ctrl = hit.collider.GetComponent<CharacterCtrl>();
 
-                            if (GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player) {
+                            if (GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isInFight) {
 
                                 selectedCharacterCtrl = ctrl;
 

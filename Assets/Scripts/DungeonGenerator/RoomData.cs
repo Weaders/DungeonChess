@@ -46,7 +46,11 @@ namespace Assets.Scripts.DungeonGenerator {
         public bool IsThereExit(Direction exit)
             => exitFromRooms.Any(e => e.direction == exit);
 
+        public abstract Sprite GetSprite();
+
         public virtual string GetRoomName() => "RoomData";
+
+        public abstract string GetRoomDescription();
 
         public abstract void ComeToRoom(DungeonRoomCells dungeonRoomCells);
 
@@ -74,18 +78,26 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public readonly Direction direction;
 
-        public Sprite img => null;
+        public Sprite img => toRoomData.GetSprite();
 
         public string title => toRoomData?.title;
 
-        public string description => null;
+        public string description => toRoomData.GetRoomDescription();
 
         private ObservableVal _onChange = new ObservableVal();
 
         public ObservableVal onChange => _onChange;
 
+        public string selectText => TranslateReader.GetTranslate("enter");
+
+        public bool isEnableToSelect => true;
+
         public void Select() {
+
+            GameMng.current.selectPanel.Hide();
             GameMng.current.roomCtrl.MoveToNextRoom(direction);
+
+
         }
     }
 

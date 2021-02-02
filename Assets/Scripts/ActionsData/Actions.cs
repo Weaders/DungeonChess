@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
@@ -86,7 +87,7 @@ namespace Assets.Scripts.ActionsData {
                 from = from
             };
 
-            _characterData.stats.hp.val += heal.GetCalculateVal();
+            _characterData.stats.hp.val =  Math.Min(_characterData.stats.hp.val + heal.GetCalculateVal(), _characterData.stats.maxHp);
 
             onPostGetHeal.Invoke(healEventData);
         }

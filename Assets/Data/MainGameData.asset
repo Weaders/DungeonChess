@@ -18,3 +18,5 @@ MonoBehaviour:
   staticStatesData: {fileID: 11400000, guid: 3ee6bf3a279036d48b1682e33beea67e, type: 2}
   onGetGoodEffect: {fileID: 8237335871697587092, guid: c8651aaea77310e4b88f827a26fc2273,
     type: 3}
+  healingEffect: {fileID: -729628015628209794, guid: ad7619b0218a194428b6916d5abe1da0,
+    type: 3}

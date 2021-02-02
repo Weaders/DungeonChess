@@ -30,7 +30,9 @@ namespace Assets.Scripts.DungeonGenerator {
             {
                 new RoomGenerator(_dungeonData.healerRoom, new HealerRoomData("healer_room")),
                 new RoomGenerator(_dungeonData.itemsRoom, new ItemsRoomData("items_room")),
-                new RoomGenerator(_dungeonData.rerollRoom, new RerollRoomData("reroll_room"))
+                new RoomGenerator(_dungeonData.rerollRoom, new RerollRoomData("reroll_room")),
+                new RoomGenerator(_dungeonData.sellerRoom, new SellerRoomData("seller_room")),
+                new RoomGenerator(_dungeonData.fakeItemsRoom, new FakeItemsRoom("items_room"))
             };
 
             currentHealChance = _dungeonData.healerRoom.current;
@@ -67,6 +69,17 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #endregion
 
+            #region Build Room
+
+            if (GameMng.current.IsNextBuildRoom()) {
+
+                TagLogger<RoomDataGenerator>.Info("Generate build room");
+                return new RerollRoomData("reroll_room");
+
+            }
+
+            #endregion
+
             #region Generators
 
             RoomData selectedRoom = null;
@@ -97,7 +110,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
         public class RoomGenerator {
 
-            private RoomChance _ch;
+            private RoomDataAndChance _ch;
 
             private List<int> lvls = new List<int>();
 
@@ -107,7 +120,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             private RoomData _prototype;
 
-            public RoomGenerator(RoomChance ch, RoomData prototype) {
+            public RoomGenerator(RoomDataAndChance ch, RoomData prototype) {
 
                 _ch = ch;
                 _currentChance = _ch.current;

@@ -72,6 +72,9 @@ namespace Assets.Scripts.Effects {
 
             while (time > 0) {
 
+                if (characterCtrl == null || !characterCtrl.isActiveAndEnabled)
+                    break;
+
                 characterCtrl.effectsPlacer.PlaceEffect(gameObject);
                 time -= Time.deltaTime;
                 yield return null;

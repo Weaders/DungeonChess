@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
@@ -12,11 +10,6 @@ namespace Assets.Scripts.Character {
 
         [SerializeField]
         private CharacterCtrl ctrl;
-
-        [SerializeField]
-        private NavMeshAgent navMeshAgent;
-
-        public NavMeshAgent GetNavMeshAgent() => navMeshAgent;
 
         public MoveData MoveToCharacter(CharacterCtrl characterCtrl) {
 
@@ -58,7 +51,7 @@ namespace Assets.Scripts.Character {
             return result;
         }
 
-      
+
 
         #region Use without path, not used currently
 
@@ -131,7 +124,7 @@ namespace Assets.Scripts.Character {
                 t += Time.deltaTime * ctrl.characterData.stats.moveSpeed / 100;
 
                 var newPos = Vector3.Lerp(ctrl.transform.position, targetForMove.target.position, t);
-                
+
                 ctrl.transform.LookAt(targetForMove.target.transform);
                 ctrl.transform.position = newPos;
 

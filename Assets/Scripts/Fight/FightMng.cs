@@ -84,6 +84,8 @@ namespace Assets.Scripts.Fight {
                 cell.ChangeColor();
             }
 
+            GameMng.current.topSidePanelUI.isButtonEnabled = false;
+
         }
 
         public TeamSide GetTeamSide(CharacterCtrl characterCtrl) {
@@ -106,6 +108,8 @@ namespace Assets.Scripts.Fight {
             StopAttack();
 
             isInFight.val = false;
+
+            GameMng.current.topSidePanelUI.isButtonEnabled = true;
 
         }
 

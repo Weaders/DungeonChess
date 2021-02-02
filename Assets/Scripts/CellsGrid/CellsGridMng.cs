@@ -69,10 +69,12 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-        private void HideExits() {
-            foreach (var exit in _exists) {
-                Destroy(exit);
-            }
+        public void DisplayExitsPopup() {
+            GameMng.current.selectPanel.Show();
+        }
+
+        public void HideExistsPopup() {
+            GameMng.current.selectPanel.Hide();
         }
 
         private IEnumerable<Cell> GetCells(bool isAvailableForMoveOnly = true, bool onlyUsable = false, bool onlyForPlayer = false) {

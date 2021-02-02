@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using Assets.Scripts.AnimationCtrl;
 using Assets.Scripts.CellsGrid;
@@ -62,15 +63,17 @@ namespace Assets.Scripts.Character {
             set {
                 _teamSide = value;
 
-                if (_teamSide == Fight.TeamSide.Player) {
-                    colorDetect.material.color = StaticData.current.colorStore.playerTeamDetectColor;
-                } else {
-                    colorDetect.material.color = StaticData.current.colorStore.enemyTeamDetectColor;
-                }
+                //if (_teamSide == Fight.TeamSide.Player) {
+                //    colorDetect.material.color = StaticData.current.colorStore.playerTeamDetectColor;
+                //} else {
+                //    colorDetect.material.color = StaticData.current.colorStore.enemyTeamDetectColor;
+                //}
 
             }
         }
 
+        [HideInInspector]
+        [Obsolete]
         public SynergyCharacterPointer synergyCharacterPoint;
 
         private Cell _cell;
@@ -80,9 +83,6 @@ namespace Assets.Scripts.Character {
         private Cell _startedCell;
 
         public Cell startCell => _startedCell;
-
-        [SerializeField]
-        public MeshRenderer colorDetect;
 
         public Cell cell {
             get => _cell;
@@ -173,12 +173,12 @@ namespace Assets.Scripts.Character {
 
         private IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd) {
 
-            animator.SetBool(AnimationValStore.IS_USING_SPELL, GetSpellForUse().spellType == SpellType.FullManaAttack);
-            animator.SetBool(AnimationValStore.IS_ATTACK, true);
-
             while (target != null && !target.characterData.stats.isDie) {
 
                 var spell = GetSpellForUse();
+
+                animator.SetBool(AnimationValStore.IS_USING_SPELL, spell.spellType == SpellType.FullManaAttack);
+                animator.SetBool(AnimationValStore.IS_ATTACK, true);
 
                 if (!spell.IsInRange(this, target))
                     break;
@@ -190,6 +190,11 @@ namespace Assets.Scripts.Character {
                     if (spell.spellType == SpellType.FullManaAttack) {
                         animator.SetBool(AnimationValStore.IS_USING_SPELL, true);
                     }
+
+                } else {
+
+                    animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
+                    animator.SetBool(AnimationValStore.IS_ATTACK, false);
 
                 }
 
@@ -281,17 +286,21 @@ namespace Assets.Scripts.Character {
 
             characterData.actions.onPreMakeAttack.AddSubscription(OrderVal.Fight, (attack) => {
 
-                if (Random.value <= characterData.stats.critChance && !attack.dmg.dmgModifiers.Any(m => m is CritModify)) {
+                if (UnityEngine.Random.value <= characterData.stats.critChance && !attack.dmg.dmgModifiers.Any(m => m is CritModify)) {
                     attack.dmg.dmgModifiers.Add(new CritModify(0, characterData.stats.critDmg));
                 }
 
             });
 
-            characterData.buffsContainer.onAdd.AddSubscription(OrderVal.CharacterCtrl, () => {
+            characterData.buffsContainer.onAdd.AddSubscription(OrderVal.CharacterCtrl, (buff) => {
 
-                if (!characterData.buffsContainer.isInProcessOfInit)
+                if (!characterData.buffsContainer.isInProcessOfInit && buff.data.GetBuffType() == Buffs.BuffType.Buff)
                     effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);                
 
+            });
+
+            characterData.actions.onPostGetHeal.AddSubscription(OrderVal.CharacterCtrl, () => {
+                effectsPlacer.PlaceEffect(GameMng.current.gameData.healingEffect.gameObject);
             });
 
             characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, () => {

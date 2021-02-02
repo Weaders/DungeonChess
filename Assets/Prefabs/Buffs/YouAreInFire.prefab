@@ -44,11 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterCtrl: {fileID: 0}
+  fromCharacterCtrl: {fileID: 0}
   id: you_are_in_fire
   _titleKey: you_are_in_fire_title
   _descriptionKey: you_are_in_fire_description
+  buffType: 1
   duplicateBuffStrategy: 1
   dmg: 5
   time: 5
   countStacks: 5
-  from: {fileID: 0}

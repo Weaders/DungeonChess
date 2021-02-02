@@ -46,6 +46,13 @@ namespace Assets.Scripts.BuyMng {
 
             postBuy.Invoke();
 
+            ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
+
+                if (GameMng.current.playerData.charactersCount > 0)
+                    GameMng.current.playerData.charactersCount.val--;
+
+            });
+
             return ctrl;
 
         }

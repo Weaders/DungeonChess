@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.CellsGrid;
+using Assets.Scripts.Translate;
+using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator {
 
@@ -21,6 +23,11 @@ namespace Assets.Scripts.DungeonGenerator {
 
         }
 
+        public override string GetRoomDescription()
+            => TranslateReader.GetTranslate("items_room_description");
+
+        public override Sprite GetSprite()
+            => GameMng.current.currentDungeonData.itemsRoom.roomSprite;
     }
 
 }
