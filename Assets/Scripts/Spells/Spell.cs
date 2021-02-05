@@ -43,6 +43,12 @@ namespace Assets.Scripts.Spells {
 
         public EffectObj effectObjPrefab;
 
+        public bool instantMoveEffect = false;
+
+        public bool waitForEndAnimation = false;
+
+        public float effectTime = 0f;
+
         public float effectSpeed;
 
         /// <summary>
@@ -86,7 +92,6 @@ namespace Assets.Scripts.Spells {
                 }, (effectObj) => {
 
                     Destroy(effectObj.gameObject);
-                    result.isEndUseSpell = true;
 
                     if (opts.isEndAttack) {
                         from.characterData.onPostMakeAttack.Invoke();
@@ -134,7 +139,11 @@ namespace Assets.Scripts.Spells {
                     onCome.Invoke(effectObj);
                 });
 
-                effectObj.MoveToTransorm(target.transform, effectSpeed);
+                if (!instantMoveEffect) {
+                    effectObj.MoveToTransorm(target.transform, effectSpeed);
+                } else {
+                    effectObj.StayOnCharacterCtrl(target, effectTime == 0f ? (float?)null : effectTime, waitForEndAnimation);
+                }
 
             }
 
@@ -184,8 +193,6 @@ namespace Assets.Scripts.Spells {
         }
 
         public class UseSpellResult {
-            public bool isEndUseSpell { get; set; }
-
         }
 
     }

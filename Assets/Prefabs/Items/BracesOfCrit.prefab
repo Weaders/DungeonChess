@@ -47,13 +47,9 @@ MonoBehaviour:
   _title: braces_of_crit_title
   _description: braces_of_crit_description
   icon: {fileID: 0}
+  cost: 0
   statsModify:
   - statType: 11
-    observableVal:
-      id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: FloatObsrevable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
-      data:
-        _val: 20
+    intVal: 0
+    floatVal: 25
+    boolVal: 0

@@ -47,7 +47,7 @@
         },
         {
             "key": "vampire_amulet_description",
-            "value": "Амулет вампира"
+            "value": "Даёт %[vampirism_prop]% вампиризма"
         },
         {
             "key": "gloves_of_speed_title",
@@ -55,11 +55,11 @@
         },
         {
             "key": "gloves_of_speed_description",
-            "value": "Увеличивает скорость атаки"
+            "value": "Увеличивает скорость атаки на %[as_prop]"
         },
         {
             "key": "lucky_amulet_title",
-            "value": "Увеличивает шанс крит атаки"
+            "value": "Амулет удачи"
         },
         {
             "key": "braces_of_crit_title",
@@ -67,7 +67,7 @@
         },
         {
             "key": "braces_of_crit_description",
-            "value": "Увеличивает шанс крит удара"
+            "value": "Увеличивает шанс крит удара на %[CritChance_prop]%"
         },
         {
             "key": "chest_of_return_title",
@@ -111,7 +111,7 @@
         },
         {
             "key": "lucky_amulet_description",
-            "value": "Амулет удачи описание"
+            "value": "Каждый %[n] удар, становиться критическим"
         },
         {
             "key": "select_hero_for_reroll",
@@ -151,7 +151,7 @@
         },
         {
             "key": "ring_of_strength_description",
-            "value": "Увеличивает силу атаки"
+            "value": "Увеличивает силу атаки на %[ad_prop]"
         },
         {
             "key": "fire_emulet_title",
@@ -159,7 +159,7 @@
         },
         {
             "key": "fire_emulet_description",
-            "value": "При уроне наносит дополнительно огненый урон"
+            "value": "При уроне наносит дополнительно %[dmg] огненного урона"
         },
         {
             "key": "drums_of_speed_title",
@@ -358,8 +358,44 @@
             "value": "Продавец"
         },
         {
-            "key": "tresure_with_trap",
+            "key": "treasure_with_trap",
             "value": "Сундук оказался с ловушкой, у всех ваших персонажей отнялось 10% от текущего"
+        },
+        {
+            "key": "enrage_title",
+            "value": "Ярость"
+        },
+        {
+            "key": "enrage_description",
+            "value": "Впадает в ярость увеличивает силу атаки на %[ad_prop] и скорость атаки на %[as_prop], а также шанс крита на %[crit_prop]"
+        },
+        {
+            "key": "enrage_spell_title",
+            "value": "Яростный удар"
+        },
+        {
+            "key": "enrage_spell_description",
+            "value": "Наносит урон и впадает в ярость, увеличивая скорость атаки шанс крит удара и силу атаки"
+        },
+        {
+            "key": "demon_lord_attack_title",
+            "value": "Обжигающий удар"
+        },
+        {
+            "key": "demon_lord_attack_description",
+            "value": "Наносит урон и увеличивает шанс крит удара, на время одной комнаты"
+        },
+        {
+            "key": "demon_lord_buy_description",
+            "value": "Очень мочный демона, хилит своих союзников"
+        },
+        {
+            "key": "demon_lord_title",
+            "value": "Демон лорд"
+        },
+        {
+            "key": "you_want_level_up",
+            "value": "Вы хотите повысить уровень, ваших персонажей? Это будет стоить %[cost] маны"
         }
     ]
 }

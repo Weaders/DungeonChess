@@ -16,3 +16,22 @@ MonoBehaviour:
     type: 3}
   cost: 40
   descriptionKey: demon_buy
+  data:
+  - stats:
+    - statType: 0
+      intVal: 10
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 10
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 5
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 5
+      floatVal: 0.1
+      boolVal: 0
+    levelOfDifficult: -1

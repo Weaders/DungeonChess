@@ -37,5 +37,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
         }
 
+        public override object Clone() {
+            return new FakeItemsRoom(_title);
+        }
+
     }
 }

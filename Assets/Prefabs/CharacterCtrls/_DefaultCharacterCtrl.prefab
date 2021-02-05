@@ -105,7 +105,7 @@ MonoBehaviour:
   effectsPlacer: {fileID: 2130686993324243065}
   synergyCharacterPoint: {fileID: 0}
   bulletSpawnObj: {fileID: 0}
-  stateIconsCtrl: {fileID: 0}
+  stateIconsCtrl: {fileID: 2708465688342241202}
 --- !u!95 &7817734793858064534
 Animator:
   serializedVersion: 3
@@ -483,5 +483,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8afe455716fa424f9cf369083748b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2708465688342241202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3414090447328406850, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+    type: 3}
+  m_PrefabInstance: {fileID: 790150965472359152}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d59de500a45da04c8e05db5487cab39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

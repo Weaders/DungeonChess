@@ -62,13 +62,16 @@ namespace Assets.Scripts.UI.SelectPopup {
 
         public void Show() {
             canvasGroup.Show();
-            GameMng.current.topSidePanelUI.stateTopBtn = TopSidePanel.StateTopBtn.Start;
+            //GameMng.current.topSidePanelUI.stateTopBtn = TopSidePanel.StateTopBtn.Start;
         }
 
         public void Hide() {
             canvasGroup.Hide();
             GameMng.current.topSidePanelUI.stateTopBtn = TopSidePanel.StateTopBtn.ShowMenu;
         }
+
+        public bool IsShowed
+            => canvasGroup.IsShowed();
 
     }
 }

@@ -16,3 +16,14 @@ MonoBehaviour:
     type: 3}
   cost: 25
   descriptionKey: fire_imp_buy_description
+  data:
+  - stats:
+    - statType: 0
+      intVal: 25
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 25
+      floatVal: 0
+      boolVal: 0
+    levelOfDifficult: -1

@@ -22,7 +22,7 @@ namespace Assets.Scripts.Fight {
 
         public ObservableVal<bool> isInFight = new ObservableVal<bool>();
 
-        public UnityEvent onChangeIsInFight = new UnityEvent();
+        public bool isThereSomeOneToFight => fightTeamEnemy.aliveChars.Any();
 
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Fight {
 
         public void MovePlayerCtrls() {
 
-            var cells = GameMng.current.roomCtrl.currentRoom.GetCells();
+            var cells = GameMng.current.roomCtrl.currentRoom.GetCells().Where(c => c.GetCellType() == CellsGrid.Cell.CellType.ForPlayer);
 
             foreach (var charCtrl in fightTeamPlayer.aliveChars) {
 
@@ -84,7 +84,7 @@ namespace Assets.Scripts.Fight {
                 cell.ChangeColor();
             }
 
-            GameMng.current.topSidePanelUI.isButtonEnabled = false;
+            GameMng.current.topSidePanelUI.RefreshBtnInteractable();
 
         }
 
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Fight {
 
             isInFight.val = false;
 
-            GameMng.current.topSidePanelUI.isButtonEnabled = true;
+            GameMng.current.topSidePanelUI.RefreshBtnInteractable();
 
         }
 

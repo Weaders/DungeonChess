@@ -14,14 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    sprite: {fileID: 21300000, guid: 7e30376514d7c44acbc0f231178e446a, type: 3}
+    sprite: {fileID: 21300000, guid: 2897f0418ee66714ca682c3045478947, type: 3}
     maxStatType: 1
     isHaveMaxStatType: 1
   - statType: 5
-    sprite: {fileID: 21300000, guid: 0a52efe37dfe742a69a93ff59613fb62, type: 3}
+    sprite: {fileID: 21300000, guid: ebcac2d226a907e488f2794bc5139f1e, type: 3}
     maxStatType: 0
     isHaveMaxStatType: 0
   - statType: 6
-    sprite: {fileID: 21300000, guid: 0a52efe37dfe742a69a93ff59613fb62, type: 3}
+    sprite: {fileID: 21300000, guid: 7ed10c52800fe504981a0bb54acd34b0, type: 3}
+    maxStatType: 0
+    isHaveMaxStatType: 0
+  - statType: 11
+    sprite: {fileID: 21300000, guid: 6ace64702d49e8f44880416f9bebead5, type: 3}
+    maxStatType: 0
+    isHaveMaxStatType: 0
+  - statType: 4
+    sprite: {fileID: 21300000, guid: cba99eaa21514a543bc1f6d4918d9c8f, type: 3}
+    maxStatType: 0
+    isHaveMaxStatType: 0
+  - statType: 10
+    sprite: {fileID: 21300000, guid: eae29bbfea253754c9c5b4659a21870c, type: 3}
     maxStatType: 0
     isHaveMaxStatType: 0

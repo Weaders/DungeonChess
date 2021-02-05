@@ -29,11 +29,14 @@ namespace Assets.Scripts.Character {
 
             GameMng.current.roomCtrl.onMoveToNextRoom.AddListener(() => {
 
-                if (selectedCharacterCtrl != null && selectedCharacterCtrl.characterData && selectedCharacterCtrl.characterData.stats.isDie)
+                if (selectedCharacterCtrl != null && selectedCharacterCtrl.characterData && selectedCharacterCtrl.characterData.stats.isDie) {
+
                     selectedCharacterCtrl = null;
 
-                if (obj != null)
-                    obj.SetActive(false);
+                    if (obj != null)
+                        obj.SetActive(false);
+
+                }
 
             });
 

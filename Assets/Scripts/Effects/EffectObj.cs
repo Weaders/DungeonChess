@@ -1,11 +1,13 @@
 ﻿using System.Collections;
+using Assets.Scripts.AnimationCtrl;
 using Assets.Scripts.Character;
 using UnityEngine;
 using UnityEngine.Events;
+using static Assets.Scripts.AnimationCtrl.AnimEventForward;
 
 namespace Assets.Scripts.Effects {
 
-    public class EffectObj : MonoBehaviour {
+    public class EffectObj : MonoBehaviour, ITargetForAnimEvents {
 
         public string id;
 
@@ -20,6 +22,19 @@ namespace Assets.Scripts.Effects {
         public UnityEvent onCome = new UnityEvent();
 
         public UnityEvent onStart = new UnityEvent();
+
+        private UnityEvent onEndAnimation = new UnityEvent();
+
+        private CharacterCtrl _currentTarget = null;
+
+        private void Start() {
+
+            var forwardEvents = GetComponent<AnimEventForward>();
+
+            if (forwardEvents != null)
+                forwardEvents.targetForAnimEvents = this;
+
+        }
 
         public void MoveToTransorm(Transform target, float speed)
             => StartCoroutine(MoveToTrasformCoroutine(target, speed));
@@ -60,28 +75,37 @@ namespace Assets.Scripts.Effects {
 
         }
 
-        public void StayOnCharacterCtrl(CharacterCtrl characterCtrl, float? time = null)
-            => StartCoroutine(StayOnCharacterCtrlCroutine(characterCtrl, time));
+        public void StayOnCharacterCtrl(CharacterCtrl characterCtrl, float? time = null, bool waitForEndAnimation = false)
+            => StartCoroutine(StayOnCharacterCtrlCroutine(characterCtrl, time, waitForEndAnimation));
 
-        private IEnumerator StayOnCharacterCtrlCroutine(CharacterCtrl characterCtrl, float? time = null) {
-            
+        private IEnumerator StayOnCharacterCtrlCroutine(CharacterCtrl characterCtrl, float? time = null, bool waitForEndAnimation = false) {
+
+            _currentTarget = characterCtrl;
+
+            onEndAnimation.RemoveAllListeners();
             onStart.Invoke();
 
             if (time == null)
                 time = defaultDuration;
 
-            while (time > 0) {
+            characterCtrl.effectsPlacer.PlaceEffect(gameObject, time.Value);
 
-                if (characterCtrl == null || !characterCtrl.isActiveAndEnabled)
-                    break;
+            if (waitForEndAnimation) {
 
-                characterCtrl.effectsPlacer.PlaceEffect(gameObject);
-                time -= Time.deltaTime;
-                yield return null;
+                var animIsEnd = false;
 
-            }
+                onEndAnimation.AddListener(() => animIsEnd = true);
+
+                yield return new WaitUntil(() => animIsEnd);
+
+            } else {
+
+                yield return new WaitForSeconds(time.Value);
+
+            }            
 
             onCome.Invoke();
+
         }
 
         public void OnParticleCollision(GameObject other) {
@@ -90,6 +114,15 @@ namespace Assets.Scripts.Effects {
 
             if (ctrl != null)
                 onTouch.Invoke(ctrl);
+
+        }
+
+        public void TriggerEvent(AnimData animData) {
+
+            if (animData.animEventType == AnimEventType.EndSpellEvent)
+                onEndAnimation.Invoke();
+            else
+                onTouch.Invoke(_currentTarget);
 
         }
 

@@ -16,3 +16,18 @@ MonoBehaviour:
     type: 3}
   cost: 50
   descriptionKey: golem_defender_buy_description
+  data:
+  - stats:
+    - statType: 0
+      intVal: 50
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 50
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 2
+      floatVal: 0
+      boolVal: 0
+    levelOfDifficult: -1

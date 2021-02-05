@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &226525088231614449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 226525088231614447}
+  - component: {fileID: 226525088231614446}
+  m_Layer: 0
+  m_Name: Enrage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &226525088231614447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226525088231614449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -36.38967, y: 0.24047422, z: -70.39667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &226525088231614446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226525088231614449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4b82c359137d244997b6666b1b0908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterCtrl: {fileID: 0}
+  fromCharacterCtrl: {fileID: 0}
+  id: enrage
+  _titleKey: enrage_title
+  _descriptionKey: enrage_description
+  buffType: 0
+  duplicateBuffStrategy: 0
+  statsModify:
+  - statType: 5
+    intVal: 15
+    floatVal: 0
+    boolVal: 0
+  - statType: 6
+    intVal: 0
+    floatVal: 0.15
+    boolVal: 0
+  - statType: 11
+    intVal: 0
+    floatVal: 20
+    boolVal: 0
+  effectObjPrefab: {fileID: 4780799289543961386, guid: 3e07c67871ff63e46adf43be709319fd,
+    type: 3}

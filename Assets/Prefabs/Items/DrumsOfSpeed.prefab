@@ -48,10 +48,15 @@ MonoBehaviour:
   _title: drums_of_speed_title
   _description: drums_of_speed_description
   icon: {fileID: 0}
+  cost: 0
   statsModify:
   - statType: 0
     intVal: 45
     floatVal: 0
+    boolVal: 0
+  - statType: 1
+    intVal: 45
+    floatVal: 0.75
     boolVal: 0
   - statType: 6
     intVal: 0

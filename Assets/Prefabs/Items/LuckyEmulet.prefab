@@ -47,4 +47,5 @@ MonoBehaviour:
   _title: lucky_amulet_title
   _description: lucky_amulet_description
   icon: {fileID: 0}
+  cost: 15
   n: 5

@@ -18,23 +18,44 @@ namespace Assets.Scripts.TopSidePanel {
 
         public TextMeshProUGUI charactersCount;
 
+        public TextMeshProUGUI levelOfCharacters;
+
         public Button topBtn;
 
         private StateTopBtn _stateTopBtn;
 
         public bool isButtonEnabled {
             get => topBtn.interactable;
-            set => topBtn.interactable = value;
+            private set => topBtn.interactable = value;
+        }
+
+        public void RefreshBtnInteractable()
+            => topBtn.interactable = IsInteractableBtn();
+
+        private bool IsInteractableBtn() {
+
+            if (stateTopBtn == StateTopBtn.ShowMenu) {
+                return !GameMng.current.selectPanel.IsShowed;
+            } else {
+
+                return GameMng.current.fightMng.isThereSomeOneToFight 
+                    && !GameMng.current.fightMng.isInFight;
+
+            }
+
         }
 
         public StateTopBtn stateTopBtn {
             get => _stateTopBtn;
             set {
                 _stateTopBtn = value;
+
                 if (_stateTopBtn == StateTopBtn.Start)
                     topBtn.GetComponentInChildren<TextMeshProUGUI>().text = TranslateReader.GetTranslate("fight");
                 else
                     topBtn.GetComponentInChildren<TextMeshProUGUI>().text = TranslateReader.GetTranslate("display_menu");
+
+                RefreshBtnInteractable();
             }
         }
 
@@ -59,6 +80,8 @@ namespace Assets.Scripts.TopSidePanel {
                 }
 
             });
+
+            levelOfCharacters.Subscribe(GameMng.current.playerData.levelOfCharacters);
 
         }
 

@@ -23,15 +23,15 @@ namespace Assets.Scripts.Character {
         public void Init() {
 
             GameMng.current.gameInputCtrl.onChangeSelectCharacter.AddListener((from, to) => {
-                btn.interactable = to != null && GameMng.current.playerData.money >= moneyCount && to.teamSide == Fight.TeamSide.Player;
+                btn.interactable = IsBtnIneractable();
+            });
+
+            GameMng.current.fightMng.isInFight.onPostChange.AddSubscription(Observable.OrderVal.UIUpdate, () => {
+                btn.interactable = IsBtnIneractable();
             });
 
             GameMng.current.playerData.money.onPostChange.AddSubscription(Observable.OrderVal.UIUpdate, () => {
-
-                btn.interactable = GameMng.current.gameInputCtrl.selectedCharacterCtrl != null
-                    && GameMng.current.playerData.money >= moneyCount 
-                    && GameMng.current.gameInputCtrl.selectedCharacterCtrl.teamSide == Fight.TeamSide.Player;
-
+                btn.interactable = IsBtnIneractable();
             });
 
             btn.onClick.AddListener(() => {
@@ -67,6 +67,12 @@ namespace Assets.Scripts.Character {
             });
 
         }
+
+        private bool IsBtnIneractable()
+            => !GameMng.current.fightMng.isInFight
+                       && GameMng.current.gameInputCtrl.selectedCharacterCtrl != null
+                       && GameMng.current.playerData.money >= moneyCount
+                       && GameMng.current.gameInputCtrl.selectedCharacterCtrl.teamSide == Fight.TeamSide.Player;
 
     }
 }

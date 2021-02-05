@@ -18,5 +18,8 @@ namespace Assets.Scripts.Common {
             c.blocksRaycasts = false;
 
         }
+
+        public static bool IsShowed(this CanvasGroup c)
+            => c.alpha == 1;
     }
 }

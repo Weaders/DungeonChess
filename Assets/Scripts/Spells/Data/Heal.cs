@@ -15,30 +15,20 @@ namespace Assets.Scripts.Spells.Data {
 
         public int stacks = 3;
 
-        public GameObject healEffect;
-
-        public float effectTime = 2f;
-
         [Placeholder("heal_amount")]
-        public int GetHealAmount(CharacterData data) => healAmount;
+        public int GetHealAmount(CharacterData data) => Mathf.RoundToInt(healAmount + .1f * data.stats.maxHp.val);
 
         public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 
-            TagLogger<Heal>.Info("Use Heal");
-
             to.characterData.actions.GetHeal(from, new ActionsData.Heal(GetHealAmount(from.characterData)));
-
-            var effect = to.effectsPlacer.PlaceEffect(healEffect);
-
-            Destroy(effect, effectTime);
-
-            return null;
+            return new UseSpellResult { };
 
         }
 
         public override IEnumerable<ObservableVal> GetObservablesForModify(CharacterData data) {
             return new ObservableVal[] { };
         }
+
     }
 
 }

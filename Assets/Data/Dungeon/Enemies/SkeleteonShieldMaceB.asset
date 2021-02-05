@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ece5f8b527e9ef48b2b3de0a6229820, type: 3}
+  m_Name: SkeleteonShieldMaceB
+  m_EditorClassIdentifier: 
+  characterCtrl: {fileID: 3537593196733815641, guid: 2d337a5a7a6439d42a4ffc2aa28dbb05,
+    type: 3}
+  data:
+  - stats:
+    - statType: 0
+      intVal: 120
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 120
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 0
+      floatVal: 0.6
+      boolVal: 0
+    - statType: 5
+      intVal: 30
+      floatVal: 0
+      boolVal: 0
+    levelOfDifficult: 0

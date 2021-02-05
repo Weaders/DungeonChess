@@ -42,6 +42,8 @@ namespace Assets.Scripts.Character {
 
         private CharacterCtrl _draggedCtrl;
 
+        public CharacterCtrl draggedCtrl => _draggedCtrl;
+
         private Vector3 _offsetDraggedCtrl;
 
         private Vector3 lastDragHit;
@@ -50,14 +52,26 @@ namespace Assets.Scripts.Character {
 
         private Vector3 sourceDir;
 
+        public void Init() {
+
+            GameMng.current.roomCtrl.onMoveToNextRoom.AddListener(() => {
+
+                if (selectedCharacterCtrl != null && selectedCharacterCtrl.characterData.stats.isDie)
+                    selectedCharacterCtrl = null;
+
+            });
+
+        }
+
         private void Update() {
 
-            var delta = mousePosition - Input.mousePosition;
             mousePosition = Input.mousePosition;
 
             if (Input.GetMouseButton(0)) {
 
-                if (EventSystem.current.IsPointerOverGameObject())
+                if (EventSystem.current.IsPointerOverGameObject() 
+                    && EventSystem.current.currentSelectedGameObject != null 
+                    && EventSystem.current.currentSelectedGameObject.tag != TagsStore.DRAG_BY_MOUSE)
                     return;
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);

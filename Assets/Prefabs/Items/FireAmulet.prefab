@@ -47,5 +47,6 @@ MonoBehaviour:
   _title: fire_emulet_title
   _description: fire_emulet_description
   icon: {fileID: 0}
+  cost: 15
   n: 1
   dmg: 20

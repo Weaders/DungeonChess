@@ -5435,12 +5435,12 @@ PrefabInstance:
     - target: {fileID: 8590486098072271670, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: hp._val
-      value: 150
+      value: 150000
       objectReference: {fileID: 0}
     - target: {fileID: 8590486098072271670, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: maxHp._val
-      value: 150
+      value: 15000
       objectReference: {fileID: 0}
     - target: {fileID: 8590486098072271670, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
@@ -5450,12 +5450,12 @@ PrefabInstance:
     - target: {fileID: 8590486098072271670, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: manaPerAttack._val
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8590486098072271670, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: mana._val
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8590486098072271670, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
@@ -5521,6 +5521,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662498970382279207, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662498970382279207, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662498970382279207, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7817734793858064534, guid: 777c6c0bab92f23499ffc6a4e3d022b6, type: 3}

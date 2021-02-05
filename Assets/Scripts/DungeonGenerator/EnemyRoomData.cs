@@ -82,6 +82,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var enemies = GameMng.current.currentDungeonData.enemiesPoll
                 .GetStandartEnemies()
+                .Where(t => t.difficult.IsInRange(GameMng.current.levelDifficult))
                 .ToArray();
 
             return enemies;

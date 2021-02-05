@@ -14,42 +14,67 @@ namespace Assets.Scripts.Character {
 
         public Vector3 scaleMultiply = Vector3.one;
 
-        public GameObject PlaceEffect(GameObject effectPrefab) {
+        /// <summary>
+        /// Place effect
+        /// Time in seconds
+        /// </summary>
+        /// <param name="effectPrefab"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public GameObject PlaceEffect(GameObject effectPrefab, float time = 0f) {
 
             var effectObj = Instantiate(effectPrefab, transform, false);
 
             effectObj.name = $"Effect_{i++}";
 
-            ProcessEffect(effectObj);
+            var effect = effectObj.GetComponent<EffectObj>();
+
+            ProcessEffect(effect);
+
+            if (time == default)
+                Destroy(effectObj, effect.defaultDuration);
+            else
+                Destroy(effectObj, time);
 
             return effectObj;
 
         }
 
-        public void ProcessEffect(GameObject effectObj) {
+        public GameObject PlaceEffectWithoutTime(GameObject effectPrefab) {
+
+            var effectObj = Instantiate(effectPrefab, transform, false);
+
+            effectObj.name = $"Effect_{i++}";
 
             var effect = effectObj.GetComponent<EffectObj>();
+
+            ProcessEffect(effect);
+
+            return effectObj;
+
+        }
+
+        public void ProcessEffect(EffectObj effect, float time = 0f) {
 
             var overrideData = overrieds.FirstOrDefault(e => e.effectId == effect.id);
 
             if (overrideData == null) {
 
-                effectObj.transform.localPosition
+                effect.transform.localPosition
                    = Vector3.zero + effect.offset;
 
-                effect.transform.localScale = Vector3.Scale(effect.transform.localScale, scaleMultiply);
+                effect.transform.localScale 
+                    = Vector3.Scale(effect.transform.localScale, scaleMultiply);
 
             } else {
 
-                effectObj.transform.localPosition
+                effect.transform.localPosition
                    = Vector3.zero + overrideData.offsetPosition;
 
-                effectObj.transform.localScale
+                effect.transform.localScale
                     = Vector3.one + overrideData.offsetScale;
 
             }
-
-            Destroy(effectObj, effect.defaultDuration);
 
         }
 
@@ -58,7 +83,7 @@ namespace Assets.Scripts.Character {
 
             foreach (Transform obj in transform)
                 if (obj.tag == TagsStore.EFFECT)
-                    ProcessEffect(obj.gameObject);
+                    ProcessEffect(obj.gameObject.GetComponent<EffectObj>());
 
         }
 

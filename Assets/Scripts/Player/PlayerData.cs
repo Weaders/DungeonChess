@@ -13,6 +13,9 @@ namespace Assets.Scripts.Player {
 
         public ObservableVal<int> maxCharacterCount = new ObservableVal<int>(4);
 
+        [HideInInspector]
+        public ObservableVal<int> levelOfCharacters = new ObservableVal<int>(0);
+
         public ItemsContainer itemsContainer;
 
         public void Init() {

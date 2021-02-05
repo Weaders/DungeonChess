@@ -14,7 +14,7 @@ namespace Assets.Scripts.AnimationCtrl {
         }
 
         /// <summary>
-        /// Trigger from 
+        /// Trigger anim event make
         /// </summary>
         /// <param name="scale"></param>
         public void AmimEventMakeAttack(float scale) {
@@ -23,6 +23,18 @@ namespace Assets.Scripts.AnimationCtrl {
                 animEventType = AnimEventType.AmimEventMakeAttack,
                 scale = scale,
                 animEventForward = this
+            });
+
+        }
+
+        /// <summary>
+        /// On end animation
+        /// </summary>
+        public void OnEndAnimation() {
+
+            targetForAnimEvents.TriggerEvent(new AnimData 
+            {
+                animEventType = AnimEventType.EndSpellEvent
             });
 
         }

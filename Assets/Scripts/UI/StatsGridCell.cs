@@ -8,7 +8,7 @@ using static Assets.Scripts.Observable.TextExtension;
 namespace Assets.Scripts.UI {
 
     public enum CellWhatDisplay {
-        Hp, Ad, As
+        Hp, Ad, As, Crit, Vamp, ManaPerAttack
     }
 
     public class StatsGridCell : MonoBehaviour {
@@ -47,10 +47,34 @@ namespace Assets.Scripts.UI {
                     break;
                 case CellWhatDisplay.As:
                     subsribeTextResult = contentText.Subscribe(
-                        data.stats.AS,
-                        OrderVal.UIUpdate
+                        () => $"{data.stats.AS}%",
+                        OrderVal.UIUpdate,
+                        data.stats.AS                        
                     );
                     img.sprite = GameMng.current.gameData.statsInfoData[Stat.As].sprite;
+                    break;
+                case CellWhatDisplay.Vamp:
+                    subsribeTextResult = contentText.Subscribe(
+                        () => $"{data.stats.vampirism}%",
+                        OrderVal.UIUpdate,
+                        data.stats.vampirism
+                    );
+                    img.sprite = GameMng.current.gameData.statsInfoData[Stat.Vampirism].sprite;
+                    break;
+                case CellWhatDisplay.Crit:
+                    subsribeTextResult = contentText.Subscribe(
+                        () => $"{data.stats.critChance}%",
+                        OrderVal.UIUpdate,
+                        data.stats.critChance
+                    );
+                    img.sprite = GameMng.current.gameData.statsInfoData[Stat.CritChance].sprite;
+                    break;
+                case CellWhatDisplay.ManaPerAttack:
+                    subsribeTextResult = contentText.Subscribe(
+                        data.stats.manaPerAttack,
+                        OrderVal.UIUpdate
+                    );
+                    img.sprite = GameMng.current.gameData.statsInfoData[Stat.ManaPerAttack].sprite;
                     break;
             }
 

@@ -16,3 +16,18 @@ MonoBehaviour:
     type: 3}
   cost: 50
   descriptionKey: warrior_buy_description
+  data:
+  - stats:
+    - statType: 0
+      intVal: 30
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 30
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 5
+      floatVal: 0
+      boolVal: 0
+    levelOfDifficult: -1

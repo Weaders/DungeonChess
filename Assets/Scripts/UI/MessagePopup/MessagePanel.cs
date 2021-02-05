@@ -43,6 +43,23 @@ namespace Assets.Scripts.UI.MessagePopup {
             }
 
             _messageData = messageData;
+
+            Canvas.ForceUpdateCanvases();
+
+            var delta = _text.rectTransform.sizeDelta.y - _text.preferredHeight;
+
+            _text.rectTransform.sizeDelta = new Vector2(
+                _text.rectTransform.sizeDelta.x,
+                _text.preferredHeight
+            );
+
+            var rectTransform = transform as RectTransform;
+
+            rectTransform.sizeDelta = new Vector2(
+                rectTransform.sizeDelta.x,
+                rectTransform.sizeDelta.y - delta
+            );
+
         }
 
         private void Reset() {
@@ -57,6 +74,16 @@ namespace Assets.Scripts.UI.MessagePopup {
             public BtnData[] btns { get; set; }
 
             public class BtnData {
+
+                public BtnData() { }
+
+                public BtnData(string _title, UnityAction _onClick) {
+                    
+                    title = _title;
+                    onClick = _onClick;
+
+                }
+
                 public string title { get; set; }
                 public UnityAction onClick { get; set; }
             }

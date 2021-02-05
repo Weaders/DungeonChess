@@ -59,10 +59,14 @@ namespace Assets.Scripts.Observable {
 
                 var str = onChange.Invoke();
 
-                textObj.text = str.text;
+                if (textObj != null) {
 
-                if (str.color.HasValue)
-                    textObj.color = str.color.Value;
+                    textObj.text = str.text;
+
+                    if (str.color.HasValue)
+                        textObj.color = str.color.Value;
+
+                }
 
             }
 

@@ -54,6 +54,7 @@ namespace Assets.Scripts.EnemyData {
         public CharacterDungeonData[] characterCtrls;
         public bool isBoss;
         public bool isEnabled;
+        public Condition difficult;
 
     }
 

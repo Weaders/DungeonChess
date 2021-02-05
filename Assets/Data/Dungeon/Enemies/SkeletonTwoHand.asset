@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ece5f8b527e9ef48b2b3de0a6229820, type: 3}
+  m_Name: SkeletonTwoHand
+  m_EditorClassIdentifier: 
+  characterCtrl: {fileID: 6886921511151892572, guid: 1ed6954c8e6091147b70e0ce98fa6d70,
+    type: 3}
+  data:
+  - stats:
+    - statType: 0
+      intVal: 120
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 120
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 15
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 15
+      floatVal: 0.9
+      boolVal: 0
+    levelOfDifficult: 0
+  - stats:
+    - statType: 0
+      intVal: 150
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 150
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 20
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 1
+      floatVal: 0
+      boolVal: 0
+    levelOfDifficult: 1
+  - stats:
+    - statType: 0
+      intVal: 170
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 170
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 25
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 0
+      floatVal: 1.1
+      boolVal: 0
+    levelOfDifficult: 2

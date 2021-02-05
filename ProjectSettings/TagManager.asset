@@ -8,6 +8,7 @@ TagManager:
   - MoveItemCell
   - Effect
   - MainCanvas
+  - DragByMouse
   layers:
   - Default
   - TransparentFX

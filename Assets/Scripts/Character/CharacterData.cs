@@ -33,6 +33,13 @@ namespace Assets.Scripts.Character {
 
         public ObservableVal<string> characterName;
 
+        [SerializeField]
+        private string _id;
+
+        public string id => _id;
+
+
+
         public bool isCanMove => stateContainer.All(s => s.isCharCanMove);
 
         public bool isCanAttack => stateContainer.All(s => s.isCharCanAttack);

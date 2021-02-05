@@ -85,11 +85,9 @@ namespace Assets.Scripts {
 
         public MoveItemFactory moveItemFactory;
 
-        public CharacterSpellsList characterSpellsList;
-
-        public BuffsListPanel buffsListPanel;
-
         public ItemInfoPanel itemInfoPanel;
+
+        public LevelUpService levelUpService;
 
         public DropCtrl dropCtrl;
 
@@ -177,6 +175,10 @@ namespace Assets.Scripts {
                 synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
             });
 
+            gameInputCtrl.Init();
+
+            levelUpService.Init();
+
             playerInventoryGrid.SetItemsContainer(playerData.itemsContainer, true);
 
             // Update ui on select character ctrl
@@ -195,8 +197,6 @@ namespace Assets.Scripts {
                         nameOfCharacter.SetCharacterData(ctrl.characterData);
                         statsGrid.SetCharacter(ctrl.characterData);
                         characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer, sideOfCtrl == TeamSide.Player);
-                        characterSpellsList.SetSpellsContainer(ctrl.characterData.spellsContainer);
-                        buffsListPanel.SetBuffsContainer(ctrl.characterData.buffsContainer);
 
                         //ctrl.ShowWhenSelected();
 

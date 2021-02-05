@@ -31,8 +31,8 @@ namespace Assets.Scripts.EnemyData {
 
         public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
 
-            var cells = dungeonRoomCells
-                .Where(r => r.whereData.IsInRange(lvl));
+            var cells = dungeonRoomCells.AsEnumerable();
+                //.Where(r => r.whereData.IsInRange(lvl));
 
             if (isBoss)
                 cells = cells.Where(c => c.isBoss);
@@ -53,7 +53,7 @@ namespace Assets.Scripts.EnemyData {
             public int max;
 
             public bool IsInRange(int val)
-                => min <= val && max >= val;
+                => min <= val && (max == -1 || max >= val);
 
             public int GetRandomLvl()
                 => UnityEngine.Random.Range(min, max);
@@ -64,7 +64,7 @@ namespace Assets.Scripts.EnemyData {
         public class RoomPrefabsData {
 
             public DungeonRoomCells roomPrefab;
-            public RangeRooms whereData;
+            //public RangeRooms whereData;
             public bool isBoss;
 
         }

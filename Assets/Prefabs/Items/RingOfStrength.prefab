@@ -47,13 +47,9 @@ MonoBehaviour:
   _title: ring_of_strength_title
   _description: ring_of_strength_description
   icon: {fileID: 0}
+  cost: 20
   statsModify:
   - statType: 5
-    observableVal:
-      id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
-      data:
-        _val: 15
+    intVal: 30
+    floatVal: 0
+    boolVal: 0

@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.StatsData;
+﻿using Assets.Scripts.Effects;
+using Assets.Scripts.StatsData;
+using UnityEngine;
 
 namespace Assets.Scripts.Buffs.Data {
 
@@ -6,10 +8,17 @@ namespace Assets.Scripts.Buffs.Data {
 
         public StatField[] statsModify;
 
+        public EffectObj effectObjPrefab;
+
+        private GameObject currentEffectObj;
+
         protected override void Apply() {
 
             foreach (var stat in statsModify)
                 characterCtrl.characterData.stats.Mofify(stat);
+
+            if (effectObjPrefab != null)
+                currentEffectObj = characterCtrl.effectsPlacer.PlaceEffectWithoutTime(effectObjPrefab.gameObject);
 
         }
 
@@ -17,6 +26,9 @@ namespace Assets.Scripts.Buffs.Data {
 
             foreach (var stat in statsModify)
                 characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Minus);
+
+            if (currentEffectObj != null)
+                Destroy(currentEffectObj);
 
         }
     }

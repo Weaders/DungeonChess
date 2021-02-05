@@ -944,6 +944,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1505001067324619178, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4.020095
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505001067324619178, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 2.0002718
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505001067324619178, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 5.4816513
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505001067324619178, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.43424606
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505001067324619178, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.7263758
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505001067324619178, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.1596457
+      objectReference: {fileID: 0}
     - target: {fileID: 4042358078194169588, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: m_Name
@@ -1048,6 +1078,11 @@ PrefabInstance:
     - target: {fileID: 8590486098072271671, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: characterName._val
+      value: golem_defender
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590486098072271671, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: _id
       value: golem_defender
       objectReference: {fileID: 0}
     - target: {fileID: 8662498970382279207, guid: 777c6c0bab92f23499ffc6a4e3d022b6,

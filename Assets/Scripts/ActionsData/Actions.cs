@@ -61,7 +61,9 @@ namespace Assets.Scripts.ActionsData {
                 to = _characterData.characterCtrl
             };
 
-            from.characterData.actions.onPreMakeDmg.Invoke(dmgEventData);
+            if (from != null)
+                from.characterData.actions.onPreMakeDmg.Invoke(dmgEventData);
+
             onPreGetDmg.Invoke(dmgEventData);
 
             var calculatedVal = dmg.GetCalculateVal();
