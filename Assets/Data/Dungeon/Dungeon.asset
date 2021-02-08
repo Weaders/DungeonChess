@@ -29,21 +29,21 @@ MonoBehaviour:
     isBoss: 0
   healerRoom:
     start: 0.2
-    current: 0
+    current: 0.1
     toAdd: 0.15
     delay: 2
     roomSprite: {fileID: 21300000, guid: fc721be3d71cc48ff9d9cc1afbcc6cb3, type: 3}
   itemsRoom:
-    start: 0
-    current: 0
-    toAdd: 0
-    delay: 0
+    start: 0.3
+    current: 0.7
+    toAdd: 0.2
+    delay: 4
     roomSprite: {fileID: 21300000, guid: 4b5db7ccb7e0d4548b8f65102916dbeb, type: 3}
   rerollRoom:
     start: 0
     current: 0
     toAdd: 0
-    delay: 4
+    delay: 1
     roomSprite: {fileID: 21300000, guid: 66cbcc4d48fae4e409fba2c5faa42e7a, type: 3}
   enemyRoom:
     start: 0
@@ -52,14 +52,14 @@ MonoBehaviour:
     delay: 0
     roomSprite: {fileID: 21300000, guid: 90a34237666a74d9b888e75353b79a1a, type: 3}
   sellerRoom:
-    start: 0
-    current: 0
-    toAdd: 0
-    delay: 0
+    start: 0.1
+    current: 0.2
+    toAdd: 0.2
+    delay: 3
     roomSprite: {fileID: 21300000, guid: a7555a6980e494351aa007929893767b, type: 3}
   fakeItemsRoom:
-    start: 0.9
-    current: 0.9
+    start: 0.1
+    current: 0.2
     toAdd: 0.2
-    delay: 0
+    delay: 6
     roomSprite: {fileID: 21300000, guid: 4b5db7ccb7e0d4548b8f65102916dbeb, type: 3}

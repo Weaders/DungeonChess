@@ -19,7 +19,7 @@ namespace Assets.Scripts.DungeonGenerator {
             }
 
             GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
-                msg = "You has been healed for 10%",
+                msg = TranslateReader.GetTranslate("you_healed_for_10"),
                 btns = new[] {
                     new UI.MessagePopup.MessagePanel.MessageData.BtnData {
                         title = TranslateReader.GetTranslate("ok"),

@@ -31,10 +31,14 @@ namespace Assets.Scripts.Character {
 
             ProcessEffect(effect);
 
-            if (time == default)
-                Destroy(effectObj, effect.defaultDuration);
-            else
-                Destroy(effectObj, time);
+            if (time > -1) {
+
+                if (time == default)
+                    Destroy(effectObj, effect.defaultDuration);
+                else
+                    Destroy(effectObj, time);
+            }
+
 
             return effectObj;
 
@@ -63,7 +67,7 @@ namespace Assets.Scripts.Character {
                 effect.transform.localPosition
                    = Vector3.zero + effect.offset;
 
-                effect.transform.localScale 
+                effect.transform.localScale
                     = Vector3.Scale(effect.transform.localScale, scaleMultiply);
 
             } else {

@@ -15,8 +15,10 @@ namespace Assets.Scripts.Spells.Data {
 
         public int stacks = 3;
 
+        public float percentMaxHp = .1f ;
+
         [Placeholder("heal_amount")]
-        public int GetHealAmount(CharacterData data) => Mathf.RoundToInt(healAmount + .1f * data.stats.maxHp.val);
+        public int GetHealAmount(CharacterData data) => Mathf.RoundToInt(healAmount + percentMaxHp * data.stats.maxHp.val);
 
         public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 

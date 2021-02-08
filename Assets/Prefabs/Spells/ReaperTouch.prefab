@@ -47,7 +47,7 @@ MonoBehaviour:
   titleKey: reaper_last_touch_title
   descriptionKey: reaper_last_touch_description
   spellType: 1
-  spellTarget: 2
+  spellTarget: 1
   effectObjPrefab: {fileID: 4485287776955058249, guid: 5728fdeb8d86aa440a6fe9ed32aa0582,
     type: 3}
   instantMoveEffect: 1

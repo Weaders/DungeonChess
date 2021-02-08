@@ -15,7 +15,7 @@ namespace Assets.Scripts.Buffs.Data {
         protected override void Apply() {
 
             if (effectPrefab != null) {
-                currentEffect = characterCtrl.effectsPlacer.PlaceEffect(effectPrefab);
+                currentEffect = characterCtrl.effectsPlacer.PlaceEffect(effectPrefab, -1);
             }
 
             characterCtrl.characterData

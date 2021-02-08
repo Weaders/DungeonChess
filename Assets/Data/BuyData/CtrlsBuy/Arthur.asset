@@ -19,11 +19,11 @@ MonoBehaviour:
   data:
   - stats:
     - statType: 0
-      intVal: 30
+      intVal: 50
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 30
+      intVal: 50
       floatVal: 0
       boolVal: 0
     - statType: 5
@@ -31,3 +31,17 @@ MonoBehaviour:
       floatVal: 0
       boolVal: 0
     levelOfDifficult: -1
+  - stats:
+    - statType: 0
+      intVal: 150
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 150
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 35
+      floatVal: 0
+      boolVal: 0
+    levelOfDifficult: 0

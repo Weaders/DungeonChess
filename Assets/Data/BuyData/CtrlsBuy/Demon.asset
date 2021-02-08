@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ctrlPrefab: {fileID: 6437844519398791621, guid: e9485f5111f47a74ebd17426ea8d7f9c,
     type: 3}
-  cost: 40
+  cost: 65
   descriptionKey: demon_buy
   data:
   - stats:
     - statType: 0
-      intVal: 10
+      intVal: 30
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 10
+      intVal: 30
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 5
+      intVal: 13
       floatVal: 0
       boolVal: 0
     - statType: 6
@@ -35,3 +35,21 @@ MonoBehaviour:
       floatVal: 0.1
       boolVal: 0
     levelOfDifficult: -1
+  - stats:
+    - statType: 0
+      intVal: 150
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 150
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 35
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 5
+      floatVal: 0.8
+      boolVal: 0
+    levelOfDifficult: 0

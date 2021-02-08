@@ -13,8 +13,6 @@ namespace Assets.Scripts.Effects {
 
         public Vector3 offset;
 
-        public Vector3 offsetScale;
-
         public float defaultDuration = 1f;
 
         public UnityEvent<CharacterCtrl> onTouch = new UnityEvent<CharacterCtrl>();
@@ -26,6 +24,9 @@ namespace Assets.Scripts.Effects {
         private UnityEvent onEndAnimation = new UnityEvent();
 
         private CharacterCtrl _currentTarget = null;
+
+        [SerializeField]
+        private EffectObj exposionPrefab;
 
         private void Start() {
 
@@ -49,6 +50,15 @@ namespace Assets.Scripts.Effects {
                 yield return new WaitForFixedUpdate();
 
             }
+
+            if (exposionPrefab != null) {
+
+                var explosionObj = Instantiate(exposionPrefab);
+                explosionObj.transform.position = transform.position;
+
+                Destroy(explosionObj.gameObject, explosionObj.defaultDuration);
+            }
+            
 
             onCome.Invoke();
 

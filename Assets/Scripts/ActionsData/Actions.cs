@@ -70,7 +70,9 @@ namespace Assets.Scripts.ActionsData {
 
             _characterData.stats.hp.val -= calculatedVal;
 
-            onPostMakeDmg.Invoke(dmgEventData);
+            if (from != null)
+                from.characterData.actions.onPostMakeDmg.Invoke(dmgEventData);
+
             onPostGetDmg.Invoke(dmgEventData);
 
             return new DmgMakeResult(calculatedVal, dmg.source);

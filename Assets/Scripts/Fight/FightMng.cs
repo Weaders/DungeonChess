@@ -22,7 +22,7 @@ namespace Assets.Scripts.Fight {
 
         public ObservableVal<bool> isInFight = new ObservableVal<bool>();
 
-        public bool isThereSomeOneToFight => fightTeamEnemy.aliveChars.Any();
+        public bool isThereSomeOneToFight => fightTeamPlayer.aliveChars.Any() && fightTeamEnemy.aliveChars.Any();
 
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 
@@ -46,7 +46,9 @@ namespace Assets.Scripts.Fight {
 
         public void MovePlayerCtrls() {
 
-            var cells = GameMng.current.roomCtrl.currentRoom.GetCells().Where(c => c.GetCellType() == CellsGrid.Cell.CellType.ForPlayer);
+            var cells = GameMng.current.roomCtrl.currentRoom.GetCells().Where(c => 
+                c.GetCellType() == CellsGrid.Cell.CellType.ForPlayer
+            );
 
             foreach (var charCtrl in fightTeamPlayer.aliveChars) {
 
@@ -59,6 +61,8 @@ namespace Assets.Scripts.Fight {
                 TagLogger<FightMng>.Info($"Founded cell with position - {closestCell.transform.position}");
 
                 closestCell.StayCtrl(charCtrl);
+
+                cells = cells.Where(c => c != closestCell);
 
             }
 
@@ -103,7 +107,6 @@ namespace Assets.Scripts.Fight {
             onPlayerWin.Invoke();
 
             fightTeamEnemy.onAllInTeamDie.RemoveListener(EnemyTeamDie);
-            fightTeamPlayer.onAllInTeamDie.RemoveListener(PlayerTeamDie);
 
             StopAttack();
 

@@ -17,11 +17,21 @@ namespace Assets.Scripts.Character {
 
             GameMng.current.gameInputCtrl.onChangeSelectCharacter.AddListener((oldCtrl, newCtrl) => {
 
-                if (obj == null)
-                    obj = Instantiate(prefab);
+                if (newCtrl == null) {
 
-                if (!obj.activeInHierarchy)
-                    obj.SetActive(true);
+                    if (obj != null)
+                        obj.SetActive(false);
+
+                } else {
+
+                    if (obj == null)
+                        obj = Instantiate(prefab);
+
+                    if (!obj.activeInHierarchy)
+                        obj.SetActive(true);
+
+
+                }
 
                 selectedCharacterCtrl = newCtrl;
 
@@ -31,10 +41,13 @@ namespace Assets.Scripts.Character {
 
                 if (selectedCharacterCtrl != null && selectedCharacterCtrl.characterData && selectedCharacterCtrl.characterData.stats.isDie) {
 
-                    selectedCharacterCtrl = null;
+                    if (obj != null) {
 
-                    if (obj != null)
+                        selectedCharacterCtrl = null;
                         obj.SetActive(false);
+
+                    }
+                    
 
                 }
 

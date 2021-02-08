@@ -287,6 +287,21 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.045873165
       objectReference: {fileID: 0}
+    - target: {fileID: 2130686993324243065, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: scaleMultiply.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130686993324243065, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: scaleMultiply.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130686993324243065, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: scaleMultiply.z
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4042358078194169588, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: m_Name
@@ -317,6 +332,12 @@ PrefabInstance:
       propertyPath: bulletSpawnObj
       value: 
       objectReference: {fileID: 1067322332}
+    - target: {fileID: 7563941473688893011, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: imgSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a449d9cccb786c24394af4cc0f81dd11,
+        type: 3}
     - target: {fileID: 7814877910924485175, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: m_AnchorMax.x

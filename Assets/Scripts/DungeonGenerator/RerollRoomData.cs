@@ -20,9 +20,12 @@ namespace Assets.Scripts.DungeonGenerator {
                     new BtnData {
                         title = TranslateReader.GetTranslate("yes"),
                         onClick = () => {
+                            
                             GameMng.current.messagePanel.Hide();
+
                             GameMng.current.rerollCtrl.Activate();
                             GameMng.current.rerollCtrl.onPostReroll.AddListener(OnPostReroll);
+
                         }
                     },
                     new BtnData {

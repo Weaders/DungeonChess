@@ -16,4 +16,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c83fa2147fffd284794778bdbbd84370, type: 2}
   rooms:
     min: 0
-    max: 50
+    max: 150

@@ -15,7 +15,7 @@ namespace Assets.Scripts.CellsGrid {
             _cellsGridMng = cellsGridMng;
         }
 
-        public Path GetPath(Cell from, Cell to) {
+        public Path GetPath(Cell from, Cell to, int range = 1) {
 
             var paths = new Stack<Path>();
 
@@ -47,7 +47,7 @@ namespace Assets.Scripts.CellsGrid {
                     var p = new Path(cellPath.cells);
                     p.cells.Push(nextCell);
 
-                    if (CellRangeHelper.IsInRange(to.dataPosition, nextCell.dataPosition, 1)) {
+                    if (CellRangeHelper.IsInRange(to.dataPosition, nextCell.dataPosition, range)) {
                         return p;
                     }
                         

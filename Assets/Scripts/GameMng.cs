@@ -11,17 +11,18 @@ using Assets.Scripts.Observable;
 using Assets.Scripts.Player;
 using Assets.Scripts.Synergy;
 using Assets.Scripts.TopSidePanel;
+using Assets.Scripts.Translate;
 using Assets.Scripts.UI;
-using Assets.Scripts.UI.BuffsList;
 using Assets.Scripts.UI.CharacterBuyPanel;
 using Assets.Scripts.UI.DragAndDrop;
 using Assets.Scripts.UI.GameTitlePopup;
 using Assets.Scripts.UI.Inventory;
 using Assets.Scripts.UI.MessagePopup;
 using Assets.Scripts.UI.SelectPopup;
-using Assets.Scripts.UI.SpellsList;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
 
 namespace Assets.Scripts {
 
@@ -36,6 +37,7 @@ namespace Assets.Scripts {
                     _current = FindObjectOfType<GameMng>();
 
                 return _current;
+
             }
         }
 
@@ -63,6 +65,9 @@ namespace Assets.Scripts {
         public CharacterBuyPanelUI buyPanelUI;
 
         public SelectPanel selectPanel;
+
+        [SerializeField]
+        private CharacterImgCtrl characterImgCtrl;
 
         public TopSidePanelUI topSidePanelUI;
 
@@ -136,7 +141,7 @@ namespace Assets.Scripts {
             => levelsBeforeChange == 0;
 
         public void RefeshLevelsToNextDifficult() {
-            
+
             levelsBeforeChange = new ObservableVal<int>(currentDungeonData.changeDifficultEvery.GetRandomLvl());
             initLevelsBeforeChange = levelsBeforeChange;
             levelDifficult++;
@@ -168,12 +173,8 @@ namespace Assets.Scripts {
             buyPanelUI.Init();
             topSidePanelUI.Init();
 
+            characterImgCtrl.Init();
             arrowCtrl.Init();
-
-            // Set up, synergy data
-            buyMng.postBuy.AddListener(() => {
-                synergyCtrl.SetUpTeam(fightMng.fightTeamPlayer);
-            });
 
             gameInputCtrl.Init();
 
@@ -186,10 +187,6 @@ namespace Assets.Scripts {
 
                 if (old != ctrl) {
 
-                    if (old != null) {
-                        //old.HideWhenDeselected();
-                    }
-
                     if (ctrl != null) {
 
                         var sideOfCtrl = fightMng.GetTeamSide(ctrl);
@@ -198,9 +195,41 @@ namespace Assets.Scripts {
                         statsGrid.SetCharacter(ctrl.characterData);
                         characterInventoryGrid.SetItemsContainer(ctrl.characterData.itemsContainer, sideOfCtrl == TeamSide.Player);
 
-                        //ctrl.ShowWhenSelected();
-
                     }
+
+                }
+
+            });
+
+            fightMng.onEnemyTeamWin.AddListener(() => {
+
+                StaticData.current.TrySetLevevRecord(level);
+
+                messagePanel.SetData(new MessagePanel.MessageData {
+                    msg = TranslateReader.GetTranslate("you_lose_you_ned_room", new Placeholder("count_rooms", level)),
+                    btns = new[] {
+                        new BtnData(TranslateReader.GetTranslate("restart"), () => {
+                            SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+                        })
+                    }
+                });
+
+                messagePanel.Show();
+
+            });
+
+            level.onPostChange.AddSubscription(OrderVal.UIUpdate, () => {
+
+                if (level == gameData.victoryLevel) {
+
+                    messagePanel.SetData(new MessagePanel.MessageData {
+                            msg = TranslateReader.GetTranslate("victory"),
+                            btns = new[] {
+                            new BtnData(TranslateReader.GetTranslate("i_am_cool"), messagePanel.Hide)
+                        }
+                    });
+
+                    messagePanel.Show();
 
                 }
 
@@ -209,6 +238,21 @@ namespace Assets.Scripts {
             HideBlackOverlay();
 
             pathToCell = new PathToCell(cellsGridMng);
+
+            if (StaticData.current.IsNeedShowTutorial()) {
+
+                messagePanel.SetData(new MessagePanel.MessageData {
+                    msg = TranslateReader.GetTranslate("tutorial"),
+                    btns = new[] {
+                    new BtnData(TranslateReader.GetTranslate("ok"), messagePanel.Hide)
+                }
+                });
+
+                messagePanel.Show();
+
+                StaticData.current.TutorialShowed();
+
+            }
 
         }
 

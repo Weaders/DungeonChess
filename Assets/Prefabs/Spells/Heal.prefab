@@ -43,14 +43,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff421e29665fd640a48429d661a220c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: heal
   titleKey: heal_title
   descriptionKey: heal_description
   spellType: 1
   spellTarget: 0
+  effectObjPrefab: {fileID: 0}
+  instantMoveEffect: 0
+  waitForEndAnimation: 0
+  effectTime: 4
+  effectSpeed: 0
+  triggerTouchEvery: 1000
   range: 2
   healAmount: 10
   apPlusScale: 2
   stacks: 3
-  healEffect: {fileID: 6639840238842390490, guid: d8049527657cd49498266aee1cc201ef,
-    type: 3}
-  effectTime: 4
+  percentMaxHp: 0.1

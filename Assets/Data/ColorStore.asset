@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getDmgText: {r: 1, g: 0, b: 0, a: 1}
   getHealText: {r: 0, g: 1, b: 0, a: 1}
+  getMoneyText: {r: 0, g: 0.8666667, b: 0, a: 1}
   cellPlayerAllow: {r: 1, g: 0.80399513, b: 0, a: 0.69411767}
   cellPlayerAllowOutline: {r: 1, g: 0.8116399, b: 0, a: 1}
   cellPlayerNotAllow: {r: 0, g: 0.5, b: 0, a: 0.6}

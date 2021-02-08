@@ -34,10 +34,11 @@ namespace Assets.Scripts.Spells.Data {
             if (isCrit)
                 dmg.dmgModifiers.Add(new CritModify(0, from.characterData.stats.critDmg));
 
-            to.characterData.actions.GetDmg(
-                from,
-                dmg
-            );
+            if (from != null)
+                from.characterData.actions.MakeAttack(to, dmg);
+            else
+                to.characterData.actions.GetDmg(from, dmg);
+
 
             if (debuffOnAttackPrefab != null)
                 to.characterData.buffsContainer.AddPrefab(debuffOnAttackPrefab, from);

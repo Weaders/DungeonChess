@@ -3,7 +3,6 @@
 namespace Assets.Scripts.Effects {
 
     [RequireComponent(typeof(EffectObj))]
-    [ExecuteInEditMode]
     public class ParticleEffectRunner : MonoBehaviour {
 
         public ParticleSystem[] particleSystems;

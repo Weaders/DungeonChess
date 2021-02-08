@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts.ActionsData;
-using Assets.Scripts.AnimationCtrl;
 using Assets.Scripts.Character;
-using Assets.Scripts.Effects;
 using Assets.Scripts.Observable;
 using UnityEngine;
 
@@ -17,7 +14,7 @@ namespace Assets.Scripts.Spells.Data {
         [SerializeField]
         private float scaleAD;
 
-        public override IEnumerable<ObservableVal> GetObservablesForModify(CharacterData data) => new[] 
+        public override IEnumerable<ObservableVal> GetObservablesForModify(CharacterData data) => new[]
         {
             data.stats.AD
         };
@@ -29,8 +26,8 @@ namespace Assets.Scripts.Spells.Data {
             var result = to.characterData.actions.GetDmg(from, new Dmg(calcedDmg, this));
             from.characterData.actions.GetHeal(from, new ActionsData.Heal(result.resultVal));
 
-            return new UseSpellResult {};
-            
+            return new UseSpellResult { };
+
         }
 
     }

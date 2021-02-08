@@ -26,7 +26,6 @@ namespace Assets.Scripts.StatsData {
                 case Stat.Mana:
                 case Stat.MaxMana:
                 case Stat.ManaPerAttack:
-                case Stat.Vampirism:
                     return new IntObservable(statField == null ? 0 : statField.intVal);
                 case Stat.IsDie:
                     return new BoolObservable(statField == null ? default : statField.boolVal);
@@ -35,6 +34,7 @@ namespace Assets.Scripts.StatsData {
                 case Stat.As:
                 case Stat.MoveSpeed:
                 case Stat.CritChance:
+                case Stat.Vampirism:
                     if (statField != null)
                         return new PercentFloatObsrevable(new FloatObsrevable(statField.floatVal));
                     else
@@ -84,7 +84,7 @@ namespace Assets.Scripts.StatsData {
         /// <summary>
         /// Vampirism
         /// </summary>
-        public StatField<int> vampirism = new StatField<int>(Stat.Vampirism, 0);
+        public PercentStatField vampirism = new PercentStatField(new StatField<float>(Stat.Vampirism, 0f));
 
         public StatField<CharacterClassType[]> classTypes = new StatField<CharacterClassType[]>(Stat.ClassTypes, new CharacterClassType[] { });
 

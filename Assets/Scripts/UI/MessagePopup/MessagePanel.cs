@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Common;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ namespace Assets.Scripts.UI.MessagePopup {
         private CanvasGroup _canvasGroup;
 
         [SerializeField]
-        private Text _text;
+        private TextMeshProUGUI _text;
 
         [SerializeField]
         private Button buttonPrefab;
@@ -64,7 +65,7 @@ namespace Assets.Scripts.UI.MessagePopup {
 
         private void Reset() {
             _canvasGroup = GetComponent<CanvasGroup>();
-            _text = GetComponentInChildren<Text>();
+            _text = GetComponentInChildren<TextMeshProUGUI>();
         }
 
         public class MessageData {

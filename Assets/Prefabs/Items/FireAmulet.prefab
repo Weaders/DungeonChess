@@ -46,7 +46,7 @@ MonoBehaviour:
   id: fire_emulet
   _title: fire_emulet_title
   _description: fire_emulet_description
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 14a8c1d36f8541d429886fead6899342, type: 3}
   cost: 15
   n: 1
   dmg: 20

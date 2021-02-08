@@ -14,20 +14,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ctrlPrefab: {fileID: 2346248606853927759, guid: 6f433aee2a22b5840a65d380a662e1fd,
     type: 3}
-  cost: 100
+  cost: 80
   descriptionKey: demon_lord_buy_description
   data:
   - stats:
     - statType: 0
-      intVal: 15
+      intVal: 95
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 15
+      intVal: 95
       floatVal: 0
       boolVal: 0
     - statType: 10
       intVal: 5
-      floatVal: 0
+      floatVal: 0.1
+      boolVal: 0
+    - statType: 6
+      intVal: 5
+      floatVal: 0.1
+      boolVal: 0
+    - statType: 5
+      intVal: 10
+      floatVal: 0.1
       boolVal: 0
     levelOfDifficult: -1
+  - stats:
+    - statType: 0
+      intVal: 200
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 200
+      floatVal: 0
+      boolVal: 0
+    - statType: 10
+      intVal: 2
+      floatVal: 0.2
+      boolVal: 0
+    - statType: 6
+      intVal: 2
+      floatVal: 1
+      boolVal: 0
+    - statType: 5
+      intVal: 55
+      floatVal: 1
+      boolVal: 0
+    levelOfDifficult: 0

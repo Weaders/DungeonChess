@@ -3,9 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.UI {
     public class DragByMouse : MonoBehaviour, IDragHandler {
-        //public void OnBeginDrag(PointerEventData eventData) {
-        //    throw new System.NotImplementedException();
-        //}
+
         [SerializeField]
         private float moveSpeed;
 

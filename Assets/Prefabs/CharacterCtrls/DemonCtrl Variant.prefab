@@ -2931,6 +2931,12 @@ PrefabInstance:
       propertyPath: characterAnimEvents
       value: 
       objectReference: {fileID: 461008192}
+    - target: {fileID: 7563941473688893011, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
+        type: 3}
+      propertyPath: imgSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ccdd7efebf170b34cafbe9600919048b,
+        type: 3}
     - target: {fileID: 7814877910924485175, guid: 777c6c0bab92f23499ffc6a4e3d022b6,
         type: 3}
       propertyPath: m_AnchorMax.x

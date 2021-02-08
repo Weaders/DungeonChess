@@ -29,6 +29,9 @@ namespace Assets.Scripts.Fight {
 
             _characterCtrls.Add(ctrl);
 
+            if (teamSide == TeamSide.Player)
+                GameMng.current.levelUpService.LevelUpToCurrent(ctrl);
+
             ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Fight, () => {
 
                 if (!aliveChars.Any())
@@ -42,12 +45,14 @@ namespace Assets.Scripts.Fight {
             });
 
             ctrl.teamSide = teamSide;
+            onChangeTeamCtrl.Invoke();
 
         }
 
         public CharacterCtrl AddCharacterToTeamPrefab(CharacterCtrl ctrlPrefab) {
 
             var ctrl = PrefabFactory.InitCharacterCtrl(ctrlPrefab);
+
             AddCharacterToTeam(ctrl);
 
             return ctrl;
@@ -61,6 +66,8 @@ namespace Assets.Scripts.Fight {
                     Object.Destroy(ctrl.gameObject);
                 }
             }
+
+            _characterCtrls.Remove(ctrl);
 
         }
 

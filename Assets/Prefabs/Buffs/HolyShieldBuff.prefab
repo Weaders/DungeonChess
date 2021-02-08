@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterCtrl: {fileID: 0}
+  fromCharacterCtrl: {fileID: 0}
   id: holy_shield
+  _titleKey: holy_shield_buff_title
+  _descriptionKey: holy_shield_buff_description
+  buffType: 0
   duplicateBuffStrategy: 1
   effectPrefab: {fileID: 2130645398267899664, guid: b4a07e76be1f30940be6b469629629f7,
     type: 3}

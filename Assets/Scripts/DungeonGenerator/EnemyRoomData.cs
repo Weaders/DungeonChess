@@ -29,6 +29,12 @@ namespace Assets.Scripts.DungeonGenerator {
                     ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
 
                     ctrlObj.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
+
+                        GameMng.current.fightTextMng.DisplayText(ctrlObj, GameMng.current.currentDungeonData.moneyVictory.ToString(), new FightText.FightTextMsg.SetTextOpts {
+                            color = StaticData.current.colorStore.getMoneyText,
+                            icon = GameMng.current.gameData.playerManaIcon
+                        });
+
                         GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
                     });
 
@@ -43,7 +49,12 @@ namespace Assets.Scripts.DungeonGenerator {
                     if (statsChange != null) {
 
                         foreach (var stat in statsChange.stats) {
-                            ctrlObj.characterData.stats.Mofify(stat, Observable.ModifyType.Set);
+
+                            ctrlObj.characterData.stats.Mofify(
+                                stat, 
+                                statsChange.modifyType
+                            );
+
                         }
 
                     }
@@ -69,8 +80,6 @@ namespace Assets.Scripts.DungeonGenerator {
         }
 
         protected virtual void OnPlayerWin() {
-
-            GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
 
             GameMng.current.cellsGridMng.DisplayExits();
 

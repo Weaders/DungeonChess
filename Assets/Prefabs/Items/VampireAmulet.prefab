@@ -46,10 +46,10 @@ MonoBehaviour:
   id: vampire_amulet
   _title: vampire_amulet_title
   _description: vampire_amulet_description
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 0027b3262e0b9934aa0d60c19242a63a, type: 3}
   cost: 0
   statsModify:
   - statType: 10
     intVal: 50
-    floatVal: 0
+    floatVal: 0.25
     boolVal: 0

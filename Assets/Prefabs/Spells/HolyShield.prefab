@@ -43,10 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8836c6684a96fb04490b331d1b160ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleKey: 
-  descriptionKey: 
+  id: holy_shield
+  titleKey: holy_shield_title
+  descriptionKey: holy_shield_description
   spellType: 1
+  spellTarget: 0
+  effectObjPrefab: {fileID: 0}
+  instantMoveEffect: 0
+  waitForEndAnimation: 0
+  effectTime: 0
+  effectSpeed: 0
+  triggerTouchEvery: 1000
   range: 2
   holyShieldBuffPrefab: {fileID: 4572976975809804995, guid: b2f99a5da29e73a49ae33bf486f408c3,
     type: 3}
-  timeEffect: 2
+  timeEffect: 10

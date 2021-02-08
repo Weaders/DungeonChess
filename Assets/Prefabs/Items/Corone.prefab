@@ -46,7 +46,8 @@ MonoBehaviour:
   id: corone
   _title: corone_title
   _description: corone_description
-  icon: {fileID: 21300000, guid: 37c63cace6c36468da412433ee893875, type: 3}
+  icon: {fileID: 21300000, guid: cd178ac8e0ccabe4aae7659cd35034e2, type: 3}
+  cost: 0
   statsModify:
   - statType: 5
     intVal: 10

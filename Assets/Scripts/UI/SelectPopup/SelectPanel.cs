@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Common;
+using Assets.Scripts.Translate;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.SelectPopup {
@@ -17,6 +20,12 @@ namespace Assets.Scripts.UI.SelectPopup {
         [SerializeField]
         private Text title;
 
+        [SerializeField]
+        private Transform fallBackContainer;
+
+        [SerializeField]
+        private Button fallBackbtnPrefab;
+
         private void Reset() {
             canvasGroup = GetComponent<CanvasGroup>();
         }
@@ -27,7 +36,7 @@ namespace Assets.Scripts.UI.SelectPopup {
         /// <param name="items">
         /// I will be butn in the hell, for this code :D
         /// </param>
-        public void SetItems((IForSelectPanel, IForSelectPanel, IForSelectPanel) items, Action<IForSelectPanel> onSelect = null) {
+        public void SetItems((IForSelectPanel, IForSelectPanel, IForSelectPanel) items, Action<IForSelectPanel> onSelect = null, IEnumerable<FallBackBtn> btns = null) {
 
             if (items.Item1 == null)
                 selectPanelItems[0].gameObject.SetActive(false);
@@ -51,7 +60,21 @@ namespace Assets.Scripts.UI.SelectPopup {
                 selectPanelItems[2].gameObject.SetActive(true);
                 selectPanelItems[2].SetItem(items.Item3, onSelect);
             }
-                
+
+            if (btns == null)
+                btns = new[] { new FallBackBtn(TranslateReader.GetTranslate("hide"), Hide) };
+
+            foreach (Transform tr in fallBackContainer)
+                Destroy(tr.gameObject);
+
+            foreach (var btnData in btns) {
+
+                var btn = Instantiate(fallBackbtnPrefab, fallBackContainer);
+
+                btn.GetComponentInChildren<Text>().text = btnData.text;
+                btn.onClick.AddListener(() => btnData.unityAction());
+
+            }
 
         }
 
@@ -62,7 +85,6 @@ namespace Assets.Scripts.UI.SelectPopup {
 
         public void Show() {
             canvasGroup.Show();
-            //GameMng.current.topSidePanelUI.stateTopBtn = TopSidePanel.StateTopBtn.Start;
         }
 
         public void Hide() {
@@ -72,6 +94,22 @@ namespace Assets.Scripts.UI.SelectPopup {
 
         public bool IsShowed
             => canvasGroup.IsShowed();
+
+        public class FallBackBtn {
+
+            public FallBackBtn(string _text, UnityAction action) {
+                text = _text;
+                unityAction = action;
+            }
+
+            public FallBackBtn(TranslateReader translateReader) {
+                this.translateReader = translateReader;
+            }
+
+            public string text;
+            public UnityAction unityAction;
+            private TranslateReader translateReader;
+        }
 
     }
 }

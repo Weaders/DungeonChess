@@ -17,22 +17,26 @@ MonoBehaviour:
   data:
   - stats:
     - statType: 0
-      intVal: 120
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 120
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 15
+      intVal: 40
       floatVal: 0
       boolVal: 0
     - statType: 6
       intVal: 15
-      floatVal: 0.9
+      floatVal: 0.1
       boolVal: 0
-    levelOfDifficult: 0
+    - statType: 11
+      intVal: 15
+      floatVal: 0.05
+      boolVal: 0
+    levelOfDifficult: -1
   - stats:
     - statType: 0
       intVal: 150
@@ -43,29 +47,15 @@ MonoBehaviour:
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 20
+      intVal: 30
       floatVal: 0
       boolVal: 0
     - statType: 6
       intVal: 1
-      floatVal: 0
+      floatVal: 0.7
       boolVal: 0
-    levelOfDifficult: 1
-  - stats:
-    - statType: 0
-      intVal: 170
-      floatVal: 0
+    - statType: 11
+      intVal: 1
+      floatVal: 0.4
       boolVal: 0
-    - statType: 1
-      intVal: 170
-      floatVal: 0
-      boolVal: 0
-    - statType: 5
-      intVal: 25
-      floatVal: 0
-      boolVal: 0
-    - statType: 6
-      intVal: 0
-      floatVal: 1.1
-      boolVal: 0
-    levelOfDifficult: 2
+    levelOfDifficult: 0

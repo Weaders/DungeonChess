@@ -140,7 +140,7 @@ namespace Assets.Scripts.Character {
 
                             var ctrl = hit.collider.GetComponent<CharacterCtrl>();
 
-                            if (GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isInFight) {
+                            if (ctrl != null && GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isInFight) {
 
                                 selectedCharacterCtrl = ctrl;
 

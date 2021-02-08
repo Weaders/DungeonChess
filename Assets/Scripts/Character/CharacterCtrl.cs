@@ -45,8 +45,13 @@ namespace Assets.Scripts.Character {
 
         public CharacterAnimEvents characterAnimEvents;
 
+        public Sprite imgSprite;
+
         [SerializeField]
         private Animator animator;
+
+        [SerializeField]
+        private AudioSource audioSource;
 
         public Animator anim => animator;
 
@@ -62,13 +67,6 @@ namespace Assets.Scripts.Character {
             get => _teamSide;
             set {
                 _teamSide = value;
-
-                //if (_teamSide == Fight.TeamSide.Player) {
-                //    colorDetect.material.color = StaticData.current.colorStore.playerTeamDetectColor;
-                //} else {
-                //    colorDetect.material.color = StaticData.current.colorStore.enemyTeamDetectColor;
-                //}
-
             }
         }
 
@@ -102,6 +100,12 @@ namespace Assets.Scripts.Character {
         [SerializeField]
         private StateIconsCtrl stateIconsCtrl;
 
+        [SerializeField]
+        private GameObject characterSlider;
+
+        [SerializeField]
+        private AudioClip clipAttack;
+
         public bool isCanMakeFullManaAttack => characterData.stats.mana >= characterData.stats.maxMana && characterData.isCanAttack;
 
         private bool isStartToFight = false;
@@ -122,12 +126,7 @@ namespace Assets.Scripts.Character {
         /// After call character stop move or attack, and reset position on started cell.
         /// </summary>
         public void StopAttack() {
-
             isStartToFight = false;
-
-            //if (!characterData.stats.isDie)
-            //    _startedCell.StayCtrl(this);
-
         }
 
         private void Update() {
@@ -151,7 +150,7 @@ namespace Assets.Scripts.Character {
 
                 } else if (characterData.isCanMove) {
 
-                    var path = GameMng.current.pathToCell.GetPath(cell, targetForAttack.cell);
+                    var path = GameMng.current.pathToCell.GetPath(cell, targetForAttack.cell, spell.range);
 
                     if (path != null && path.cells.Count > 1) {
 
@@ -176,6 +175,9 @@ namespace Assets.Scripts.Character {
             while (target != null && !target.characterData.stats.isDie) {
 
                 var spell = GetSpellForUse();
+
+                var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
+                targetForAttack = target = strtg.GetTarget(spell, this);
 
                 animator.SetBool(AnimationValStore.IS_USING_SPELL, spell.spellType == SpellType.FullManaAttack);
                 animator.SetBool(AnimationValStore.IS_ATTACK, true);
@@ -203,12 +205,16 @@ namespace Assets.Scripts.Character {
             }
 
             animator.SetBool(AnimationValStore.IS_ATTACK, false);
+            animator.SetBool(AnimationValStore.IS_USING_SPELL, false);
 
             onEnd?.Invoke();
 
         }
 
         public void MakeBaseAttack(CharacterCtrl target, AnimAttackData data = null) {
+
+            if (clipAttack != null)
+                audioSource.PlayOneShot(clipAttack);
 
             var spell = characterData.spellsContainer.GetBaseAttackSpell();
 
@@ -251,11 +257,14 @@ namespace Assets.Scripts.Character {
             stateIconsCtrl.SetCharacterData(characterData);
 
             characterData.actions.onPostGetDmg.AddSubscription(OrderVal.UIUpdate, (dmgEventData) => {
-                
+
+                var isCrit = dmgEventData.dmg.dmgModifiers.Any(m => m is CritModify);
+
                 GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts 
                 {
                     color = colorStore.getDmgText,
-                    size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1
+                    size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1,
+                    icon = isCrit ? GameMng.current.gameData.critIcon : null
                 });
 
             });
@@ -280,7 +289,8 @@ namespace Assets.Scripts.Character {
                 TagLogger<CharacterCtrl>.Info($"GON: {gameObject.name}, CN: {characterData.name} is die");
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
                 GetComponent<Collider>().enabled = false;
-                characterCanvas.gameObject.SetActive(false);
+                characterSlider.gameObject.SetActive(false);
+                //characterCanvas.gameObject.SetActive(false);
                 animator.applyRootMotion = false;
 
             });
@@ -301,13 +311,15 @@ namespace Assets.Scripts.Character {
             });
 
             characterData.actions.onPostGetHeal.AddSubscription(OrderVal.CharacterCtrl, () => {
-                effectsPlacer.PlaceEffect(GameMng.current.gameData.healingEffect.gameObject);
+
+                if (effectsPlacer != null)
+                    effectsPlacer.PlaceEffect(GameMng.current.gameData.healingEffect.gameObject);
+
             });
 
             characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, () => {
 
                 OnRefreshActionCells();
-                //if (isSelected)
                 OnRefreshShowCellsEffects();
 
             });
@@ -315,21 +327,9 @@ namespace Assets.Scripts.Character {
             onChangeCell.AddListener((oldCell, newCell) => {
 
                 OnRefreshActionCells();
-
-                //if (isSelected) {
-                    OnRefreshShowCellsEffects();
-                //}
+                OnRefreshShowCellsEffects();
 
             });
-
-            //onSelected.AddListener(() => {
-
-            //    if (isSelected)
-            //        OnRefreshShowCellsEffects();
-            //    else
-            //        OnRefreshShowCellsEffects();
-
-            //});
 
             hpBar.SetValForObserve(characterData.stats.hp, characterData.stats.maxHp);
             manaBar.SetValForObserve(characterData.stats.mana, characterData.stats.maxMana);

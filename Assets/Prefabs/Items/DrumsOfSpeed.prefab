@@ -47,7 +47,7 @@ MonoBehaviour:
   id: drums_of_speed
   _title: drums_of_speed_title
   _description: drums_of_speed_description
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: ff4aa4069a32dc247b1285185f5513a9, type: 3}
   cost: 0
   statsModify:
   - statType: 0

@@ -1,5 +1,8 @@
-﻿using Assets.Scripts.Effects;
+﻿using System.Linq;
+using Assets.Scripts.Character;
+using Assets.Scripts.Effects;
 using Assets.Scripts.StatsData;
+using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.Buffs.Data {
@@ -29,6 +32,18 @@ namespace Assets.Scripts.Buffs.Data {
 
             if (currentEffectObj != null)
                 Destroy(currentEffectObj);
+
+        }
+
+        protected override Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
+
+            var placeholders = new Placeholder[statsModify.Length];
+
+            for (var i = 0; i < statsModify.Length; i++) {
+                placeholders[i] = new Placeholder(statsModify[i].statType.ToString() + "_prop", statsModify[i].observableVal.ToString());
+            }
+            
+            return base.GetPlaceholders(descriptionFor).Concat(placeholders).ToArray();
 
         }
     }

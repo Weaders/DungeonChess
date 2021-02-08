@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4485287776955058254}
   m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 6053368620555578204}
   m_Father: {fileID: 0}
@@ -47,9 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: reaper_touch
-  offset: {x: -0.83, y: 1, z: 0.96}
-  offsetScale: {x: 0.4, y: 0.4, z: 0}
-  defaultDuration: 1
+  offset: {x: 0, y: 0, z: 0}
+  defaultDuration: 0
   onTouch:
     m_PersistentCalls:
       m_Calls: []
@@ -59,6 +58,7 @@ MonoBehaviour:
   onStart:
     m_PersistentCalls:
       m_Calls: []
+  exposionPrefab: {fileID: 0}
 --- !u!95 &4485287776955058248
 Animator:
   serializedVersion: 3

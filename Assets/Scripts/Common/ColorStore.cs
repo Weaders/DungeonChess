@@ -11,6 +11,8 @@ namespace Assets.Scripts.Common {
         public Color getDmgText = new Color(1, 0, 0, 1);
         public Color getHealText = new Color(0, 1, 0, 1);
 
+        public Color getMoneyText = new Color(0, 1, 0, 1);
+
         #region Cell
         public Color cellPlayerAllow = new Color(0.16f, 0.4f, 0.08f, 0.08f);
         public Color cellPlayerAllowOutline = new Color(0, 1f, 0, 1f);

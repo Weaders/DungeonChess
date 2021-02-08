@@ -83,6 +83,10 @@ namespace Assets.Scripts.TopSidePanel {
 
             levelOfCharacters.Subscribe(GameMng.current.playerData.levelOfCharacters);
 
+            GameMng.current.fightMng.fightTeamPlayer
+                .onChangeTeamCtrl
+                .AddListener(RefreshBtnInteractable);
+
         }
 
     }

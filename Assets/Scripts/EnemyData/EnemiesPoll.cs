@@ -4,6 +4,7 @@ using System.Linq;
 using Assets.Scripts.Common;
 using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Fight.PlaceStrategy;
+using Assets.Scripts.Observable;
 using Assets.Scripts.StatsData;
 using UnityEngine;
 using static Assets.Scripts.EnemyData.DungeonData;
@@ -71,6 +72,8 @@ namespace Assets.Scripts.EnemyData {
         /// Start from 0
         /// </summary>
         public int levelOfDifficult;
+
+        public ModifyType modifyType => levelOfDifficult == -1 ? ModifyType.Plus : ModifyType.Set;
 
     }
 

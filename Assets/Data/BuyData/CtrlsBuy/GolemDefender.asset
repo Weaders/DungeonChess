@@ -14,20 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ctrlPrefab: {fileID: 2746475727465504425, guid: 26daf9e76728e2e4a865ebd75af57b3f,
     type: 3}
-  cost: 50
+  cost: 12
   descriptionKey: golem_defender_buy_description
   data:
   - stats:
     - statType: 0
-      intVal: 50
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 50
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 2
+      intVal: 3
       floatVal: 0
       boolVal: 0
+    - statType: 6
+      intVal: 3
+      floatVal: 0.05
+      boolVal: 0
     levelOfDifficult: -1
+  - stats:
+    - statType: 0
+      intVal: 250
+      floatVal: 0
+      boolVal: 0
+    - statType: 1
+      intVal: 250
+      floatVal: 0
+      boolVal: 0
+    - statType: 5
+      intVal: 5
+      floatVal: 0
+      boolVal: 0
+    - statType: 4
+      intVal: 25
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 25
+      floatVal: 0.8
+      boolVal: 0
+    levelOfDifficult: 0

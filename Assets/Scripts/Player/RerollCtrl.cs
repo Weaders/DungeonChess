@@ -60,11 +60,15 @@ namespace Assets.Scripts.Player {
 
                 var cellForCharacter = characterCtrl.cell;
 
-                team.RemoveCharacter(characterCtrl);
-
                 var addedCtrl = team.AddCharacterToTeamPrefab(randomCtrl);
 
                 cellForCharacter.StayCtrl(addedCtrl);
+
+                for (var i = 0; i < characterCtrl.characterData.itemsContainer.Count; i++) {
+                    addedCtrl.characterData.itemsContainer[i] = characterCtrl.characterData.itemsContainer[i];
+                }
+
+                team.RemoveCharacter(characterCtrl);
 
                 onPostReroll.Invoke();
 

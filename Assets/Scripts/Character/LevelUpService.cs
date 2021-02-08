@@ -34,15 +34,89 @@ namespace Assets.Scripts.Character {
                     b.characterData.id == buyData.ctrlPrefab.characterData.id
                 );
 
-
                 if (!chars.Any())
                     continue;
 
                 var statGroup = buyData.GetStatGroup(GameMng.current.playerData.levelOfCharacters);
 
-                foreach (var character in chars)
+                foreach (var character in chars) {
+
+                    character.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
+
                     foreach (var stat in statGroup.stats)
-                        character.characterData.stats.Mofify(stat, Observable.ModifyType.Plus);
+                        character.characterData.stats.Mofify(
+                            stat,
+                            statGroup.modifyType
+                        );
+
+                }
+                    
+
+            }
+
+        }
+
+        public void LevelUpToCurrent(CharacterCtrl ctrl) {
+
+            foreach (var buyData in GameMng.current.buyMng.buyDataList) {
+
+                if (ctrl.characterData.id != buyData.ctrlPrefab.characterData.id)
+                    continue;
+
+                var statGroup = buyData.GetStatGroup(GameMng.current.playerData.levelOfCharacters);
+
+                var countOfPlus = 0;
+
+                if (statGroup.levelOfDifficult == -1) {
+
+                    var maxStatGroup =
+                        buyData.GetStatGroup(GameMng.current.playerData.levelOfCharacters, true);
+
+                    if (maxStatGroup.levelOfDifficult != -1) {
+
+                        foreach (var stat in maxStatGroup.stats)
+                            ctrl.characterData.stats.Mofify(
+                                stat,
+                                Observable.ModifyType.Set
+                            );
+
+                        countOfPlus = GameMng.current.playerData.levelOfCharacters - maxStatGroup.levelOfDifficult;
+
+                    } else {
+
+                        countOfPlus = GameMng.current.playerData.levelOfCharacters;
+
+                    }
+
+                    foreach (var stat in statGroup.stats) {
+
+                        for (var i = 0; i < countOfPlus; i++) {
+
+                            ctrl.characterData.stats.Mofify(
+                                stat,
+                                Observable.ModifyType.Plus
+                            );
+
+                        }
+
+                    }
+
+                } else {
+
+                    foreach (var stat in statGroup.stats) {
+
+                        ctrl.characterData.stats.Mofify(
+                            stat,
+                            Observable.ModifyType.Set
+                        );
+
+                    }
+
+                }
+
+                if (GameMng.current.playerData.levelOfCharacters > 0) {
+                    ctrl.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
+                }
 
             }
 
@@ -55,8 +129,13 @@ namespace Assets.Scripts.Character {
                 msg = TranslateReader.GetTranslate("you_want_level_up", new Placeholder("cost", cost)),
                 btns = new BtnData[]
                 {
-                    new BtnData(TranslateReader.GetTranslate("yes"), LevelUp),
-                    new BtnData(TranslateReader.GetTranslate("no"), () => GameMng.current.messagePanel.Hide())
+                    new BtnData(TranslateReader.GetTranslate("yes"), () => { 
+                        
+                        LevelUp();
+                        GameMng.current.messagePanel.Hide(); 
+
+                    }),
+                    new BtnData(TranslateReader.GetTranslate("no"), GameMng.current.messagePanel.Hide)
                 }
             });
 

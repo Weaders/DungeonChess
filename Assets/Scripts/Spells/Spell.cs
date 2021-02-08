@@ -122,9 +122,19 @@ namespace Assets.Scripts.Spells {
 
         protected RunEffectResult RunEffect(CharacterCtrl from, CharacterCtrl target, UnityAction<CharacterCtrl> onTouch, UnityAction<EffectObj> onCome) {
 
-            var effectObj = Instantiate(effectObjPrefab);
+            EffectObj effectObj;
 
-            effectObj.transform.position = from.GetSpawnTransform().position;
+            if (instantMoveEffect) {
+
+                effectObj = Instantiate(effectObjPrefab, target.transform);
+                effectObj.transform.position = target.GetSpawnTransform().position;
+
+            } else {
+                
+                effectObj = Instantiate(effectObjPrefab);
+                effectObj.transform.position = from.GetSpawnTransform().position;
+
+            }
 
             if (spellTarget == SpellTarget.EnemyAOE) {
 
@@ -140,7 +150,7 @@ namespace Assets.Scripts.Spells {
                 });
 
                 if (!instantMoveEffect) {
-                    effectObj.MoveToTransorm(target.transform, effectSpeed);
+                    effectObj.MoveToTransorm(target.GetTargetTransform(), effectSpeed);
                 } else {
                     effectObj.StayOnCharacterCtrl(target, effectTime == 0f ? (float?)null : effectTime, waitForEndAnimation);
                 }
