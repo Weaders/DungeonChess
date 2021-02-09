@@ -47,9 +47,9 @@ MonoBehaviour:
   _title: braces_of_crit_title
   _description: braces_of_crit_description
   icon: {fileID: 21300000, guid: 242038fc197b69644ac1e7a300b5cd18, type: 3}
-  cost: 0
+  cost: 10
   statsModify:
   - statType: 11
     intVal: 0
-    floatVal: 0.25
+    floatVal: 0.35
     boolVal: 0

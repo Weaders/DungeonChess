@@ -40,25 +40,6 @@ namespace Assets.Scripts.DungeonGenerator {
 
                     GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
 
-                    var statsChange = ctrlData.data.FirstOrDefault(d => d.levelOfDifficult == GameMng.current.levelDifficult);
-
-                    if (statsChange == null) {
-                        statsChange = ctrlData.data.Last();
-                    }
-
-                    if (statsChange != null) {
-
-                        foreach (var stat in statsChange.stats) {
-
-                            ctrlObj.characterData.stats.Mofify(
-                                stat, 
-                                statsChange.modifyType
-                            );
-
-                        }
-
-                    }
-
                     ++i;
 
                 }

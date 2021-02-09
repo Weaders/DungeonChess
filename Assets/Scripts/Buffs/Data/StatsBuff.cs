@@ -23,12 +23,16 @@ namespace Assets.Scripts.Buffs.Data {
             if (effectObjPrefab != null)
                 currentEffectObj = characterCtrl.effectsPlacer.PlaceEffectWithoutTime(effectObjPrefab.gameObject);
 
+            characterCtrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Buff, DestroyEffect);
+
         }
 
         protected override void DeApply() {
 
             foreach (var stat in statsModify)
                 characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Minus);
+
+            characterCtrl.characterData.stats.isDie.onPostChange.RemoveSubscription(DestroyEffect);
 
             if (currentEffectObj != null)
                 Destroy(currentEffectObj);
@@ -44,6 +48,17 @@ namespace Assets.Scripts.Buffs.Data {
             }
             
             return base.GetPlaceholders(descriptionFor).Concat(placeholders).ToArray();
+
+        }
+
+        private void DestroyEffect() {
+            if (currentEffectObj != null)
+                Destroy(currentEffectObj);
+        }
+
+        private void OnDestroy() {
+
+            DestroyEffect();
 
         }
     }

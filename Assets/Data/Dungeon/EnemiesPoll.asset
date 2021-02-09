@@ -51,7 +51,7 @@ MonoBehaviour:
     isBoss: 0
     isEnabled: 1
     difficult:
-      min: 2
+      min: 1
       max: -1
   - enemyTeamStrtg: 2
     characterCtrls:
@@ -60,7 +60,7 @@ MonoBehaviour:
     isEnabled: 1
     difficult:
       min: 0
-      max: -1
+      max: 1
   - enemyTeamStrtg: 2
     characterCtrls:
     - {fileID: 11400000, guid: b9f465b18d99e58498bb390ee0d4a255, type: 2}
@@ -68,7 +68,7 @@ MonoBehaviour:
     isEnabled: 1
     difficult:
       min: 0
-      max: -1
+      max: 1
   - enemyTeamStrtg: 1
     characterCtrls:
     - {fileID: 11400000, guid: b9f465b18d99e58498bb390ee0d4a255, type: 2}
@@ -86,4 +86,30 @@ MonoBehaviour:
     isEnabled: 1
     difficult:
       min: 0
+      max: -1
+  - enemyTeamStrtg: 2
+    characterCtrls:
+    - {fileID: 11400000, guid: 991cc96836cd43f4c94f9bcc1cad71fd, type: 2}
+    - {fileID: 11400000, guid: 46175ddb23cf6de4c9fb97b4bf88938a, type: 2}
+    - {fileID: 11400000, guid: 2c16bb5a06e9f364c85539e6022fa37c, type: 2}
+    - {fileID: 11400000, guid: b9f465b18d99e58498bb390ee0d4a255, type: 2}
+    - {fileID: 11400000, guid: fe7d0e906fe1fbd4e8b3b2f48148f03e, type: 2}
+    - {fileID: 11400000, guid: 991cc96836cd43f4c94f9bcc1cad71fd, type: 2}
+    isBoss: 0
+    isEnabled: 0
+    difficult:
+      min: 2
+      max: -1
+  - enemyTeamStrtg: 1
+    characterCtrls:
+    - {fileID: 11400000, guid: 4ba608a8229eacb4fbd7f32780563ad6, type: 2}
+    - {fileID: 11400000, guid: 4ba608a8229eacb4fbd7f32780563ad6, type: 2}
+    - {fileID: 11400000, guid: 4ba608a8229eacb4fbd7f32780563ad6, type: 2}
+    - {fileID: 11400000, guid: fe7d0e906fe1fbd4e8b3b2f48148f03e, type: 2}
+    - {fileID: 11400000, guid: fe7d0e906fe1fbd4e8b3b2f48148f03e, type: 2}
+    - {fileID: 11400000, guid: fe7d0e906fe1fbd4e8b3b2f48148f03e, type: 2}
+    isBoss: 0
+    isEnabled: 1
+    difficult:
+      min: 2
       max: -1

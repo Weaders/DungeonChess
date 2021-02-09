@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Scripts.EnemyData;
 using Assets.Scripts.Translate;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,68 +57,81 @@ namespace Assets.Scripts.Character {
 
         }
 
-        public void LevelUpToCurrent(CharacterCtrl ctrl) {
+        public void LevelUpToCurrent(CharacterCtrl ctrl, bool isEnemy = false) {
 
-            foreach (var buyData in GameMng.current.buyMng.buyDataList) {
+            var levels = !isEnemy ?
+                    GameMng.current.playerData.levelOfCharacters : GameMng.current.levelDifficult;
 
-                if (ctrl.characterData.id != buyData.ctrlPrefab.characterData.id)
-                    continue;
+            CharacterDungeonData characterData = null;
 
-                var statGroup = buyData.GetStatGroup(GameMng.current.playerData.levelOfCharacters);
+            if (isEnemy) {
 
-                var countOfPlus = 0;
+                var enemiesTeams = GameMng.current.currentDungeonData.enemiesPoll.teams;
 
-                if (statGroup.levelOfDifficult == -1) {
+                characterData = enemiesTeams.SelectMany(t => t.characterCtrls).First(c =>
+                    c.characterCtrl.characterData.id == ctrl.characterData.id
+                );
 
-                    var maxStatGroup =
-                        buyData.GetStatGroup(GameMng.current.playerData.levelOfCharacters, true);
+            } else {
 
-                    if (maxStatGroup.levelOfDifficult != -1) {
+                characterData = GameMng.current.buyMng.buyDataList
+                    .First(b => b.ctrlPrefab.characterData.id == ctrl.characterData.id);
 
-                        foreach (var stat in maxStatGroup.stats)
-                            ctrl.characterData.stats.Mofify(
-                                stat,
-                                Observable.ModifyType.Set
-                            );
+            }
 
-                        countOfPlus = GameMng.current.playerData.levelOfCharacters - maxStatGroup.levelOfDifficult;
+            var statGroup = characterData.GetStatGroup(levels);
 
-                    } else {
+            var countOfPlus = 0;
 
-                        countOfPlus = GameMng.current.playerData.levelOfCharacters;
+            if (statGroup.levelOfDifficult == -1) {
 
-                    }
+                var maxStatGroup =
+                    characterData.GetStatGroup(levels, true);
 
-                    foreach (var stat in statGroup.stats) {
+                if (maxStatGroup.levelOfDifficult != -1) {
 
-                        for (var i = 0; i < countOfPlus; i++) {
-
-                            ctrl.characterData.stats.Mofify(
-                                stat,
-                                Observable.ModifyType.Plus
-                            );
-
-                        }
-
-                    }
-
-                } else {
-
-                    foreach (var stat in statGroup.stats) {
-
+                    foreach (var stat in maxStatGroup.stats)
                         ctrl.characterData.stats.Mofify(
                             stat,
                             Observable.ModifyType.Set
+                        );
+
+                    countOfPlus = levels - maxStatGroup.levelOfDifficult;
+
+                } else {
+
+                    countOfPlus = levels;
+
+                }
+
+                foreach (var stat in statGroup.stats) {
+
+                    for (var i = 0; i < countOfPlus; i++) {
+
+                        ctrl.characterData.stats.Mofify(
+                            stat,
+                            Observable.ModifyType.Plus
                         );
 
                     }
 
                 }
 
-                if (GameMng.current.playerData.levelOfCharacters > 0) {
-                    ctrl.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
+            } else {
+
+                foreach (var stat in statGroup.stats) {
+
+                    ctrl.characterData.stats.Mofify(
+                        stat,
+                        Observable.ModifyType.Set
+                    );
+
                 }
 
+            }
+
+            if (levels > 0) {
+                ctrl.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
             }
 
         }

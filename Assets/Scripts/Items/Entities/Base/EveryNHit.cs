@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.Translate;
+﻿using Assets.Scripts.Translate;
 using UnityEngine;
 using static Assets.Scripts.ActionsData.Actions;
 

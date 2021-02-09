@@ -47,5 +47,5 @@ MonoBehaviour:
   _title: chest_of_return_title
   _description: chest_of_return_description
   icon: {fileID: 21300000, guid: b8590dc11940c624aaef8ffb3a1cf673, type: 3}
-  cost: 0
-  n: 4
+  cost: 12
+  n: 2

@@ -17,16 +17,20 @@ MonoBehaviour:
   data:
   - stats:
     - statType: 0
-      intVal: 400
+      intVal: 700
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 400
+      intVal: 700
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 40
+      intVal: 100
       floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 100
+      floatVal: 0.2
       boolVal: 0
     levelOfDifficult: -1
   - stats:

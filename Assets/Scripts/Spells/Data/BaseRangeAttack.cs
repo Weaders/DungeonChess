@@ -13,7 +13,12 @@ namespace Assets.Scripts.Spells.Data {
 
         public override UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 
-            to.characterData.actions.GetDmg(from, new Dmg(dmgAmount + from.characterData.stats.AD * adScale, this));
+            var dmg = new Dmg(dmgAmount + from.characterData.stats.AD * adScale, this);
+
+            if (from != null)
+                from.characterData.actions.MakeAttack(to, dmg);
+            else
+                to.characterData.actions.GetDmg(from, dmg);
 
             return null;
 

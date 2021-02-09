@@ -67,12 +67,10 @@ namespace Assets.Scripts.Character {
 
             mousePosition = Input.mousePosition;
 
-            if (Input.GetMouseButton(0)) {
+            if (IsUIBlocked())
+                return;
 
-                if (EventSystem.current.IsPointerOverGameObject() 
-                    && EventSystem.current.currentSelectedGameObject != null 
-                    && EventSystem.current.currentSelectedGameObject.tag != TagsStore.DRAG_BY_MOUSE)
-                    return;
+            if (Input.GetMouseButton(0)) {
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -118,49 +116,29 @@ namespace Assets.Scripts.Character {
 
                 } else {
 
+                    if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER))) {
 
-                    if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER, LayersStore.CELL_LAYER))) {
+                        var ctrl = hit.collider.GetComponent<CharacterCtrl>();
 
-                        if (hit.collider.gameObject.layer == LayerMask.NameToLayer(LayersStore.CELL_LAYER)) {
+                        if (ctrl != null && GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isStartFight) {
 
-                            if (GameMng.current.buyPanelUI.selectedBuyData != null && GameMng.current.buyPanelUI.selectedBuyData.IsCanBuy()) {
+                            selectedCharacterCtrl = ctrl;
 
-                                var cell = hit.collider.GetComponent<Cell>();
+                            _cellToSelect = selectedCharacterCtrl.cell;
 
-                                if (cell != null && cell.IsAvailableToStay() && cell.IsThereState(Cell.CellState.Select) && cell.GetCellType() == Cell.CellType.ForPlayer) {
+                            ctrl.moveCtrl.DisableNavMesh();
+                            _draggedCtrl = ctrl;
 
-                                    var ctrl = GameMng.current.buyMng.Buy(GameMng.current.buyPanelUI.selectedBuyData);
-                                    cell.StayCtrl(ctrl);
+                            Physics.Raycast(ray, out RaycastHit hitCell, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
 
-                                }
-
-                            }
+                            lastDragHit = hitCell.point;
+                            lastSourceRay = Camera.main.transform.position;
+                            _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position ;
+                            sourceDir = ray.direction;
 
                         } else {
-
-                            var ctrl = hit.collider.GetComponent<CharacterCtrl>();
-
-                            if (ctrl != null && GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isInFight) {
-
-                                selectedCharacterCtrl = ctrl;
-
-                                _cellToSelect = selectedCharacterCtrl.cell;
-
-                                ctrl.moveCtrl.DisableNavMesh();
-                                _draggedCtrl = ctrl;
-
-                                Physics.Raycast(ray, out RaycastHit hitCell, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
-
-                                lastDragHit = hitCell.point;
-                                lastSourceRay = Camera.main.transform.position;
-                                _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position ;
-                                sourceDir = ray.direction;
-
-                            } else {
-                                selectedCharacterCtrl = ctrl;
-                                _draggedCtrl = null;
-                            }
-
+                            selectedCharacterCtrl = ctrl;
+                            _draggedCtrl = null;
                         }
 
                     }
@@ -190,14 +168,48 @@ namespace Assets.Scripts.Character {
 
                     }
 
+                    
                     selectedCharacterCtrl.OnDraggableToCell(null);
                     _draggedCtrl = null;
                     selectedCharacterCtrl.cell.StayCtrlOnlyPosition(selectedCharacterCtrl);
+
+                } else {
+
+                    if (IsUIBlocked())
+                        return;
+
+                    if (GameMng.current.buyPanelUI.selectedBuyData != null && GameMng.current.buyPanelUI.selectedBuyData.IsCanBuy()) {
+
+                        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                        if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER))) {
+
+                            var cell = hit.collider.GetComponent<Cell>();
+
+                            if (cell != null && cell.IsAvailableToStay() && cell.IsThereState(Cell.CellState.Select) && cell.GetCellType() == Cell.CellType.ForPlayer) {
+
+                                var ctrl = GameMng.current.buyMng.Buy(GameMng.current.buyPanelUI.selectedBuyData);
+                                cell.StayCtrl(ctrl);
+
+                            }
+
+                        }
+
+                    }
 
                 }
 
             }
 
+        }
+
+        private bool IsUIBlocked() {
+
+            return GameMng.current.messagePanel.IsShowed ||
+                    GameMng.current.selectPanel.IsShowed ||
+                        (EventSystem.current.IsPointerOverGameObject()
+                        && EventSystem.current.currentSelectedGameObject != null
+                        && EventSystem.current.currentSelectedGameObject.tag != TagsStore.DRAG_BY_MOUSE);
         }
 
         public class OnChangedSelectedCharacter : UnityEvent<CharacterCtrl, CharacterCtrl> { }

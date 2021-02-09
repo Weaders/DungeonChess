@@ -13,12 +13,12 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
             var tanks = team.aliveChars.Where(a => a.characterData.rangeType == Character.CharacterData.RangeType.Melee);
             var carries = team.aliveChars.Where(a => a.characterData.rangeType == Character.CharacterData.RangeType.Range);
 
+            var lines = new List<CellWithDistance>();
+
             var firstLineCells = new List<CellWithDistance>(tanks.Count());
             var secondLineCells = new List<CellWithDistance>(carries.Count());
 
             foreach (var cell in cells) {
-
-                var usedFirstLineCell = firstLineCells.Select(flc => flc.firstCell);
 
                 var minCellPair = enemyCells.Select(e => new CellWithDistance(cell, e)).Min();
 
@@ -26,65 +26,74 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
             }
 
-            firstLineCells.Sort((a, b) => {
+            var enemyYPositions = enemyCells.Select(e => e.dataPosition.y).Distinct();
 
-                var compareFirstReturn = a.CompareTo(b);
+            var minYEnemy = enemyYPositions.Min();
+            var maxYEnemy = enemyYPositions.Max();
 
-                if (compareFirstReturn == 0)
-                    return (a.firstCell.dataPosition.x + a.firstCell.dataPosition.y).CompareTo(b.firstCell.dataPosition.x + b.firstCell.dataPosition.y);
+            var linesGroups = cells.GroupBy(c => c.dataPosition.y);
 
-                return compareFirstReturn;
-
-            });
-
-            var minDistance = firstLineCells[0].distance;
-
-            firstLineCells = firstLineCells.Where(flc => flc.distance == minDistance).ToList();
-
-            if (firstLineCells.Count == cells.Count())
-                firstLineCells = firstLineCells.Take(tanks.Count()).ToList();
-
-            var exceptFirstLine = cells.Except(firstLineCells.Select(flc => flc.firstCell)).ToList();
-
-            foreach (var fc in firstLineCells) {
-
-                exceptFirstLine = exceptFirstLine.Except(secondLineCells.Select(s => s.firstCell)).ToList();
-
-                var nearCell = exceptFirstLine.Select(e => new CellWithDistance(e, fc.firstCell)).Min();
-
-                if (nearCell != null)
-                    secondLineCells.Add(nearCell);
-
-            }
+            var orderLines = linesGroups.OrderBy(l => Mathf.Min(Mathf.Abs(l.Key - minYEnemy), Mathf.Abs(l.Key - maxYEnemy)));
 
             var tanksEnumerator = tanks.GetEnumerator();
             tanksEnumerator.MoveNext();
 
-            for (var i = firstLineCells.Count / 2 - tanks.Count() / 2; i < firstLineCells.Count; i++) {
+            var carryEnumerator = carries.GetEnumerator();
+            carryEnumerator.MoveNext();
+
+            var usedCells = new List<Cell>();
+
+            foreach (var line in orderLines) {
 
                 if (tanksEnumerator.Current == null)
                     break;
 
-                firstLineCells[i].firstCell.StayCtrl(tanksEnumerator.Current);
+                var lineCells = line.OrderBy(c => c.dataPosition.x).ToArray();
 
-                tanksEnumerator.MoveNext();
+                var middleCell = lineCells[(lineCells.Length / 2)];
+
+                var orderLineCells = lineCells.OrderBy(c => Vector2Int.Distance(c.dataPosition, middleCell.dataPosition));
+
+                foreach (var cellAtLine in orderLineCells) {
+
+                    if (tanksEnumerator.Current == null)
+                        break;
+
+                    cellAtLine.StayCtrl(tanksEnumerator.Current);
+
+                    tanksEnumerator.MoveNext();
+
+                    usedCells.Add(cellAtLine);
+
+                }
 
             }
 
-
-            var carryEnumerator = carries.GetEnumerator();
-            carryEnumerator.MoveNext();
-
-            for (var i = secondLineCells.Count / 2 - carries.Count() / 2; i < secondLineCells.Count; i++) {
+            foreach (var line in orderLines.Skip(1)) {
 
                 if (carryEnumerator.Current == null)
                     break;
 
-                secondLineCells[i].firstCell.StayCtrl(carryEnumerator.Current);
+                var lineCells = line.OrderBy(c => c.dataPosition.x).ToArray();
 
-                carryEnumerator.MoveNext();
+                var middleCell = lineCells[(lineCells.Length / 2)];
 
-            }
+                var orderLineCells = lineCells.OrderBy(c => Vector2Int.Distance(c.dataPosition, middleCell.dataPosition));
+
+                foreach (var cellAtLine in orderLineCells) {
+
+                    if (usedCells.Contains(cellAtLine) || carryEnumerator.Current == null)
+                        break;
+
+                    cellAtLine.StayCtrl(carryEnumerator.Current);
+
+                    carryEnumerator.MoveNext();
+
+                    usedCells.Add(cellAtLine);
+
+                }
+
+            } 
 
         }
 

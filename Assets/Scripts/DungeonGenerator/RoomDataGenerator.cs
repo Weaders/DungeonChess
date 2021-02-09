@@ -130,9 +130,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
             public RoomData TryGen(int newLvl, float random) {
 
-                var maxLvl = lvls.Any() ? lvls.Max() : (_ch.delay + 1 + newLvl);
+                var maxLvl = lvls.Any() ? lvls.Max() : -_ch.delay;
 
-                if (maxLvl - newLvl > _ch.delay) {
+                if (maxLvl + _ch.delay < newLvl) {
 
                     if (random < _currentChance) {
 

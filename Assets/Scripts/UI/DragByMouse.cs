@@ -15,7 +15,7 @@ namespace Assets.Scripts.UI {
 
         public void OnDrag(PointerEventData eventData) {
 
-            if (GameMng.current.gameInputCtrl.draggedCtrl == null)
+            if (GameMng.current.gameInputCtrl.draggedCtrl == null && !GameMng.current.messagePanel.IsShowed && !GameMng.current.selectPanel.IsShowed)
                 cameraForMove.transform
                     .Translate(new Vector3(-eventData.delta.x, 0, -eventData.delta.y) * moveSpeed * Time.deltaTime, 
                     Space.World

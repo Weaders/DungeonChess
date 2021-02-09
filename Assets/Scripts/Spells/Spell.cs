@@ -81,7 +81,7 @@ namespace Assets.Scripts.Spells {
 
                 runEffectResult = RunEffect(from, to, (ctrl) => {
 
-                    if (!touchedCtrls.Contains(ctrl)) {
+                    if (!touchedCtrls.Contains(ctrl) && from.teamSide != ctrl.teamSide) {
 
                         Use(from, ctrl, opts);
                         touchedCtrls.Add(ctrl);
@@ -102,6 +102,21 @@ namespace Assets.Scripts.Spells {
                 });
 
                 to.characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.Fight, onDie);
+                from.characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.Fight, onDie);
+
+                if (runEffectResult != null && runEffectResult.effectObj != null) {
+
+                    runEffectResult.effectObj.onDestroy.AddListener(() => {
+
+                        if (to != null)
+                            to.characterData.stats.isDie.onPostChange.RemoveSubscription(onDie);
+
+                        if (from != null)
+                            from.characterData.stats.isDie.onPostChange.RemoveSubscription(onDie);
+
+                    });
+
+                }
 
                 return result;
 

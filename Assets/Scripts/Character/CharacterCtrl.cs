@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.AnimationCtrl;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
@@ -133,8 +134,10 @@ namespace Assets.Scripts.Character {
 
             characterCanvas.transform.rotation = Quaternion.identity;
 
-            if (!isStartToFight || !isReadyForMove || characterData.stats.isDie)
+            if (!isStartToFight || !isReadyForMove || characterData.stats.isDie) {
                 return;
+
+            }
 
             var spell = GetSpellForUse();
             var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
@@ -172,18 +175,18 @@ namespace Assets.Scripts.Character {
 
         private IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd) {
 
-            while (target != null && !target.characterData.stats.isDie) {
+            while (target != null && !target.characterData.stats.isDie && !characterData.stats.isDie) {
 
                 var spell = GetSpellForUse();
 
                 var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
                 targetForAttack = target = strtg.GetTarget(spell, this);
 
+                if (target == null || !spell.IsInRange(this, target))
+                    break;
+
                 animator.SetBool(AnimationValStore.IS_USING_SPELL, spell.spellType == SpellType.FullManaAttack);
                 animator.SetBool(AnimationValStore.IS_ATTACK, true);
-
-                if (!spell.IsInRange(this, target))
-                    break;
 
                 if (characterData.isCanAttack) {
 
@@ -299,6 +302,18 @@ namespace Assets.Scripts.Character {
 
                 if (UnityEngine.Random.value <= characterData.stats.critChance && !attack.dmg.dmgModifiers.Any(m => m is CritModify)) {
                     attack.dmg.dmgModifiers.Add(new CritModify(0, characterData.stats.critDmg));
+                }
+
+            });
+
+            characterData.actions.onPostGetDmg.AddSubscription(OrderVal.Fight, dmgData => {
+
+                if (characterData.stats.vampirism > 0) {
+                    
+                    characterData.actions.GetHeal(this, new Heal(
+                        Mathf.RoundToInt(dmgData.dmg.GetCalculateVal() * characterData.stats.vampirism.val)
+                    ));
+
                 }
 
             });

@@ -131,12 +131,6 @@ namespace Assets.Scripts.DungeonGenerator {
 
             GameMng.current.fightMng.MovePlayerCtrls();
 
-
-            //var surfaces = GetComponents<NavMeshSurface>();
-
-            //foreach (var surface in surfaces)
-            //    surface.BuildNavMesh();
-
         }
 
     }

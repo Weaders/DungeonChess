@@ -42,7 +42,7 @@ namespace Assets.Scripts.Character {
 
         public bool isCanMove => stateContainer.All(s => s.isCharCanMove);
 
-        public bool isCanAttack => stateContainer.All(s => s.isCharCanAttack);
+        public bool isCanAttack => stateContainer.All(s => s.isCharCanAttack) && !stats.isDie.val;
 
         public RangeType rangeType {
             get {

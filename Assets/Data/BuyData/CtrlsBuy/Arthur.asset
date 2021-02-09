@@ -12,36 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b799490e4d787a448a3138b8d3d188f, type: 3}
   m_Name: Arthur
   m_EditorClassIdentifier: 
-  ctrlPrefab: {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc,
-    type: 3}
-  cost: 50
-  descriptionKey: warrior_buy_description
+  characterCtrl: {fileID: 0}
   data:
   - stats:
     - statType: 0
-      intVal: 50
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 50
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 5
+      intVal: 15
       floatVal: 0
       boolVal: 0
     levelOfDifficult: -1
   - stats:
     - statType: 0
-      intVal: 150
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 150
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 35
+      intVal: 45
       floatVal: 0
       boolVal: 0
+    - statType: 4
+      intVal: 25
+      floatVal: 0
+      boolVal: 0
+    - statType: 6
+      intVal: 25
+      floatVal: 1
+      boolVal: 0
     levelOfDifficult: 0
+  ctrlPrefab: {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc,
+    type: 3}
+  cost: 20
+  descriptionKey: warrior_buy_description

@@ -50,6 +50,6 @@ MonoBehaviour:
   cost: 20
   statsModify:
   - statType: 5
-    intVal: 30
+    intVal: 80
     floatVal: 0
     boolVal: 0

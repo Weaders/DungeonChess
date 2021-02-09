@@ -21,6 +21,7 @@ namespace Assets.Scripts.Fight {
         public UnityEvent onEnemyTeamWin = new UnityEvent();
 
         public ObservableVal<bool> isInFight = new ObservableVal<bool>();
+        public ObservableVal<bool> isStartFight = new ObservableVal<bool>();
 
         public bool isThereSomeOneToFight => fightTeamPlayer.aliveChars.Any() && fightTeamEnemy.aliveChars.Any();
 
@@ -46,6 +47,8 @@ namespace Assets.Scripts.Fight {
 
         public void MovePlayerCtrls() {
 
+            isStartFight.val = false;
+
             var cells = GameMng.current.roomCtrl.currentRoom.GetCells().Where(c => 
                 c.GetCellType() == CellsGrid.Cell.CellType.ForPlayer
             );
@@ -69,6 +72,8 @@ namespace Assets.Scripts.Fight {
         }
 
         public void StartFight() {
+
+            isStartFight.val = true;
 
             GameMng.current.isBuildPhase.val = false;
             GameMng.current.buyPanelUI.selectedBuyData = null;

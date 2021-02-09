@@ -29,8 +29,7 @@ namespace Assets.Scripts.Fight {
 
             _characterCtrls.Add(ctrl);
 
-            if (teamSide == TeamSide.Player)
-                GameMng.current.levelUpService.LevelUpToCurrent(ctrl);
+            GameMng.current.levelUpService.LevelUpToCurrent(ctrl, teamSide != TeamSide.Player);                
 
             ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Fight, () => {
 
@@ -40,8 +39,10 @@ namespace Assets.Scripts.Fight {
             });
 
             ctrl.onDestoy.AddSubscription(Observable.OrderVal.Fight, () => {
+
                 _characterCtrls.Remove(ctrl);
                 onChangeTeamCtrl.Invoke();
+
             });
 
             ctrl.teamSide = teamSide;

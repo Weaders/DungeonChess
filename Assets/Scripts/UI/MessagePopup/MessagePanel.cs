@@ -63,6 +63,9 @@ namespace Assets.Scripts.UI.MessagePopup {
 
         }
 
+        public bool IsShowed
+            => _canvasGroup.IsShowed();
+
         private void Reset() {
             _canvasGroup = GetComponent<CanvasGroup>();
             _text = GetComponentInChildren<TextMeshProUGUI>();

@@ -47,7 +47,7 @@ MonoBehaviour:
   _title: gloves_of_speed_title
   _description: gloves_of_speed_description
   icon: {fileID: 21300000, guid: 975668da200627749b4e03f57ba5045d, type: 3}
-  cost: 0
+  cost: 17
   statsModify:
   - statType: 6
     intVal: 0

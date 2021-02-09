@@ -61,7 +61,7 @@ MonoBehaviour:
     boolVal: 0
   - statType: 11
     intVal: 0
-    floatVal: 20
+    floatVal: 0.2
     boolVal: 0
   effectObjPrefab: {fileID: 4780799289543961386, guid: 3e07c67871ff63e46adf43be709319fd,
     type: 3}

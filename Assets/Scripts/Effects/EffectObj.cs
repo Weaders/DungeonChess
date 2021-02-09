@@ -25,6 +25,8 @@ namespace Assets.Scripts.Effects {
 
         private CharacterCtrl _currentTarget = null;
 
+        public UnityEvent onDestroy { get; private set; } = new UnityEvent();
+
         [SerializeField]
         private EffectObj exposionPrefab;
 
@@ -134,6 +136,10 @@ namespace Assets.Scripts.Effects {
             else
                 onTouch.Invoke(_currentTarget);
 
+        }
+
+        private void OnDestroy() {
+            onDestroy.Invoke();
         }
 
     }
