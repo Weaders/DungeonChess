@@ -79,7 +79,7 @@ namespace Assets.Scripts.FightText {
             while (q.Count > 0) {
                 
                 DisplayText(q.Dequeue(), ctrl, q);
-                yield return new WaitForSeconds(.5f);
+                yield return new WaitForSeconds(.2f);
 
             }                
 

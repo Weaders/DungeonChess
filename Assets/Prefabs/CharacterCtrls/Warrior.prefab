@@ -4649,6 +4649,7 @@ Transform:
   - {fileID: 8392396109971781049}
   - {fileID: 5506084124265482528}
   - {fileID: 7923380238721897}
+  - {fileID: 5524652282663591690}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5397,9 +5398,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d081c3e33fcc8224b9fd9b57867b8ca3, type: 3}
---- !u!224 &8392396109971781049 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+--- !u!1 &3357000480726916347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4683754404740807652, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
     type: 3}
   m_PrefabInstance: {fileID: 8040754881020307231}
   m_PrefabAsset: {fileID: 0}
@@ -5445,9 +5446,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d59de500a45da04c8e05db5487cab39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3357000480726916347 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4683754404740807652, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
+--- !u!224 &8392396109971781049 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2009089470112518822, guid: d081c3e33fcc8224b9fd9b57867b8ca3,
     type: 3}
   m_PrefabInstance: {fileID: 8040754881020307231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8995352480357020885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2328172299832810842}
+    m_Modifications:
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5570026535136797165, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: m_Name
+      value: SwordAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371835363982336164, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: titleKey
+      value: sword_shield_attack_title
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371835363982336164, guid: 317e991a8734ea345881c90e308ada38,
+        type: 3}
+      propertyPath: descriptionKey
+      value: sword_shield_attack_description
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 317e991a8734ea345881c90e308ada38, type: 3}
+--- !u!4 &5524652282663591690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3494345333044751327, guid: 317e991a8734ea345881c90e308ada38,
+    type: 3}
+  m_PrefabInstance: {fileID: 8995352480357020885}
   m_PrefabAsset: {fileID: 0}

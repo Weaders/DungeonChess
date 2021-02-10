@@ -306,7 +306,7 @@ namespace Assets.Scripts.Character {
 
             });
 
-            characterData.actions.onPostGetDmg.AddSubscription(OrderVal.Fight, dmgData => {
+            characterData.actions.onPostMakeDmg.AddSubscription(OrderVal.Fight, dmgData => {
 
                 if (characterData.stats.vampirism > 0) {
                     
@@ -358,8 +358,17 @@ namespace Assets.Scripts.Character {
         public Transform GetSpawnTransform() => bulletSpawnObj.transform;
 
         public void OnDraggableToCell(Cell cell) {
-            
+
+            if (_draggedCell != null) {
+                _draggedCell.RemoveState(Cell.CellState.NotAvailable);
+            }
+
             _draggedCell = cell;
+
+            if (_draggedCell != null) {
+                _draggedCell.AddState(Cell.CellState.NotAvailable);
+            }
+
             OnRefreshShowCellsEffects();
 
         }

@@ -82,14 +82,8 @@ namespace Assets.Scripts.Character {
 
                         if (_cellToSelect != cell && cell != null && (cell.characterCtrl == _draggedCtrl || cell.IsAvailableToStay()) && cell.GetCellType() == Cell.CellType.ForPlayer) {
 
-                            if (_cellToSelect != null) {
-                                _cellToSelect.RemoveState(Cell.CellState.NotAvailable);
-                            }
-
                             _cellToSelect = cell;
                             _draggedCtrl.OnDraggableToCell(_cellToSelect);
-
-                            _cellToSelect.AddState(Cell.CellState.NotAvailable);
 
                         }
 
@@ -151,15 +145,17 @@ namespace Assets.Scripts.Character {
 
                     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                    Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
+                    selectedCharacterCtrl.OnDraggableToCell(null);
+                    _draggedCtrl = null;
 
-                    if (hit.collider != null) {
+                    if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER)) && hit.collider != null) {
 
                         var cell = hit.collider.GetComponent<Cell>();
 
                         if (cell.GetCellType() == Cell.CellType.ForPlayer && cell.IsAvailableToStay() && cell.IsThereState(Cell.CellState.Select)) {
                             cell.StayCtrl(selectedCharacterCtrl);
                         } else {
+
                             var cellToMove = selectedCharacterCtrl.GetCellForSelectedDisplay();
 
                             if (cellToMove != selectedCharacterCtrl.cell)
@@ -168,9 +164,6 @@ namespace Assets.Scripts.Character {
 
                     }
 
-                    
-                    selectedCharacterCtrl.OnDraggableToCell(null);
-                    _draggedCtrl = null;
                     selectedCharacterCtrl.cell.StayCtrlOnlyPosition(selectedCharacterCtrl);
 
                 } else {
@@ -205,7 +198,8 @@ namespace Assets.Scripts.Character {
 
         private bool IsUIBlocked() {
 
-            return GameMng.current.messagePanel.IsShowed ||
+            return GameMng.current.dragByMouse.isDragged ||
+                GameMng.current.messagePanel.IsShowed ||
                     GameMng.current.selectPanel.IsShowed ||
                         (EventSystem.current.IsPointerOverGameObject()
                         && EventSystem.current.currentSelectedGameObject != null

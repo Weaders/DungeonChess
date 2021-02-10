@@ -15,7 +15,7 @@ namespace Assets.Scripts.Fight {
 
         public IReadOnlyList<CharacterCtrl> characters => _characterCtrls;
 
-        public IEnumerable<CharacterCtrl> aliveChars => characters.Where(ctrl => !ctrl.characterData.stats.isDie);
+        public IEnumerable<CharacterCtrl> aliveChars => characters.Where(ctrl => ctrl != null && !ctrl.characterData.stats.isDie);
 
         private readonly List<CharacterCtrl> _characterCtrls = new List<CharacterCtrl>();
 

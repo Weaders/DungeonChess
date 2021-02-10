@@ -25,7 +25,7 @@ MonoBehaviour:
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 45
+      intVal: 20
       floatVal: 0
       boolVal: 0
     - statType: 11

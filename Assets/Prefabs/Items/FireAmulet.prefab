@@ -49,4 +49,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 14a8c1d36f8541d429886fead6899342, type: 3}
   cost: 15
   n: 1
-  dmg: 35
+  dmg: 50

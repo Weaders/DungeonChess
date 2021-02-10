@@ -43,7 +43,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 } else {
 
-                    var countExists = UnityEngine.Random.Range(1, 3);
+                    var countExists = UnityEngine.Random.Range(2, 3);
 
                     TagLogger<DungeonDataGenerator>.Info($"For {rooms.Count - 1} will be generated {countExists} exists");
 

@@ -134,6 +134,7 @@ namespace Assets.Scripts.CellsGrid {
 
                 if (ctrl.cell != null) {
                     ctrl.cell.AddState(CellState.Select);
+                    ctrl.cell.RemoveState(CellState.NotAvailable);
                 }
 
                 ctrl.moveCtrl.DisableNavMesh();
@@ -151,8 +152,6 @@ namespace Assets.Scripts.CellsGrid {
                 } else {
                     ctrl.cell = this;
                 }
-                
-                
 
                 AddState(CellState.NotAvailable);
 

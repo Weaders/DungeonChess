@@ -115,6 +115,8 @@ namespace Assets.Scripts {
 
         public ArrowSelectCtrl arrowCtrl;
 
+        public  DragByMouse dragByMouse;
+
         [SerializeField]
         private NameOfCharacter nameOfCharacter;
 
@@ -145,7 +147,7 @@ namespace Assets.Scripts {
             levelsBeforeChange = new ObservableVal<int>(currentDungeonData.changeDifficultEvery.GetRandomLvl());
             initLevelsBeforeChange = levelsBeforeChange;
             levelDifficult++;
-
+            TagLogger<GameMng>.Info($"Chnage level to {levelDifficult}");
         }
 
         private void Start() {

@@ -24,6 +24,8 @@ namespace Assets.Scripts.DungeonGenerator {
             }
         }
 
+        public Rect XZRect { get; private set; }
+
         public UnityEvent onMoveToNextRoom = new UnityEvent();
 
         [SerializeField]
@@ -93,6 +95,29 @@ namespace Assets.Scripts.DungeonGenerator {
       
         }
 
+        public Rect RecalcRect() {
+
+            Vector3? minXZ = null, maxXZ = null;
+
+            foreach (Transform tr in currentRoom.transform) {
+
+                var xz = tr.position.x + tr.position.z;
+
+                if (!minXZ.HasValue)
+                    minXZ = tr.position;
+                else
+                    minXZ = xz < minXZ.Value.x + minXZ.Value.z ? tr.position : minXZ;
+                if (!maxXZ.HasValue)
+                    maxXZ = tr.position;
+                else
+                    maxXZ = xz > maxXZ.Value.x + maxXZ.Value.z ? tr.position : maxXZ;
+
+            }
+
+            return new Rect(minXZ.Value.x, minXZ.Value.z, maxXZ.Value.x - minXZ.Value.x, maxXZ.Value.z - minXZ.Value.z);
+
+        }
+
         private void ProcessRoom() {
 
             currentRoom.transform.SetParent(transform);
@@ -101,7 +126,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var directions = Enum.GetValues(typeof(Direction));
 
-            var countExists = UnityEngine.Random.Range(1, directions.Length);
+            var countExists = UnityEngine.Random.Range(2, directions.Length);
 
             if (GameMng.current.IsNextBossRoom()) {
                 roomDataGenerator.GenerateExit(Direction.top);
@@ -128,6 +153,8 @@ namespace Assets.Scripts.DungeonGenerator {
             foreach (var cell in currentRoom.GetCells()) {
                 cell.AddState(Cell.CellState.Select);
             }
+
+            XZRect = RecalcRect();
 
             GameMng.current.fightMng.MovePlayerCtrls();
 

@@ -141,7 +141,7 @@ namespace Assets.Scripts.Spells {
 
             if (instantMoveEffect) {
 
-                effectObj = Instantiate(effectObjPrefab, target.transform);
+                effectObj = Instantiate(effectObjPrefab, target.transform, true);
                 effectObj.transform.position = target.GetSpawnTransform().position;
 
             } else {

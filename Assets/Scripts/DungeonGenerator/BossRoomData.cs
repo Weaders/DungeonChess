@@ -22,7 +22,9 @@ namespace Assets.Scripts.DungeonGenerator {
         }
 
         protected override EnemyTeam[] GetEnemyTeams()
-            => GameMng.current.currentDungeonData.enemiesPoll.GetBossTeams().ToArray();
+            => GameMng.current.currentDungeonData.enemiesPoll.GetBossTeams()
+                .Where(t => t.difficult.IsInRange(GameMng.current.levelDifficult))
+                .ToArray();
 
     }
 

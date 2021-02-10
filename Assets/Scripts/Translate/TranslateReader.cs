@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Assets.Scripts.Logging;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Assets.Scripts.Translate {
 
@@ -78,7 +79,17 @@ namespace Assets.Scripts.Translate {
 
         private static Dictionary<string, string> ReadTranslateFile(string lang) {
 
-            var jsonData = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "translation", $"{lang}.json"));
+            var path = Path.Combine(Application.streamingAssetsPath, "translation", $"{lang}.json");
+            string jsonData = string.Empty;
+
+            if (Application.platform == RuntimePlatform.Android) {
+                UnityWebRequest www = UnityWebRequest.Get(path);
+                www.SendWebRequest();
+                while (!www.isDone) ;
+                jsonData = www.downloadHandler.text;
+            } else {
+                jsonData = File.ReadAllText(path);
+            }
 
             var data = JsonUtility.FromJson<TranslateModel>(jsonData);
 

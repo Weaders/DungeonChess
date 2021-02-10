@@ -27,6 +27,9 @@ namespace Assets.Scripts.CellsGrid {
 
             paths.Push(initPath);
 
+            Path pathToClosest = null;
+            float closestDistance = float.MaxValue;
+
             while (paths.Any()) {
 
                 var cellPath = paths.Pop();
@@ -49,6 +52,15 @@ namespace Assets.Scripts.CellsGrid {
 
                     if (CellRangeHelper.IsInRange(to.dataPosition, nextCell.dataPosition, range)) {
                         return p;
+                    } else {
+
+                        var distance = Vector2Int.Distance(to.dataPosition, nextCell.dataPosition);
+
+                        if (pathToClosest == null || closestDistance > distance) {
+                            pathToClosest = p;
+                            closestDistance = distance;
+                        }
+
                     }
                         
                     paths.Push(p);
@@ -57,6 +69,9 @@ namespace Assets.Scripts.CellsGrid {
                 }
 
             }
+
+            if (pathToClosest != null)
+                return pathToClosest;
 
             return null;
 

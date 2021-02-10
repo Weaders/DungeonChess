@@ -1102,6 +1102,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_Attack
       objectReference: {fileID: 0}
+    - target: {fileID: 3578472441809486905, guid: 95bb0888bc331dc4cb6b46ea29321c18,
+        type: 3}
+      propertyPath: titleKey
+      value: hand_hit_title
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578472441809486905, guid: 95bb0888bc331dc4cb6b46ea29321c18,
+        type: 3}
+      propertyPath: descriptionKey
+      value: hand_hit_description
+      objectReference: {fileID: 0}
     - target: {fileID: 8500995924183551810, guid: 95bb0888bc331dc4cb6b46ea29321c18,
         type: 3}
       propertyPath: m_LocalPosition.x

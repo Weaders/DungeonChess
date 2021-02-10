@@ -49,6 +49,10 @@ MonoBehaviour:
       intVal: 5
       floatVal: 1
       boolVal: 0
+    - statType: 4
+      intVal: 25
+      floatVal: 1
+      boolVal: 0
     levelOfDifficult: 0
   ctrlPrefab: {fileID: 6437844519398791621, guid: e9485f5111f47a74ebd17426ea8d7f9c,
     type: 3}
