@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Observable;
+﻿using System;
+using Assets.Scripts.Observable;
 using Assets.Scripts.Translate;
 using TMPro;
 using UnityEngine;
@@ -37,9 +38,15 @@ namespace Assets.Scripts.TopSidePanel {
             if (stateTopBtn == StateTopBtn.ShowMenu) {
                 return !GameMng.current.selectPanel.IsShowed;
             } else {
+                try {
+                    return GameMng.current.fightMng.isThereSomeOneToFight
+                        && !GameMng.current.fightMng.isInFight;
+                } catch (Exception e) {
+                    Debug.Log(e.Message);
+                }
 
-                return GameMng.current.fightMng.isThereSomeOneToFight 
-                    && !GameMng.current.fightMng.isInFight;
+                return false;
+
 
             }
 

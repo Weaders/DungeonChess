@@ -17,15 +17,15 @@ MonoBehaviour:
   data:
   - stats:
     - statType: 0
-      intVal: 700
+      intVal: 1200
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 700
+      intVal: 1200
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 100
+      intVal: 180
       floatVal: 0
       boolVal: 0
     - statType: 6

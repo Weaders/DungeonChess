@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Logging;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.UI {
@@ -7,16 +8,21 @@ namespace Assets.Scripts.UI {
         [SerializeField]
         private float moveSpeed;
 
-        private Camera cameraForMove;
+        private Camera _camera;
+
+        private Camera cameraForMove {
+            get {
+                if (_camera == null)
+                    _camera = Camera.main;
+
+                return _camera;
+            }
+        }
 
         [SerializeField]
         private float zOffset = 5f;
 
         public bool isDragged { get; private set; }
-
-        private void Awake() {
-            cameraForMove = Camera.main;
-        }
 
         public void OnDrag(PointerEventData eventData) {
 

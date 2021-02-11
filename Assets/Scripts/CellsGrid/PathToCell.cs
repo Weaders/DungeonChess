@@ -36,15 +36,13 @@ namespace Assets.Scripts.CellsGrid {
 
                 var cell = cellPath.cells.Peek();
 
-                var neighbours = _cellsGridMng.GetNeighbours(cell);
-
-                var nextCells = neighbours
+                var nextCells = _cellsGridMng.GetNeighbours(cell)
                     .Except(usedCells)
                     .OrderByDescending(n => Vector2Int.Distance(n.dataPosition, to.dataPosition));
 
                 foreach (var nextCell in nextCells) {
 
-                    if (!nextCell.IsAvailableToStay() && nextCell != to)
+                    if ((!nextCell.IsAvailableToStay() && nextCell != to) || usedCells.Contains(nextCell))
                         continue;
 
                     var p = new Path(cellPath.cells);
@@ -57,12 +55,14 @@ namespace Assets.Scripts.CellsGrid {
                         var distance = Vector2Int.Distance(to.dataPosition, nextCell.dataPosition);
 
                         if (pathToClosest == null || closestDistance > distance) {
+
                             pathToClosest = p;
                             closestDistance = distance;
+
                         }
 
                     }
-                        
+
                     paths.Push(p);
                     usedCells.Add(nextCell);
 

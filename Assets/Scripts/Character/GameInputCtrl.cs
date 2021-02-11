@@ -30,11 +30,6 @@ namespace Assets.Scripts.Character {
             }
         }
 
-        private Vector3 mousePosition;
-
-        [SerializeField]
-        private float dragSpeed = .005f;
-
         /// <summary>
         /// First val old val, second new val
         /// </summary>
@@ -47,8 +42,6 @@ namespace Assets.Scripts.Character {
         private Vector3 _offsetDraggedCtrl;
 
         private Vector3 lastDragHit;
-
-        private Vector3 lastSourceRay;
 
         private Vector3 sourceDir;
 
@@ -64,8 +57,6 @@ namespace Assets.Scripts.Character {
         }
 
         private void Update() {
-
-            mousePosition = Input.mousePosition;
 
             if (IsUIBlocked())
                 return;
@@ -126,7 +117,6 @@ namespace Assets.Scripts.Character {
                             Physics.Raycast(ray, out RaycastHit hitCell, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
 
                             lastDragHit = hitCell.point;
-                            lastSourceRay = Camera.main.transform.position;
                             _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position ;
                             sourceDir = ray.direction;
 

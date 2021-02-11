@@ -21,6 +21,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
         public UnityEvent onDestoy = new UnityEvent();
 
+        private GameObject canvas = null;
+
         private RectTransform rectTransform {
 
             get {
@@ -149,7 +151,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
             startParent = transform.parent;
             cellsWithBounds.Clear();
 
-            var canvas = GameObject.FindGameObjectWithTag(TagsStore.MAIN_CANVAS);
+            if (canvas == null)
+                canvas = GameObject.FindGameObjectWithTag(TagsStore.MAIN_CANVAS);
 
             transform.SetParent(canvas.transform, true);
             transform.SetAsLastSibling();

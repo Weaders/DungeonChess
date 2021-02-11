@@ -18,12 +18,12 @@ MonoBehaviour:
     min: 3
     max: 7
   dungeonRoomCells:
-  - roomPrefab: {fileID: 5544910677715629556, guid: ede50fbf59e13d045b43d51d71106743,
-      type: 3}
-    isBoss: 1
   - roomPrefab: {fileID: 619586314962280255, guid: 9984a41cbeb511143bd6529fb0de433a,
       type: 3}
     isBoss: 0
+  - roomPrefab: {fileID: 5544910677715629556, guid: ede50fbf59e13d045b43d51d71106743,
+      type: 3}
+    isBoss: 1
   - roomPrefab: {fileID: 9060488752300326642, guid: bc255c49280b28646b3ba74f2cffe41c,
       type: 3}
     isBoss: 0

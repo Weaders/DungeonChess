@@ -23,7 +23,8 @@ namespace Assets.Scripts.Fight {
         public ObservableVal<bool> isInFight = new ObservableVal<bool>();
         public ObservableVal<bool> isStartFight = new ObservableVal<bool>();
 
-        public bool isThereSomeOneToFight => fightTeamPlayer.aliveChars.Any() && fightTeamEnemy.aliveChars.Any();
+        public bool isThereSomeOneToFight => fightTeamPlayer != null && fightTeamEnemy != null
+            && fightTeamPlayer.aliveChars.Any() && fightTeamEnemy.aliveChars.Any();
 
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Translate;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Translate;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,8 +10,21 @@ namespace Assets.Scripts.StartScreen {
         [SerializeField]
         private Text roomsRecord;
 
+        [SerializeField]
+        private Animator blackOverlayAnim;
+
         public void MoveToGame() {
-            SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+
+            blackOverlayAnim.SetBool(AnimationValStore.IS_SHOW, true);
+            var operation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+
+            operation.completed += (opr) => {
+
+                if (opr.isDone)
+                    SceneManager.UnloadSceneAsync(0);
+
+            };
+
         }
 
         private void Start() {

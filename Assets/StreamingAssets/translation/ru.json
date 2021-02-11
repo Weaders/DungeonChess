@@ -472,6 +472,10 @@
         {
             "key": "sword_shield_attack_description",
             "value": "Делает два удара в сумме наносящие %[dmg_amount]"
+        },
+        {
+            "key": "loading_more",
+            "value": "Загрузка...."
         }
     ]
 }
