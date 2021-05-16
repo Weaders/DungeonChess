@@ -12,6 +12,8 @@ namespace Assets.Scripts.Translate {
         [SerializeField]
         private Text defaultText;
 
+        private bool isTranslated = false;
+
         private void Reset() {
 
             textToTranslate = GetComponent<TMP_Text>();
@@ -21,11 +23,17 @@ namespace Assets.Scripts.Translate {
 
         private void Awake() {
 
-            if (textToTranslate != null)
-                textToTranslate.text = TranslateReader.GetTranslate(textToTranslate.text);
+            if (!isTranslated) {
 
-            if (defaultText != null)
-                defaultText.text = TranslateReader.GetTranslate(defaultText.text);
+                if (textToTranslate != null)
+                    textToTranslate.text = TranslateReader.GetTranslate(textToTranslate.text);
+
+                if (defaultText != null)
+                    defaultText.text = TranslateReader.GetTranslate(defaultText.text);
+
+                isTranslated = true;
+
+            }
 
         }
 

@@ -2,6 +2,7 @@
 using Assets.Scripts.Common;
 using Assets.Scripts.Translate;
 using UnityEngine.Events;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.BaseMessageData;
 using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
 
 namespace Assets.Scripts.Player {
@@ -58,7 +59,7 @@ namespace Assets.Scripts.Player {
 
                 var randomCtrl = GameMng.current.buyMng.characterCtrls.RandomElement();
 
-                var cellForCharacter = characterCtrl.cell;
+                var cellForCharacter = characterCtrl.characterData.cell;
 
                 var addedCtrl = team.AddCharacterToTeamPrefab(randomCtrl);
 

@@ -20,27 +20,10 @@ namespace Assets.Scripts.DungeonGenerator {
                 var teamIndex = Random.Range(0, teams.Length);
                 var team = teams[teamIndex];
 
-                var i = 0;
-
                 foreach (var ctrlData in team.characterCtrls) {
 
-                    var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrlData.characterCtrl);
-
-                    ctrlObj.gameObject.name = $"EnemyCtrl_{i}";
-
-                    ctrlObj.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
-
-                        GameMng.current.fightTextMng.DisplayText(ctrlObj, GameMng.current.currentDungeonData.moneyVictory.ToString(), new FightText.FightTextMsg.SetTextOpts {
-                            color = StaticData.current.colorStore.getMoneyText,
-                            icon = GameMng.current.gameData.playerManaIcon
-                        });
-
-                        GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
-                    });
-
+                    var ctrlObj = PrefabFactory.InitCharacterCtrl(ctrlData.characterCtrl, true);
                     GameMng.current.fightMng.fightTeamEnemy.AddCharacterToTeam(ctrlObj);
-
-                    ++i;
 
                 }
 

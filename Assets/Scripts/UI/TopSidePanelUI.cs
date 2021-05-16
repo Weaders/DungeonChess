@@ -21,6 +21,8 @@ namespace Assets.Scripts.TopSidePanel {
 
         public TextMeshProUGUI levelOfCharacters;
 
+        public TextMeshProUGUI foodCount;
+
         public Button topBtn;
 
         private StateTopBtn _stateTopBtn;
@@ -35,18 +37,15 @@ namespace Assets.Scripts.TopSidePanel {
 
         private bool IsInteractableBtn() {
 
-            if (stateTopBtn == StateTopBtn.ShowMenu) {
-                return !GameMng.current.selectPanel.IsShowed;
-            } else {
-                try {
-                    return GameMng.current.fightMng.isThereSomeOneToFight
-                        && !GameMng.current.fightMng.isInFight;
-                } catch (Exception e) {
-                    Debug.Log(e.Message);
-                }
-
+            if (GameMng.current == null)
                 return false;
 
+            if (stateTopBtn == StateTopBtn.ShowMenu && GameMng.current.selectPanel != null) {
+                return !GameMng.current.selectPanel.IsShowed;
+            } else {
+
+                return GameMng.current.fightMng.isThereSomeOneToFight
+                    && !GameMng.current.fightMng.isInFight;
 
             }
 
@@ -89,6 +88,8 @@ namespace Assets.Scripts.TopSidePanel {
             });
 
             levelOfCharacters.Subscribe(GameMng.current.playerData.levelOfCharacters);
+
+            foodCount.Subscribe(GameMng.current.playerData.food);
 
             GameMng.current.fightMng.fightTeamPlayer
                 .onChangeTeamCtrl

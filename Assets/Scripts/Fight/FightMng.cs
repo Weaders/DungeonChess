@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Character;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
@@ -21,14 +22,36 @@ namespace Assets.Scripts.Fight {
         public UnityEvent onEnemyTeamWin = new UnityEvent();
 
         public ObservableVal<bool> isInFight = new ObservableVal<bool>();
-        public ObservableVal<bool> isStartFight = new ObservableVal<bool>();
 
         public bool isThereSomeOneToFight => fightTeamPlayer != null && fightTeamEnemy != null
             && fightTeamPlayer.aliveChars.Any() && fightTeamEnemy.aliveChars.Any();
 
+        public IEnumerable<CharacterCtrl> GetCharacters()
+            => IteratorEnumerable.Iterate(fightTeamEnemy.aliveChars, fightTeamPlayer.aliveChars);
+
+        public FightTeam GetEnemyTeamFor(CharacterData characterData) {
+
+            if (fightTeamPlayer.characters.Any(c => c.characterData == characterData)) {
+                return fightTeamEnemy;
+            } else {
+                return fightTeamPlayer;
+            }
+
+        }
+
+        public FightTeam GetTeamFor(CharacterData characterData) {
+
+            if (fightTeamPlayer.characters.Any(c => c.characterData == characterData)) {
+                return fightTeamPlayer;
+            } else {
+                return fightTeamEnemy;
+            }
+
+        }
+
         public FightTeam GetEnemyTeamFor(CharacterCtrl characterCtrl) {
 
-            if (fightTeamPlayer.characters.Contains(characterCtrl)) {
+            if (fightTeamPlayer.characters.Contains(DetectCharacterCtrl(characterCtrl))) {
                 return fightTeamEnemy;
             } else {
                 return fightTeamPlayer;
@@ -38,7 +61,7 @@ namespace Assets.Scripts.Fight {
 
         public FightTeam GetTeamFor(CharacterCtrl characterCtrl) {
 
-            if (fightTeamPlayer.characters.Contains(characterCtrl)) {
+            if (fightTeamPlayer.characters.Contains(DetectCharacterCtrl(characterCtrl))) {
                 return fightTeamPlayer;
             } else {
                 return fightTeamEnemy;
@@ -46,17 +69,25 @@ namespace Assets.Scripts.Fight {
 
         }
 
-        public void MovePlayerCtrls() {
+        protected CharacterCtrl DetectCharacterCtrl(CharacterCtrl characterCtrl) {
 
-            isStartFight.val = false;
+            if (characterCtrl is SimulateCharacterCtrl simulate) {
+                return simulate.characterToSimulate;
+            }
 
-            var cells = GameMng.current.roomCtrl.currentRoom.GetCells().Where(c => 
+            return characterCtrl;
+
+        }
+
+        public void MovePlayerCtrlsToNextLvl() {
+
+            var cells = GameMng.current.roomCtrl.currentRoom.GetCells().Where(c =>
                 c.GetCellType() == CellsGrid.Cell.CellType.ForPlayer
             );
 
             foreach (var charCtrl in fightTeamPlayer.aliveChars) {
 
-                var cellForMove = charCtrl.startCell == null ? charCtrl.cell : charCtrl.startCell;
+                var cellForMove = charCtrl.startCell == null ? charCtrl.characterData.cell : charCtrl.startCell;
 
                 TagLogger<FightMng>.Info($"Start Search for character {charCtrl.name}, old position - {cellForMove.transform.position}");
 
@@ -72,9 +103,26 @@ namespace Assets.Scripts.Fight {
 
         }
 
+        private void Update() {
+
+            if (isInFight) {
+
+                foreach (var character in GetCharacters()) {
+
+                    var actions = character.GetActionsToDo();
+
+                    if (actions != null)
+                        StartCoroutine(actions);
+
+                }
+            }
+
+
+        }
+
         public void StartFight() {
 
-            isStartFight.val = true;
+            GameMng.current.simulateCharacterMoveCtrl.RemoveCharacters();
 
             GameMng.current.isBuildPhase.val = false;
             GameMng.current.buyPanelUI.selectedBuyData = null;
@@ -83,8 +131,10 @@ namespace Assets.Scripts.Fight {
             fightTeamPlayer.onAllInTeamDie.AddListener(PlayerTeamDie);
 
             foreach (var charCtrl in fightTeamPlayer.characters.Union(fightTeamEnemy.characters)) {
+
                 charCtrl.characterData.ResetBeforeFight();
                 charCtrl.GoAttack();
+
             }
 
             isInFight.val = true;

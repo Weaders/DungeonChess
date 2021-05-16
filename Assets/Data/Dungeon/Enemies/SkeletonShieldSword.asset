@@ -42,4 +42,8 @@ MonoBehaviour:
       intVal: 5
       floatVal: 0
       boolVal: 0
+    - statType: 6
+      intVal: 5
+      floatVal: 0.2
+      boolVal: 0
     levelOfDifficult: 0

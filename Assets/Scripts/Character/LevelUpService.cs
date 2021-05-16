@@ -3,6 +3,7 @@ using Assets.Scripts.EnemyData;
 using Assets.Scripts.Translate;
 using UnityEngine;
 using UnityEngine.UI;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.BaseMessageData;
 using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
 
 namespace Assets.Scripts.Character {
@@ -45,7 +46,7 @@ namespace Assets.Scripts.Character {
                     character.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
 
                     foreach (var stat in statGroup.stats)
-                        character.characterData.stats.Mofify(
+                        character.characterData.stats.Modify(
                             stat,
                             statGroup.modifyType
                         );
@@ -91,7 +92,7 @@ namespace Assets.Scripts.Character {
                 if (maxStatGroup.levelOfDifficult != -1) {
 
                     foreach (var stat in maxStatGroup.stats)
-                        ctrl.characterData.stats.Mofify(
+                        ctrl.characterData.stats.Modify(
                             stat,
                             Observable.ModifyType.Set
                         );
@@ -108,7 +109,7 @@ namespace Assets.Scripts.Character {
 
                     for (var i = 0; i < countOfPlus; i++) {
 
-                        ctrl.characterData.stats.Mofify(
+                        ctrl.characterData.stats.Modify(
                             stat,
                             Observable.ModifyType.Plus
                         );
@@ -121,7 +122,7 @@ namespace Assets.Scripts.Character {
 
                 foreach (var stat in statGroup.stats) {
 
-                    ctrl.characterData.stats.Mofify(
+                    ctrl.characterData.stats.Modify(
                         stat,
                         Observable.ModifyType.Set
                     );

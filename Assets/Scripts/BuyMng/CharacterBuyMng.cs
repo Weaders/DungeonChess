@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Buffs;
 using Assets.Scripts.Character;
 using UnityEngine;
 using UnityEngine.Events;
@@ -52,6 +53,8 @@ namespace Assets.Scripts.BuyMng {
                     GameMng.current.playerData.charactersCount.val--;
 
             });
+
+            FullTeamBuffMng.Recalc();
 
             return ctrl;
 

@@ -156,7 +156,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             XZRect = RecalcRect();
 
-            GameMng.current.fightMng.MovePlayerCtrls();
+            GameMng.current.fightMng.MovePlayerCtrlsToNextLvl();
 
         }
 

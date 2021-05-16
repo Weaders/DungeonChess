@@ -21,6 +21,8 @@ namespace Assets.Scripts.CellsGrid {
             }
         }
 
+
+
         public Vector2Int dataPosition;
 
         public CellStateManager stateMng = new CellStateManager();
@@ -46,6 +48,12 @@ namespace Assets.Scripts.CellsGrid {
             get => _isExit;
         }
 
+        public bool isMovedToThisCell {
+            get => movedToThisCellCtrl != null && !movedToThisCellCtrl.characterData.stats.isDie;
+        }
+
+        public CharacterCtrl movedToThisCellCtrl { get; private set; }
+
         [SerializeField]
         private MeshRenderer meshRenderer;
 
@@ -69,6 +77,13 @@ namespace Assets.Scripts.CellsGrid {
             ChangeColor();
         }
 
+        public void SetMaterial(Material material) {
+            
+            meshRenderer.material = material;
+            ChangeColor();
+
+        }
+
         public void ChangeColor() {
 
             var colorStore = StaticData.current.colorStore;
@@ -79,7 +94,8 @@ namespace Assets.Scripts.CellsGrid {
                 meshRenderer.material.SetColor("_OutlineColor", Color.white);
                 meshRenderer.material.SetFloat("_WidthOutLine", 0.01f);
 
-                cellEffect.SetActive(false);
+                ChangeCellEffectActive(false);
+
 
             } else {
 
@@ -91,26 +107,26 @@ namespace Assets.Scripts.CellsGrid {
                     meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
                     meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
 
-                    // For Player
+                // For Player
                 } else {
 
                     if (GetState() == CellState.NotAvailable) {
 
-                        cellEffect.SetActive(false);
+                        ChangeCellEffectActive(false);
 
                         meshRenderer.material.SetColor("_Color", colorStore.cellPlayerAllow);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerAllowOutline);
 
                     } else if (GetState() == CellState.Hover) {
 
-                        cellEffect.SetActive(false);
+                        ChangeCellEffectActive(false);
 
                         meshRenderer.material.SetColor("_Color", colorStore.cellHover);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellHoverOutlineCell);
 
                     } else if (GetState() == CellState.Select) {
 
-                        cellEffect.SetActive(true);
+                        ChangeCellEffectActive(true);
 
                         meshRenderer.material.SetColor("_Color", colorStore.cellPlayerNotAllow);
                         meshRenderer.material.SetColor("_OutlineColor", colorStore.cellPlayerNotAllowOutline);
@@ -123,18 +139,34 @@ namespace Assets.Scripts.CellsGrid {
 
         }
 
-        public void StayCtrl(CharacterCtrl ctrl, bool isChangePosition = true) {
+        public void ChangeCellEffectActive(bool active) {
 
-            if (ctrl.cell == this)
+#if UNITY_ANDROID
+            cellEffect.SetActive(false);
+#else
+            cellEffect.SetActive(active);
+#endif
+
+        }
+
+        public void MovedToThisCell(CharacterCtrl characterCtrl) {
+            movedToThisCellCtrl = characterCtrl;
+        }
+
+        public void StayCtrl(CharacterCtrl ctrl, bool isChangePosition = true, bool changeState = true) {
+
+            if ((ctrl == null && characterCtrl == null) || (ctrl != null && ctrl.characterData.cell == this))
                 return;
 
             if (ctrl != null) {
 
                 TagLogger<Cell>.Info($"Player stay on cell with position {transform.position}");
 
-                if (ctrl.cell != null) {
-                    ctrl.cell.AddState(CellState.Select);
-                    ctrl.cell.RemoveState(CellState.NotAvailable);
+                if (ctrl.characterData.cell != null && changeState) {
+
+                    ctrl.characterData.cell.AddState(CellState.Select);
+                    ctrl.characterData.cell.RemoveState(CellState.NotAvailable);
+
                 }
 
                 ctrl.moveCtrl.DisableNavMesh();
@@ -144,21 +176,33 @@ namespace Assets.Scripts.CellsGrid {
                 if (isChangePosition) {
                     StayCtrlOnlyPosition(ctrl);
                 }
-                if (ctrl.cell != null) {
 
-                    ctrl.cell.characterCtrl = null;
-                    ctrl.cell = this;
+                if (ctrl.characterData.cell != null) {
+
+                    ctrl.characterData.cell.characterCtrl = null;
+                    ctrl.characterData.cell = this;
 
                 } else {
-                    ctrl.cell = this;
+                    ctrl.characterData.cell = this;
                 }
 
-                AddState(CellState.NotAvailable);
+                if (changeState)
+                    AddState(CellState.NotAvailable);
 
                 ctrl.moveCtrl.EnableNavMesh();
                 characterCtrl = ctrl;
 
+            } else {
+
+                characterCtrl.characterData.cell = null;
+                characterCtrl = null;
+                
+                if (changeState)
+                    RemoveState(CellState.NotAvailable);
+
             }
+
+            movedToThisCellCtrl = null;
 
         }
 
@@ -197,7 +241,7 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         public bool IsAvailableToStay()
-            => (characterCtrl == null || characterCtrl.characterData.stats.isDie) && GetCellType() != CellType.NotUsable;
+            => (characterCtrl == null || characterCtrl.characterData.stats.isDie) && GetCellType() != CellType.NotUsable && !isMovedToThisCell;
 
         public CellState GetState() => stateMng.GetCurrent();
 

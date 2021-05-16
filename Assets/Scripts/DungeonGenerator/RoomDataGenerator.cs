@@ -32,7 +32,8 @@ namespace Assets.Scripts.DungeonGenerator {
                 new RoomGenerator(_dungeonData.itemsRoom, new ItemsRoomData("items_room")),
                 new RoomGenerator(_dungeonData.rerollRoom, new RerollRoomData("reroll_room")),
                 new RoomGenerator(_dungeonData.sellerRoom, new SellerRoomData("seller_room")),
-                new RoomGenerator(_dungeonData.fakeItemsRoom, new FakeItemsRoom("items_room"))
+                new RoomGenerator(_dungeonData.fakeItemsRoom, new FakeItemsRoom("items_room")),
+                new RoomGenerator(_dungeonData.eventRoom, new EventRoomData("event_room"))
             };
 
             currentHealChance = _dungeonData.healerRoom.current;

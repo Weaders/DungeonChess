@@ -78,7 +78,7 @@ namespace Assets.Scripts.Character {
 
                         }
 
-                        var offset2 = _draggedCtrl.cell.transform.position - (hit.point - _offsetDraggedCtrl);
+                        var offset2 = _draggedCtrl.characterData.cell.transform.position - (hit.point - _offsetDraggedCtrl);
 
                         var from = Camera.main.transform.position - offset2;
 
@@ -105,11 +105,11 @@ namespace Assets.Scripts.Character {
 
                         var ctrl = hit.collider.GetComponent<CharacterCtrl>();
 
-                        if (ctrl != null && GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isStartFight) {
+                        if (ctrl != null && GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isInFight) {
 
                             selectedCharacterCtrl = ctrl;
 
-                            _cellToSelect = selectedCharacterCtrl.cell;
+                            _cellToSelect = selectedCharacterCtrl.characterData.cell;
 
                             ctrl.moveCtrl.DisableNavMesh();
                             _draggedCtrl = ctrl;
@@ -148,13 +148,13 @@ namespace Assets.Scripts.Character {
 
                             var cellToMove = selectedCharacterCtrl.GetCellForSelectedDisplay();
 
-                            if (cellToMove != selectedCharacterCtrl.cell)
+                            if (cellToMove != selectedCharacterCtrl.characterData.cell)
                                 cellToMove.StayCtrl(selectedCharacterCtrl);
                         }
 
                     }
 
-                    selectedCharacterCtrl.cell.StayCtrlOnlyPosition(selectedCharacterCtrl);
+                    selectedCharacterCtrl.characterData.cell.StayCtrlOnlyPosition(selectedCharacterCtrl);
 
                 } else {
 

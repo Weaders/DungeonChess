@@ -20,5 +20,10 @@ namespace Assets.Scripts.Common {
             }
 
         }
+
+        [MenuItem("Debug/Remove Player Prefs")]
+        public static void RemovePlayerPrefs() {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

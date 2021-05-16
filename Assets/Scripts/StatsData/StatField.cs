@@ -37,7 +37,7 @@ namespace Assets.Scripts.StatsData {
         public Stat stat => statType;
 
         /// <summary>
-        /// Called by reflection <see cref="Stats.Mofify(StatField, ModifyType)"/>
+        /// Called by reflection <see cref="Stats.Modify(StatField, ModifyType)"/>
         /// </summary>
         /// <param name="obsrVal"></param>
         /// <param name="modifyType"></param>

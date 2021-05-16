@@ -9802,8 +9802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: enrage
-  offset: {x: 0, y: 1.2, z: 0}
-  offsetScale: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
   defaultDuration: 1
   onTouch:
     m_PersistentCalls:
@@ -9814,6 +9813,8 @@ MonoBehaviour:
   onStart:
     m_PersistentCalls:
       m_Calls: []
+  bindTarget: 1
+  exposionPrefab: {fileID: 0}
 --- !u!114 &4780799289543961381
 MonoBehaviour:
   m_ObjectHideFlags: 0

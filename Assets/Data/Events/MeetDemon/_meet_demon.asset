@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9919f13aaaf640c44adba87df24b5376, type: 3}
+  m_Name: _meet_demon
+  m_EditorClassIdentifier: 
+  violianceOffset: 0
+  demonScienceOffset: 0
+  necroApproveOffset: 0
+  textKey: you_see_demon_want_kill
+  btns:
+  - textKey: make_food_with_spell
+    eventStage: {fileID: 11400000, guid: ad54fda183124cc43874f01114e83670, type: 2}
+    manaModifier: -5
+  - textKey: pass_by
+    eventStage: {fileID: 11400000, guid: d9cb4083ab2cd4648bbf5b7e3d429beb, type: 2}
+    manaModifier: 0
+  - textKey: kill
+    eventStage: {fileID: 11400000, guid: f856a5ccea3589c4fa18fc7d025b7fd6, type: 2}
+    manaModifier: 5

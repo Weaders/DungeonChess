@@ -1,16 +1,17 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Character;
 using Assets.Scripts.Translate;
 using UnityEngine;
 
 namespace Assets.Scripts.Buffs {
 
-    public enum DuplicateBuffStrategy { 
+    public enum DuplicateBuffStrategy {
         None,
         Replace
     }
 
-    public enum BuffType { 
+    public enum BuffType {
         Buff,
         Debuff
     }
@@ -37,9 +38,22 @@ namespace Assets.Scripts.Buffs {
         [SerializeField]
         private BuffType buffType;
 
+        public bool isFullTeamBuff;
+
         public string title => TranslateReader.GetTranslate(_titleKey, GetPlaceholders(fromCharacterCtrl.characterData));
 
-        public string description => TranslateReader.GetTranslate(_descriptionKey, GetPlaceholders(fromCharacterCtrl.characterData));
+        public string description { 
+            get {
+
+                var description = TranslateReader.GetTranslate(_descriptionKey, GetPlaceholders(fromCharacterCtrl.characterData));
+
+                if (isFullTeamBuff)
+                    description += "\r\n \r\n<color=#8A4921>" + TranslateReader.GetTranslate("while_you_alive") + "</color>";
+
+                return description;
+
+            } 
+        }
 
         [SerializeField]
         private DuplicateBuffStrategy duplicateBuffStrategy;
@@ -51,7 +65,7 @@ namespace Assets.Scripts.Buffs {
         public string GetId() => id;
 
         public void ApplyTo(CharacterCtrl newCharacter, CharacterCtrl fromCharacter = null) {
-            
+
             characterCtrl = newCharacter;
             fromCharacterCtrl = fromCharacter != null ? fromCharacter : newCharacter;
             Apply();
@@ -62,14 +76,15 @@ namespace Assets.Scripts.Buffs {
         /// De apply buff, but there you 
         /// </summary>
         public void Remove() {
+
             DeApply();
             characterCtrl = null;
+
         }
 
         protected void RemoveFromCurrent() {
             characterCtrl.characterData.buffsContainer.Remove(this);
         }
-
 
         protected abstract void Apply();
 
@@ -82,5 +97,26 @@ namespace Assets.Scripts.Buffs {
 
         }
 
+        protected int GetUpgradeLvl(CharacterCtrl from) {
+
+            if (from.teamSide == Fight.TeamSide.Player) {
+                return GameMng.current.playerData.levelOfCharacters;
+            } else {
+                return GameMng.current.levelDifficult;
+            }
+
+        }
+
     }
+
+    public class BuffByIdComparer : IEqualityComparer<Buff> {
+
+        public bool Equals(Buff x, Buff y)
+            => x.GetId() == y.GetId();
+
+        public int GetHashCode(Buff obj)
+            => obj.GetId().GetHashCode();
+
+    }
+
 }

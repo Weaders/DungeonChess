@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Dungeon
   m_EditorClassIdentifier: 
   enemiesPoll: {fileID: 11400000, guid: 1cabb5225610c284da7c3d2d0d12a9f1, type: 2}
+  eventsPoll: {fileID: 11400000, guid: 2238f51c8b68d994f85e115d816400ee, type: 2}
   moneyVictory: 5
+  countRooms: 1
   changeDifficultEvery:
     min: 3
     max: 7
@@ -63,3 +65,9 @@ MonoBehaviour:
     toAdd: 0.3
     delay: 4
     roomSprite: {fileID: 21300000, guid: 4b5db7ccb7e0d4548b8f65102916dbeb, type: 3}
+  eventRoom:
+    start: 1
+    current: 1.2
+    toAdd: 0.2
+    delay: 3
+    roomSprite: {fileID: 21300000, guid: 3da7d827447edc0428342c2992d6f67b, type: 3}

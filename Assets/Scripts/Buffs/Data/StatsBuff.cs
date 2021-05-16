@@ -18,10 +18,10 @@ namespace Assets.Scripts.Buffs.Data {
         protected override void Apply() {
 
             foreach (var stat in statsModify)
-                characterCtrl.characterData.stats.Mofify(stat);
+                characterCtrl.characterData.stats.Modify(stat);
 
             if (effectObjPrefab != null)
-                currentEffectObj = characterCtrl.effectsPlacer.PlaceEffectWithoutTime(effectObjPrefab.gameObject);
+                currentEffectObj = characterCtrl.effectsPlacer.PlaceEffectWithoutTime(effectObjPrefab.gameObject, effectObjPrefab.bindTarget);
 
             characterCtrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Buff, DestroyEffect);
 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Buffs.Data {
         protected override void DeApply() {
 
             foreach (var stat in statsModify)
-                characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Minus);
+                characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Minus);
 
             characterCtrl.characterData.stats.isDie.onPostChange.RemoveSubscription(DestroyEffect);
 

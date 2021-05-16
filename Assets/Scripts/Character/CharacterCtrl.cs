@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Assets.Scripts.ActionsData;
 using Assets.Scripts.AnimationCtrl;
+using Assets.Scripts.Buffs;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.Logging;
@@ -15,12 +16,22 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
-    [RequireComponent(typeof(CharacterMoveCtrl), typeof(EffectsPlacer))]
-    public class CharacterCtrl : MonoBehaviour {
+    public interface ICharacterCtrl { }
+
+    [RequireComponent(typeof(CharacterMoveCtrl))]
+    public class CharacterCtrl : MonoBehaviour, ISpellUse, IForActions {
 
         public OrderedEvents onDestoy = new OrderedEvents();
 
         private bool _isSelected = false;
+
+        public CharacterCtrl characterCtrl => this;
+
+        CharacterData ISpellUse.characterData => characterData;
+
+        ISpellUse IForActions.spellUse => this;
+
+        CharacterMoveCtrl IForActions.characterMoveCtrl => moveCtrl;
 
         public bool isSelected {
             get => _isSelected;
@@ -34,8 +45,6 @@ namespace Assets.Scripts.Character {
 
         public UnityEvent onSelected = new UnityEvent();
 
-        public UnityEvent<Cell, Cell> onChangeCell = new UnityEvent<Cell, Cell>();
-
         private Fight.TeamSide _teamSide;
 
         public CharacterData characterData;
@@ -47,6 +56,8 @@ namespace Assets.Scripts.Character {
         public CharacterAnimEvents characterAnimEvents;
 
         public Sprite imgSprite;
+
+        public Transform headTransform;
 
         [SerializeField]
         private Animator animator;
@@ -75,25 +86,12 @@ namespace Assets.Scripts.Character {
         [Obsolete]
         public SynergyCharacterPointer synergyCharacterPoint;
 
-        private Cell _cell;
-
         private Cell _draggedCell;
 
         private Cell _startedCell;
 
         public Cell startCell => _startedCell;
 
-        public Cell cell {
-            get => _cell;
-            set {
-
-                var oldVal = _cell;
-
-                _cell = value;
-
-                onChangeCell.Invoke(oldVal, _cell);
-            }
-        }
 
         [SerializeField]
         private GameObject bulletSpawnObj;
@@ -109,16 +107,28 @@ namespace Assets.Scripts.Character {
 
         public bool isCanMakeFullManaAttack => characterData.stats.mana >= characterData.stats.maxMana && characterData.isCanAttack;
 
-        private bool isStartToFight = false;
+        public bool isStartToFight { get; set; } = false;
 
-        private bool isReadyForMove = true;
+        public bool isReadyForMove { get; set; } = true;
+
+
+        protected CharacterActionsCtrl characterActionsCtrl { get; set; }
+
+        private void Awake() {
+            characterActionsCtrl = new CharacterActionsCtrl(this);
+        }
+
+
+        public virtual bool IsTargetableFor(CharacterCtrl characterCtrl) {
+            return true;
+        }
 
         /// <summary>
         /// After call this character start move for enemy character for attack.
         /// </summary>
         public void GoAttack() {
 
-            _startedCell = cell;
+            _startedCell = characterData.cell;
             isStartToFight = true;
 
         }
@@ -130,50 +140,23 @@ namespace Assets.Scripts.Character {
             isStartToFight = false;
         }
 
-        private void Update() {
+        public IEnumerator GetActionsToDo() {
 
             characterCanvas.transform.rotation = Quaternion.identity;
 
             if (!isStartToFight || !isReadyForMove || characterData.stats.isDie) {
-                return;
-
+                return null;
             }
 
-            var spell = GetSpellForUse();
-            var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
-
-            targetForAttack = strtg.GetTarget(spell, this);
-
-            if (targetForAttack != null) {
-
-                if (spell.IsInRange(this, targetForAttack)) {
-                    
-                    isReadyForMove = false;
-                    StartCoroutine(AttackWhileInRange(targetForAttack, () => isReadyForMove = true));
-
-                } else if (characterData.isCanMove) {
-
-                    var path = GameMng.current.pathToCell.GetPath(cell, targetForAttack.cell, spell.range);
-
-                    if (path != null && path.cells.Count > 1) {
-
-                        var cells = path.GetToMovePath();
-                        isReadyForMove = false;
-                        StartCoroutine(moveCtrl.MoveToCell(cells.First(), () => isReadyForMove = true));
-
-                    }
-
-                }
-
-            }       
+            return characterActionsCtrl.IterateAction();
 
         }
 
-        private Spell GetSpellForUse() =>
+        public Spell GetSpellForUse() =>
             characterData.stats.mana.val < characterData.stats.maxMana.val ?
                 characterData.spellsContainer.GetBaseAttackSpell() : characterData.spellsContainer.GetFullManaSpellAttack();
 
-        private IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd) {
+        public virtual IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd) {
 
             while (target != null && !target.characterData.stats.isDie && !characterData.stats.isDie) {
 
@@ -234,6 +217,8 @@ namespace Assets.Scripts.Character {
 
             var spell = characterData.spellsContainer.GetFullManaSpellAttack();
 
+            characterData.onPreUseUlt.Invoke();
+
             spell.UseWithEffect(this, target, new Spell.UseSpellOpts {
                 scale = data.scale,
                 isEndAttack = data.isTiggerEndAttack
@@ -263,8 +248,7 @@ namespace Assets.Scripts.Character {
 
                 var isCrit = dmgEventData.dmg.dmgModifiers.Any(m => m is CritModify);
 
-                GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts 
-                {
+                GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts {
                     color = colorStore.getDmgText,
                     size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1,
                     icon = isCrit ? GameMng.current.gameData.critIcon : null
@@ -274,8 +258,7 @@ namespace Assets.Scripts.Character {
 
             characterData.actions.onPostGetHeal.AddSubscription(OrderVal.UIUpdate, (healEventData) => {
 
-                GameMng.current.fightTextMng.DisplayText(this, healEventData.heal.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts 
-                { 
+                GameMng.current.fightTextMng.DisplayText(this, healEventData.heal.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts {
                     color = colorStore.getHealText
                 });
 
@@ -293,8 +276,9 @@ namespace Assets.Scripts.Character {
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
                 GetComponent<Collider>().enabled = false;
                 characterSlider.gameObject.SetActive(false);
-                //characterCanvas.gameObject.SetActive(false);
                 animator.applyRootMotion = false;
+                var d = characterData.stats.isDie;
+                FullTeamBuffMng.Recalc();
 
             });
 
@@ -309,7 +293,7 @@ namespace Assets.Scripts.Character {
             characterData.actions.onPostMakeDmg.AddSubscription(OrderVal.Fight, dmgData => {
 
                 if (characterData.stats.vampirism > 0) {
-                    
+
                     characterData.actions.GetHeal(this, new Heal(
                         Mathf.RoundToInt(dmgData.dmg.GetCalculateVal() * characterData.stats.vampirism.val)
                     ));
@@ -321,7 +305,7 @@ namespace Assets.Scripts.Character {
             characterData.buffsContainer.onAdd.AddSubscription(OrderVal.CharacterCtrl, (buff) => {
 
                 if (!characterData.buffsContainer.isInProcessOfInit && buff.data.GetBuffType() == Buffs.BuffType.Buff)
-                    effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);                
+                    effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
 
             });
 
@@ -332,6 +316,8 @@ namespace Assets.Scripts.Character {
 
             });
 
+
+
             characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, () => {
 
                 OnRefreshActionCells();
@@ -339,15 +325,21 @@ namespace Assets.Scripts.Character {
 
             });
 
-            onChangeCell.AddListener((oldCell, newCell) => {
+            characterData.onChangeCell.AddListener((oldCell, newCell) => {
 
                 OnRefreshActionCells();
                 OnRefreshShowCellsEffects();
+
+                if (!GameMng.current.fightMng.isInFight && newCell != null)
+                    GameMng.current.simulateCharacterMoveCtrl.Simulate();
+
+
 
             });
 
             hpBar.SetValForObserve(characterData.stats.hp, characterData.stats.maxHp);
             manaBar.SetValForObserve(characterData.stats.mana, characterData.stats.maxMana);
+            isReadyForMove = true;
 
         }
 
@@ -378,7 +370,7 @@ namespace Assets.Scripts.Character {
             if (_draggedCell != null)
                 return _draggedCell;
             else
-                return cell;
+                return characterData.cell;
 
         }
 

@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.CellsGrid;
+using Assets.Scripts.Character;
 using UnityEngine;
 
 namespace Assets.Scripts.Fight.PlaceStrategy {
 
     public class TankCarryFormationPlaceStrategy : TeamPlaceStrategy {
 
-        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells)
+            => Place(team.aliveChars, cells, enemyCells);
 
-            var tanks = team.aliveChars.Where(a => a.characterData.rangeType == Character.CharacterData.RangeType.Melee);
-            var carries = team.aliveChars.Where(a => a.characterData.rangeType == Character.CharacterData.RangeType.Range);
+        public override void Place(IEnumerable<CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+
+            var tanks = ctrls.Where(a => a.characterData.rangeType == Character.CharacterData.RangeType.Melee);
+            var carries = ctrls.Where(a => a.characterData.rangeType == Character.CharacterData.RangeType.Range);
 
             var lines = new List<CellWithDistance>();
 
@@ -93,10 +97,9 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
                 }
 
-            } 
+            }
 
         }
-
     }
 
     public class CellWithDistance : IComparable<CellWithDistance> {

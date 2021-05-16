@@ -21,8 +21,11 @@ namespace Assets.Scripts.Fight {
 
         public readonly TeamSide teamSide;
 
-        public FightTeam(TeamSide side) {
+        public bool isSimulateTeam { get; private set; } 
+
+        public FightTeam(TeamSide side, bool isSimulate = false) {
             teamSide = side;
+            isSimulateTeam = isSimulate;
         }
 
         public void AddCharacterToTeam(CharacterCtrl ctrl) {
@@ -75,8 +78,15 @@ namespace Assets.Scripts.Fight {
         public void ClearChars() {
 
             foreach (var charCtrl in _characterCtrls) {
+
+                if (charCtrl.characterData.cell != null && isSimulateTeam)
+                    charCtrl.characterData.cell.StayCtrl(null, changeState: false);
+
                 Object.Destroy(charCtrl.gameObject);
+
             }
+
+            _characterCtrls.Clear();
 
         }
 

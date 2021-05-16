@@ -20,5 +20,21 @@ namespace Assets.Scripts.UI.CharacterInfoPopup {
 
         }
 
+        public void RecalcHeight() {
+
+            var rect = (description.transform as RectTransform);
+
+            var oldHeight = rect.sizeDelta.y;
+
+            var delta = description.preferredHeight - oldHeight;
+
+            rect.sizeDelta = new Vector2(rect.sizeDelta.x, description.preferredHeight);
+
+            var parentRect = (transform as RectTransform);
+
+            parentRect.sizeDelta = new Vector2(parentRect.sizeDelta.x, parentRect.sizeDelta.y + delta);
+
+        }
+
     }
 }

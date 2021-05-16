@@ -14,14 +14,14 @@ namespace Assets.Scripts.Items.Entities {
         protected override void OnDeEquip() {
 
             foreach (var statModify in statsModify)
-                owner.stats.Mofify(statModify, Observable.ModifyType.Minus);
+                owner.stats.Modify(statModify, Observable.ModifyType.Minus);
 
         }
 
         protected override void Equip() {
 
             foreach (var statModify in statsModify)
-                owner.stats.Mofify(statModify);
+                owner.stats.Modify(statModify);
 
         }
 

@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Translate;
 using UnityEngine;
 using UnityEngine.UI;
-using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.BaseMessageData;
 
 namespace Assets.Scripts.Character {
     public class CharacterHealService : MonoBehaviour {
@@ -10,7 +10,7 @@ namespace Assets.Scripts.Character {
         private Button btn;
 
         [SerializeField]
-        private int moneyCount;
+        private int foodCount;
 
         private void Reset() {
             btn = GetComponent<Button>();
@@ -36,16 +36,16 @@ namespace Assets.Scripts.Character {
 
             btn.onClick.AddListener(() => {
 
-                GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData { 
-                    msg = TranslateReader.GetTranslate("heal_full", new Placeholder("money", moneyCount)),
-                    btns = new[] { 
+                GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
+                    msg = TranslateReader.GetTranslate("heal_full", new Placeholder("money", foodCount)),
+                    btns = new[] {
                         new BtnData {
                             title = TranslateReader.GetTranslate("yes"),
                             onClick = () => {
 
                                 var selectedCharacterCtrl = GameMng.current.gameInputCtrl.selectedCharacterCtrl;
 
-                                GameMng.current.playerData.money.val -= moneyCount;
+                                GameMng.current.playerData.food.val -= foodCount;
 
                                 selectedCharacterCtrl.characterData.actions.GetHeal(null, new ActionsData.Heal(selectedCharacterCtrl.characterData.stats.maxHp));
                                 GameMng.current.messagePanel.Hide();
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Character {
                             }
                         },
                         new BtnData
-                        { 
+                        {
                             title = TranslateReader.GetTranslate("no"),
                             onClick = () => {
                                 GameMng.current.messagePanel.Hide();
@@ -71,7 +71,7 @@ namespace Assets.Scripts.Character {
         private bool IsBtnIneractable()
             => !GameMng.current.fightMng.isInFight
                        && GameMng.current.gameInputCtrl.selectedCharacterCtrl != null
-                       && GameMng.current.playerData.money >= moneyCount
+                       && GameMng.current.playerData.money >= foodCount
                        && GameMng.current.gameInputCtrl.selectedCharacterCtrl.teamSide == Fight.TeamSide.Player;
 
     }

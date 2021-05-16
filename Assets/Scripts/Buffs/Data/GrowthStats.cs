@@ -26,7 +26,7 @@ namespace Assets.Scripts.Buffs.Data {
             countForGrowth++;
 
             foreach (var stat in statFieldsPerGrowth) {
-                characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Plus);
+                characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Plus);
             }
 
         }
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Buffs.Data {
             foreach (var stat in statFieldsPerGrowth) {
 
                 for (var i = 0; i < countForGrowth; i++) {
-                    characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Plus);
+                    characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Plus);
                 }
 
             }
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Buffs.Data {
             foreach (var stat in statFieldsPerGrowth) {
 
                 for (var i = 0; i < countForGrowth; i++) {
-                    characterCtrl.characterData.stats.Mofify(stat, Observable.ModifyType.Minus);
+                    characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Minus);
                 }
 
             }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
+using Assets.Scripts.DungeonGenerator;
 using UnityEngine;
 
 namespace Assets.Scripts.EnemyData {
@@ -11,7 +12,11 @@ namespace Assets.Scripts.EnemyData {
 
         public EnemiesPoll enemiesPoll;
 
+        public EventsPoll eventsPoll;
+
         public int moneyVictory;
+
+        public int countRooms = 1;
 
         public RangeRooms changeDifficultEvery;
 
@@ -28,6 +33,8 @@ namespace Assets.Scripts.EnemyData {
         public RoomDataAndChance sellerRoom;
 
         public RoomDataAndChance fakeItemsRoom;
+
+        public RoomDataAndChance eventRoom;
 
         public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
 

@@ -83,10 +83,12 @@ namespace Assets.Scripts.Translate {
             string jsonData = string.Empty;
 
             if (Application.platform == RuntimePlatform.Android) {
+
                 UnityWebRequest www = UnityWebRequest.Get(path);
                 www.SendWebRequest();
                 while (!www.isDone) ;
                 jsonData = www.downloadHandler.text;
+                                                                                                    
             } else {
                 jsonData = File.ReadAllText(path);
             }

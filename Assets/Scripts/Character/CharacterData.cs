@@ -8,12 +8,17 @@ using Assets.Scripts.StatsData;
 using Assets.Scripts.State;
 using UnityEngine;
 using System.Linq;
+using Assets.Scripts.CellsGrid;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
     public class CharacterData : MonoBehaviour, IHaveItemsContainer {
 
         public Stats stats;
+
+        [SerializeField]
+        private Cell _cell;
 
         public SpellContainer spellsContainer;
 
@@ -29,16 +34,32 @@ namespace Assets.Scripts.Character {
 
         public OrderedEvents onPostMakeAttack = new OrderedEvents();
 
+        public OrderedEvents onPreUseUlt = new OrderedEvents();
+
         public CharacterCtrl characterCtrl;
 
         public ObservableVal<string> characterName;
+
+        public UnityEvent<Cell, Cell> onChangeCell = new UnityEvent<Cell, Cell>();
+
+        public Cell cell {
+            get => _cell;
+            set {
+
+                var oldVal = _cell;
+
+                _cell = value;
+
+                if (oldVal != _cell)
+                    onChangeCell.Invoke(oldVal, _cell);
+
+            }
+        }
 
         [SerializeField]
         private string _id;
 
         public string id => _id;
-
-
 
         public bool isCanMove => stateContainer.All(s => s.isCharCanMove);
 
@@ -100,6 +121,11 @@ namespace Assets.Scripts.Character {
 
         public enum RangeType { 
             Melee, Range
+        }
+
+        private void OnDestroy() {
+            if (cell != null)
+                cell.StayCtrl(null);
         }
 
     }

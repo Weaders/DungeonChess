@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9e1ef0cd9fc23458d197c9852242f9, type: 3}
+  m_Name: first_enter_dungeon_lose
+  m_EditorClassIdentifier: 
+  textKey: first_enter_dungeon_lose_header
+  headerKey: first_enter_dungeon_lose_text
+  newsConditionOr:
+  - stageCompleted: []
+    isCheckWinYear: 1
+    isWinYear: 0

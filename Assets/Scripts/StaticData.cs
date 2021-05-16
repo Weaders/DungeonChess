@@ -1,9 +1,13 @@
-﻿using Assets.Scripts.Common;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Common;
+using Assets.Scripts.DungeonGenerator.Events;
 using UnityEngine;
 using static Assets.Scripts.Translate.TranslateReader;
 
 namespace Assets.Scripts {
     public class StaticData : MonoBehaviour {
+
+        public const string LAST_COMPLETED_DUNGEON = "last_completed_dungeon";
 
         private static StaticData _current;
 
@@ -17,6 +21,14 @@ namespace Assets.Scripts {
 
             }
         }
+
+        private List<EventStage> eventStages = new List<EventStage>();
+
+        public ColorStore colorStore;
+
+        public int currentDungeon;
+
+        public Lang lang;
 
         private void Awake() {
 
@@ -50,9 +62,20 @@ namespace Assets.Scripts {
         public void TutorialShowed()
             => PlayerPrefs.SetInt("tutorial", 1);
 
-        public ColorStore colorStore;
+        public int GetLastCompleteDungeon() {
+            return PlayerPrefs.GetInt(LAST_COMPLETED_DUNGEON, -1);
+        }
 
-        public Lang lang;
+        public void MarkCurrentDungeonAsComplete() {
+            PlayerPrefs.SetInt(LAST_COMPLETED_DUNGEON, currentDungeon);
+        }
+
+        public void AddSavedStage(EventStage stage) {
+            eventStages.Add(stage);
+        }
+
+        public bool IsCompletedStage(EventStage stage)
+            => eventStages.Contains(stage);
 
     }
 }

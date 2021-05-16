@@ -3,7 +3,9 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _SecondTex ("Second Texture", 2D) = "" {}
         _Color ("Color", Color) = (1,1,1,1)
+        _SecondColor("Color For Second TEX", Color) = (1,1,1,1)
         _OutlineColor ("Outline Color", Color) = (1, 0, 0, 1)
         _Progress ("Progress", Range(0, 1)) = 0
         _MaxHeight ("Max Height", float) = 0.2
@@ -33,6 +35,7 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
+                float2 uv2 : TEXCOORD1;
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
@@ -40,7 +43,11 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            sampler2D _SecondTex;
+            float4 _SecondTex_ST;
+
             fixed4 _Color;
+            fixed4 _SecondColor;
             fixed4 _OutlineColor;
             float _Progress;
             float _MaxHeight;
@@ -70,7 +77,13 @@
 
                 } else {
                 
-                    fixed4 col = tex2D(_MainTex, i.uv) * _Color ;
+                    fixed4 col = tex2D(_MainTex, i.uv) * _Color;
+
+                    fixed4 secondTex = tex2D(_SecondTex, i.uv);
+
+                    if(secondTex.a > 0.55)
+                        return secondTex * _Color;
+
                     return col;
 
                 }

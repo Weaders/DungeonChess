@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.BuyMng;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Character;
+using Assets.Scripts.City;
 using Assets.Scripts.Common;
 using Assets.Scripts.DungeonGenerator;
 using Assets.Scripts.EnemyData;
@@ -22,7 +23,7 @@ using Assets.Scripts.UI.SelectPopup;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.BaseMessageData;
 
 namespace Assets.Scripts {
 
@@ -115,10 +116,12 @@ namespace Assets.Scripts {
 
         public ArrowSelectCtrl arrowCtrl;
 
-        public  DragByMouse dragByMouse;
+        public DragByMouse dragByMouse;
 
         [SerializeField]
         private NameOfCharacter nameOfCharacter;
+
+        public SimulateCharacterMoveCtrl simulateCharacterMoveCtrl;
 
         public PathToCell pathToCell { get; private set; }
 
@@ -131,6 +134,8 @@ namespace Assets.Scripts {
         public int levelDifficult { get; private set; } = -1;
 
         public ObservableVal<bool> isBuildPhase = new ObservableVal<bool>();
+
+        public CityDataChange cityDataChange = new CityDataChange();
 
         private void Awake() {
             ShowBlackOverlay();
@@ -208,10 +213,12 @@ namespace Assets.Scripts {
                 StaticData.current.TrySetLevevRecord(level);
 
                 messagePanel.SetData(new MessagePanel.MessageData {
-                    msg = TranslateReader.GetTranslate("you_lose_you_ned_room", new Placeholder("count_rooms", level)),
+                    msg = TranslateReader.GetTranslate("you_lose_you_escape"),
                     btns = new[] {
-                        new BtnData(TranslateReader.GetTranslate("restart"), () => {
-                            SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+                        new BtnData(TranslateReader.GetTranslate("ok"), () => {
+                            EndCurrentDungeon(new DungeonComplete {
+                                isWin = false
+                            });
                         })
                     }
                 });
@@ -220,18 +227,14 @@ namespace Assets.Scripts {
 
             });
 
-            level.onPostChange.AddSubscription(OrderVal.UIUpdate, () => {
+            level.onPostChange.AddSubscription(OrderVal.Internal, () => {
 
-                if (level == gameData.victoryLevel) {
+                if (level == currentDungeonData.countRooms + 1) {
 
-                    messagePanel.SetData(new MessagePanel.MessageData {
-                            msg = TranslateReader.GetTranslate("victory"),
-                            btns = new[] {
-                            new BtnData(TranslateReader.GetTranslate("i_am_cool"), messagePanel.Hide)
-                        }
+                    cityDataChange.violenceOffset -= 20;
+                    EndCurrentDungeon(new DungeonComplete {
+                        isWin = true
                     });
-
-                    messagePanel.Show();
 
                 }
 
@@ -246,8 +249,8 @@ namespace Assets.Scripts {
                 messagePanel.SetData(new MessagePanel.MessageData {
                     msg = TranslateReader.GetTranslate("tutorial"),
                     btns = new[] {
-                    new BtnData(TranslateReader.GetTranslate("ok"), messagePanel.Hide)
-                }
+                        new BtnData(TranslateReader.GetTranslate("ok"), messagePanel.Hide)
+                    }
                 });
 
                 messagePanel.Show();
@@ -264,6 +267,24 @@ namespace Assets.Scripts {
 
         public void HideBlackOverlay() {
             blackOverlayAnim.SetBool(AnimationValStore.IS_SHOW, false);
+        }
+
+        public void EndCurrentDungeon(DungeonComplete dungeonComplete) {
+
+            StaticData.current.MarkCurrentDungeonAsComplete();
+
+            var operation = SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+
+            operation.completed += (opr) => {
+
+                CityMng.current.cityData.ApplyChanges(cityDataChange);
+                CityMng.current.cityData.AddDungeonComplete(dungeonComplete);
+
+                if (opr.isDone)
+                    SceneManager.UnloadSceneAsync(1);
+
+            };
+
         }
 
         public class SelectCharacterEvent : UnityEvent<CharacterCtrl> { }

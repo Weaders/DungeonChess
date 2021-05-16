@@ -9,19 +9,22 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
     public class MaxDistancePlaceStrategy : TeamPlaceStrategy {
 
-        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells)
+            => Place(team.aliveChars, cells, enemyCells);
 
-            var cellsForSelect = new Cell[team.aliveChars.Count()];
+        public override void Place(IEnumerable<Character.CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+
+            var cellsForSelect = new Cell[ctrls.Count()];
 
             for (var i = 0; i < cellsForSelect.Length; i++) {
 
                 if (i == 0) {
                     cellsForSelect[0] = cells.MinElement(c => c.dataPosition.x + c.dataPosition.y);
                 } else {
-                    
+
                     cellsForSelect[i] = cells
                         .Where(c => !cellsForSelect.Contains(c))
-                        .MaxElement(c => 
+                        .MaxElement(c =>
                             cellsForSelect.Where(xc => xc != null).Sum(x => Vector2Int.Distance(x.dataPosition, c.dataPosition)
                         )
                     );
@@ -32,7 +35,7 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
             var cellI = 0;
 
-            foreach (var character in team.aliveChars) {
+            foreach (var character in ctrls) {
 
                 TagLogger<MaxDistancePlaceStrategy>.Info($"{character.name} spawned for {cellsForSelect[cellI].dataPosition}");
 
@@ -42,6 +45,5 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
             }
 
         }
-
     }
 }

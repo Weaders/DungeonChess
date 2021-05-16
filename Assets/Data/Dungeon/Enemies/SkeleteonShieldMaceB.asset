@@ -44,7 +44,7 @@ MonoBehaviour:
       boolVal: 0
     - statType: 6
       intVal: 0
-      floatVal: 0.6
+      floatVal: 0.3
       boolVal: 0
     - statType: 5
       intVal: 17

@@ -12,7 +12,7 @@ namespace Assets.Scripts.StatsData {
     public enum Stat {
         Hp, MaxHp, Mana, MaxMana, ManaPerAttack,
         Ad, As, MoveSpeed, IsDie, ClassTypes,
-        Vampirism, CritChance, CritDmg
+        Vampirism, CritChance, CritDmg, ReduceDmg
     }
 
     public static class StatTypeExtension {
@@ -81,6 +81,8 @@ namespace Assets.Scripts.StatsData {
 
         public StatField<bool> isDie = new StatField<bool>(Stat.IsDie, false);
 
+        public StatField<float> reduceDmg = new StatField<float>(Stat.ReduceDmg, 0);
+
         /// <summary>
         /// Vampirism
         /// </summary>
@@ -143,7 +145,7 @@ namespace Assets.Scripts.StatsData {
         private FieldInfo GetStatFieldInfo(Stat stat)
             => GetFields().FirstOrDefault(f => (f.GetValue(this) as IStatField).stat == stat);
 
-        public void Mofify(StatField statField, ModifyType modifyType = ModifyType.Plus) {
+        public void Modify(StatField statField, ModifyType modifyType = ModifyType.Plus) {
 
             var field = GetStatFieldInfo(statField.stat);
 

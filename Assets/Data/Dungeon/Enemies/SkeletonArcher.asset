@@ -56,6 +56,6 @@ MonoBehaviour:
       boolVal: 0
     - statType: 6
       intVal: 25
-      floatVal: 0.7
+      floatVal: 0.4
       boolVal: 0
     levelOfDifficult: 0

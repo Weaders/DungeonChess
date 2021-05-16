@@ -25,6 +25,8 @@ namespace Assets.Scripts.Effects {
 
         private CharacterCtrl _currentTarget = null;
 
+        public BindTarget bindTarget;
+
         public UnityEvent onDestroy { get; private set; } = new UnityEvent();
 
         [SerializeField]
@@ -38,6 +40,9 @@ namespace Assets.Scripts.Effects {
                 forwardEvents.targetForAnimEvents = this;
 
         }
+
+        public void MoveToCtrl(CharacterCtrl ctrl, float speed) 
+            => MoveToTransorm(ctrl.effectsPlacer.GetTarget(bindTarget), speed);
 
         public void MoveToTransorm(Transform target, float speed)
             => StartCoroutine(MoveToTrasformCoroutine(target, speed));
@@ -59,6 +64,7 @@ namespace Assets.Scripts.Effects {
                 explosionObj.transform.position = transform.position;
 
                 Destroy(explosionObj.gameObject, explosionObj.defaultDuration);
+
             }
             
 
@@ -140,6 +146,10 @@ namespace Assets.Scripts.Effects {
 
         private void OnDestroy() {
             onDestroy.Invoke();
+        }
+
+        public enum BindTarget {
+            Default, Head
         }
 
     }

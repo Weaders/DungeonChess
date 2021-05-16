@@ -8,8 +8,10 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
     public class MiddleFormation : TeamPlaceStrategy {
 
-        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells)
+            => Place(team.aliveChars, cells, enemyCells);
 
+        public override void Place(IEnumerable<Character.CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
 
             var minPosition = cells.MinElement(c => c.dataPosition.x + c.dataPosition.y);
             var maxPosition = cells.MaxElement(c => c.dataPosition.x + c.dataPosition.y);
@@ -22,7 +24,7 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
                 (c, centerEle) => Vector2Int.Distance(c.dataPosition, centerEle)
             );
 
-            foreach (var charObj in team.aliveChars) {
+            foreach (var charObj in ctrls) {
 
                 element.StayCtrl(charObj);
                 forIgnore.Add(element);

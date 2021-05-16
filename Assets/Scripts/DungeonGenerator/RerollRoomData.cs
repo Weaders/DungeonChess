@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Translate;
 using UnityEngine;
-using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.BaseMessageData;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class RerollRoomData : RoomData {

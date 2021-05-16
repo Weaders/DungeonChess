@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Translate;
 using UnityEngine;
-using static Assets.Scripts.UI.MessagePopup.MessagePanel.MessageData;
+using static Assets.Scripts.UI.MessagePopup.MessagePanel.BaseMessageData;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class FakeItemsRoom : ItemsRoomData {
@@ -20,17 +20,19 @@ namespace Assets.Scripts.DungeonGenerator {
 
             }
 
-            GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
-                msg = TranslateReader.GetTranslate("treasure_with_trap"),
-                btns = new[] {
-                    new BtnData(){
-                        title = TranslateReader.GetTranslate("ok") + " =(",
-                        onClick = () => {
-                            GameMng.current.messagePanel.Hide();
-                            GameMng.current.cellsGridMng.DisplayExits();
-                        }
+            var btnDatas = new[] {
+                new BtnData(){
+                    title = TranslateReader.GetTranslate("ok") + " =(",
+                    onClick = () => {
+                        GameMng.current.messagePanel.Hide();
+                        GameMng.current.cellsGridMng.DisplayExits();
                     }
                 }
+            };
+
+            GameMng.current.messagePanel.SetData(new UI.MessagePopup.MessagePanel.MessageData {
+                msg = TranslateReader.GetTranslate("treasure_with_trap"),
+                btns = btnDatas
             });
 
             GameMng.current.messagePanel.Show();

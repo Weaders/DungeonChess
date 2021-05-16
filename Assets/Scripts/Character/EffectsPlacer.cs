@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Scripts.Common;
 using Assets.Scripts.Effects;
 using UnityEngine;
+using static Assets.Scripts.Effects.EffectObj;
 
 namespace Assets.Scripts.Character {
 
@@ -14,6 +15,16 @@ namespace Assets.Scripts.Character {
 
         public Vector3 scaleMultiply = Vector3.one;
 
+        [SerializeField]
+        private TargetObj[] targetObjs;
+
+        [SerializeField]
+        private CharacterCtrl characterCtrl;
+
+        private void Awake() {
+            characterCtrl = GetComponent<CharacterCtrl>();
+        }
+
         /// <summary>
         /// Place effect
         /// Time in seconds
@@ -21,9 +32,9 @@ namespace Assets.Scripts.Character {
         /// <param name="effectPrefab"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        public GameObject PlaceEffect(GameObject effectPrefab, float time = 0f) {
+        public GameObject PlaceEffect(GameObject effectPrefab, float time = 0f, BindTarget bindTarget = BindTarget.Default) {
 
-            var effectObj = Instantiate(effectPrefab, transform, false);
+            var effectObj = Instantiate(effectPrefab, GetTarget(bindTarget, true), false);
 
             effectObj.name = $"Effect_{i++}";
 
@@ -44,9 +55,11 @@ namespace Assets.Scripts.Character {
 
         }
 
-        public GameObject PlaceEffectWithoutTime(GameObject effectPrefab) {
+        public GameObject PlaceEffectWithoutTime(GameObject effectPrefab, BindTarget bindTarget = BindTarget.Default) {
 
-            var effectObj = Instantiate(effectPrefab, transform, false);
+            var effectObj = Instantiate(effectPrefab, GetTarget(bindTarget, true), false);
+
+            effectObj.transform.rotation.Set(0, 0, 0, 1);
 
             effectObj.name = $"Effect_{i++}";
 
@@ -82,6 +95,22 @@ namespace Assets.Scripts.Character {
 
         }
 
+        public Transform GetTarget(BindTarget bindTarget, bool forStay = false) {
+
+            switch (bindTarget) {
+
+                case BindTarget.Head when characterCtrl.headTransform != null:
+                    return characterCtrl.headTransform;
+                case BindTarget.Default when forStay:
+                    return characterCtrl.transform;
+                case BindTarget.Default when !forStay:
+                default:
+                    return characterCtrl.GetTargetTransform();
+
+            }
+
+        }
+
         [ContextMenu("PlaceExistsEffects")]
         public void PlaceEffects() {
 
@@ -100,6 +129,15 @@ namespace Assets.Scripts.Character {
 
             public Vector3 offsetScale;
 
+        }
+
+        [Serializable]
+        public class TargetObj {
+
+            [SerializeField]
+            private BindTarget bindTarget;
+            [SerializeField]
+            private Transform obj;
 
         }
 

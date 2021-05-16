@@ -187,8 +187,14 @@ namespace Assets.Scripts.Spells {
 
         public int range = 2;
 
-        public virtual bool IsInRange(CharacterCtrl from, CharacterCtrl to)
-            => CellRangeHelper.IsInRange(from.cell.dataPosition, to.cell.dataPosition, range);
+        public virtual bool IsInRange(CharacterCtrl from, CharacterCtrl to) {
+
+            if (from.characterData.cell == null || to.characterData.cell == null || range == 0)
+                return false;
+
+            return CellRangeHelper.IsInRange(from.characterData.cell.dataPosition, to.characterData.cell.dataPosition, range);
+
+        }
 
         public virtual bool IsUseEffect()
             => effectObjPrefab != null;

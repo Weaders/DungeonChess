@@ -35,11 +35,14 @@ namespace Assets.Scripts.Buffs {
 
         }
 
-        public void Add(Buff data, CharacterCtrl from = null) {
+        public void Add(Buff data, CharacterCtrl from = null, bool forceIgnoreDuplicate = false) {
 
             var duplicate = buffs.FirstOrDefault(b => b.GetId() == data.GetId());
 
             if (duplicate != null) {
+
+                if (forceIgnoreDuplicate)
+                    return;
 
                 if (data.GetDuplicateStrg() == DuplicateBuffStrategy.Replace) {
                     Remove(duplicate);

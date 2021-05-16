@@ -17,7 +17,7 @@ namespace Assets.Scripts.CellsGrid {
 
         public Path GetPath(Cell from, Cell to, int range = 1) {
 
-            var paths = new Stack<Path>();
+            var paths = new Queue<Path>();
 
             var usedCells = new List<Cell>() { from };
             var result = new Stack<Cell>();
@@ -25,30 +25,31 @@ namespace Assets.Scripts.CellsGrid {
             var initPath = new Path();
             initPath.cells.Push(from);
 
-            paths.Push(initPath);
+            paths.Enqueue(initPath);
 
             Path pathToClosest = null;
             float closestDistance = float.MaxValue;
 
             while (paths.Any()) {
 
-                var cellPath = paths.Pop();
+                var cellPath = paths.Dequeue();
 
                 var cell = cellPath.cells.Peek();
 
                 var nextCells = _cellsGridMng.GetNeighbours(cell)
                     .Except(usedCells)
-                    .OrderByDescending(n => Vector2Int.Distance(n.dataPosition, to.dataPosition));
+                    .OrderBy(n => Vector2Int.Distance(n.dataPosition, to.dataPosition));
 
                 foreach (var nextCell in nextCells) {
 
-                    if ((!nextCell.IsAvailableToStay() && nextCell != to) || usedCells.Contains(nextCell))
+                    if (!nextCell.IsAvailableToStay() || usedCells.Contains(nextCell))
                         continue;
 
                     var p = new Path(cellPath.cells);
                     p.cells.Push(nextCell);
 
                     if (CellRangeHelper.IsInRange(to.dataPosition, nextCell.dataPosition, range)) {
+                        p.isMovedToTarget = true;
                         return p;
                     } else {
 
@@ -63,7 +64,7 @@ namespace Assets.Scripts.CellsGrid {
 
                     }
 
-                    paths.Push(p);
+                    paths.Enqueue(p);
                     usedCells.Add(nextCell);
 
                 }
@@ -82,6 +83,8 @@ namespace Assets.Scripts.CellsGrid {
     public class Path {
 
         public Path() { }
+
+        public bool isMovedToTarget { get; set; } = false;
 
         public Path(IEnumerable<Cell> _cells) {
             cells = new Stack<Cell>(_cells.Reverse());
