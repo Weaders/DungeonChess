@@ -29,8 +29,6 @@ namespace Assets.Scripts.Character {
 
         CharacterData ISpellUse.characterData => characterData;
 
-        ISpellUse IForActions.spellUse => this;
-
         CharacterMoveCtrl IForActions.characterMoveCtrl => moveCtrl;
 
         public bool isSelected {
@@ -330,7 +328,7 @@ namespace Assets.Scripts.Character {
                 OnRefreshActionCells();
                 OnRefreshShowCellsEffects();
 
-                if (!GameMng.current.fightMng.isInFight && newCell != null)
+                if (GameMng.current != null && !GameMng.current.fightMng.isInFight && newCell != null)
                     GameMng.current.simulateCharacterMoveCtrl.Simulate();
 
 

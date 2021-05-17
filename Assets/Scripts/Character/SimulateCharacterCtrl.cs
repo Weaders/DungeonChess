@@ -114,6 +114,7 @@ namespace Assets.Scripts.Character {
             moveCtrl.characterCtrl = simCharacterCtrl;
 
             simCharacterCtrl.characterData = characterData;
+            simCharacterCtrl.characterData.characterCtrl = simCharacterCtrl;
             simCharacterCtrl.moveCtrl = characterCtrl.moveCtrl;
             simCharacterCtrl.characterData.Init();
             simCharacterCtrl.characterToSimulate = characterCtrl;

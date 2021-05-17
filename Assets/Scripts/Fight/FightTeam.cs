@@ -79,7 +79,7 @@ namespace Assets.Scripts.Fight {
 
             foreach (var charCtrl in _characterCtrls) {
 
-                if (charCtrl.characterData.cell != null && isSimulateTeam)
+                if (charCtrl.characterData.cell != null && isSimulateTeam && charCtrl.characterData.cell.characterCtrl == charCtrl)
                     charCtrl.characterData.cell.StayCtrl(null, changeState: false);
 
                 Object.Destroy(charCtrl.gameObject);

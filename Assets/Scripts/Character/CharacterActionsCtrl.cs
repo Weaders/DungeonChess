@@ -7,15 +7,13 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
-    public interface IForActions {
+    public interface IForActions : ISpellUse {
 
         CharacterMoveCtrl characterMoveCtrl { get; }
 
         IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd);
 
         Spell GetSpellForUse();
-
-        ISpellUse spellUse { get; }
 
         bool isReadyForMove { get; set; }
     }
@@ -47,21 +45,21 @@ namespace Assets.Scripts.Character {
             IEnumerable<CharacterCtrl> ctrls = null;
 
             if (isSimulate)
-                ctrls = GameMng.current.simulateCharacterMoveCtrl.GetEnemyTeamFor(owner.spellUse.characterCtrl).aliveChars;
+                ctrls = GameMng.current.simulateCharacterMoveCtrl.GetEnemyTeamFor(owner.characterCtrl).aliveChars;
 
-            targetForAttack = strtg.GetTarget(spell, owner.spellUse, ctrls);
+            targetForAttack = strtg.GetTarget(spell, owner, ctrls);
 
             if (targetForAttack != null) {
 
-                if (spell.IsInRange(owner.spellUse.characterCtrl, targetForAttack)) {
+                if (spell.IsInRange(owner.characterCtrl, targetForAttack)) {
 
                     owner.isReadyForMove = false;
 
                     return owner.AttackWhileInRange(targetForAttack, () => owner.isReadyForMove = true);
 
-                } else if (owner.spellUse.characterData.isCanMove) {
+                } else if (owner.characterData.isCanMove) {
 
-                    var path = GameMng.current.pathToCell.GetPath(owner.spellUse.characterCtrl.characterData.cell, targetForAttack.characterData.cell, spell.range);
+                    var path = GameMng.current.pathToCell.GetPath(owner.characterCtrl.characterData.cell, targetForAttack.characterData.cell, spell.range);
 
                     if (path != null && path.cells.Count > 1) {
 

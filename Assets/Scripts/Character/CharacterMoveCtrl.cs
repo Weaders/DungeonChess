@@ -33,7 +33,7 @@ namespace Assets.Scripts.Character {
 
                 t += Time.deltaTime * ctrl.characterData.stats.moveSpeed / 5f;
 
-                if (t >= .5f && cell.characterCtrl != ctrl)
+                if (cell.characterCtrl != ctrl)
                     cell.StayCtrl(ctrl, false, !isSimulate);
 
                 var newPos = Vector3.Lerp(startPosition, cell.transform.position, t);

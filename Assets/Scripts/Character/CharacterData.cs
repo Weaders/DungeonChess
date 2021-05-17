@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using Assets.Scripts.ActionsData;
 using Assets.Scripts.Buffs;
+using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Items;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Spells;
-using Assets.Scripts.StatsData;
 using Assets.Scripts.State;
+using Assets.Scripts.StatsData;
 using UnityEngine;
-using System.Linq;
-using Assets.Scripts.CellsGrid;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
@@ -119,13 +118,15 @@ namespace Assets.Scripts.Character {
             actions.ResetCountOfAttacks();
         }
 
-        public enum RangeType { 
+        public enum RangeType {
             Melee, Range
         }
 
         private void OnDestroy() {
-            if (cell != null)
+
+            if (cell != null && cell.characterCtrl == characterCtrl)
                 cell.StayCtrl(null);
+
         }
 
     }
