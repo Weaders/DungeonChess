@@ -9,11 +9,17 @@ namespace Assets.Scripts.CellsGrid {
 
     public class DungeonRoomCells : MonoBehaviour {
 
+        public enum RoomCondition { 
+            EnemyWithJump
+        }
+
         public RoomData roomData { get; set; }
 
         public Vector2 dataPosition;
 
         public Vector2 roomOffset;
+
+        public RoomCondition[] conditions;
 
         [ContextMenu("Set position of cells")]
         public void SetPositions() {

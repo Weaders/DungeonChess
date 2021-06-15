@@ -14,6 +14,8 @@ namespace Assets.Scripts.EnemyData {
 
         public EventsPoll eventsPoll;
 
+        public BuffsPoll buffsPoll;
+
         public int moneyVictory;
 
         public int countRooms = 1;
@@ -36,10 +38,11 @@ namespace Assets.Scripts.EnemyData {
 
         public RoomDataAndChance eventRoom;
 
-        public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
+        public RoomDataAndChance healAndBuffRoom;
 
+        public DungeonRoomCells GetRoomForLvlPrefab(int lvl, bool isBoss = false) {
+            
             var cells = dungeonRoomCells.AsEnumerable();
-                //.Where(r => r.whereData.IsInRange(lvl));
 
             if (isBoss)
                 cells = cells.Where(c => c.isBoss);
@@ -49,9 +52,6 @@ namespace Assets.Scripts.EnemyData {
                 .RandomElement();
 
         }
-
-        public Vector2Int GetRoomSize()
-            => new Vector2Int(6, 6);
 
         [Serializable]
         public class RangeRooms {
@@ -71,7 +71,6 @@ namespace Assets.Scripts.EnemyData {
         public class RoomPrefabsData {
 
             public DungeonRoomCells roomPrefab;
-            //public RangeRooms whereData;
             public bool isBoss;
 
         }
@@ -85,6 +84,9 @@ namespace Assets.Scripts.EnemyData {
             public float delay;
 
             public Sprite roomSprite;
+
+            public int[] forceRooms;
+
         }
 
     }

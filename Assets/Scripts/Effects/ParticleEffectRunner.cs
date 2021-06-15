@@ -2,14 +2,18 @@
 
 namespace Assets.Scripts.Effects {
 
-    [RequireComponent(typeof(EffectObj))]
+    [RequireComponent(typeof(Effect))]
     public class ParticleEffectRunner : MonoBehaviour {
 
         public ParticleSystem[] particleSystems;
 
-        public EffectObj effectObj;
+        public Effect effectObj;
 
         private void Awake() {
+
+            if (particleSystems == null || particleSystems.Length == 0)
+                particleSystems = GetComponents<ParticleSystem>();
+
             effectObj.onStart.AddListener(Run);
         }
 

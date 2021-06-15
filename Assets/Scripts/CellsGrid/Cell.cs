@@ -6,6 +6,10 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.CellsGrid {
 
+    public enum EnemyPrefer {
+        WithJump
+    }
+
     public class Cell : MonoBehaviour {
 
         private CharacterCtrl _characterCtrl;
@@ -21,7 +25,7 @@ namespace Assets.Scripts.CellsGrid {
             }
         }
 
-
+        public EnemyPrefer[] enemyPrefer;
 
         public Vector2Int dataPosition;
 
@@ -78,13 +82,16 @@ namespace Assets.Scripts.CellsGrid {
         }
 
         public void SetMaterial(Material material) {
-            
+
             meshRenderer.material = material;
             ChangeColor();
 
         }
 
         public void ChangeColor() {
+
+            if (!gameObject.activeInHierarchy)
+                return;
 
             var colorStore = StaticData.current.colorStore;
 
@@ -107,7 +114,7 @@ namespace Assets.Scripts.CellsGrid {
                     meshRenderer.material.SetColor("_Color", colorStore.cellEnemy);
                     meshRenderer.material.SetColor("_OutlineColor", colorStore.cellEnemyOutlineCell);
 
-                // For Player
+                    // For Player
                 } else {
 
                     if (GetState() == CellState.NotAvailable) {
@@ -136,6 +143,8 @@ namespace Assets.Scripts.CellsGrid {
                 }
 
             }
+
+            
 
         }
 
@@ -196,7 +205,7 @@ namespace Assets.Scripts.CellsGrid {
 
                 characterCtrl.characterData.cell = null;
                 characterCtrl = null;
-                
+
                 if (changeState)
                     RemoveState(CellState.NotAvailable);
 
@@ -210,12 +219,16 @@ namespace Assets.Scripts.CellsGrid {
 
             var collider = ctrl.gameObject.GetComponent<BoxCollider>();
 
-            ctrl.transform.localPosition = Vector3.zero;
+            if (collider != null) {
 
-            var diff = (transform.position.y + 0.01f) - collider.bounds.min.y;
+                ctrl.transform.localPosition = Vector3.zero;
 
-            ctrl.transform.position = new Vector3(ctrl.transform.position.x, ctrl.transform.position.y + diff, ctrl.transform.position.z);
-            ctrl.transform.localRotation = Quaternion.identity;
+                var diff = (transform.position.y + 0.01f) - collider.bounds.min.y;
+
+                ctrl.transform.position = new Vector3(ctrl.transform.position.x, ctrl.transform.position.y + diff, ctrl.transform.position.z);
+                ctrl.transform.localRotation = Quaternion.identity;
+
+            }
 
         }
 
@@ -274,4 +287,5 @@ namespace Assets.Scripts.CellsGrid {
         }
 
     }
+
 }

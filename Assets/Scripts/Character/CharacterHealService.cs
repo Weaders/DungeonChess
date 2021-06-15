@@ -45,9 +45,12 @@ namespace Assets.Scripts.Character {
 
                                 var selectedCharacterCtrl = GameMng.current.gameInputCtrl.selectedCharacterCtrl;
 
-                                GameMng.current.playerData.food.val -= foodCount;
+                                selectedCharacterCtrl.characterData.actions
+                                    .GetHeal(
+                                        null, 
+                                        new ActionsData.Heal(selectedCharacterCtrl.characterData.stats.maxHp)
+                                    );
 
-                                selectedCharacterCtrl.characterData.actions.GetHeal(null, new ActionsData.Heal(selectedCharacterCtrl.characterData.stats.maxHp));
                                 GameMng.current.messagePanel.Hide();
 
                             }

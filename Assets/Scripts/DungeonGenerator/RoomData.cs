@@ -35,6 +35,8 @@ namespace Assets.Scripts.DungeonGenerator {
         [Obsolete]
         public Vector2Int size { get; }
 
+        public bool isShowBuyPanel { get; protected set; } = false;
+
         public IReadOnlyList<ExitFromRoom> exitFromRooms => _exitFromRooms;
 
         private List<ExitFromRoom> _exitFromRooms = new List<ExitFromRoom>();

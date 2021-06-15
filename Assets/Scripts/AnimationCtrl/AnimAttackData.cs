@@ -17,7 +17,9 @@ namespace Assets.Scripts.AnimationCtrl {
             return result;
         }
 
-        private static AnimAttackData _default;
+    }
 
+    public class StartAnimEventData{ 
+    
     }
 }

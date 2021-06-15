@@ -30,6 +30,7 @@ namespace Assets.Scripts.UI.CharacterBuyPanel {
         public BuyData selectedBuyData {
             get => _selectedBuyData;
             set {
+
                 _selectedBuyData = value;
 
                 foreach (var (buyData, btn) in btns) {
@@ -71,14 +72,14 @@ namespace Assets.Scripts.UI.CharacterBuyPanel {
 
         }
 
+
+ 
         private void RefreshData() {
 
             var roomCtrl = GameMng.current.roomCtrl;
             var isBuildPhase = GameMng.current.isBuildPhase;
 
-            if (isBuildPhase && roomCtrl.currentRoom != null
-                && (roomCtrl.currentRoom.roomData is RerollRoomData
-                    || roomCtrl.currentRoom.roomData is StartRoomData)) {
+            if (isBuildPhase && roomCtrl.currentRoom != null && roomCtrl.currentRoom.roomData.isShowBuyPanel) {
 
                 canvasGroup.Show();
 

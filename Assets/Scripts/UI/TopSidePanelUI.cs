@@ -21,8 +21,6 @@ namespace Assets.Scripts.TopSidePanel {
 
         public TextMeshProUGUI levelOfCharacters;
 
-        public TextMeshProUGUI foodCount;
-
         public Button topBtn;
 
         private StateTopBtn _stateTopBtn;
@@ -88,8 +86,6 @@ namespace Assets.Scripts.TopSidePanel {
             });
 
             levelOfCharacters.Subscribe(GameMng.current.playerData.levelOfCharacters);
-
-            foodCount.Subscribe(GameMng.current.playerData.food);
 
             GameMng.current.fightMng.fightTeamPlayer
                 .onChangeTeamCtrl

@@ -11,6 +11,7 @@ namespace Assets.Scripts.Spells.Strsgs {
             //ctrls ??= GetAliveCtrls(from); =((( old version for unity
             if (ctrls == null)
                 ctrls = GetAliveCtrls(from);
+
             return ctrls.ToArray()[UnityEngine.Random.Range(0, ctrls.Count())];
 
         }

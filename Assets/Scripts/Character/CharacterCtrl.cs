@@ -16,7 +16,8 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
 
-    public interface ICharacterCtrl { }
+    public interface ICharacterCtrl {
+    }
 
     [RequireComponent(typeof(CharacterMoveCtrl))]
     public class CharacterCtrl : MonoBehaviour, ISpellUse, IForActions {
@@ -105,7 +106,7 @@ namespace Assets.Scripts.Character {
 
         public bool isCanMakeFullManaAttack => characterData.stats.mana >= characterData.stats.maxMana && characterData.isCanAttack;
 
-        public bool isStartToFight { get; set; } = false;
+        public bool isCanAttack { get; set; } = false;
 
         public bool isReadyForMove { get; set; } = true;
 
@@ -127,7 +128,7 @@ namespace Assets.Scripts.Character {
         public void GoAttack() {
 
             _startedCell = characterData.cell;
-            isStartToFight = true;
+            isCanAttack = true;
 
         }
 
@@ -135,14 +136,14 @@ namespace Assets.Scripts.Character {
         /// After call character stop move or attack, and reset position on started cell.
         /// </summary>
         public void StopAttack() {
-            isStartToFight = false;
+            isCanAttack = false;
         }
 
         public IEnumerator GetActionsToDo() {
 
             characterCanvas.transform.rotation = Quaternion.identity;
 
-            if (!isStartToFight || !isReadyForMove || characterData.stats.isDie) {
+            if (!isCanAttack || !isReadyForMove || characterData.stats.isDie) {
                 return null;
             }
 
@@ -211,6 +212,20 @@ namespace Assets.Scripts.Character {
 
         }
 
+        /// <summary>
+        /// Called wheen start anim for attack
+        /// </summary>
+        public void StartMakeAttack(bool isFullMana) {
+
+            if (isFullMana) {
+                characterData.spellsContainer.GetFullManaSpellAttack().PreStartAttack(this);
+
+            } else {
+                characterData.spellsContainer.GetBaseAttackSpell().PreStartAttack(this);
+            }
+
+        }
+
         public void MakeFullManaAttack(CharacterCtrl target, AnimAttackData data = null) {
 
             var spell = characterData.spellsContainer.GetFullManaSpellAttack();
@@ -244,13 +259,17 @@ namespace Assets.Scripts.Character {
 
             characterData.actions.onPostGetDmg.AddSubscription(OrderVal.UIUpdate, (dmgEventData) => {
 
-                var isCrit = dmgEventData.dmg.dmgModifiers.Any(m => m is CritModify);
+                if (teamSide == Fight.TeamSide.Enemy) {
 
-                GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts {
-                    color = colorStore.getDmgText,
-                    size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1,
-                    icon = isCrit ? GameMng.current.gameData.critIcon : null
-                });
+                    var isCrit = dmgEventData.dmg.dmgModifiers.Any(m => m is CritModify);
+
+                    GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts {
+                        color = colorStore.getDmgText,
+                        size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1,
+                        icon = isCrit ? GameMng.current.gameData.critIcon : null
+                    });
+
+                }
 
             });
 
@@ -280,7 +299,7 @@ namespace Assets.Scripts.Character {
 
             });
 
-            characterData.actions.onPreMakeAttack.AddSubscription(OrderVal.Fight, (attack) => {
+            characterData.actions.onPreMakeAttack.AddSubscription(OrderVal.Fight, attack => {
 
                 if (UnityEngine.Random.value <= characterData.stats.critChance && !attack.dmg.dmgModifiers.Any(m => m is CritModify)) {
                     attack.dmg.dmgModifiers.Add(new CritModify(0, characterData.stats.critDmg));

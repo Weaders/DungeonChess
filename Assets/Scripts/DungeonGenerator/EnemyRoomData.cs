@@ -27,10 +27,18 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 }
 
+                var preferred = EnemyTeamStrtg.Preferred.GetStrgObj();
+
+                preferred.Place(
+                    GameMng.current.fightMng.fightTeamEnemy,
+                    GameMng.current.cellsGridMng.enemiesSideCell.Where(c => c.IsAvailableToStay()),
+                    GameMng.current.cellsGridMng.playerSideCell
+                );
+
                 var strtg = team.enemyTeamStrtg.GetStrgObj();
 
                 strtg.Place(
-                    GameMng.current.fightMng.fightTeamEnemy,
+                    GameMng.current.fightMng.fightTeamEnemy.aliveChars.Where(c => c.characterData.cell == null),
                     GameMng.current.cellsGridMng.enemiesSideCell.Where(c => c.IsAvailableToStay()),
                     GameMng.current.cellsGridMng.playerSideCell
                 );
@@ -52,6 +60,13 @@ namespace Assets.Scripts.DungeonGenerator {
         }
 
         protected virtual EnemyTeam[] GetEnemyTeams() {
+
+            var lvl = GameMng.current.level;
+
+            var team = GameMng.current.currentDungeonData.enemiesPoll.GetEnemyTeam(lvl);
+
+            if (team != null)
+                return new[] { team };
 
             var enemies = GameMng.current.currentDungeonData.enemiesPoll
                 .GetStandartEnemies()

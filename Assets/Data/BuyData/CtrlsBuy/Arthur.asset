@@ -30,24 +30,28 @@ MonoBehaviour:
     levelOfDifficult: -1
   - stats:
     - statType: 0
-      intVal: 200
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 200
+      intVal: 100
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 45
+      intVal: 13
       floatVal: 0
       boolVal: 0
     - statType: 4
-      intVal: 25
+      intVal: 10
       floatVal: 0
       boolVal: 0
     - statType: 6
       intVal: 25
-      floatVal: 1
+      floatVal: 0.5
+      boolVal: 0
+    - statType: 7
+      intVal: 25
+      floatVal: 5
       boolVal: 0
     levelOfDifficult: 0
   ctrlPrefab: {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc,

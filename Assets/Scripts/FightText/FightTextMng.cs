@@ -14,7 +14,10 @@ namespace Assets.Scripts.FightText {
         [SerializeField]
         private GameObject msgPrefab;
 
-        public Vector3 startPosition;
+        public Vector3[] startPosition;
+
+        [HideInInspector]
+        public int positionIndex;
 
         private Dictionary<CharacterCtrl, Queue<TextData>> ctrlsQueueMsgs = new Dictionary<CharacterCtrl, Queue<TextData>>();
 
@@ -57,11 +60,18 @@ namespace Assets.Scripts.FightText {
 
             var rectTransform = obj.transform as RectTransform;
 
-            rectTransform.SetParent(ctrl.characterCanvas.transform);
-            rectTransform.localPosition = startPosition;
-            rectTransform.sizeDelta = new Vector2(4, 4);
+            positionIndex++;
 
-            var msg = Instantiate(msgPrefab, obj.transform);
+            if (startPosition.Length == positionIndex)
+                positionIndex = 0;
+
+            rectTransform.SetParent(ctrl.characterCanvas.transform);
+            rectTransform.localPosition = startPosition[positionIndex];
+            rectTransform.sizeDelta = new Vector2(3, 2);
+
+            var msg = Instantiate(msgPrefab, rectTransform, false);
+
+            // msg.transform.localPosition = startPosition[positionIndex];
 
             var textMsg = msg.GetComponent<FightTextMsg>();
             var anim = msg.GetComponent<Animator>();

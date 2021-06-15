@@ -29,17 +29,20 @@ namespace Assets.Scripts.Translate {
 
     public static class PlaceholderHelper {
 
-        public static IEnumerable<Placeholder> GetPlaceholdersFromAttrs(this object obj, CharacterData from) {
+        public static IEnumerable<Placeholder> GetPlaceholdersFromAttrs(this object obj, CharacterData from = null) {
 
-            var pls = obj.GetType().GetMethods().Select(p => {
-                var key = p.GetCustomAttribute<PlaceholderAttribute>()?.Key;
-                return key != null ? new Placeholder(key, p.Invoke(obj, new[] { from }).ToString()) : null;
-            });
-
-            return pls.Union(obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Select(p => {
+            var pls = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Select(p => {
                 var key = p.GetCustomAttribute<PlaceholderAttribute>()?.Key;
                 return key != null ? new Placeholder(key, p.GetValue(obj).ToString()) : null;
-            })).Where(kv => kv != null);
+            });
+
+            if (from != null)
+                pls = pls.Union(obj.GetType().GetMethods().Select(p => {
+                    var key = p.GetCustomAttribute<PlaceholderAttribute>()?.Key;
+                    return key != null ? new Placeholder(key, p.Invoke(obj, new[] { from }).ToString()) : null;
+                }));
+
+            return pls.Where(kv => kv != null);
 
         }
 

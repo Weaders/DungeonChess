@@ -55,7 +55,7 @@ namespace Assets.Scripts.CellsGrid {
 
             TagLogger<CellsGridMng>.Info($"Display {exists.Length} exists");
 
-            ExitFromRoom getExit(int i)  {
+            ExitFromRoom getExit(int i) {
                 if (exists.Length > i) {
                     return exists[i];
                 } else {

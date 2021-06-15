@@ -21,10 +21,14 @@ namespace Assets.Scripts.Common {
 
                 ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Internal, () => {
 
-                    GameMng.current.fightTextMng.DisplayText(ctrl, GameMng.current.currentDungeonData.moneyVictory.ToString(), new FightText.FightTextMsg.SetTextOpts {
-                        color = StaticData.current.colorStore.getMoneyText,
-                        icon = GameMng.current.gameData.playerManaIcon
-                    });
+                    // GameMng.current.fightTextMng.DisplayText(
+                    //     ctrl, 
+                    //     GameMng.current.currentDungeonData.moneyVictory.ToString(), 
+                    //     new FightText.FightTextMsg.SetTextOpts {
+                    //         color = StaticData.current.colorStore.getMoneyText,
+                    //         icon = GameMng.current.gameData.playerManaIcon
+                    //     }
+                    // );
 
                     GameMng.current.playerData.money.val += GameMng.current.currentDungeonData.moneyVictory;
 

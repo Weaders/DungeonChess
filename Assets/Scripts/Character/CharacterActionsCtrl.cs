@@ -21,7 +21,9 @@ namespace Assets.Scripts.Character {
     public class CharacterActionsCtrl {
 
         public CharacterActionsCtrl(IForActions forActions) {
+
             owner = forActions;
+
         }
 
         private IForActions owner;
@@ -34,18 +36,52 @@ namespace Assets.Scripts.Character {
 
         public IEnumerable<Cell> cellsToMove => _cellsToMove;
 
+        public bool isFirstMoveOnFight { get; set; }
+
         public void ClearCellToMove()
             => _cellsToMove.Clear();
-
+        
         public IEnumerator IterateAction(bool isSimulate = false) {
-
-            var spell = owner.GetSpellForUse();
-            var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
 
             IEnumerable<CharacterCtrl> ctrls = null;
 
             if (isSimulate)
                 ctrls = GameMng.current.simulateCharacterMoveCtrl.GetEnemyTeamFor(owner.characterCtrl).aliveChars;
+
+            if (!isFirstMoveOnFight) {
+
+                isFirstMoveOnFight = true;
+
+                var startSpell = owner.characterData.spellsContainer.GetOnStartSpell();
+
+                if (startSpell != null) {
+
+                    var startSpellStrtg = SpellStrategyStorage.GetSpellStrtg(startSpell);
+
+                    var targetForAttack = startSpellStrtg.GetTarget(startSpell, owner, ctrls);
+
+                    if (targetForAttack != null && startSpell.IsInRange(owner.characterCtrl, targetForAttack)) {
+
+                        var opts = new Spell.UseSpellOpts();
+
+                        opts.onEnd.AddListener(() => {
+                            owner.characterCtrl.isCanAttack = true;
+                        });
+
+                        owner.characterCtrl.isCanAttack = false;
+
+                        startSpell.UseWithEffect(owner.characterCtrl, targetForAttack, opts);
+
+                        return new object[0].GetEnumerator();
+
+                    }
+
+                }
+
+            }
+
+            var spell = owner.GetSpellForUse();
+            var strtg = SpellStrategyStorage.GetSpellStrtg(spell);
 
             targetForAttack = strtg.GetTarget(spell, owner, ctrls);
 

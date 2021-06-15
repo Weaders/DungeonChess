@@ -95,6 +95,14 @@ namespace Assets.Scripts.Character {
 
         }
 
+        public void PlaceEffect(Effect effect, BindTarget target = BindTarget.Default) {
+            
+            effect.transform.SetParent(GetTarget(target, true), false);
+            effect.transform.rotation.Set(0, 0, 0, 1);
+            effect.name = $"Effect_{i++}";
+
+        }
+
         public Transform GetTarget(BindTarget bindTarget, bool forStay = false) {
 
             switch (bindTarget) {

@@ -15,8 +15,6 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var countRooms = UnityEngine.Random.Range(dungeonData.changeDifficultEvery.min, dungeonData.changeDifficultEvery.max);
 
-            //var roomSize = new Vector2Int(6, 6);
-
             var directionsExits = new[] { Direction.top, Direction.left, Direction.right };
 
             var startRoom = new TreeNode<RoomData>(new StartRoomData("one_more_room"));

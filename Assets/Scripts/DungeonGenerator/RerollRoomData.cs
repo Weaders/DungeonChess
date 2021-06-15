@@ -7,6 +7,7 @@ namespace Assets.Scripts.DungeonGenerator {
     public class RerollRoomData : RoomData {
 
         public RerollRoomData(string titleKey) : base(titleKey) {
+            isShowBuyPanel = true;
         }
 
         public override object Clone()

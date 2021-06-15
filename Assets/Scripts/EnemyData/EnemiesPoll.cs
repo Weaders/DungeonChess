@@ -20,12 +20,16 @@ namespace Assets.Scripts.EnemyData {
 
         public IEnumerable<EnemyTeam> GetStandartEnemies()
             => teams.Where(t => !t.isBoss && t.isEnabled);
+
+        public EnemyTeam GetEnemyTeam(int lvl)
+            => teams.FirstOrDefault(t => t.forceForRoom == lvl);
     }
 
     public enum EnemyTeamStrtg {
         MaxDistance,
         TankCarryFormation,
-        MiddleFormation
+        MiddleFormation,
+        Preferred
     }
 
     public static class EnemyTeamStrtgExtension {
@@ -39,6 +43,8 @@ namespace Assets.Scripts.EnemyData {
                     return new TankCarryFormationPlaceStrategy();
                 case EnemyTeamStrtg.MiddleFormation:
                     return new MiddleFormation();
+                case EnemyTeamStrtg.Preferred:
+                    return new PreferStrategy();
                 default:
                     throw new GameException("Bad strtg");
             }
@@ -50,11 +56,13 @@ namespace Assets.Scripts.EnemyData {
     [Serializable]
     public class EnemyTeam {
 
+        public bool usePrefferedStrtg = true;
         public EnemyTeamStrtg enemyTeamStrtg;
         public CharacterDungeonData[] characterCtrls;
         public bool isBoss;
         public bool isEnabled;
         public Condition difficult;
+        public int forceForRoom = -1;
 
     }
 

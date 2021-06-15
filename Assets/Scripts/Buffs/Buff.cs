@@ -40,12 +40,34 @@ namespace Assets.Scripts.Buffs {
 
         public bool isFullTeamBuff;
 
-        public string title => TranslateReader.GetTranslate(_titleKey, GetPlaceholders(fromCharacterCtrl.characterData));
+        public string title {
+            get {
+
+                var placeHolders = new Placeholder[0];
+
+                if (fromCharacterCtrl != null) {
+                    placeHolders = GetPlaceholders(fromCharacterCtrl.characterData);
+                } else {
+                    placeHolders = GetPlaceholders(null);
+                }
+
+                return TranslateReader.GetTranslate(_titleKey, placeHolders);
+
+            }
+        }
 
         public string description { 
             get {
 
-                var description = TranslateReader.GetTranslate(_descriptionKey, GetPlaceholders(fromCharacterCtrl.characterData));
+                var placeHolders = new Placeholder[0];
+
+                if (fromCharacterCtrl != null) {
+                    placeHolders = GetPlaceholders(fromCharacterCtrl.characterData);
+                } else {
+                    placeHolders = GetPlaceholders(null);
+                }
+
+                var description = TranslateReader.GetTranslate(_descriptionKey, placeHolders);
 
                 if (isFullTeamBuff)
                     description += "\r\n \r\n<color=#8A4921>" + TranslateReader.GetTranslate("while_you_alive") + "</color>";

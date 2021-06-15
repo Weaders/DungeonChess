@@ -36,6 +36,14 @@ namespace Assets.Scripts.Character {
 
         }
 
+        public void StartAnimEventMakeAttack() {
+
+            if (characterCtrl.targetForAttack != null) {
+                characterCtrl.StartMakeAttack(characterCtrl.isCanMakeFullManaAttack);
+            }
+
+        }
+
     }
 
 }

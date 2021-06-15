@@ -14,11 +14,16 @@ namespace Assets.Scripts.Spells {
 
     public enum SpellType {
         BaseAttack,
-        FullManaAttack
+        FullManaAttack,
+        OnStart
     }
 
     public enum SpellTarget {
-        Self, Enemy, RandomEnemy, EnemyAOE
+        Self, Enemy, RandomEnemy, EnemyAOE, EnemyOnLine
+    }
+
+    public enum Features {
+        Jump
     }
 
     public abstract class Spell : MonoBehaviour {
@@ -41,20 +46,26 @@ namespace Assets.Scripts.Spells {
 
         public SpellTarget spellTarget;
 
-        public EffectObj effectObjPrefab;
+        public Features[] features;
 
-        public bool instantMoveEffect = false;
+        [SerializeField]
+        private Effect effectPrefab;
 
-        public bool waitForEndAnimation = false;
-
-        public float effectTime = 0f;
-
-        public float effectSpeed;
+        /// <summary>
+        /// Use effect on "from" character before use ult
+        /// </summary>
+        [SerializeField]
+        private Effect perAuraFromEffectPrefab;
 
         /// <summary>
         /// Trigger touch every seconds
         /// </summary>
         public float triggerTouchEvery = 1000;
+
+        /// <summary>
+        /// Pre Aura Effect From
+        /// </summary>
+        private Effect preAuraFromEffect = null;
 
         private List<CharacterCtrl> touchedCtrls = new List<CharacterCtrl>();
 
@@ -64,20 +75,36 @@ namespace Assets.Scripts.Spells {
         public string GetTitle(CharacterData owner)
             => TranslateReader.GetTranslate(titleKey, GetPlaceholders(owner));
 
+        public bool ContainsFeature(Features feature)
+            => features != null && features.Contains(feature);
+
+        public virtual void PreStartAttack(CharacterCtrl from) {
+
+            if (perAuraFromEffectPrefab != null) {
+
+                var preAura = Instantiate(perAuraFromEffectPrefab, transform);
+
+                preAura.PlaceForCharacter(from);
+
+                if (spellType == SpellType.FullManaAttack) {
+                    preAura.removeOnPreUseUtl = true;
+                }
+
+                preAuraFromEffect = preAura;
+
+            }
+        }
+
         public virtual UseSpellResult UseWithEffect(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts) {
 
-            if (effectObjPrefab != null && !to.characterData.stats.isDie) {
+            if (preAuraFromEffect != null)
+                Destroy(preAuraFromEffect.gameObject);
+
+            if (effectPrefab != null && !to.characterData.stats.isDie) {
 
                 var result = new UseSpellResult();
 
                 RunEffectResult runEffectResult = null;
-
-                void onDie() {
-
-                    if (runEffectResult != null && spellTarget != SpellTarget.EnemyAOE)
-                        Destroy(runEffectResult.effectObj.gameObject);
-
-                }
 
                 runEffectResult = RunEffect(from, to, (ctrl) => {
 
@@ -91,38 +118,25 @@ namespace Assets.Scripts.Spells {
 
                 }, (effectObj) => {
 
-                    Destroy(effectObj.gameObject);
-
                     if (opts.isEndAttack) {
                         from.characterData.onPostMakeAttack.Invoke();
                     }
 
-                    to.characterData.stats.isDie.onPostChange.RemoveSubscription(onDie);
+                    opts.onEnd.Invoke();
 
-                });
-
-                to.characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.Fight, onDie);
-                from.characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.Fight, onDie);
-
-                if (runEffectResult != null && runEffectResult.effectObj != null) {
-
-                    runEffectResult.effectObj.onDestroy.AddListener(() => {
-
-                        if (to != null)
-                            to.characterData.stats.isDie.onPostChange.RemoveSubscription(onDie);
-
-                        if (from != null)
-                            from.characterData.stats.isDie.onPostChange.RemoveSubscription(onDie);
-
-                    });
-
-                }
+                }, opts);
 
                 return result;
 
-            }
+            } else {
 
-            return Use(from, to, opts);
+                var useEffect = Use(from, to, opts);
+
+                opts.onEnd.Invoke();
+
+                return useEffect;
+
+            }
 
         }
 
@@ -135,51 +149,28 @@ namespace Assets.Scripts.Spells {
 
         public abstract UseSpellResult Use(CharacterCtrl from, CharacterCtrl to, UseSpellOpts opts);
 
-        protected RunEffectResult RunEffect(CharacterCtrl from, CharacterCtrl target, UnityAction<CharacterCtrl> onTouch, UnityAction<EffectObj> onCome) {
+        protected RunEffectResult RunEffect(CharacterCtrl from, CharacterCtrl target, UnityAction<CharacterCtrl> onTouch, UnityAction<Effect> onCome, UseSpellOpts opts) {
 
-            EffectObj effectObj;
+            Effect effectObj = Instantiate(effectPrefab, transform);
 
-            if (instantMoveEffect) {
+            effectObj.transform.position = from.transform.position;
 
-                effectObj = Instantiate(effectObjPrefab, target.transform, true);
-                effectObj.transform.position = target.GetSpawnTransform().position;
+            effectObj.MoveToCharacter(target, EffectObj.BindTarget.Head);
 
-            } else {
-                
-                effectObj = Instantiate(effectObjPrefab);
-                effectObj.transform.position = from.GetSpawnTransform().position;
+            if (onTouch != null)
+                effectObj.moveResult.onTouch.AddListener(onTouch);
 
-            }
-
-            if (spellTarget == SpellTarget.EnemyAOE) {
-
-                effectObj.onTouch.AddListener(onTouch);
-                effectObj.onCome.AddListener(() => { onCome.Invoke(effectObj); });
-                effectObj.MoveToDirection(target.transform.position, effectSpeed, 2f);
-
-            } else {
-
-                effectObj.onCome.AddListener(() => {
-                    onTouch.Invoke(target);
-                    onCome.Invoke(effectObj);
-                });
-
-                if (!instantMoveEffect) {
-                    effectObj.MoveToTransorm(target.GetTargetTransform(), effectSpeed);
-                } else {
-                    effectObj.StayOnCharacterCtrl(target, effectTime == 0f ? (float?)null : effectTime, waitForEndAnimation);
-                }
-
-            }
+            if (onCome != null)
+                effectObj.moveResult.onCome.AddListener(onCome);
 
             return new RunEffectResult(effectObj);
         }
 
         public class RunEffectResult {
 
-            public readonly EffectObj effectObj;
+            public readonly Effect effectObj;
 
-            public RunEffectResult(EffectObj effect) {
+            public RunEffectResult(Effect effect) {
                 effectObj = effect;
             }
 
@@ -195,9 +186,6 @@ namespace Assets.Scripts.Spells {
             return CellRangeHelper.IsInRange(from.characterData.cell.dataPosition, to.characterData.cell.dataPosition, range);
 
         }
-
-        public virtual bool IsUseEffect()
-            => effectObjPrefab != null;
 
         private Placeholder[] GetPlaceholders(CharacterData descriptionFor) {
 
@@ -220,11 +208,11 @@ namespace Assets.Scripts.Spells {
             public float scale = 1f;
             public bool isEndAttack = false;
             public Animator animator = null;
+            public UnityEvent onEnd = new UnityEvent();
 
         }
 
-        public class UseSpellResult {
-        }
+        public class UseSpellResult { }
 
     }
 

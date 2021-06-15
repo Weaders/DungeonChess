@@ -33,7 +33,9 @@ namespace Assets.Scripts.DungeonGenerator {
                 new RoomGenerator(_dungeonData.rerollRoom, new RerollRoomData("reroll_room")),
                 new RoomGenerator(_dungeonData.sellerRoom, new SellerRoomData("seller_room")),
                 new RoomGenerator(_dungeonData.fakeItemsRoom, new FakeItemsRoom("items_room")),
-                new RoomGenerator(_dungeonData.eventRoom, new EventRoomData("event_room"))
+                new RoomGenerator(_dungeonData.eventRoom, new EventRoomData("event_room")),
+                new RoomGenerator(_dungeonData.enemyRoom, new EnemyRoomData("one_more_room")),
+                new RoomGenerator(_dungeonData.healAndBuffRoom, new BuffsSelectRoomData("buff_room"))
             };
 
             currentHealChance = _dungeonData.healerRoom.current;
@@ -55,7 +57,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             var newLvl = GameMng.current.level + 1;
 
-            var random = UnityEngine.Random.value;
+            var random = UnityEngine.Random.Range(.85f, 1f);
 
             #region Boss Room
 
@@ -72,12 +74,12 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #region Build Room
 
-            if (GameMng.current.IsNextBuildRoom()) {
+            //if (GameMng.current.IsNextBuildRoom()) {
 
-                TagLogger<RoomDataGenerator>.Info("Generate build room");
-                return new RerollRoomData("reroll_room");
+            //    TagLogger<RoomDataGenerator>.Info("Generate build room");
+            //    return new RerollRoomData("reroll_room");
 
-            }
+            //}
 
             #endregion
 
@@ -85,7 +87,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             RoomData selectedRoom = null;
 
-            foreach (var generator in generators.OrderByDescending(g => g.currentChance)) {
+            foreach (var generator in generators.OrderByDescending(g => g.ValueForSort(newLvl))) {
 
                 if (selectedRoom == null)
                     selectedRoom = generator.TryGen(newLvl, random);
@@ -101,7 +103,7 @@ namespace Assets.Scripts.DungeonGenerator {
 
             #region Enemy room
             
-            TagLogger<RoomDataGenerator>.Info($"Generate enenmy room");
+            //TagLogger<RoomDataGenerator>.Info($"Generate enenmy room");
             return new EnemyRoomData("one_more_room");
 
             #endregion
@@ -121,6 +123,9 @@ namespace Assets.Scripts.DungeonGenerator {
 
             private RoomData _prototype;
 
+            public float ValueForSort(int lvl)
+                => currentChance + ((_ch.forceRooms != null && _ch.forceRooms.Contains(lvl)) ? 100 : 0);
+
             public RoomGenerator(RoomDataAndChance ch, RoomData prototype) {
 
                 _ch = ch;
@@ -133,11 +138,16 @@ namespace Assets.Scripts.DungeonGenerator {
 
                 var maxLvl = lvls.Any() ? lvls.Max() : -_ch.delay;
 
+                if (_ch.forceRooms != null && _ch.forceRooms.Contains(newLvl)) { 
+                    return _prototype.Clone() as RoomData;
+                }
+
                 if (maxLvl + _ch.delay < newLvl) {
 
                     if (random < _currentChance) {
 
                         lvls.Add(newLvl);
+
                         _currentChance = _ch.start;
 
                         TagLogger<RoomDataGenerator>.Info($"Generate {_prototype.GetType().Name}");

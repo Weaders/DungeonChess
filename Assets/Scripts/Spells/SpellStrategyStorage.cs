@@ -16,6 +16,8 @@ namespace Assets.Scripts.Spells {
                     return new RandomEnemyStrtg();
                 case SpellTarget.EnemyAOE:
                     return new EnemyStrtg();
+                case SpellTarget.EnemyOnLine:
+                    return new EnemyOnLIneStrtg();
 
             }
 

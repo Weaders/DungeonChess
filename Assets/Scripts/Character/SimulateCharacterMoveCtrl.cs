@@ -22,6 +22,8 @@ namespace Assets.Scripts.Character {
         [ContextMenu("Simulate")]
         public void Simulate() {
 
+            return;
+
             RemoveCharacters();
 
             var playerTeam = GameMng.current.fightMng.fightTeamPlayer;

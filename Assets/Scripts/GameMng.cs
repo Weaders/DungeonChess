@@ -133,6 +133,8 @@ namespace Assets.Scripts {
 
         public int levelDifficult { get; private set; } = -1;
 
+        public bool isTutorial = false;
+
         public ObservableVal<bool> isBuildPhase = new ObservableVal<bool>();
 
         public CityDataChange cityDataChange = new CityDataChange();

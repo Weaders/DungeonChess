@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Buffs;
 using Assets.Scripts.Character;
 using Assets.Scripts.Common;
+using Assets.Scripts.Observable;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,18 +23,34 @@ namespace Assets.Scripts.Fight {
 
         public readonly TeamSide teamSide;
 
-        public bool isSimulateTeam { get; private set; } 
+        public bool isSimulateTeam { get; private set; }
+
+
+        public ObservableVal<bool> isInFight = new ObservableVal<bool>();
+
+        private List<Buff> _buffs = new List<Buff>();
+
+        public void AddBuffForTeam(Buff buff) {
+
+            _buffs.Add(buff);
+
+            foreach (var character in characters)
+                character.characterData.buffsContainer.AddPrefab(buff);
+
+        }
 
         public FightTeam(TeamSide side, bool isSimulate = false) {
+
             teamSide = side;
             isSimulateTeam = isSimulate;
+
         }
 
         public void AddCharacterToTeam(CharacterCtrl ctrl) {
 
             _characterCtrls.Add(ctrl);
 
-            GameMng.current.levelUpService.LevelUpToCurrent(ctrl, teamSide != TeamSide.Player);                
+            GameMng.current.levelUpService.LevelUpToCurrent(ctrl, teamSide != TeamSide.Player);
 
             ctrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Fight, () => {
 
@@ -50,6 +68,9 @@ namespace Assets.Scripts.Fight {
 
             ctrl.teamSide = teamSide;
             onChangeTeamCtrl.Invoke();
+
+            foreach(var buff in _buffs)
+                ctrl.characterData.buffsContainer.AddPrefab(buff);
 
         }
 

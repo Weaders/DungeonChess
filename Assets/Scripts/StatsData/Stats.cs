@@ -12,7 +12,8 @@ namespace Assets.Scripts.StatsData {
     public enum Stat {
         Hp, MaxHp, Mana, MaxMana, ManaPerAttack,
         Ad, As, MoveSpeed, IsDie, ClassTypes,
-        Vampirism, CritChance, CritDmg, ReduceDmg
+        Vampirism, CritChance, CritDmg, ReduceDmg,
+        None
     }
 
     public static class StatTypeExtension {

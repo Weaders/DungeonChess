@@ -34,6 +34,9 @@ namespace Assets.Scripts.Spells {
         public Spell GetFullManaSpellAttack()
             => spells.First(sp => sp.spellType == SpellType.FullManaAttack);
 
+        public Spell GetOnStartSpell()
+            => spells.FirstOrDefault(sp => sp.spellType == SpellType.OnStart);
+
         public IEnumerator<Spell> GetEnumerator() => spells.GetEnumerator();
 
         public void Remove(Spell data) {

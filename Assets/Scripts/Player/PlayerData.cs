@@ -16,9 +16,6 @@ namespace Assets.Scripts.Player {
         [HideInInspector]
         public ObservableVal<int> levelOfCharacters = new ObservableVal<int>(0);
 
-        [HideInInspector]
-        public ObservableVal<int> food = new ObservableVal<int>(0);
-
         public ItemsContainer itemsContainer;
 
         public void Init() {

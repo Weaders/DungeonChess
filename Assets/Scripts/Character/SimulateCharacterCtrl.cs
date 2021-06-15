@@ -11,7 +11,7 @@ namespace Assets.Scripts.Character {
 
         public CharacterCtrl characterToSimulate;
 
-        public CharacterCtrl ctrlToAttack;
+        public SimulateCharacterCtrl ctrlToAttack;
 
         public Queue<Cell> path { get; set; } = new Queue<Cell>();
 
@@ -19,8 +19,16 @@ namespace Assets.Scripts.Character {
 
         public override IEnumerator AttackWhileInRange(CharacterCtrl target, UnityAction onEnd) {
 
-            ctrlToAttack = target;
-            return null;
+            if (target is SimulateCharacterCtrl simCtrl) {
+
+                ctrlToAttack = simCtrl;
+                return null;
+
+            } else {
+                return null;
+            }
+
+            
 
         }
 
@@ -59,7 +67,7 @@ namespace Assets.Scripts.Character {
             }
 
         }
-        
+
         private void DrawMovePath() {
 
             if (characterActionsCtrl.cellsToMove.Any()) {
@@ -95,6 +103,20 @@ namespace Assets.Scripts.Character {
                     attackLineRenderer.SetPositions(new[] { from, to });
 
                 }
+
+            } else if (ctrlToAttack != null) {
+
+                var path = Instantiate(GameMng.current.simulateCharacterMoveCtrl.lineRendererPrefab.gameObject, transform);
+
+                var lineRenderer = path.GetComponent<LineRenderer>();
+
+                lineRenderer.material = GameMng.current.simulateCharacterMoveCtrl.move;
+                lineRenderer.material.SetColor("_BaseColor", Color.green);
+
+                var points = new[] { characterToSimulate.transform.position, ctrlToAttack.characterToSimulate.transform.position };
+
+                lineRenderer.positionCount = points.Length;
+                lineRenderer.SetPositions(points);
 
             }
 

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662bd0d445752d24786f340f6d21473c, type: 3}
+  m_Name: EnemiesPoll - Copy
+  m_EditorClassIdentifier: 
+  teams:
+  - usePrefferedStrtg: 1
+    enemyTeamStrtg: 1
+    characterCtrls:
+    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
+    isBoss: 0
+    isEnabled: 1
+    difficult:
+      min: 0
+      max: 1
+    forceForRoom: 1
+  - usePrefferedStrtg: 1
+    enemyTeamStrtg: 1
+    characterCtrls:
+    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
+    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
+    isBoss: 0
+    isEnabled: 1
+    difficult:
+      min: 0
+      max: 1
+    forceForRoom: 2
+  - usePrefferedStrtg: 1
+    enemyTeamStrtg: 2
+    characterCtrls:
+    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
+    isBoss: 0
+    isEnabled: 1
+    difficult:
+      min: 0
+      max: 10
+    forceForRoom: -1
+  - usePrefferedStrtg: 1
+    enemyTeamStrtg: 2
+    characterCtrls:
+    - {fileID: 11400000, guid: 04d16727cbe072240bac3dbd31502796, type: 2}
+    isBoss: 1
+    isEnabled: 1
+    difficult:
+      min: 0
+      max: 10
+    forceForRoom: -1
