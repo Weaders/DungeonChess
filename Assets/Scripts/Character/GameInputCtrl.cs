@@ -12,6 +12,11 @@ namespace Assets.Scripts.Character {
 
         private Cell _cellToSelect;
 
+        public CharacterCtrl overCharacterCtrl {
+            get;
+            private set;
+        }
+
         public CharacterCtrl selectedCharacterCtrl {
             get => _characterCtrl;
             private set {
@@ -58,12 +63,18 @@ namespace Assets.Scripts.Character {
 
         private void Update() {
 
+
             if (IsUIBlocked())
                 return;
 
-            if (Input.GetMouseButton(0)) {
 
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER))) {
+                overCharacterCtrl = raycastHit.collider.GetComponent<CharacterCtrl>();
+            }
+
+            if (Input.GetMouseButton(0)) {
 
                 if (_draggedCtrl != null) {
 
@@ -86,7 +97,7 @@ namespace Assets.Scripts.Character {
 
                         Physics.Raycast(ray2, out RaycastHit hit2, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
 
-                        // Why .87? This is hard calculaton! And this is very secret!
+                        // Why .87? This is hard calculaton! And this is secret!
                         var offset = (lastDragHit - hit2.point) * .87f;
 
                         _draggedCtrl.transform.position = new Vector3(
@@ -101,9 +112,9 @@ namespace Assets.Scripts.Character {
 
                 } else {
 
-                    if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER))) {
+                    if (overCharacterCtrl != null) {
 
-                        var ctrl = hit.collider.GetComponent<CharacterCtrl>();
+                        var ctrl = overCharacterCtrl;
 
                         if (ctrl != null && GameMng.current.fightMng.GetTeamSide(ctrl) == Fight.TeamSide.Player && !GameMng.current.fightMng.isInFight) {
 
@@ -117,7 +128,7 @@ namespace Assets.Scripts.Character {
                             Physics.Raycast(ray, out RaycastHit hitCell, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER));
 
                             lastDragHit = hitCell.point;
-                            _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position ;
+                            _offsetDraggedCtrl = hitCell.point - _draggedCtrl.transform.position;
                             sourceDir = ray.direction;
 
                         } else {
@@ -132,8 +143,6 @@ namespace Assets.Scripts.Character {
             } else if (Input.GetMouseButtonUp(0)) {
 
                 if (_draggedCtrl != null) {
-
-                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                     selectedCharacterCtrl.OnDraggableToCell(null);
                     _draggedCtrl = null;
@@ -162,8 +171,6 @@ namespace Assets.Scripts.Character {
                         return;
 
                     if (GameMng.current.buyPanelUI.selectedBuyData != null && GameMng.current.buyPanelUI.selectedBuyData.IsCanBuy()) {
-
-                        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                         if (Physics.Raycast(ray, out RaycastHit hit, 500f, LayerMask.GetMask(LayersStore.CELL_LAYER))) {
 

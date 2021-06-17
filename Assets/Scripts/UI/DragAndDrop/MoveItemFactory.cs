@@ -20,13 +20,19 @@ namespace Assets.Scripts.UI.DragAndDrop {
         private MoveItem moveItemPrefab;
 
         private Dictionary<ReasonCreateObj, MoveItem> moveItems = new Dictionary<ReasonCreateObj, MoveItem>();
-
+          
         public MoveItem CreateOrGet(ReasonCreate reason, IForMoveItem itemData) {
 
             var obj = new ReasonCreateObj(reason, itemData);
 
             if (moveItems.TryGetValue(obj, out var val)) {
-                return val;
+
+                if (val.isActiveAndEnabled) {
+                    return val;
+                } else {
+                    moveItems.Remove(obj);
+                }
+                
             }
 
             var moveItemObj = Instantiate(moveItemPrefab.gameObject, transform);
@@ -38,7 +44,11 @@ namespace Assets.Scripts.UI.DragAndDrop {
             moveItems.Add(obj, moveItem);
 
             moveItem.onDestoy.AddListener(() => {
-                moveItems.Remove(obj);
+
+                // Only when move item trully removed
+                if (!moveItems[obj].isActiveAndEnabled)
+                    moveItems.Remove(obj);
+
             });
 
             return moveItem;

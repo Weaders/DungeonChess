@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Items;
+using Assets.Scripts.Observable;
 using Assets.Scripts.UI.DragAndDrop;
 using UnityEngine;
 
@@ -35,18 +36,23 @@ namespace Assets.Scripts.UI.Inventory {
 
             moveItemCell.onChangeItem.AddListener((oldVal, newVal) => {
 
-                if (oldVal != null) {
+                if (oldVal != newVal && newVal != itemData) 
+                {
 
-                    itemsContainer[indexInItems] = null;
-                    itemData = null;
+                    if (oldVal != null) {
 
-                }
+                        itemsContainer[indexInItems] = null;
+                        itemData = null;
 
-                if (newVal != null) {
+                    }
 
-                    itemData = GameMng.current.moveItemFactory.Get<ItemData>(newVal);
-                    itemsContainer[indexInItems] = itemData;
-                    
+                    if (newVal != null) {
+
+                        itemData = GameMng.current.moveItemFactory.Get<ItemData>(newVal);
+                        itemsContainer[indexInItems] = itemData;
+
+                    }
+
                 }
 
             });
@@ -55,19 +61,25 @@ namespace Assets.Scripts.UI.Inventory {
 
         public void SetItemsContainer(ItemsContainer itemContainer, int index) {
 
+            if (itemsContainer != null) {
+                itemsContainer.onSet.RemoveSubscription(OnItemsContainerChange);
+            }
+
             itemsContainer = itemContainer;
             indexInItems = index;
 
-            itemsContainer.onSet.AddSubscription(Observable.OrderVal.UIUpdate, (changeData) => {
-                
-                if (changeData.index == index && changeData.data != itemData) {
-                    PlaceItem(changeData.data);
-                }
-
-            });
+            itemsContainer.onSet.AddSubscription(OrderVal.UIUpdate, OnItemsContainerChange);
 
             if (itemContainer[index] != null)
                 PlaceItem(itemsContainer[index], false);
+
+        }
+
+        public void OnItemsContainerChange(SetEnumerableItemEvent<ItemData> changeData) {
+
+            if (changeData.index == indexInItems && changeData.data != itemData) {
+                PlaceItem(changeData.data);
+            }
 
         }
 
@@ -78,7 +90,7 @@ namespace Assets.Scripts.UI.Inventory {
             if (itemData != null) {
                 mv = GameMng.current.moveItemFactory.CreateOrGet(MoveItemFactory.ReasonCreate.Inventory, itemData);
             }
-            
+
             GameMng.current.moveItemSystem.PlaceItem(mv, moveItemCell, fireTriggers);
 
         }

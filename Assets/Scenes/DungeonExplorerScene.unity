@@ -3985,7 +3985,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -257.2, y: 3.1427}
+  m_AnchoredPosition: {x: -681, y: 3.4573}
   m_SizeDelta: {x: 87.81915, y: 77.68542}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1112704365
@@ -5988,8 +5988,6 @@ MonoBehaviour:
     _val: 4
   levelOfCharacters:
     _val: 0
-  food:
-    _val: 0
   itemsContainer: {fileID: 778070624}
 --- !u!4 &1530916709
 Transform:
@@ -6623,7 +6621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1190.8, y: 3.3}
+  m_AnchoredPosition: {x: 1533, y: -0.9146118}
   m_SizeDelta: {x: 154.72995, y: 78}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1789015691
@@ -8013,7 +8011,6 @@ MonoBehaviour:
   level: {fileID: 1790707956}
   charactersCount: {fileID: 339701706}
   levelOfCharacters: {fileID: 570298584}
-  foodCount: {fileID: 1886815520}
   topBtn: {fileID: 6611701937638084050}
 --- !u!222 &3966409417473782777
 CanvasRenderer:

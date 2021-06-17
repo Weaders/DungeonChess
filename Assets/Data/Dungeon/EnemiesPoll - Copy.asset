@@ -16,7 +16,7 @@ MonoBehaviour:
   - usePrefferedStrtg: 1
     enemyTeamStrtg: 1
     characterCtrls:
-    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
+    - {fileID: 11400000, guid: fe7d0e906fe1fbd4e8b3b2f48148f03e, type: 2}
     isBoss: 0
     isEnabled: 1
     difficult:
@@ -26,8 +26,8 @@ MonoBehaviour:
   - usePrefferedStrtg: 1
     enemyTeamStrtg: 1
     characterCtrls:
-    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
-    - {fileID: 11400000, guid: 15f066b43b9cf7245972f76e0add8239, type: 2}
+    - {fileID: 11400000, guid: 991cc96836cd43f4c94f9bcc1cad71fd, type: 2}
+    - {fileID: 11400000, guid: 4ba608a8229eacb4fbd7f32780563ad6, type: 2}
     isBoss: 0
     isEnabled: 1
     difficult:

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Character;
 using Assets.Scripts.Common;
+using Assets.Scripts.Items;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -22,6 +24,11 @@ namespace Assets.Scripts.UI.DragAndDrop {
         public UnityEvent onDestoy = new UnityEvent();
 
         private GameObject canvas = null;
+
+        /// <summary>
+        /// Character ctrl, for that will be equiped item, by over mouse
+        /// </summary>
+        private CharacterCtrl ctrlToEquip;
 
         private RectTransform rectTransform {
 
@@ -71,10 +78,14 @@ namespace Assets.Scripts.UI.DragAndDrop {
                     cellToPlace = moveItemCell;
 
                 }
+
+                ctrlToEquip = GameMng.current.gameInputCtrl.overCharacterCtrl;
                 
                 return;
 
             }
+
+            ctrlToEquip = null;
 
             if (cellToSel.state == MoveItemCell.State.Locked || cellToSel == moveItemCell)
                 return;
@@ -95,10 +106,21 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
             }
 
+         
+
 
         }
 
         public void OnEndDrag(PointerEventData eventData) {
+
+            if (ctrlToEquip != null) {
+
+                var itemData = GameMng.current.moveItemFactory.Get<ItemData>(this);
+                Destroy(gameObject);
+                ctrlToEquip.characterData.itemsContainer.Add(itemData);
+                return;
+            }
+                
 
             if (cellToPlace != null && cellToPlace.state == MoveItemCell.State.AvaliableForSelect) {
                 GameMng.current.moveItemSystem.PlaceItem(this, cellToPlace);
