@@ -48,11 +48,10 @@ MonoBehaviour:
   descriptionKey: holy_shield_description
   spellType: 1
   spellTarget: 0
-  effectObjPrefab: {fileID: 0}
-  instantMoveEffect: 0
-  waitForEndAnimation: 0
-  effectTime: 0
-  effectSpeed: 0
+  features: 
+  effectPrefab: {fileID: 0}
+  perAuraFromEffectPrefab: {fileID: 7030647891427822639, guid: b2aa1a8672c51554e90cae9dd80174cf,
+    type: 3}
   triggerTouchEvery: 1000
   range: 2
   holyShieldBuffPrefab: {fileID: 4572976975809804995, guid: b2f99a5da29e73a49ae33bf486f408c3,

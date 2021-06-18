@@ -21,7 +21,7 @@ MonoBehaviour:
     min: 3
     max: 7
   dungeonRoomCells:
-  - roomPrefab: {fileID: 8465871547493734981, guid: b05f8c39ef1710a49bcbf557d8a7feb5,
+  - roomPrefab: {fileID: 5544910677715629556, guid: ede50fbf59e13d045b43d51d71106743,
       type: 3}
     isBoss: 1
   healerRoom:
