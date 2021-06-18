@@ -13,6 +13,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
             if (moveItem == cell.moveItem)
                 return;
 
+            var oldCell = moveItem.currentCell;
+
             if (moveItem != null && moveItem.currentCell != null && moveItem.currentCell != cell) {
                 moveItem.currentCell.SetMoveItem(null);
             }
@@ -33,6 +35,10 @@ namespace Assets.Scripts.UI.DragAndDrop {
             }
 
             cell.SetMoveItem(moveItem, fireEvents);
+
+            // Used for one time used item
+            if (moveItem.IsNeedMoveBack() && moveItem.isActiveAndEnabled)
+                PlaceItem(moveItem, oldCell, fireEvents);
 
         }
 

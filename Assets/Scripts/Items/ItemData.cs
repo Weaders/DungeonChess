@@ -6,6 +6,7 @@ using Assets.Scripts.Translate;
 using Assets.Scripts.UI.DragAndDrop;
 using Assets.Scripts.UI.SelectPopup;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Items {
 
@@ -19,6 +20,8 @@ namespace Assets.Scripts.Items {
 
         [SerializeField]
         private string _description;
+
+        public int cost;
 
         public CharacterData owner { get; protected set; }
 
@@ -36,14 +39,21 @@ namespace Assets.Scripts.Items {
 
         public bool isEnableToSelect => true;
 
+        public UnityEvent onDestroy { get; } = new UnityEvent();
+
         public void Equip(CharacterData characterData) {
             owner = characterData;
             Equip();
         }
 
         public void DeEquip() {
+
             OnDeEquip();
+
+           
+
             owner = null;
+
         }
 
         protected abstract void Equip();
@@ -67,8 +77,13 @@ namespace Assets.Scripts.Items {
 
         public string GetId() => id;
 
-        public int cost;
+        public virtual bool IsNeedMoveBack() {
+            return false;
+        }
 
+        private void OnDestroy() {
+            onDestroy.Invoke();
+        }
     }
 
 }

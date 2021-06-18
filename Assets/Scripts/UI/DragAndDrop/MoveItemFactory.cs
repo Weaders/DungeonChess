@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.DragAndDrop {
@@ -8,7 +9,16 @@ namespace Assets.Scripts.UI.DragAndDrop {
     public interface IForMoveItem {
         void ClickHandle(MoveItem moveItem);
         Sprite img { get; }
+
+        /// <summary>
+        /// Used for detect when need to move back item for previous cell
+        /// </summary>
+        /// <returns></returns>
+        bool IsNeedMoveBack();
+
+        UnityEvent onDestroy { get; }
     }
+
 
     public class MoveItemFactory : MonoBehaviour {
 

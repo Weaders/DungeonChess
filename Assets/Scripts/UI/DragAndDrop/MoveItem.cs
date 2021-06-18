@@ -48,7 +48,13 @@ namespace Assets.Scripts.UI.DragAndDrop {
             set => moveItemCell = value;
         }
 
+        private void Start() {
 
+            GameMng.current.moveItemFactory.Get(this).onDestroy.AddListener(() => {
+                Destroy(gameObject);
+            });
+
+        }
 
         public void OnDrag(PointerEventData eventData) {
 
@@ -116,7 +122,6 @@ namespace Assets.Scripts.UI.DragAndDrop {
             if (ctrlToEquip != null) {
 
                 var itemData = GameMng.current.moveItemFactory.Get<ItemData>(this);
-                Destroy(gameObject);
                 ctrlToEquip.characterData.itemsContainer.Add(itemData);
                 return;
             }
@@ -185,6 +190,13 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
             var moveItem = GameMng.current.moveItemFactory.Get(this);
             moveItem.ClickHandle(this);
+
+        }
+
+        public bool IsNeedMoveBack() {
+
+            var moveItem = GameMng.current.moveItemFactory.Get(this);
+            return moveItem.IsNeedMoveBack();
 
         }
 

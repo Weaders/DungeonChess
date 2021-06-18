@@ -18,15 +18,35 @@ namespace Assets.Scripts.Items.Entities {
             Use(owner);
             _countItems--;
 
-            if (_countItems == 0)
-                Destroy(gameObject);
-            else
-                DeEquip();
+            Destroy(gameObject);
+
+            if (count == 0) {
+
+                if (owner != null) {
+
+                    for (var i = 0; i < owner.itemsContainer.Count; i++) {
+
+                        if (owner.itemsContainer[i] == this) {
+                            
+                            owner.itemsContainer[i] = null;
+                            break;
+
+                        }
+
+                    }
+
+                }
+                
+            }
 
         }
 
         protected override void OnDeEquip() {
             
+        }
+
+        public override bool IsNeedMoveBack() {
+            return owner != null;
         }
 
         protected abstract void Use(CharacterData data);

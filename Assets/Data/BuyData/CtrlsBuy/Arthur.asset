@@ -36,7 +36,7 @@ MonoBehaviour:
       floatVal: 5
       boolVal: 0
     - statType: 4
-      intVal: 10
+      intVal: 12
       floatVal: 5
       boolVal: 0
     levelOfDifficult: 0

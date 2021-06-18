@@ -27,17 +27,13 @@ namespace Assets.Scripts.Items {
                 if (items[index] != value) {
 
                     if (items[index] != null && value != items[index]) {
-
                         items[index].transform.SetParent(null);
-
                     }
 
                     items[index] = value;
 
                     if (items[index] != null) {
-
                         items[index].transform.SetParent(transform);
-
                     }
 
                 }
