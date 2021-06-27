@@ -41,6 +41,8 @@ namespace Assets.Scripts.Items {
 
         public UnityEvent onDestroy { get; } = new UnityEvent();
 
+        public virtual ObservableVal<int> count => null;
+
         public void Equip(CharacterData characterData) {
             owner = characterData;
             Equip();
@@ -49,9 +51,6 @@ namespace Assets.Scripts.Items {
         public void DeEquip() {
 
             OnDeEquip();
-
-           
-
             owner = null;
 
         }

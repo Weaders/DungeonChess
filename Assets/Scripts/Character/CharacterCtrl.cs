@@ -6,18 +6,17 @@ using Assets.Scripts.AnimationCtrl;
 using Assets.Scripts.Buffs;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
+using Assets.Scripts.Effects;
 using Assets.Scripts.Logging;
 using Assets.Scripts.Observable;
 using Assets.Scripts.Spells;
 using Assets.Scripts.Spells.Modifiers;
 using Assets.Scripts.Synergy;
+using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Assets.Scripts.Character {
-
-    public interface ICharacterCtrl {
-    }
 
     [RequireComponent(typeof(CharacterMoveCtrl))]
     public class CharacterCtrl : MonoBehaviour, ISpellUse, IForActions {
@@ -52,6 +51,8 @@ namespace Assets.Scripts.Character {
 
         public Canvas characterCanvas;
 
+        public MessageContainer messageContainer;
+
         public CharacterAnimEvents characterAnimEvents;
 
         public Sprite imgSprite;
@@ -68,9 +69,9 @@ namespace Assets.Scripts.Character {
 
         public CharacterCtrl targetForAttack { get; private set; }
 
-        public SliderStatCtrl hpBar;
+        public ProgressBarCtrl hpBar;
 
-        public SliderStatCtrl manaBar;
+        public ProgressBarCtrl manaBar;
 
         public EffectsPlacer effectsPlacer;
 
@@ -96,13 +97,28 @@ namespace Assets.Scripts.Character {
         private GameObject bulletSpawnObj;
 
         [SerializeField]
-        private StateIconsCtrl stateIconsCtrl;
-
-        [SerializeField]
         private GameObject characterSlider;
 
         [SerializeField]
         private AudioClip clipAttack;
+
+        /// <summary>
+        /// Effect that will be played on make base attack
+        /// </summary>
+        [SerializeField]
+        private Effect onBaseAttakEffect;
+
+        /// <summary>
+        /// Effect, that will be executed on dead
+        /// </summary>
+        [SerializeField]
+        private Effect onDeadEffect;
+
+        /// <summary>
+        /// Character materials
+        /// </summary>
+        [SerializeField]
+        private Renderer[] charactersRenders;
 
         public bool isCanMakeFullManaAttack => characterData.stats.mana >= characterData.stats.maxMana && characterData.isCanAttack;
 
@@ -114,7 +130,12 @@ namespace Assets.Scripts.Character {
         protected CharacterActionsCtrl characterActionsCtrl { get; set; }
 
         private void Awake() {
+            
             characterActionsCtrl = new CharacterActionsCtrl(this);
+
+            if (charactersRenders == null || charactersRenders.Length == 0)
+                charactersRenders = GetComponentsInChildren<Renderer>();
+
         }
 
 
@@ -148,6 +169,29 @@ namespace Assets.Scripts.Character {
             }
 
             return characterActionsCtrl.IterateAction();
+
+        }
+
+        public IEnumerator DeadCoroutine() {
+
+            var f = 0f;
+
+            if (onDeadEffect != null)
+                onDeadEffect.Play();
+
+            while (f < 1f){
+                
+                f += Time.deltaTime;
+
+                foreach (var render in charactersRenders)
+                    render.material.SetFloat("_Dissolve", f);
+
+                yield return null;
+
+            }
+
+            if (onDeadEffect != null)
+                onDeadEffect.Stop();
 
         }
 
@@ -200,6 +244,9 @@ namespace Assets.Scripts.Character {
 
             if (clipAttack != null)
                 audioSource.PlayOneShot(clipAttack);
+
+            if (data.isWithEffect && onBaseAttakEffect != null)
+                onBaseAttakEffect.Play();
 
             var spell = characterData.spellsContainer.GetBaseAttackSpell();
 
@@ -255,21 +302,17 @@ namespace Assets.Scripts.Character {
 
             characterAnimEvents.Init(this);
 
-            stateIconsCtrl.SetCharacterData(characterData);
-
             characterData.actions.onPostGetDmg.AddSubscription(OrderVal.UIUpdate, (dmgEventData) => {
 
-                if (teamSide == Fight.TeamSide.Enemy) {
+                var isCrit = dmgEventData.dmg.dmgModifiers.Any(m => m is CritModify);
 
-                    var isCrit = dmgEventData.dmg.dmgModifiers.Any(m => m is CritModify);
+                var val = dmgEventData.dmg.GetCalculateVal();
 
-                    GameMng.current.fightTextMng.DisplayText(this, dmgEventData.dmg.GetCalculateVal().ToString(), new FightText.FightTextMsg.SetTextOpts {
-                        color = colorStore.getDmgText,
-                        size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1,
-                        icon = isCrit ? GameMng.current.gameData.critIcon : null
-                    });
-
-                }
+                GameMng.current.fightTextMng.DisplayText(this, val.ToString(), new FightText.FightTextMsg.SetTextOpts {
+                    color = val == 0 ? colorStore.noDmgText : colorStore.getDmgText,
+                    size = dmgEventData.dmg.GetCalculateVal() > 50 ? 2 : 1,
+                    icon = isCrit ? GameMng.current.gameData.critIcon : null
+                });
 
             });
 
@@ -290,12 +333,17 @@ namespace Assets.Scripts.Character {
             characterData.stats.isDie.onPostChange.AddSubscription(OrderVal.CharacterCtrl, (data) => {
 
                 TagLogger<CharacterCtrl>.Info($"GON: {gameObject.name}, CN: {characterData.name} is die");
+                
                 animator.SetBool(AnimationValStore.IS_DEATH, data.newVal);
+
                 GetComponent<Collider>().enabled = false;
+
                 characterSlider.gameObject.SetActive(false);
                 animator.applyRootMotion = false;
-                var d = characterData.stats.isDie;
+
                 FullTeamBuffMng.Recalc();
+
+                StartCoroutine(DeadCoroutine());
 
             });
 
@@ -333,8 +381,6 @@ namespace Assets.Scripts.Character {
 
             });
 
-
-
             characterData.itemsContainer.onSet.AddSubscription(OrderVal.CharacterCtrl, () => {
 
                 OnRefreshActionCells();
@@ -354,8 +400,12 @@ namespace Assets.Scripts.Character {
 
             });
 
-            hpBar.SetValForObserve(characterData.stats.hp, characterData.stats.maxHp);
-            manaBar.SetValForObserve(characterData.stats.mana, characterData.stats.maxMana);
+            if (hpBar != null)
+                hpBar.SetValForObserve(characterData.stats.hp, characterData.stats.maxHp);
+
+            if (manaBar != null)
+                manaBar.SetValForObserve(characterData.stats.mana, characterData.stats.maxMana);
+
             isReadyForMove = true;
 
         }

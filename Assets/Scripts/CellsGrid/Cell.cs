@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Character;
 using Assets.Scripts.DungeonGenerator;
+using Assets.Scripts.Effects;
 using Assets.Scripts.Logging;
 using UnityEngine;
 using UnityEngine.Events;
@@ -63,6 +64,9 @@ namespace Assets.Scripts.CellsGrid {
 
         [SerializeField]
         private GameObject cellEffect;
+
+        [SerializeField]
+        private Effect stayEffect;
 
         public CharacterCtrl StayCtrlPrefab(CharacterCtrl ctrlPrefab) {
 
@@ -162,10 +166,13 @@ namespace Assets.Scripts.CellsGrid {
             movedToThisCellCtrl = characterCtrl;
         }
 
-        public void StayCtrl(CharacterCtrl ctrl, bool isChangePosition = true, bool changeState = true) {
+        public void StayCtrl(CharacterCtrl ctrl, bool isChangePosition = true, bool changeState = true, bool runStayEffect = false) {
 
             if ((ctrl == null && characterCtrl == null) || (ctrl != null && ctrl.characterData.cell == this))
                 return;
+
+            if (runStayEffect && stayEffect != null)
+                stayEffect.Play();
 
             if (ctrl != null) {
 

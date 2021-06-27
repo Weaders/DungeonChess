@@ -11,7 +11,7 @@ namespace Assets.Scripts.BuyMng {
 
         public IReadOnlyList<BuyData> buyDataList => _buyDataList;
 
-        public IEnumerable<CharacterCtrl> characterCtrls => buyDataList.Select(b => b.ctrlPrefab);
+        public IEnumerable<CharacterCtrl> characterCtrls => buyDataList.Select(b => b.characterCtrl);
 
         public UnityEvent postBuy = new UnityEvent();
 
@@ -37,7 +37,7 @@ namespace Assets.Scripts.BuyMng {
 
         public CharacterCtrl Buy(BuyData buyData) {
             
-            var ctrl = GameMng.current.fightMng.fightTeamPlayer.AddCharacterToTeamPrefab(buyData.ctrlPrefab);
+            var ctrl = GameMng.current.fightMng.fightTeamPlayer.AddCharacterToTeamPrefab(buyData.characterCtrl);
 
             GameMng.current.buyPanelUI.selectedBuyData = null;
 

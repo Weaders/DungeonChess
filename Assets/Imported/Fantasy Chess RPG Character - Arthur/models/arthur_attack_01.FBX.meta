@@ -893,7 +893,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.1434871
+      - time: 0.24172756
         functionName: AmimEventMakeAttack
         data: 
         objectReferenceParameter: {fileID: 11400000, guid: 02c32a5122a8f8a448aecc0bcbc833b8,

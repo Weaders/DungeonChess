@@ -1,5 +1,5 @@
-﻿using System;
-using Assets.Scripts.Character;
+﻿using Assets.Scripts.Character;
+using Assets.Scripts.Observable;
 using UnityEngine;
 
 namespace Assets.Scripts.Items.Entities {
@@ -9,25 +9,29 @@ namespace Assets.Scripts.Items.Entities {
         [SerializeField]
         private int _countItems;
 
-        public int count { 
-            get => _countItems; 
+        private ObservableVal<int> countVal = new ObservableVal<int>();
+
+        public override ObservableVal<int> count => countVal;
+
+        private void Awake() {
+            countVal.val = _countItems;
         }
 
         protected override void Equip() {
-            
+
             Use(owner);
-            _countItems--;
+            countVal.val--;
 
-            Destroy(gameObject);
+            if (countVal == 0) {
 
-            if (count == 0) {
+                Destroy(gameObject);
 
                 if (owner != null) {
 
                     for (var i = 0; i < owner.itemsContainer.Count; i++) {
 
                         if (owner.itemsContainer[i] == this) {
-                            
+
                             owner.itemsContainer[i] = null;
                             break;
 
@@ -36,13 +40,13 @@ namespace Assets.Scripts.Items.Entities {
                     }
 
                 }
-                
+
             }
 
         }
 
         protected override void OnDeEquip() {
-            
+
         }
 
         public override bool IsNeedMoveBack() {

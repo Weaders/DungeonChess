@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
 using Assets.Scripts.EnemyData;
 using Assets.Scripts.Translate;
 using UnityEngine;
+using static Assets.Scripts.Fight.PlaceStrategy.TeamPlaceStrategy;
 
 namespace Assets.Scripts.DungeonGenerator {
     public class EnemyRoomData : RoomData {

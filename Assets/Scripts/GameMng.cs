@@ -99,8 +99,6 @@ namespace Assets.Scripts {
 
         public GameTitlePanel locationTitle;
 
-        public CharacterHealService characterHealService;
-
         public GameData gameData;
 
         [SerializeField]
@@ -168,7 +166,6 @@ namespace Assets.Scripts {
             characterOpenInfoBtn.Init();
 
             playerData.Init();
-            characterHealService.Init();
 
             locationTitle.HidePopup();
             messagePanel.Hide();

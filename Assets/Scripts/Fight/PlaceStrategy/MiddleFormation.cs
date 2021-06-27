@@ -8,10 +8,9 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
     public class MiddleFormation : TeamPlaceStrategy {
 
-        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells)
-            => Place(team.aliveChars, cells, enemyCells);
+        public override CtrlToStay[] CalcPlace(IEnumerable<Character.CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
 
-        public override void Place(IEnumerable<Character.CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+            var result = new CtrlToStay[ctrls.Count()];
 
             var minPosition = cells.MinElement(c => c.dataPosition.x + c.dataPosition.y);
             var maxPosition = cells.MaxElement(c => c.dataPosition.x + c.dataPosition.y);
@@ -24,9 +23,15 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
                 (c, centerEle) => Vector2Int.Distance(c.dataPosition, centerEle)
             );
 
+            var i = 0;
+
             foreach (var charObj in ctrls) {
 
-                element.StayCtrl(charObj);
+                result[i++] = new CtrlToStay {
+                    cell = element,
+                    characterCtrl = charObj
+                };
+
                 forIgnore.Add(element);
 
                 (element, _) = cells.ClosestElement(
@@ -37,6 +42,9 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
             }
 
+            return result;
+
         }
+
     }
 }

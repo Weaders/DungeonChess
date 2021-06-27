@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b799490e4d787a448a3138b8d3d188f, type: 3}
   m_Name: FireImp
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 0}
+  characterCtrl: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
+    type: 3}
   data:
   - stats:
     - statType: 0
@@ -42,7 +43,5 @@ MonoBehaviour:
       floatVal: 0
       boolVal: 0
     levelOfDifficult: 0
-  ctrlPrefab: {fileID: 1310277914283534963, guid: 4951dae1adf632a4d90e46a2aa5a4c24,
-    type: 3}
   cost: 25
   descriptionKey: fire_imp_buy_description

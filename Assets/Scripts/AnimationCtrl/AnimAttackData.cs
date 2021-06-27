@@ -7,6 +7,7 @@ namespace Assets.Scripts.AnimationCtrl {
 
         public bool isTiggerEndAttack;
         public float scale;
+        public bool isWithEffect = true;
 
         public static AnimAttackData GetNew() {
 

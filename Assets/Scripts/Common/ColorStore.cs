@@ -8,6 +8,7 @@ namespace Assets.Scripts.Common {
     [CreateAssetMenu(menuName = "Common/ColorStore")]
     public class ColorStore : ScriptableObject {
 
+        public Color noDmgText = new Color(1, 1, 1, 1);
         public Color getDmgText = new Color(1, 0, 0, 1);
         public Color getHealText = new Color(0, 1, 0, 1);
 

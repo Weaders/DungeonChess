@@ -2,9 +2,11 @@
 using Assets.Scripts.Character;
 using Assets.Scripts.Common;
 using Assets.Scripts.Items;
+using Assets.Scripts.Observable;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.DragAndDrop {
 
@@ -22,6 +24,9 @@ namespace Assets.Scripts.UI.DragAndDrop {
         private Transform startParent;
 
         public UnityEvent onDestoy = new UnityEvent();
+
+        [SerializeField]
+        private Text countItemsText;
 
         private GameObject canvas = null;
 
@@ -50,9 +55,15 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
         private void Start() {
 
-            GameMng.current.moveItemFactory.Get(this).onDestroy.AddListener(() => {
+            var item = GameMng.current.moveItemFactory.Get(this);
+
+            item.onDestroy.AddListener(() => {
                 Destroy(gameObject);
             });
+
+            if (item.count != null) {
+                countItemsText.Subscribe(item.count);
+            }
 
         }
 
@@ -119,27 +130,43 @@ namespace Assets.Scripts.UI.DragAndDrop {
 
         public void OnEndDrag(PointerEventData eventData) {
 
+            var oldCell = currentCell;
+
+            GameMng.current.gameInputCtrl.blockUI = false;
+
             if (ctrlToEquip != null) {
 
                 var itemData = GameMng.current.moveItemFactory.Get<ItemData>(this);
                 ctrlToEquip.characterData.itemsContainer.Add(itemData);
-                return;
-            }
-                
 
-            if (cellToPlace != null && cellToPlace.state == MoveItemCell.State.AvaliableForSelect) {
-                GameMng.current.moveItemSystem.PlaceItem(this, cellToPlace);
-            } else {
-
-                if (cellToPlace != null) {
-                    cellToPlace.state = MoveItemCell.State.Default;
+                if (IsNeedMoveBack()) {
+                    GameMng.current.moveItemSystem.PlaceItem(this, oldCell);
                 }
 
-                transform.SetParent(startParent);
-                transform.localPosition = startPos;
-                
-            }
+                return;
 
+            } else {
+
+                if (cellToPlace != null && cellToPlace.state == MoveItemCell.State.AvaliableForSelect) {
+                    
+                    GameMng.current.moveItemSystem.PlaceItem(this, cellToPlace);
+
+                    if (IsNeedMoveBack()) {
+                        GameMng.current.moveItemSystem.PlaceItem(this, oldCell);
+                    }
+
+                } else {
+
+                    if (cellToPlace != null) {
+                        cellToPlace.state = MoveItemCell.State.Default;
+                    }
+
+                    transform.SetParent(startParent);
+                    transform.localPosition = startPos;
+
+                }
+
+            }
 
         }
 
@@ -172,7 +199,8 @@ namespace Assets.Scripts.UI.DragAndDrop {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
-            
+
+            GameMng.current.gameInputCtrl.blockUI = true;
             cellToPlace = null;
             startPos = transform.localPosition;
             startParent = transform.parent;
@@ -194,6 +222,9 @@ namespace Assets.Scripts.UI.DragAndDrop {
         }
 
         public bool IsNeedMoveBack() {
+
+            if (!isActiveAndEnabled)
+                return false;
 
             var moveItem = GameMng.current.moveItemFactory.Get(this);
             return moveItem.IsNeedMoveBack();

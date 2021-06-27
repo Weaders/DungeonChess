@@ -17,13 +17,11 @@ namespace Assets.Scripts.TopSidePanel {
 
         public TextMeshProUGUI level;
 
-        public TextMeshProUGUI charactersCount;
-
-        public TextMeshProUGUI levelOfCharacters;
-
         public Button topBtn;
 
         private StateTopBtn _stateTopBtn;
+
+        public Button levelUpBtn;
 
         public bool isButtonEnabled {
             get => topBtn.interactable;
@@ -68,13 +66,6 @@ namespace Assets.Scripts.TopSidePanel {
             moneyCount.Subscribe(GameMng.current.playerData.money);
             level.Subscribe(GameMng.current.level);
 
-            charactersCount.Subscribe(
-                () => $"{GameMng.current.playerData.charactersCount}/{GameMng.current.playerData.maxCharacterCount}", 
-                OrderVal.UIUpdate, 
-                GameMng.current.playerData.charactersCount, 
-                GameMng.current.playerData.maxCharacterCount
-            );
-
             topBtn.onClick.AddListener(() => {
 
                 if (stateTopBtn == StateTopBtn.Start) {
@@ -84,8 +75,6 @@ namespace Assets.Scripts.TopSidePanel {
                 }
 
             });
-
-            levelOfCharacters.Subscribe(GameMng.current.playerData.levelOfCharacters);
 
             GameMng.current.fightMng.fightTeamPlayer
                 .onChangeTeamCtrl

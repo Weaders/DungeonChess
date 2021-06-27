@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b799490e4d787a448a3138b8d3d188f, type: 3}
   m_Name: Demon
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 0}
+  characterCtrl: {fileID: 6437844519398791621, guid: e9485f5111f47a74ebd17426ea8d7f9c,
+    type: 3}
   data:
   - stats:
     - statType: 0
@@ -54,7 +55,5 @@ MonoBehaviour:
       floatVal: 1
       boolVal: 0
     levelOfDifficult: 0
-  ctrlPrefab: {fileID: 6437844519398791621, guid: e9485f5111f47a74ebd17426ea8d7f9c,
-    type: 3}
   cost: 20
   descriptionKey: demon_buy

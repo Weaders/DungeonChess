@@ -3,6 +3,10 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Dissolve ("Dissolve", Range(0,1)) = 0.0
+        _DissolveTex ("Dissolve Texture", 2D) = "white" {}
+        [HDR]_DissolveColor ("Edge dissolve color", Color) = (1,1,1,1)
+        [HDR]_SecondDissolveColor ("Edge second dissolve color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -33,7 +37,16 @@
             };
 
             sampler2D _MainTex;
+            sampler2D _DissolveTex;
             float4 _MainTex_ST;
+            float4 _DissolveTex_ST;
+
+            half _Dissolve;
+
+            float4 _DissolveColor;
+            float4 _SecondDissolveColor;
+            fixed4 _Color;
+
             
             v2f vert (appdata v)
             {
@@ -48,6 +61,18 @@
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 dissolveCol = tex2D(_DissolveTex, i.uv);
+
+                half dissolveVal = dissolveCol.w - _Dissolve;
+
+                clip(dissolveVal);
+
+                if (dissolveVal <= 0.04){
+                    return _DissolveColor;
+                } else if (dissolveVal <= 0.06){
+                    return _SecondDissolveColor;
+                }
+
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

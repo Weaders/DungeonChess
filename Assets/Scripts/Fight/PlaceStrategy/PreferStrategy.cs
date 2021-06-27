@@ -6,11 +6,9 @@ using Assets.Scripts.Character;
 namespace Assets.Scripts.Fight.PlaceStrategy {
 
     public class PreferStrategy : TeamPlaceStrategy {
+        public override CtrlToStay[] CalcPlace(IEnumerable<CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
 
-        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells)
-            => Place(team.aliveChars, cells, enemyCells);
-
-        public override void Place(IEnumerable<CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+            var result = new List<CtrlToStay>();
 
             var cellsForPlace = cells.Where(c => c.enemyPrefer != null && c.enemyPrefer.Length > 0);
 
@@ -30,11 +28,14 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
                             if (ctrl != null) {
 
-                                cellForPlace.StayCtrl(ctrl);
+                                result.Add(new CtrlToStay { 
+                                    cell = cellForPlace,
+                                    characterCtrl = ctrl
+                                });
+
                                 ctrls = ctrls.Except(new[] { ctrl });
 
                             }
-
 
                             break;
 
@@ -44,6 +45,7 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
             }
 
+            return result.ToArray();
         }
     }
 }

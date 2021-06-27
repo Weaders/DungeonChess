@@ -10,10 +10,12 @@ namespace Assets.Scripts.UI.DragAndDrop {
             if (cell == null)
                 return;
 
-            if (moveItem == cell.moveItem)
+            if (moveItem == cell.moveItem) {
+
+                PlaceTransform(moveItem, cell);
                 return;
 
-            var oldCell = moveItem.currentCell;
+            }
 
             if (moveItem != null && moveItem.currentCell != null && moveItem.currentCell != cell) {
                 moveItem.currentCell.SetMoveItem(null);
@@ -22,6 +24,16 @@ namespace Assets.Scripts.UI.DragAndDrop {
             if (cell.moveItem != null && moveItem != null) {
                 throw new GameException("Cell already exists move item");
             }
+
+            if (moveItem != null) {
+                PlaceTransform(moveItem, cell);
+            }
+
+            cell.SetMoveItem(moveItem, fireEvents);
+
+        }
+
+        private void PlaceTransform(MoveItem moveItem, MoveItemCell cell) {
 
             if (moveItem != null) {
 
@@ -33,12 +45,6 @@ namespace Assets.Scripts.UI.DragAndDrop {
                 moveItem.currentCell = cell;
 
             }
-
-            cell.SetMoveItem(moveItem, fireEvents);
-
-            // Used for one time used item
-            if (moveItem.IsNeedMoveBack() && moveItem.isActiveAndEnabled)
-                PlaceItem(moveItem, oldCell, fireEvents);
 
         }
 

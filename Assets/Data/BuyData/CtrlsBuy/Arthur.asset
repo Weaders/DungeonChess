@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b799490e4d787a448a3138b8d3d188f, type: 3}
   m_Name: Arthur
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 0}
+  characterCtrl: {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc,
+    type: 3}
   data:
   - stats:
     - statType: 0
@@ -68,7 +69,5 @@ MonoBehaviour:
       floatVal: 0
       boolVal: 0
     levelOfDifficult: 2
-  ctrlPrefab: {fileID: 8215336324123496539, guid: ee818fd36b2767d48a9504fef2141bdc,
-    type: 3}
   cost: 20
   descriptionKey: warrior_buy_description

@@ -8,7 +8,6 @@ namespace Assets.Scripts.BuyMng {
     [CreateAssetMenu(menuName = "Buy/Data")]
     public class BuyData : CharacterDungeonData {
 
-        public CharacterCtrl ctrlPrefab;
         public int cost;
         public string descriptionKey;
 

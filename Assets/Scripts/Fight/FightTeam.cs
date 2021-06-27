@@ -13,7 +13,15 @@ namespace Assets.Scripts.Fight {
 
         public UnityEvent onAllInTeamDie = new UnityEvent();
 
+        /// <summary>
+        /// Call when added or removed characte ctrl from team
+        /// </summary>
         public UnityEvent onChangeTeamCtrl = new UnityEvent();
+
+        /// <summary>
+        /// Call when some character in team is die
+        /// </summary>
+        public UnityEvent onCharacterDie = new UnityEvent();
 
         public IReadOnlyList<CharacterCtrl> characters => _characterCtrls;
 

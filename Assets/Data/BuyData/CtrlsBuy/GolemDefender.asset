@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b799490e4d787a448a3138b8d3d188f, type: 3}
   m_Name: GolemDefender
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 0}
+  characterCtrl: {fileID: 2746475727465504425, guid: 26daf9e76728e2e4a865ebd75af57b3f,
+    type: 3}
   data:
   - stats:
     - statType: 0
@@ -54,7 +55,5 @@ MonoBehaviour:
       floatVal: 1
       boolVal: 0
     levelOfDifficult: 0
-  ctrlPrefab: {fileID: 2746475727465504425, guid: 26daf9e76728e2e4a865ebd75af57b3f,
-    type: 3}
   cost: 12
   descriptionKey: golem_defender_buy_description

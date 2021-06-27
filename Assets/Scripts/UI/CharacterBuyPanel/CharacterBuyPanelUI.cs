@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.BuyMng;
 using Assets.Scripts.Character;
 using Assets.Scripts.Common;
@@ -70,9 +71,10 @@ namespace Assets.Scripts.UI.CharacterBuyPanel {
 
             });
 
+            GameMng.current.fightMng.fightTeamPlayer.onChangeTeamCtrl.AddListener(RefreshData);
+            GameMng.current.fightMng.fightTeamPlayer.onCharacterDie.AddListener(RefreshData);
+
         }
-
-
  
         private void RefreshData() {
 
@@ -95,7 +97,9 @@ namespace Assets.Scripts.UI.CharacterBuyPanel {
 
             btns.Clear();
 
-            foreach (var ctrlBuy in GameMng.current.buyMng.buyDataList) {
+            var ids = GameMng.current.fightMng.fightTeamPlayer.aliveChars.Select(c => c.characterData.id);
+
+            foreach (var ctrlBuy in GameMng.current.buyMng.buyDataList.Where(b => !ids.Contains(b.characterCtrl.characterData.id))) {
 
                 var btn = Instantiate(btnPrefab, transform);
 

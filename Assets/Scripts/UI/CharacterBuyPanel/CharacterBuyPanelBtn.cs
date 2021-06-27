@@ -18,7 +18,7 @@ namespace Assets.Scripts.UI.CharacterBuyPanel {
 
         public void SetBuyData(BuyData buyData) {
 
-            characterTitle.text = TranslateReader.GetTranslate(buyData.ctrlPrefab.characterData.characterName);
+            characterTitle.text = TranslateReader.GetTranslate(buyData.characterCtrl.characterData.characterName);
             characterDescription.text = TranslateReader.GetTranslate(buyData.descriptionKey);
             cost.text = buyData.cost.ToString();
 

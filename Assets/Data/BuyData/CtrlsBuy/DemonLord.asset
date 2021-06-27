@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b799490e4d787a448a3138b8d3d188f, type: 3}
   m_Name: DemonLord
   m_EditorClassIdentifier: 
-  characterCtrl: {fileID: 0}
+  characterCtrl: {fileID: 2346248606853927759, guid: 6f433aee2a22b5840a65d380a662e1fd,
+    type: 3}
   data:
   - stats:
     - statType: 0
@@ -58,7 +59,5 @@ MonoBehaviour:
       floatVal: 1
       boolVal: 0
     levelOfDifficult: 0
-  ctrlPrefab: {fileID: 2346248606853927759, guid: 6f433aee2a22b5840a65d380a662e1fd,
-    type: 3}
   cost: 30
   descriptionKey: demon_lord_buy_description

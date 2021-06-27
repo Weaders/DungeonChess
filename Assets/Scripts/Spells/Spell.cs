@@ -67,6 +67,11 @@ namespace Assets.Scripts.Spells {
         /// </summary>
         private Effect preAuraFromEffect = null;
 
+        /// <summary>
+        /// Exec on attack effect spell
+        /// </summary>
+        private Effect execOnAttack = null;
+
         private List<CharacterCtrl> touchedCtrls = new List<CharacterCtrl>();
 
         public string GetDescription(CharacterData owner)
@@ -209,6 +214,8 @@ namespace Assets.Scripts.Spells {
             public bool isEndAttack = false;
             public Animator animator = null;
             public UnityEvent onEnd = new UnityEvent();
+
+            public bool onMakeAttackEffect;
 
         }
 

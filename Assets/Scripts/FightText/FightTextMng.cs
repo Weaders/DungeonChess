@@ -16,6 +16,8 @@ namespace Assets.Scripts.FightText {
 
         public Vector3[] startPosition;
 
+        public Rect[] posisitons;
+
         [HideInInspector]
         public int positionIndex;
 
@@ -24,8 +26,11 @@ namespace Assets.Scripts.FightText {
         [ContextMenu("Display fight text")]
         public void DisplayTextForFirst() {
 
-            var ctrl = FindObjectOfType<CharacterCtrl>();
-            DisplayText(ctrl, "test", new SetTextOpts() { color = Color.red, icon = GameMng.current.gameData.playerManaIcon });
+            var ctrls = FindObjectsOfType<CharacterCtrl>();
+
+            foreach(var ctrl in ctrls)
+                if (!ctrl.characterData.stats.isDie)
+                    DisplayText(ctrl, "test", new SetTextOpts() { color = Color.red, icon = GameMng.current.gameData.playerManaIcon });
 
         }
 
@@ -54,31 +59,23 @@ namespace Assets.Scripts.FightText {
             if (ctrl.characterCanvas == null || !ctrl.characterCanvas.isActiveAndEnabled)
                 return;
 
-            var obj = new GameObject($"ContainerForMsg_{++i}", typeof(RectTransform));
-
             TagLogger<FightTextMng>.Info($"Create container for msg - {i}");
-
-            var rectTransform = obj.transform as RectTransform;
 
             positionIndex++;
 
-            if (startPosition.Length == positionIndex)
-                positionIndex = 0;
+            var rect = ctrl.messageContainer.GetRect();
 
-            rectTransform.SetParent(ctrl.characterCanvas.transform);
-            rectTransform.localPosition = startPosition[positionIndex];
-            rectTransform.sizeDelta = new Vector2(3, 2);
+            var msg = Instantiate(msgPrefab, rect, true);
 
-            var msg = Instantiate(msgPrefab, rectTransform, false);
 
-            // msg.transform.localPosition = startPosition[positionIndex];
+            msg.transform.localPosition = Vector3.zero;
 
             var textMsg = msg.GetComponent<FightTextMsg>();
             var anim = msg.GetComponent<Animator>();
 
             textMsg.SetText(data.text, data.opts);
 
-            StartCoroutine(WaitAndDestroy(anim, obj, data, ctrl));            
+            StartCoroutine(WaitAndDestroy(anim, msg, data, ctrl));
 
         }
 

@@ -16,11 +16,6 @@ namespace Assets.Scripts.CameraMng {
 
         private List<GameObject> touchObjects = new List<GameObject>();
 
-        private void Update() {
-
-        }
-
-
         private IEnumerator GoToPosition(Vector3 targetPos) {
 
             var t = 0f;

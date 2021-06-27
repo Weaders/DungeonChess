@@ -9,12 +9,10 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
 
     public class MaxDistancePlaceStrategy : TeamPlaceStrategy {
 
-        public override void Place(FightTeam team, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells)
-            => Place(team.aliveChars, cells, enemyCells);
-
-        public override void Place(IEnumerable<Character.CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
+        public override CtrlToStay[] CalcPlace(IEnumerable<Character.CharacterCtrl> ctrls, IEnumerable<Cell> cells, IEnumerable<Cell> enemyCells) {
 
             var cellsForSelect = new Cell[ctrls.Count()];
+            var result = new CtrlToStay[ctrls.Count()];
 
             for (var i = 0; i < cellsForSelect.Length; i++) {
 
@@ -40,10 +38,21 @@ namespace Assets.Scripts.Fight.PlaceStrategy {
                 TagLogger<MaxDistancePlaceStrategy>.Info($"{character.name} spawned for {cellsForSelect[cellI].dataPosition}");
 
                 cellsForSelect[cellI].StayCtrl(character);
+                
+                result[cellI] = new CtrlToStay {
+                    cell = cellsForSelect[cellI],
+                    characterCtrl = character
+                };
+
                 cellI++;
 
             }
 
+            return result;
+
+
         }
+            
+
     }
 }

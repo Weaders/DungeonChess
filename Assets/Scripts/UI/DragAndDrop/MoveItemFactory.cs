@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.Observable;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -7,7 +8,9 @@ using UnityEngine.UI;
 namespace Assets.Scripts.UI.DragAndDrop {
 
     public interface IForMoveItem {
+
         void ClickHandle(MoveItem moveItem);
+
         Sprite img { get; }
 
         /// <summary>
@@ -16,7 +19,14 @@ namespace Assets.Scripts.UI.DragAndDrop {
         /// <returns></returns>
         bool IsNeedMoveBack();
 
+        /// <summary>
+        /// Unity event on destroy
+        /// </summary>
         UnityEvent onDestroy { get; }
+
+        ObservableVal<int> count { get; }
+
+
     }
 
 

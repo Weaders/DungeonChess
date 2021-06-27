@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Assets.Scripts.Character;
+﻿using Assets.Scripts.Character;
 using Assets.Scripts.Observable;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,15 +39,18 @@ namespace Assets.Scripts.Effects {
         /// Invoked on start effect, after call <see cref="MoveToCharacter(CharacterCtrl, EffectObj.BindTarget)"/> or <see cref="PlaceForCharacter(CharacterCtrl, EffectObj.BindTarget)"/>
         /// </summary>
         public UnityEvent onStart { get; private set; } = new UnityEvent();
-        
+
+        [SerializeField]
+        private ParticleEffectRunner particleEffectRunner;
+
         public void PlaceForCharacter(CharacterCtrl ctrl, EffectObj.BindTarget bind = EffectObj.BindTarget.Default) {
 
             target = ctrl;
-            
+
             effectAction = EffectAction.Place;
 
             bindTarget = bind;
-            
+
             ctrl.effectsPlacer.PlaceEffect(this, bindTarget);
 
             if (removeOnPreUseUtl) {
@@ -71,6 +73,27 @@ namespace Assets.Scripts.Effects {
 
         }
 
+        public void Play() {
+
+            effectAction = EffectAction.Play;
+
+            if (particleEffectRunner != null) {
+                particleEffectRunner.Run();
+            }
+
+        }
+
+        public void Stop() {
+
+            effectAction = EffectAction.None;
+            
+            if (particleEffectRunner != null) {
+                particleEffectRunner.Stop();
+            }
+
+        }
+
+
         private void Update() {
 
             if (effectAction == EffectAction.Move) {
@@ -82,7 +105,7 @@ namespace Assets.Scripts.Effects {
                 } else {
 
                     if (!moveResult.isCome) {
-                        
+
                         moveResult.onTouch.Invoke(target);
                         moveResult.onCome.Invoke(this);
 
@@ -95,14 +118,14 @@ namespace Assets.Scripts.Effects {
 
                 }
 
-            } else {
+            } else if (effectAction == EffectAction.Place) {
                 target.effectsPlacer.PlaceEffect(this, bindTarget);
             }
-            
+
         }
 
         public class MoveResult {
-            
+
             /// <summary>
             /// When touch character
             /// </summary>
@@ -118,7 +141,7 @@ namespace Assets.Scripts.Effects {
         }
 
         public enum EffectAction {
-            Place, Move
+            None, Place, Move, Play
         }
 
     }

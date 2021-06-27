@@ -50,6 +50,8 @@ namespace Assets.Scripts.Character {
 
         private Vector3 sourceDir;
 
+        public bool blockUI;
+
         public void Init() {
 
             GameMng.current.roomCtrl.onMoveToNextRoom.AddListener(() => {
@@ -63,16 +65,16 @@ namespace Assets.Scripts.Character {
 
         private void Update() {
 
-
-            if (IsUIBlocked())
-                return;
-
-
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit raycastHit, 500f, LayerMask.GetMask(LayersStore.CHARACTER_LAYER))) {
                 overCharacterCtrl = raycastHit.collider.GetComponent<CharacterCtrl>();
+            } else {
+                overCharacterCtrl = null;
             }
+
+            if (IsUIBlocked())
+                return;
 
             if (Input.GetMouseButton(0)) {
 
@@ -179,7 +181,7 @@ namespace Assets.Scripts.Character {
                             if (cell != null && cell.IsAvailableToStay() && cell.IsThereState(Cell.CellState.Select) && cell.GetCellType() == Cell.CellType.ForPlayer) {
 
                                 var ctrl = GameMng.current.buyMng.Buy(GameMng.current.buyPanelUI.selectedBuyData);
-                                cell.StayCtrl(ctrl);
+                                cell.StayCtrl(ctrl, runStayEffect: true);
 
                             }
 
@@ -195,7 +197,8 @@ namespace Assets.Scripts.Character {
 
         private bool IsUIBlocked() {
 
-            return GameMng.current.dragByMouse.isDragged ||
+            return blockUI ||
+                GameMng.current.dragByMouse.isDragged ||
                 GameMng.current.messagePanel.IsShowed ||
                     GameMng.current.selectPanel.IsShowed ||
                         (EventSystem.current.IsPointerOverGameObject()
