@@ -12,21 +12,16 @@ namespace Assets.Scripts.Effects {
         public string id => _id;
 
         /// <summary>
-        /// Remove before use ult
-        /// </summary>
-        public bool removeOnPreUseUtl;
-
-        /// <summary>
         /// Remove object on come
         /// Uses only when <see cref="EffectAction.Move"/>
         /// </summary>
         public bool onComeDestroy;
 
+        public BindTarget bindTarget;
+
         public EffectAction effectAction { get; private set; }
 
         public CharacterCtrl target { get; private set; }
-
-        public EffectObj.BindTarget bindTarget { get; private set; }
 
         public float moveSpeed { get; set; }
 
@@ -43,29 +38,19 @@ namespace Assets.Scripts.Effects {
         [SerializeField]
         private ParticleEffectRunner particleEffectRunner;
 
-        public void PlaceForCharacter(CharacterCtrl ctrl, EffectObj.BindTarget bind = EffectObj.BindTarget.Default) {
+        public void PlaceForCharacter(CharacterCtrl ctrl) {
 
             target = ctrl;
 
             effectAction = EffectAction.Place;
 
-            bindTarget = bind;
+            ctrl.effectsPlacer.PlaceEffect(this);
 
-            ctrl.effectsPlacer.PlaceEffect(this, bindTarget);
-
-            if (removeOnPreUseUtl) {
-
-                void Remove() {
-                    Destroy(gameObject);
-                    ctrl.characterData.onPreUseUlt.RemoveSubscription(Remove);
-                }
-
-                ctrl.characterData.onPreUseUlt.AddSubscription(OrderVal.Internal, Remove);
-            }
+            Play();
 
         }
 
-        public void MoveToCharacter(CharacterCtrl ctrl, EffectObj.BindTarget bind = EffectObj.BindTarget.Default) {
+        public void MoveToCharacter(CharacterCtrl ctrl, BindTarget bind = BindTarget.Default) {
 
             effectAction = EffectAction.Place;
             bindTarget = bind;
@@ -75,7 +60,7 @@ namespace Assets.Scripts.Effects {
 
         public void Play() {
 
-            effectAction = EffectAction.Play;
+            effectAction = EffectAction.Place;
 
             if (particleEffectRunner != null) {
                 particleEffectRunner.Run();
@@ -92,7 +77,6 @@ namespace Assets.Scripts.Effects {
             }
 
         }
-
 
         private void Update() {
 
@@ -118,9 +102,7 @@ namespace Assets.Scripts.Effects {
 
                 }
 
-            } else if (effectAction == EffectAction.Place) {
-                target.effectsPlacer.PlaceEffect(this, bindTarget);
-            }
+            } 
 
         }
 
@@ -141,7 +123,7 @@ namespace Assets.Scripts.Effects {
         }
 
         public enum EffectAction {
-            None, Place, Move, Play
+            None, Place, Move
         }
 
     }

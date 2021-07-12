@@ -50,7 +50,7 @@ MonoBehaviour:
   spellTarget: 0
   features: 
   effectPrefab: {fileID: 0}
-  perAuraFromEffectPrefab: {fileID: 7030647891427822639, guid: b2aa1a8672c51554e90cae9dd80174cf,
+  perAuraFromEffectPrefab: {fileID: 5780213564571987310, guid: 26766e6b04b239b4786000a761355408,
     type: 3}
   triggerTouchEvery: 1000
   range: 2

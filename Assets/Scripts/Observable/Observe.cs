@@ -99,7 +99,7 @@ namespace Assets.Scripts.Observable {
                 var added = events.AddBefore(current, new OrderedEventData(order));
                 added.Value.unityEvent.AddListener(unityAction);
 
-            }            
+            }
 
         }
 
@@ -431,8 +431,8 @@ namespace Assets.Scripts.Observable {
         void ModifyTarget(ObservableVal<T> target, ModifyType modifyType = ModifyType.Plus);
     }
 
-    public enum ModifyType { 
-        Plus, Minus, Set
+    public enum ModifyType {
+        Plus, Minus, Set, PlusPercent, MinusPercent
     }
 
     public static class ModifyTypeExtensions {
@@ -481,7 +481,7 @@ namespace Assets.Scripts.Observable {
 
         }
 
-        public static T[] Modify<T>(this ModifyType modifyType, T[] old, T[] newVal){
+        public static T[] Modify<T>(this ModifyType modifyType, T[] old, T[] newVal) {
 
             switch (modifyType) {
                 case ModifyType.Minus:
@@ -577,7 +577,7 @@ namespace Assets.Scripts.Observable {
 
 
     public class SetEnumerableItemEvent<T> : ChangeEnumerableItemEvent<T> {
-        
+
         public SetEnumerableItemEvent(T old, T newData, int index) : base(newData, index) {
             oldData = old;
         }

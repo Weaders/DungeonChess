@@ -624,6 +624,14 @@
         {
             "key": "select",
             "value": "Выбрать"
+        },
+        {
+            "key": "fast_hand_buff_title",
+            "value": "Быстрые руки"
+        },
+        {
+            "key": "fast_hand_buff_description",
+            "value": "Увеличивает скорость атаки на %[As_prop]"
         }
     ]
 }

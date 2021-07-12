@@ -49,11 +49,7 @@ MonoBehaviour:
   _titleKey: mass_vampirism_title
   _descriptionKey: mass_vampirism_description
   buffType: 0
-  isFullTeamBuff: 1
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 1
-  statsModify:
-  - statType: 10
-    intVal: 0
-    floatVal: 0.1
-    boolVal: 0
+  statsModify: []
   effectObjPrefab: {fileID: 0}

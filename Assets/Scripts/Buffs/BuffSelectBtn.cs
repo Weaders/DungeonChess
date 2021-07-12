@@ -10,6 +10,8 @@ namespace Assets.Scripts.Buffs {
 
         public Sprite img => null;
 
+        public Buff buff => _buffToShow;
+
         public string title => _buffToShow.title;
 
         public string description => _buffToShow.description;

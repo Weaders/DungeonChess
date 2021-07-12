@@ -18,7 +18,7 @@ MonoBehaviour:
   moneyVictory: 5
   countRooms: 15
   changeDifficultEvery:
-    min: 3
+    min: 7
     max: 7
   dungeonRoomCells:
   - roomPrefab: {fileID: 5544910677715629556, guid: ede50fbf59e13d045b43d51d71106743,
@@ -51,7 +51,7 @@ MonoBehaviour:
     toAdd: 0.3
     delay: 0
     roomSprite: {fileID: 21300000, guid: 90a34237666a74d9b888e75353b79a1a, type: 3}
-    forceRooms: 02000000
+    forceRooms: 0200000004000000
   sellerRoom:
     start: 0
     current: 0

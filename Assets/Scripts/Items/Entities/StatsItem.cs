@@ -11,18 +11,23 @@ namespace Assets.Scripts.Items.Entities {
         [SerializeField]
         private StatField[] statsModify;
 
+        private StatChange[][] statChanges;
+
         protected override void OnDeEquip() {
 
-            foreach (var statModify in statsModify)
-                owner.stats.Modify(statModify, Observable.ModifyType.Minus);
+            for (var i = 0; i < statChanges.Length; i++) {
+
+                foreach(var change in statChanges[i])
+                    owner.stats.RemoveChange(statsModify[i], change);
+
+            }
+
+            statChanges = new StatChange[0][];
 
         }
 
         protected override void Equip() {
-
-            foreach (var statModify in statsModify)
-                owner.stats.Modify(statModify);
-
+            statChanges = statsModify.Select(s => owner.stats.AddChange(s, this)).ToArray();
         }
 
         protected override Placeholder[] GetPlaceholders(Character.CharacterData descriptionFor) {
@@ -30,7 +35,11 @@ namespace Assets.Scripts.Items.Entities {
             var placeholders = new Placeholder[statsModify.Length];
 
             for (var i = 0; i < statsModify.Length; i++) {
-                placeholders[i] = new Placeholder(statsModify[i].statType.ToString() + "_prop", statsModify[i].observableVal.ToString());
+
+                if (statsModify[i].changeStatType != ChangeStatType.None) {
+                    placeholders[i] = new Placeholder(statsModify[i].changeStatType.ToString() + "_prop", statsModify[i].observableVal?.ToString());
+                }
+
             }
 
             return base.GetPlaceholders(descriptionFor).Concat(placeholders).ToArray();

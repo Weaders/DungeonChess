@@ -15,9 +15,9 @@ namespace Assets.Scripts.Buffs.Data {
         private int seconds = 10;
 
         [SerializeField]
-        private EffectObj effectObjPrefab;
+        private Effect effectObjPrefab;
 
-        private EffectObj effectObj;
+        private Effect effectObj;
 
         [Placeholder("heal_percent")]
         public int GetHealPercent()
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Buffs.Data {
 
             effectObj = Instantiate(effectObjPrefab);
 
-            effectObj.StayOnCharacterCtrl(characterCtrl, seconds * 1000);
+            //effectObj.StayOnCharacterCtrl(characterCtrl, seconds * 1000);
 
             Invoke("RemoveFromCurrent", seconds);
 

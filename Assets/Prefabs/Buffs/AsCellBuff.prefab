@@ -52,8 +52,8 @@ MonoBehaviour:
   isFullTeamBuff: 0
   duplicateBuffStrategy: 1
   statsModify:
-  - statType: 6
+  - changeStatType: 4
     intVal: 0
-    floatVal: 0.2
+    floatVal: 0.15
     boolVal: 0
   effectObjPrefab: {fileID: 0}

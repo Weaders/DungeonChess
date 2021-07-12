@@ -48,9 +48,12 @@ MonoBehaviour:
   id: drums_of_spped_buff
   _titleKey: drums_of_spped_buff_title
   _descriptionKey: drums_of_spped_buff_description
+  buffType: 0
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 0
   statsModify:
-  - statType: 6
+  - changeStatType: 4
     intVal: 0
     floatVal: 0.25
     boolVal: 0
+  effectObjPrefab: {fileID: 0}

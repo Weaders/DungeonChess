@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.StatsData;
 using UnityEngine;
 
 namespace Assets.Scripts.DungeonGenerator.Events {
 
     [CreateAssetMenu(menuName = "Events/Stats")]
-    public class StatsEventStage : EventStage {
+    public class StatsEventStage : EventStage, ISource {
 
         public StatField[] fields;
 
@@ -22,7 +23,7 @@ namespace Assets.Scripts.DungeonGenerator.Events {
             foreach (var character in characters) {
 
                 foreach (var field in fields) {
-                    character.characterData.stats.Modify(field);
+                    character.characterData.stats.Modify(field, this);
                 }
 
             }
@@ -30,6 +31,10 @@ namespace Assets.Scripts.DungeonGenerator.Events {
             if (next != null)
                 next.Exec();            
 
+        }
+
+        public string GetId() {
+            return "stats_events_stage";
         }
     }
 }

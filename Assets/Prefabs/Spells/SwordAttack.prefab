@@ -43,12 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a6f234bd2595a40a83b334ad0d786b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
+  id: sword_attack
   titleKey: hand_hit_title
   descriptionKey: hand_hit_description
   spellType: 0
   spellTarget: 1
-  effectObjPrefab: {fileID: 0}
-  effectSpeed: 0
+  features: 
+  effectPrefab: {fileID: 0}
+  perAuraFromEffectPrefab: {fileID: 0}
   triggerTouchEvery: 1000
   range: 1
+  debuffOnAttackPrefab: {fileID: 0}
+  isCrit: 0

@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.ActionsData;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.Buffs;
 using Assets.Scripts.CellsGrid;
 using Assets.Scripts.Common;
@@ -22,10 +24,10 @@ namespace Assets.Scripts.DungeonGenerator {
                 ctrl.characterData.actions.GetHeal(ctrl, new Heal(ctrl.characterData.stats.maxHp.val / 10));
             }
 
-            var items = new BuffSelectBtn[3];
+            var items = new List<BuffSelectBtn>(3);
 
-            for (var i = 0; i < items.Length; i++)
-                items[i] = new BuffSelectBtn(GameMng.current.currentDungeonData.buffsPoll.buffs.RandomElement());
+            for (var i = 0; i < 3; i++)
+                items.Add(new BuffSelectBtn(GameMng.current.currentDungeonData.buffsPoll.buffs.RandomElement(items.Select(x => x.buff))));
 
             GameMng.current.selectPanel.SetItems((items[0], items[1], items[2]), (sel) => {
                 GameMng.current.cellsGridMng.DisplayExits();

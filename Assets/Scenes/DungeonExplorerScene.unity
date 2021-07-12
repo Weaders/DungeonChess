@@ -1137,7 +1137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 8.5073, y: -16}
+  m_AnchoredPosition: {x: 8.5073, y: -16.000061}
   m_SizeDelta: {x: 371.93463, y: 300.30225}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &600375529
@@ -1842,6 +1842,7 @@ MonoBehaviour:
     intVal: 90
     floatVal: 0
     boolVal: 0
+  statsPercentModify: []
 --- !u!1 &778070622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3120,8 +3121,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1973219298}
   m_HandleRect: {fileID: 1973219297}
   m_Direction: 2
-  m_Value: 1.0000105
-  m_Size: 0.97005135
+  m_Value: 1.000028
+  m_Size: 0.9700514
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4148,8 +4149,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1392975614}
   m_HandleRect: {fileID: 1392975613}
   m_Direction: 0
-  m_Value: 0.5
-  m_Size: 0
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4707,6 +4708,64 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1333468242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1333468244}
+  - component: {fileID: 1333468243}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1333468243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333468242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830ca7b8960c4764ea72c5018ee15931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+  _title: 
+  _description: 
+  cost: 0
+  icon: {fileID: 0}
+  statsModify:
+  - statType: 0
+    intVal: 0
+    floatVal: 0
+    boolVal: 0
+  - statType: 0
+    intVal: 0
+    floatVal: 0
+    boolVal: 0
+  statsPercentModify: []
+--- !u!4 &1333468244
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333468242}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -83.536736, y: 248.85324, z: -404.31076}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1353280048
 GameObject:
   m_ObjectHideFlags: 0

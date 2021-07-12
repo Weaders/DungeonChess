@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Character;
 using Assets.Scripts.StatsData;
 using Assets.Scripts.Translate;
@@ -13,43 +14,42 @@ namespace Assets.Scripts.Buffs.Data {
 
         public StatField[] statFieldsPerGrowth;
 
+        public StatChange[][] changes;
+
         [Placeholder("ad_up")]
         public int GetAdUp(CharacterData from)
-            => statFieldsPerGrowth.First(s => s.stat == Stat.Ad).intVal * countForGrowth;
+            => statFieldsPerGrowth.First(s => s.changeStatType == ChangeStatType.Ad).intVal * countForGrowth;
 
         [Placeholder("hp_up")]
         public int GetHpUp(CharacterData from)
-            => statFieldsPerGrowth.First(s => s.stat == Stat.Hp).intVal * countForGrowth;
+            => statFieldsPerGrowth.First(s => s.changeStatType == ChangeStatType.Hp).intVal * countForGrowth;
+
+
 
         public void IncrementGrowth() {
 
             countForGrowth++;
 
-            foreach (var stat in statFieldsPerGrowth) {
-                characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Plus);
-            }
+            DeApply();
+
+            Apply();
 
         }
 
         protected override void Apply() {
 
-            foreach (var stat in statFieldsPerGrowth) {
-
-                for (var i = 0; i < countForGrowth; i++) {
-                    characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Plus);
-                }
-
-            }
+            changes = statFieldsPerGrowth
+                .Select(s => characterCtrl.characterData.stats.AddChange(s, this))
+                .ToArray();
 
         }
 
         protected override void DeApply() {
 
-            foreach (var stat in statFieldsPerGrowth) {
+            for (var i = 0; i < changes.Length; i++) {
 
-                for (var i = 0; i < countForGrowth; i++) {
-                    characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Minus);
-                }
+                foreach(var change in changes[i])
+                    characterCtrl.characterData.stats.RemoveChange(statFieldsPerGrowth[i], change);
 
             }
 
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Buffs.Data {
             var placeholders = new Placeholder[statFieldsPerGrowth.Length];
 
             for (var i = 0; i < statFieldsPerGrowth.Length; i++) {
-                placeholders[i] = new Placeholder(statFieldsPerGrowth[i].statType.ToString() + "_prop", statFieldsPerGrowth[i].observableVal.ToString());
+                placeholders[i] = new Placeholder(statFieldsPerGrowth[i].changeStatType.ToString() + "_prop", statFieldsPerGrowth[i].observableVal.ToString());
             }
 
             return base.GetPlaceholders(descriptionFor).Concat(placeholders).ToArray();

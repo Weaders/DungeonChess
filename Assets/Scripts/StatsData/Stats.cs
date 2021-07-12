@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
+using Assets.Scripts.ActionsData;
+using Assets.Scripts.Common.Exceptions;
 using Assets.Scripts.Observable;
 using UnityEngine;
 
@@ -7,45 +10,6 @@ namespace Assets.Scripts.StatsData {
 
     public enum CharacterClassType {
         Defender, Warrior, Mage
-    }
-
-    public enum Stat {
-        Hp, MaxHp, Mana, MaxMana, ManaPerAttack,
-        Ad, As, MoveSpeed, IsDie, ClassTypes,
-        Vampirism, CritChance, CritDmg, ReduceDmg,
-        None
-    }
-
-    public static class StatTypeExtension {
-
-        public static ObservableVal GetObservableVal(this Stat stat, StatField statField = null) {
-
-            switch (stat) {
-                case Stat.Ad:
-                case Stat.Hp:
-                case Stat.MaxHp:
-                case Stat.Mana:
-                case Stat.MaxMana:
-                case Stat.ManaPerAttack:
-                    return new IntObservable(statField == null ? 0 : statField.intVal);
-                case Stat.IsDie:
-                    return new BoolObservable(statField == null ? default : statField.boolVal);
-                case Stat.ClassTypes:
-                    return new CharacterClassTypeObservable(new CharacterClassType[] { });
-                case Stat.As:
-                case Stat.MoveSpeed:
-                case Stat.CritChance:
-                case Stat.Vampirism:
-                    if (statField != null)
-                        return new PercentFloatObsrevable(new FloatObsrevable(statField.floatVal));
-                    else
-                        return new FloatObsrevable(statField == null ? default : statField.floatVal);
-                default:
-                    throw new System.Exception("Can not get observable for this type");
-            }
-
-        }
-
     }
 
     public class Stats : MonoBehaviour {
@@ -119,40 +83,198 @@ namespace Assets.Scripts.StatsData {
 
         }
 
-        public ObservableVal<T> GetStat<T>(Stat stat) {
+        /// <summary>
+        /// Modify stat
+        /// </summary>
+        /// <param name="statField"></param>
+        /// <param name="source"></param>
+        /// <param name="modifyType"></param>
+        public void Modify(StatField statField, ISource source, ModifyType modifyType = ModifyType.Plus) {
 
-            var field = GetStatFieldInfo(stat);
+            var func = GetActionForStat(statField, StatAction.Modify, null);
 
-            if (field != null) {
-                return field.GetValue(this) as ObservableVal<T>;
+            if (func != null) {
+                func();
+            }
+
+        }
+
+        public enum StatAction {
+            Add, Remove, Modify
+        }
+
+        /// <summary>
+        /// Get action for stat
+        /// </summary>
+        /// <param name="statField"></param>
+        /// <param name="statAction"></param>
+        /// <param name="source"></param>
+        /// <param name="statChange"></param>
+        /// <returns></returns>
+        public Func<StatChange[]> GetActionForStat(StatField statField, StatAction statAction, ISource source, StatChange statChange = null) {
+
+            if (statField.changeStatType == ChangeStatType.PercentHp || statField.changeStatType == ChangeStatType.Hp) {
+
+                StatChange<int> change;
+                int val;
+
+                if (statField.changeStatType == ChangeStatType.PercentHp)
+                    val = Mathf.RoundToInt(statField.floatVal * maxHp);
+                else
+                    val = statField.intVal;
+
+                if (statAction == StatAction.Add) {
+
+                    change = new StatChange<int>(new IntObservable(val), source);
+
+                    return () => new[] {
+                            hp.AddChange(change),
+                            maxHp.AddChange(change)
+                        };
+
+                } else if (statAction == StatAction.Modify) {
+
+                    return () => {
+                        hp.ModifyBy(new IntObservable(val));
+                        maxHp.ModifyBy(new IntObservable(val));
+                        return null;
+                    };
+
+                } else {
+
+                    return () => {
+
+                        hp.RemoveChange(statChange as StatChange<int>);
+                        maxHp.RemoveChange(statChange as StatChange<int>);
+
+                        return null;
+                    };
+
+                }
+
+            } else if (statField.changeStatType == ChangeStatType.Ad) {
+
+                StatChange<int> change;
+                var val = statField.intVal;
+
+                if (statAction == StatAction.Add) {
+
+                    change = new StatChange<int>(new IntObservable(val), source);
+
+                    return () => new[] {
+                            AD.AddChange(change),
+                        };
+
+                } else if (statAction == StatAction.Modify) {
+
+                    return () => {
+                        AD.ModifyBy(new IntObservable(val));
+                        return null;
+                    };
+
+                } else {
+
+                    return () => {
+                        AD.RemoveChange(statChange as StatChange<int>);
+                        return null;
+                    };
+
+                }
+
+            } else if (statField.changeStatType == ChangeStatType.As) {
+
+                StatChange<float> change;
+                var val = statField.floatVal;
+
+                if (statAction == StatAction.Add) {
+
+                    change = new StatChange<float>(new FloatObsrevable(val), source);
+
+                    return () => new[] {
+                        AS.AddChange(change),
+                    };
+
+                } else if (statAction == StatAction.Modify) {
+
+                    return () => {
+                        AS.ModifyBy(new FloatObsrevable(val));
+                        return null;
+                    };
+
+                } else {
+
+                    return () => {
+                        AS.RemoveChange(statChange as StatChange<float>);
+                        return null;
+                    };
+
+                }
+
+            } else if (statField.changeStatType == ChangeStatType.CritChange) {
+
+                StatChange<float> change;
+                var val = statField.floatVal;
+
+                if (statAction == StatAction.Add) {
+
+                    change = new StatChange<float>(new FloatObsrevable(val), source);
+
+                    return () => new[] {
+                        critChance.AddChange(change),
+                    };
+
+                } else if (statAction == StatAction.Modify) {
+
+                    return () => {
+                        critChance.ModifyBy(new FloatObsrevable(val));
+                        return null;
+                    };
+
+                } else {
+
+                    return () => {
+                        critChance.RemoveChange(statChange as StatChange<float>);
+                        return null;
+                    };
+
+                }
+
             }
 
             return null;
 
         }
 
-        public IStatField GetStat(Stat stat) {
+        /// <summary>
+        /// Add change by stat field
+        /// </summary>
+        /// <param name="statField"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public StatChange[] AddChange(StatField statField, ISource source) {
 
-            var field = GetStatFieldInfo(stat);
+            var func = GetActionForStat(statField, StatAction.Add, source);
 
-            if (field != null) {
-                return field.GetValue(this) as IStatField;
+            if (func != null) {
+                return func();
             }
 
             return null;
 
         }
 
-        private FieldInfo GetStatFieldInfo(Stat stat)
-            => GetFields().FirstOrDefault(f => (f.GetValue(this) as IStatField).stat == stat);
+        /// <summary>
+        /// Remove exists change
+        /// </summary>
+        /// <param name="statField"></param>
+        /// <param name="statChange"></param>
+        public void RemoveChange(StatField statField, StatChange change) {
 
-        public void Modify(StatField statField, ModifyType modifyType = ModifyType.Plus) {
+            var func = GetActionForStat(statField, StatAction.Remove, null, change);
 
-            var field = GetStatFieldInfo(statField.stat);
-
-            var val = field.GetValue(this);
-
-            field.FieldType.GetMethod("ModifyBy").Invoke(val, new object[] { statField.observableVal, modifyType });
+            if (func != null) {
+                func();
+            }
 
         }
 

@@ -48,14 +48,16 @@ MonoBehaviour:
   id: growth_stats
   _titleKey: growth_stats_title
   _descriptionKey: growth_stats_description
+  buffType: 0
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 1
   countForGrowth: 0
   statFieldsPerGrowth:
-  - statType: 5
-    intVal: 5
+  - changeStatType: 1
+    intVal: 35
     floatVal: 0
     boolVal: 0
-  - statType: 0
+  - changeStatType: 3
     intVal: 15
     floatVal: 0
     boolVal: 0

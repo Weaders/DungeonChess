@@ -17,31 +17,17 @@ MonoBehaviour:
   data:
   - stats:
     - statType: 0
-      intVal: 15
+      intVal: 55
       floatVal: 0
       boolVal: 0
     - statType: 5
-      intVal: 15
+      intVal: 14
       floatVal: 0
       boolVal: 0
-    - statType: 5
+    - statType: 6
       intVal: 5
-      floatVal: 0
-      boolVal: 0
-    levelOfDifficult: -1
-  - stats:
-    - statType: 0
-      intVal: 60
-      floatVal: 0
-      boolVal: 0
-    - statType: 1
-      intVal: 60
-      floatVal: 0
-      boolVal: 0
-    - statType: 5
-      intVal: 15
-      floatVal: 0
+      floatVal: 1
       boolVal: 0
     levelOfDifficult: 0
-  cost: 25
+  cost: 20
   descriptionKey: fire_imp_buy_description

@@ -19,9 +19,9 @@ namespace Assets.Scripts {
 
         public StaticStatesData staticStatesData;
 
-        public EffectObj onGetGoodEffect;
+        public Effect onGetGoodEffect;
 
-        public EffectObj healingEffect;
+        public Effect healingEffect;
 
         public Sprite playerManaIcon;
 

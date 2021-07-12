@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Spells.Modifiers;
+﻿using Assets.Scripts.Effects;
+using Assets.Scripts.Spells.Modifiers;
 using Assets.Scripts.Translate;
 using UnityEngine;
 using static Assets.Scripts.ActionsData.Actions;
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Buffs.Data {
 
     public class LessDmgBuff : Buff {
 
-        public GameObject effectPrefab;
+        public Effect effectPrefab;
 
         public float dmgScale;
 
@@ -21,7 +22,7 @@ namespace Assets.Scripts.Buffs.Data {
         protected override void Apply() {
 
             if (effectPrefab != null) {
-                currentEffect = characterCtrl.effectsPlacer.PlaceEffectWithoutTime(effectPrefab);
+                currentEffect = characterCtrl.effectsPlacer.PlaceEffectPrefab(effectPrefab);
             }
 
             characterCtrl.characterData

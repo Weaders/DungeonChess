@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: BuffsPoll
   m_EditorClassIdentifier: 
   buffs:
-  - {fileID: 8311777820870793070, guid: 8207631ee4fe6ce41ae8510ebdc41f0f, type: 3}
+  - {fileID: 2797914427100145339, guid: 7a1e28b13fcfdf84494cef424f274081, type: 3}
+  - {fileID: 6636107519930593107, guid: e69195387c22f974a873af25f9929326, type: 3}
+  - {fileID: 7391201719064139438, guid: 3e5fa4eda3aed3d4080b0709fee9f616, type: 3}

@@ -68,7 +68,10 @@ namespace Assets.Scripts.Common {
 
         }
 
-        public static T RandomElement<T>(this IEnumerable<T> elements) {
+        public static T RandomElement<T>(this IEnumerable<T> elements, IEnumerable<T> ignoreElements = null) {
+
+            if (ignoreElements == null)
+                ignoreElements = new T[] { };
 
             var count = elements.Count();
 
@@ -80,6 +83,10 @@ namespace Assets.Scripts.Common {
 
             while (randomIndex-- > 0) {
                 enumerator.MoveNext();
+            }
+
+            if (ignoreElements != null && ignoreElements.Contains(enumerator.Current) && !elements.All(e => ignoreElements.Contains(e))) {
+                return RandomElement(elements, ignoreElements);
             }
 
             return enumerator.Current;

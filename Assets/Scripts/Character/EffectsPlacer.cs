@@ -3,9 +3,12 @@ using System.Linq;
 using Assets.Scripts.Common;
 using Assets.Scripts.Effects;
 using UnityEngine;
-using static Assets.Scripts.Effects.EffectObj;
 
 namespace Assets.Scripts.Character {
+
+    public enum BindTarget {
+        Default, Head, Rig
+    }
 
     public class EffectsPlacer : MonoBehaviour {
 
@@ -26,79 +29,34 @@ namespace Assets.Scripts.Character {
         }
 
         /// <summary>
-        /// Place effect
-        /// Time in seconds
+        /// Place effecf from prefab.
+        /// For already exists effect use <see cref="PlaceEffect(Effect)"/>
         /// </summary>
-        /// <param name="effectPrefab"></param>
-        /// <param name="time"></param>
+        /// <param name="effect"></param>
         /// <returns></returns>
-        public GameObject PlaceEffect(GameObject effectPrefab, float time = 0f, BindTarget bindTarget = BindTarget.Default) {
+        public GameObject PlaceEffectPrefab(Effect effect) {
 
-            var effectObj = Instantiate(effectPrefab, GetTarget(bindTarget, true), false);
+            var prefab = Instantiate(effect.gameObject);
 
-            effectObj.name = $"Effect_{i++}";
+            var effectObj = prefab.GetComponent<Effect>();
 
-            var effect = effectObj.GetComponent<EffectObj>();
+            PlaceEffect(effectObj);
+            effectObj.Play();
 
-            ProcessEffect(effect);
-
-            if (time > -1) {
-
-                if (time == default)
-                    Destroy(effectObj, effect.defaultDuration);
-                else
-                    Destroy(effectObj, time);
-            }
-
-
-            return effectObj;
+            return prefab;
 
         }
 
-        public GameObject PlaceEffectWithoutTime(GameObject effectPrefab, BindTarget bindTarget = BindTarget.Default) {
 
-            var effectObj = Instantiate(effectPrefab, GetTarget(bindTarget, true), false);
-
-            effectObj.transform.rotation.Set(0, 0, 0, 1);
-
-            effectObj.name = $"Effect_{i++}";
-
-            var effect = effectObj.GetComponent<EffectObj>();
-
-            ProcessEffect(effect);
-
-            return effectObj;
-
-        }
-
-        public void ProcessEffect(EffectObj effect, float time = 0f) {
-
-            var overrideData = overrieds.FirstOrDefault(e => e.effectId == effect.id);
-
-            if (overrideData == null) {
-
-                effect.transform.localPosition
-                   = Vector3.zero + effect.offset;
-
-                effect.transform.localScale
-                    = Vector3.Scale(effect.transform.localScale, scaleMultiply);
-
-            } else {
-
-                effect.transform.localPosition
-                   = Vector3.zero + overrideData.offsetPosition;
-
-                effect.transform.localScale
-                    = Vector3.one + overrideData.offsetScale;
-
-            }
-
-        }
-
-        public void PlaceEffect(Effect effect, BindTarget target = BindTarget.Default) {
+        public void PlaceEffect(Effect effect) {
             
-            effect.transform.SetParent(GetTarget(target, true), false);
+            effect.transform.SetParent(GetTarget(effect.bindTarget, true), true);
+
             effect.transform.rotation.Set(0, 0, 0, 1);
+
+            effect.transform.localPosition = Vector3.zero;
+            effect.transform.localScale = Vector3.Scale(effect.transform.localScale, scaleMultiply);
+
             effect.name = $"Effect_{i++}";
 
         }
@@ -109,6 +67,8 @@ namespace Assets.Scripts.Character {
 
                 case BindTarget.Head when characterCtrl.headTransform != null:
                     return characterCtrl.headTransform;
+                case BindTarget.Rig when targetObjs.Any(t => t.bind == BindTarget.Rig):
+                    return targetObjs.First(t => t.bind == BindTarget.Rig).transform;
                 case BindTarget.Default when forStay:
                     return characterCtrl.transform;
                 case BindTarget.Default when !forStay:
@@ -122,9 +82,12 @@ namespace Assets.Scripts.Character {
         [ContextMenu("PlaceExistsEffects")]
         public void PlaceEffects() {
 
-            foreach (Transform obj in transform)
-                if (obj.tag == TagsStore.EFFECT)
-                    ProcessEffect(obj.gameObject.GetComponent<EffectObj>());
+            foreach (var effect in GetComponentsInChildren<Effect>()) {
+
+                if (effect.gameObject.tag == TagsStore.EFFECT)
+                    PlaceEffect(effect);
+
+            }                    
 
         }
 
@@ -146,6 +109,10 @@ namespace Assets.Scripts.Character {
             private BindTarget bindTarget;
             [SerializeField]
             private Transform obj;
+
+            public BindTarget bind => bindTarget;
+
+            public Transform transform => obj;
 
         }
 

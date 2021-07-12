@@ -14,11 +14,17 @@ namespace Assets.Scripts.Editor {
 
             EditorGUI.BeginProperty(position, label, property);
 
-            var statTypeProp = property.FindPropertyRelative("statType");
+            var statTypeProp = property.FindPropertyRelative("changeStatType");
 
-            var vals = Enum.GetValues(typeof(Stat)).Cast<Stat?>().ToArray();
+            var vals = Enum.GetValues(typeof(ChangeStatType)).Cast<ChangeStatType?>().ToArray();
 
-            var val = vals[statTypeProp.enumValueIndex];
+            ChangeStatType? val;
+
+            if (vals.Length < statTypeProp.enumValueIndex) {
+                val = ChangeStatType.None;
+            } else {
+                val = vals[statTypeProp.enumValueIndex];
+            }
 
             var observeVal = val.Value.GetObservableVal(null);
 
@@ -27,7 +33,7 @@ namespace Assets.Scripts.Editor {
             //    property.FindPropertyRelative("observableVal").managedReferenceValue = observeVal;
             //}
 
-            EditorGUI.PropertyField(new Rect(position.position, new Vector2((EditorGUIUtility.currentViewWidth / 2f) - 20, position.size.y)), property.FindPropertyRelative("statType"), GUIContent.none);
+            EditorGUI.PropertyField(new Rect(position.position, new Vector2((EditorGUIUtility.currentViewWidth / 2f) - 20, position.size.y)), property.FindPropertyRelative("changeStatType"), GUIContent.none);
             //EditorGUI.PropertyField(new Rect((EditorGUIUtility.currentViewWidth / 2f), position.y, (EditorGUIUtility.currentViewWidth / 2f), position.height), property.FindPropertyRelative("observableVal").FindPropertyRelative("_val"), GUIContent.none);
 
             //object oldVal = null;

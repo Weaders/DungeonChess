@@ -49,6 +49,7 @@ MonoBehaviour:
   _titleKey: on_use_ult_heal_title
   _descriptionKey: on_use_ult_heal_description
   buffType: 0
-  isFullTeamBuff: 1
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 1
   percentMaxHpHeal: 0.05
+  percentUpgrade: 0.1

@@ -49,17 +49,18 @@ MonoBehaviour:
   _titleKey: enrage_title
   _descriptionKey: enrage_description
   buffType: 0
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 0
   statsModify:
-  - statType: 5
+  - changeStatType: 3
     intVal: 15
     floatVal: 0
     boolVal: 0
-  - statType: 6
+  - changeStatType: 4
     intVal: 0
     floatVal: 0.15
     boolVal: 0
-  - statType: 11
+  - changeStatType: 5
     intVal: 0
     floatVal: 0.2
     boolVal: 0

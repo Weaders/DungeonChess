@@ -27,8 +27,12 @@ namespace Assets.Scripts.UI {
                 if (img != null && img.isActiveAndEnabled) {
 
                     if (coroutinesForUpdate.TryGetValue(img, out var coro)) {
-                        StopCoroutine(coro);
+
+                        if (coro != null)
+                            StopCoroutine(coro);
+
                         coroutinesForUpdate.Remove(img);
+
                     }
 
                     coroutinesForUpdate.Add(img, StartCoroutine(SmoothUpdate(img, (float)current.val / max.val)));

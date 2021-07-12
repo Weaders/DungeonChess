@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿ using System.Collections.Generic;
 using Assets.Scripts.Common;
 using Assets.Scripts.DungeonGenerator.Events;
 using UnityEngine;

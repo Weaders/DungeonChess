@@ -48,21 +48,8 @@ MonoBehaviour:
   id: warrior_buff
   _titleKey: warrior_title
   _descriptionKey: warrior_description
+  buffType: 0
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 0
-  statsModify:
-  - statType: 5
-    observableVal:
-      id: 0
-  - statType: 6
-    observableVal:
-      id: 1
-  references:
-    version: 1
-    00000000:
-      type: {class: IntObservable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
-      data:
-        _val: 10
-    00000001:
-      type: {class: FloatObsrevable, ns: Assets.Scripts.Observable, asm: Assembly-CSharp}
-      data:
-        _val: 0
+  statsModify: []
+  effectObjPrefab: {fileID: 0}

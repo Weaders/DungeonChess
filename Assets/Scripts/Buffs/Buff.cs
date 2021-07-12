@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.ActionsData;
 using Assets.Scripts.Character;
 using Assets.Scripts.Translate;
 using UnityEngine;
@@ -16,9 +17,11 @@ namespace Assets.Scripts.Buffs {
         Debuff
     }
 
-    public interface IBuffSource { }
+    public interface IBuffSource { 
+    
+    }
 
-    public abstract class Buff : MonoBehaviour {
+    public abstract class Buff : MonoBehaviour, ISource {
 
         [HideInInspector]
         public CharacterCtrl characterCtrl;

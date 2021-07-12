@@ -17,11 +17,11 @@ MonoBehaviour:
   data:
   - stats:
     - statType: 0
-      intVal: 250
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 1
-      intVal: 250
+      intVal: 200
       floatVal: 0
       boolVal: 0
     - statType: 5
@@ -30,30 +30,8 @@ MonoBehaviour:
       boolVal: 0
     - statType: 6
       intVal: 3
-      floatVal: 0.05
+      floatVal: 0.5
       boolVal: 0
     levelOfDifficult: -1
-  - stats:
-    - statType: 0
-      intVal: 400
-      floatVal: 0
-      boolVal: 0
-    - statType: 1
-      intVal: 400
-      floatVal: 0
-      boolVal: 0
-    - statType: 5
-      intVal: 15
-      floatVal: 0
-      boolVal: 0
-    - statType: 4
-      intVal: 25
-      floatVal: 0
-      boolVal: 0
-    - statType: 6
-      intVal: 25
-      floatVal: 1
-      boolVal: 0
-    levelOfDifficult: 0
   cost: 12
   descriptionKey: golem_defender_buy_description

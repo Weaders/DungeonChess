@@ -369,15 +369,17 @@ namespace Assets.Scripts.Character {
 
             characterData.buffsContainer.onAdd.AddSubscription(OrderVal.CharacterCtrl, (buff) => {
 
-                if (!characterData.buffsContainer.isInProcessOfInit && buff.data.GetBuffType() == Buffs.BuffType.Buff)
-                    effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
+                // TODO: Replace effect
+                //if (!characterData.buffsContainer.isInProcessOfInit && buff.data.GetBuffType() == Buffs.BuffType.Buff)
+                //    effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
 
             });
 
             characterData.actions.onPostGetHeal.AddSubscription(OrderVal.CharacterCtrl, () => {
 
-                if (effectsPlacer != null)
-                    effectsPlacer.PlaceEffect(GameMng.current.gameData.healingEffect.gameObject);
+                //TODO: Place effecct heal
+                //if (effectsPlacer != null)
+                //    effectsPlacer.PlaceEffect(GameMng.current.gameData.healingEffect.gameObject);
 
             });
 

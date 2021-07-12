@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Character;
 using Assets.Scripts.Effects;
 using Assets.Scripts.StatsData;
@@ -11,17 +12,15 @@ namespace Assets.Scripts.Buffs.Data {
 
         public StatField[] statsModify;
 
-        public EffectObj effectObjPrefab;
+        public Effect effectObjPrefab;
+
+        private StatChange[][] statChanges;
 
         private GameObject currentEffectObj;
 
         protected override void Apply() {
 
-            foreach (var stat in statsModify)
-                characterCtrl.characterData.stats.Modify(stat);
-
-            if (effectObjPrefab != null)
-                currentEffectObj = characterCtrl.effectsPlacer.PlaceEffectWithoutTime(effectObjPrefab.gameObject, effectObjPrefab.bindTarget);
+            statChanges = statsModify.Select(s => characterCtrl.characterData.stats.AddChange(s, this)).ToArray();
 
             characterCtrl.characterData.stats.isDie.onPostChange.AddSubscription(Observable.OrderVal.Buff, DestroyEffect);
 
@@ -29,8 +28,12 @@ namespace Assets.Scripts.Buffs.Data {
 
         protected override void DeApply() {
 
-            foreach (var stat in statsModify)
-                characterCtrl.characterData.stats.Modify(stat, Observable.ModifyType.Minus);
+            for (var i = 0; i < statChanges.Length; i++) {
+
+                foreach (var change in statChanges[i])
+                    characterCtrl.characterData.stats.RemoveChange(statsModify[i], change);
+
+            }
 
             characterCtrl.characterData.stats.isDie.onPostChange.RemoveSubscription(DestroyEffect);
 
@@ -44,7 +47,7 @@ namespace Assets.Scripts.Buffs.Data {
             var placeholders = new Placeholder[statsModify.Length];
 
             for (var i = 0; i < statsModify.Length; i++) {
-                placeholders[i] = new Placeholder(statsModify[i].statType.ToString() + "_prop", statsModify[i].observableVal.ToString());
+                placeholders[i] = new Placeholder(statsModify[i].changeStatType.ToString() + "_prop", statsModify[i].observableVal.ToString());
             }
             
             return base.GetPlaceholders(descriptionFor).Concat(placeholders).ToArray();

@@ -39,13 +39,14 @@ namespace Assets.Scripts.Character {
 
                 foreach (var character in chars) {
 
-                    character.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
+                    //TODO: Place level up effect
+                    //character.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
 
-                    foreach (var stat in statGroup.stats)
-                        character.characterData.stats.Modify(
-                            stat,
-                            statGroup.modifyType
-                        );
+                    //foreach (var stat in statGroup.stats)
+                    //    character.characterData.stats.Modify(
+                    //        stat,
+                    //        statGroup.modifyType
+                    //    );
 
                 }
 
@@ -56,80 +57,81 @@ namespace Assets.Scripts.Character {
 
         public void LevelUpToCurrent(CharacterCtrl ctrl, bool isEnemy = false) {
 
-            var levels = !isEnemy ?
-                    GameMng.current.playerData.levelOfCharacters : GameMng.current.levelDifficult;
+            //var levels = !isEnemy ?
+            //        GameMng.current.playerData.levelOfCharacters : GameMng.current.levelDifficult;
 
-            CharacterDungeonData characterData = null;
+            //CharacterDungeonData characterData = null;
 
-            if (isEnemy) {
+            //if (isEnemy) {
 
-                var enemiesTeams = GameMng.current.currentDungeonData.enemiesPoll.teams;
+            //    var enemiesTeams = GameMng.current.currentDungeonData.enemiesPoll.teams;
 
-                characterData = enemiesTeams.SelectMany(t => t.characterCtrls).First(c =>
-                    c.characterCtrl.characterData.id == ctrl.characterData.id
-                );
+            //    characterData = enemiesTeams.SelectMany(t => t.characterCtrls).First(c =>
+            //        c.characterCtrl.characterData.id == ctrl.characterData.id
+            //    );
 
-            } else {
+            //} else {
 
-                characterData = GameMng.current.buyMng.buyDataList
-                    .First(b => b.characterCtrl.characterData.id == ctrl.characterData.id);
+            //    characterData = GameMng.current.buyMng.buyDataList
+            //        .First(b => b.characterCtrl.characterData.id == ctrl.characterData.id);
 
-            }
+            //}
 
-            var statGroup = characterData.GetStatGroup(levels);
+            //var statGroup = characterData.GetStatGroup(levels);
 
-            var countOfPlus = 0;
+            //var countOfPlus = 0;
 
-            if (statGroup.levelOfDifficult == -1) {
+            //if (statGroup.levelOfDifficult == -1) {
 
-                var maxStatGroup =
-                    characterData.GetStatGroup(levels, true);
+            //    var maxStatGroup =
+            //        characterData.GetStatGroup(levels, true);
 
-                if (maxStatGroup.levelOfDifficult != -1) {
+            //    if (maxStatGroup.levelOfDifficult != -1) {
 
-                    foreach (var stat in maxStatGroup.stats)
-                        ctrl.characterData.stats.Modify(
-                            stat,
-                            Observable.ModifyType.Set
-                        );
+            //        foreach (var stat in maxStatGroup.stats)
+            //            ctrl.characterData.stats.Modify(
+            //                stat,
+            //                Observable.ModifyType.Set
+            //            );
 
-                    countOfPlus = levels - maxStatGroup.levelOfDifficult;
+            //        countOfPlus = levels - maxStatGroup.levelOfDifficult;
 
-                } else {
+            //    } else {
 
-                    countOfPlus = levels;
+            //        countOfPlus = levels;
 
-                }
+            //    }
 
-                foreach (var stat in statGroup.stats) {
+            //    foreach (var stat in statGroup.stats) {
 
-                    for (var i = 0; i < countOfPlus; i++) {
+            //        for (var i = 0; i < countOfPlus; i++) {
 
-                        ctrl.characterData.stats.Modify(
-                            stat,
-                            Observable.ModifyType.Plus
-                        );
+            //            ctrl.characterData.stats.Modify(
+            //                stat,
+            //                Observable.ModifyType.Plus
+            //            );
 
-                    }
+            //        }
 
-                }
+            //    }
 
-            } else {
+            //} else {
 
-                foreach (var stat in statGroup.stats) {
+            //    foreach (var stat in statGroup.stats) {
 
-                    ctrl.characterData.stats.Modify(
-                        stat,
-                        Observable.ModifyType.Set
-                    );
+            //        ctrl.characterData.stats.Modify(
+            //            stat,
+            //            Observable.ModifyType.Set
+            //        );
 
-                }
+            //    }
 
-            }
+            //}
 
-            if (levels > 0) {
-                ctrl.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
-            }
+            //if (levels > 0) {
+            //    //TODO: Place level up effects
+            //    //ctrl.effectsPlacer.PlaceEffect(GameMng.current.gameData.onGetGoodEffect.gameObject);
+            //}
 
         }
 

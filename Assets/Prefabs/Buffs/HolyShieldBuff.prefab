@@ -49,7 +49,9 @@ MonoBehaviour:
   _titleKey: holy_shield_buff_title
   _descriptionKey: holy_shield_buff_description
   buffType: 0
+  isFullTeamBuff: 0
   duplicateBuffStrategy: 1
-  effectPrefab: {fileID: 2130645398267899664, guid: b4a07e76be1f30940be6b469629629f7,
+  effectPrefab: {fileID: 8848198042217137726, guid: b4a07e76be1f30940be6b469629629f7,
     type: 3}
   dmgScale: 0
+  everySeconds: 0

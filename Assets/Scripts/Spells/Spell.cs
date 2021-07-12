@@ -67,10 +67,6 @@ namespace Assets.Scripts.Spells {
         /// </summary>
         private Effect preAuraFromEffect = null;
 
-        /// <summary>
-        /// Exec on attack effect spell
-        /// </summary>
-        private Effect execOnAttack = null;
 
         private List<CharacterCtrl> touchedCtrls = new List<CharacterCtrl>();
 
@@ -92,7 +88,14 @@ namespace Assets.Scripts.Spells {
                 preAura.PlaceForCharacter(from);
 
                 if (spellType == SpellType.FullManaAttack) {
-                    preAura.removeOnPreUseUtl = true;
+
+                    void Remove() {
+                        Destroy(preAura.gameObject);
+                        from.characterData.onPreUseUlt.RemoveSubscription(Remove);
+                    }
+
+                    from.characterData.onPreUseUlt.AddSubscription(OrderVal.CharacterCtrl, Remove);
+
                 }
 
                 preAuraFromEffect = preAura;
@@ -160,7 +163,7 @@ namespace Assets.Scripts.Spells {
 
             effectObj.transform.position = from.transform.position;
 
-            effectObj.MoveToCharacter(target, EffectObj.BindTarget.Head);
+            effectObj.MoveToCharacter(target, BindTarget.Head);
 
             if (onTouch != null)
                 effectObj.moveResult.onTouch.AddListener(onTouch);
